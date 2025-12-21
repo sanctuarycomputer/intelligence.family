@@ -48,6 +48,8 @@ docker run --rm --network none intelfam:pi
 docker run --rm \
   --runtime=nvidia \
   --network none \
+  --cpuset-cpus="1-5" \
+  --shm-size=2g \
   -e NVIDIA_DRIVER_CAPABILITIES=all \
   intelfam:jetson
 ```

@@ -63,6 +63,9 @@ RUN (ollama serve &) && \
 # Tells PyTorch 2.6+ to allow loading "untrusted" globals (required for pyannote)
 ENV TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=true
 
+# Ignore deprecation warnings
+ENV PYTHONWARNINGS="ignore"
+
 # Download Python models (Whisper, Pyannote, SentenceTransformers)
 # This will download to ./models/whisper and ~/.cache/huggingface
 RUN python3 download_models.py

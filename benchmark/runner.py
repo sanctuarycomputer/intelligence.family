@@ -2,12 +2,18 @@ import os
 import torch
 from pyannote.audio import Pipeline
 from benchmark.utils import Timer
+import onnxruntime as ort
 
 class Runner:
   @staticmethod
   def run():
     os.environ["HF_HUB_OFFLINE"] = "1"
-    print("Detecting pytorch device...")
+    print("Detecting GPU acceleration...")
+
+    if 'CUDAExecutionProvider' in ort.get_all_providers():
+      print("✅ ONNX Runtime: GPU Acceleration is active!")
+    else:
+      print("❌ ONNX Runtime: GPU not found. Using CPU.")
 
     if torch.cuda.is_available():
       pyannote_device = torch.device("cuda")
