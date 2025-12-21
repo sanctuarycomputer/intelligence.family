@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-dev \
     curl \
+    # Added these two for PyTorch support on Jetson/ARM
+    libopenblas-dev \
+    libopenmpi-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. Handle Python Dependencies
