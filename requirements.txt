@@ -1,0 +1,11 @@
+torch==2.5.1
+torchaudio==2.5.1
+torchvision==0.20.1
+huggingface_hub==0.26.5
+ollama
+python-dotenv
+faster-whisper
+pyannote.audio
+pydub
+numpy
+sentence-transformers
