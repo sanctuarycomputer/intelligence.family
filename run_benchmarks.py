@@ -12,11 +12,6 @@ if __name__ == "__main__":
   print("Running benchmarks...")
   print("=" * 60)
 
-  # Check for HF_TOKEN (required for Pyannote models)
-  if not os.getenv("HF_TOKEN"):
-    print("WARNING: HF_TOKEN not set. Pyannote models may fail to download.")
-    print("Set HF_TOKEN as build arg if needed: --build-arg HF_TOKEN=your_token")
-
   try:
     Runner.run()
     print("=" * 60)

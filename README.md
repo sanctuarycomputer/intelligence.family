@@ -17,6 +17,10 @@ git clone
 
 ## Install models
 
+# Run this on the Jetson host (not inside Docker)
+sudo nvpmodel -m 0  # Sets to max power mode
+sudo jetson_clocks  # Locks clocks to maximum frequency
+
 
 
 ```
@@ -39,10 +43,11 @@ cloud calls are being made.
 
 
 ```
-docker run --rm intelfam:pi
+docker run --rm --network none intelfam:pi
 
 docker run --rm \
-  --gpus all \
+  --runtime=nvidia \
+  --network none \
   -e NVIDIA_DRIVER_CAPABILITIES=all \
   intelfam:jetson
 ```

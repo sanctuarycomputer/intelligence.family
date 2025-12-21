@@ -1,5 +1,4 @@
 import os
-import torch
 from faster_whisper import download_model
 from pyannote.audio import Pipeline, Model
 from sentence_transformers import SentenceTransformer

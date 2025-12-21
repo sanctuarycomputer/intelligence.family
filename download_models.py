@@ -8,10 +8,6 @@ import sys
 from benchmark.system import System
 
 if __name__ == "__main__":
-    print("=" * 60)
-    print("Downloading all models for offline operation...")
-    print("=" * 60)
-
     # Check for HF_TOKEN (required for Pyannote models)
     if not os.getenv("HF_TOKEN"):
       print("WARNING: HF_TOKEN not set. Pyannote models may fail to download.")
