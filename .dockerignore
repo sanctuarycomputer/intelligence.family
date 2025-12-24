@@ -33,3 +33,5 @@ Dockerfile
 # Other
 .DS_Store
 
+models/*
+!models/.gitkeep

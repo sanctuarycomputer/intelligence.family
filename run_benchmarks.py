@@ -3,7 +3,7 @@
 Download all models required for offline operation.
 This script should be run during Docker build.
 """
-import os
+import compat
 import sys
 from benchmark.runner import Runner
 

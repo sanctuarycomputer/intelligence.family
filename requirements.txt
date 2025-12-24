@@ -1,8 +1,11 @@
+torch>=2.9
+torchaudio>=2.9
+torchvision
 huggingface_hub==0.26.5
 ollama
 python-dotenv
 faster-whisper
 pyannote.audio
 pydub
-numpy<2.0
-sentence-transformers
+numpy
+soundfile

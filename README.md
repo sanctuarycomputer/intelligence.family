@@ -17,22 +17,35 @@ git clone
 
 ## Install models
 
-# Run this on the Jetson host (not inside Docker)
+# Run this on the Orin or Thor host OS (not inside Docker)
 sudo nvpmodel -m 0  # Sets to max power mode
 sudo jetson_clocks  # Locks clocks to maximum frequency
 
-
-
 ```
-docker build --build-arg HF_TOKEN=your_token_here -t intelfam .
-
+docker build \
+  --build-arg BASE_IMAGE=ubuntu:22.04 \
+  --build-arg DEVICE_TYPE=pi \
+  -t intelfam:pi .
 
 docker build \
-  --build-arg HF_TOKEN=your_token_here \
   --build-arg BASE_IMAGE=nvcr.io/nvidia/l4t-jetpack:r36.4.0 \
-  --build-arg USE_CUDA=true \
-  -t intelfam:jetson .
+  --build-arg DEVICE_TYPE=orin \
+  -t intelfam:orin .
 
+docker build \
+  --build-arg BASE_IMAGE=nvcr.io/nvidia/pytorch:25.08-py3 \
+  --build-arg DEVICE_TYPE=thor \
+  -t intelfam:thor .
+
+```
+
+## Download Models
+
+```
+docker run --rm -it \
+  -e HF_TOKEN=your_token_here \
+  -v ./models:/app/models \
+  intelfam:thor python3 download_models.py
 ```
 
 ## Run benchmarks
@@ -47,7 +60,7 @@ docker run --rm --network none intelfam:pi
 
 docker run --rm \
   --runtime=nvidia \
-  --network none \
+  --network=none \
   --cpuset-cpus="1-5" \
   --shm-size=2g \
   -e NVIDIA_DRIVER_CAPABILITIES=all \
@@ -63,3 +76,7 @@ docker run --rm \
 ### NVIDIA Jetson Orin Nano
 
 **Base OS:**
+
+### NVIDIA Jetson AGX Thor
+
+**Base OS: **
