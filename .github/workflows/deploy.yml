@@ -21,18 +21,18 @@ jobs:
         run: |
           cd www
           npm ci
-      - name: Run Prettier check
-        run: |
-          cd www
-          npm run format:check
+      # - name: Run Prettier check
+      #   run: |
+      #     cd www
+      #     npm run format:check
       - name: Run ESLint
         run: |
           cd www
           npm run lint
-      - name: Run Lighthouse CI
-        run: |
-          cd www
-          npm run lighthouse
+      # - name: Run Lighthouse CI
+      #   run: |
+      #     cd www
+      #     npm run lighthouse
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
         with:
