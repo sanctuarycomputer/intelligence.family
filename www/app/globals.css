@@ -1,0 +1,365 @@
+@import "tailwindcss";
+
+/* ============================================
+   Font Faces
+   ============================================ */
+
+@font-face {
+  font-family: 'Windsor Pro';
+  src: url('/fonts/WindsorPro/WindsorProRg.TTF') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Windsor Pro';
+  src: url('/fonts/WindsorPro/WindsorProBold.TTF') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Windsor Pro Condensed';
+  src: url('/fonts/WindsorPro/WindsorProXBoldCn.TTF') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roobert';
+  src: url('/fonts/Roobert/RoobertCollectionVF-TRIAL.woff2') format('woff2'),
+       url('/fonts/Roobert/RoobertCollectionVF-TRIAL.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
+   CSS Custom Properties
+   ============================================ */
+
+:root {
+  /* Colors */
+  --fi-green-100: #D7DDD4;
+  --fi-green-200: #CAD4C6;
+  --fi-green-300: #B8C6B0;
+  --fi-green-400: #7B8F5E;
+  --fi-green-500: #5E7B29;
+  --fi-green-600: #596647;
+  --fi-black-900: #313131;
+  --fi-black-1000: #000000;
+
+  /* Theme */
+  --background: var(--fi-green-100);
+  --foreground: var(--fi-black-1000);
+  
+  /* Font Families */
+  --font-serif: 'Windsor Pro', Georgia, serif;
+  --font-sans: 'Roobert', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Layout */
+  --grid-gap: 1rem; /* 16px */
+  --container-max: 1352px;
+  --container-padding: 24px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-padding: 80px;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: 'Roobert', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Windsor Pro', Georgia, serif;
+
+  /* Custom Colors */
+  --color-fi-green-100: var(--fi-green-100);
+  --color-fi-green-200: var(--fi-green-200);
+  --color-fi-green-300: var(--fi-green-300);
+  --color-fi-green-400: var(--fi-green-400);
+  --color-fi-green-500: var(--fi-green-500);
+  --color-fi-green-600: var(--fi-green-600);
+  --color-fi-black-900: var(--fi-black-900);
+  --color-fi-black-1000: var(--fi-black-1000);
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+
+/* h1 - Windsor Pro ExtraBold Condensed, 104px */
+h1 {
+  font-family: 'Windsor Pro Condensed', Georgia, serif;
+  font-size: 104px;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--fi-black-900);
+}
+
+/* h2 - Roobert VF, 36px */
+h2 {
+  font-family: var(--font-sans);
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--fi-black-900);
+}
+
+/* h3 - windsorpro, 24px */
+h3 {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+/* h3.windsorpro - Roobert, uppercase label style */
+h3.label {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* .label - Roobert, general uppercase label style */
+.label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* h4 - Roobert VF, 18px */
+h4 {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+/* .byline - Roobert VF SemiMono Regular */
+.byline {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+  font-variation-settings: 'MONO' 50, 'wght' 400;
+}
+
+/* .nav - Roobert VF, navigation style */
+.nav {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+/* p.large - Roobert VF, larger paragraph */
+p.large {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+/* p - Roobert VF, regular paragraph */
+p {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+p + p,
+p.large + p.large,
+p + h4 {
+  margin-top: 1em;
+}
+
+/* .caption - Roobert VF, small caption text */
+.caption {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-top: 1em;
+  letter-spacing: 0.01em;
+  color: var(--fi-black-900);
+  opacity: 0.7;
+  text-align: center;
+}
+
+/* ============================================
+   Responsive Typography
+   ============================================ */
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 56px;
+    line-height: 1;
+  }
+  
+  h2 {
+    font-size: 28px;
+  }
+  
+  h3 {
+    font-size: 20px;
+  }
+  
+  p.large {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 40px;
+  }
+  
+  h2 {
+    font-size: 24px;
+  }
+}
+
+/* ============================================
+   Layout Utilities
+   ============================================ */
+
+/* Constrained container - max 1352px, responsive padding */
+.container-content {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* Full-width container - no padding, full bleed */
+.container-full {
+  width: 100%;
+  padding-inline: 0;
+}
+
+/* 12-column grid with built-in gap */
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+/* ============================================
+   Content with Sidebar Layout
+   ============================================ */
+
+.content-with-sidebar {
+  position: relative;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.sidebar-nav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .sidebar-nav {
+    display: block;
+    position: absolute;
+    left: var(--container-padding);
+    top: 0;
+    bottom: 0;
+    width: calc((100% - 2 * var(--container-padding) - 11 * var(--grid-gap)) / 12 * 2);
+  }
+}
+
+.main-content {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Adjust container-content inside main-content to not double-pad */
+.main-content .container-content {
+  padding-inline: 0;
+  max-width: none;
+}
+
+/* ============================================
+   Media Row Component
+   ============================================ */
+
+.media-row-wrapper {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding-inline: 0;
+  position: relative;
+  z-index: 20;
+  background-color: var(--fi-green-100);
+}
+
+.media-row {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  gap: 16px;
+  width: 100%;
+}
+
+.media-item {
+  flex: 0 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.media-item img,
+.media-item video {
+  height: 100%;
+  width: auto;
+  display: block;
+  border-radius: 20px;
+}
+
