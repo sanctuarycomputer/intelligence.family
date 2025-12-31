@@ -1,0 +1,46 @@
+name: Deploys & Previews
+on:
+  push:
+jobs:
+  deploy-www:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+      repository-projects: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './www/package-lock.json'
+      - name: Install dependencies
+        run: |
+          cd www
+          npm ci
+      - name: Run Prettier check
+        run: |
+          cd www
+          npm run format:check
+      - name: Run ESLint
+        run: |
+          cd www
+          npm run lint
+      - name: Run Lighthouse CI
+        run: |
+          cd www
+          npm run lighthouse
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: prj_5wJWsrSkl9yTZ3rY1DgEV7UpAtly
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+          working-directory: ./www
+          github-comment: ${{ github.ref != 'refs/heads/production' }}
+          vercel-args: ${{ github.ref == 'refs/heads/production' && '--prod' || '' }}
