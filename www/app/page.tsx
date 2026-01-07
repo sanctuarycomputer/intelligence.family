@@ -192,7 +192,7 @@ export default function Home() {
               <h1 className="relative inline-block">
                 Family<span className="tracking-[-0.1em]"> </span>Intelligence
                 <LeafIcon 
-                  className="absolute" 
+                  className="absolute leaf-animate" 
                   style={{ 
                     width: '0.35em', 
                     height: '0.4em', 
@@ -236,8 +236,6 @@ export default function Home() {
         {/* Side Navigation - sticky, aligned with section header divider */}
         <nav className="sidebar-nav">
           <div className="sticky top-8 z-10">
-            {/* Nav Divider - aligned with section header divider (14px = half of h3.label line-height 28px) */}
-            <div className="h-px w-full mb-6 mt-[13px] bg-fi-green-500/50" />
             <Navigation />
           </div>
         </nav>
@@ -464,7 +462,7 @@ export default function Home() {
         </div>
 
         {/* The Leaf - 12 Column Grid Layout */}
-        <div className="grid-layout mb-24">
+        <div className="grid-layout mb-24 z-20 relative">
           
           <div className="col-span-12 md:col-span-6 md:col-start-4">
             {/* Header */}
@@ -530,7 +528,7 @@ export default function Home() {
         </div>
 
         {/* The Radio - 12 Column Grid Layout */}
-        <div className="grid-layout mb-24">
+        <div className="grid-layout mb-24 z-20 relative">
           
           <div className="col-span-12 md:col-span-6 md:col-start-4">
             {/* Header */}
@@ -603,7 +601,7 @@ export default function Home() {
         </div>
 
         {/* The Family Book - 12 Column Grid Layout */}
-        <div className="grid-layout mb-24">
+        <div className="grid-layout mb-24 z-20 relative">
           
           <div className="col-span-12 md:col-span-6 md:col-start-4">
             {/* Header */}
@@ -715,7 +713,7 @@ export default function Home() {
           <div className="col-span-12 md:col-span-8 md:col-start-3 flex flex-col items-center">
             <div className="w-full overflow-hidden">
               <img 
-                src="/research/HLSD.png" 
+                src="/research/HLSD.svg" 
                 alt="High-Level System Diagram showing Family Intelligence Runtime architecture" 
                 className="w-full h-auto"
               />
@@ -758,7 +756,7 @@ export default function Home() {
           <div className="col-span-12 md:col-span-6 md:col-start-4 flex flex-col items-center">
             <div className="w-full overflow-hidden">
               <img 
-                src="/research/diagram-transform.png" 
+                src="/research/diagram-transform.svg" 
                 alt="Transform Speaker Diarisation diagram showing audio chunk to speaker turns to transcript and voiceprint storage" 
                 className="w-full h-auto"
               />

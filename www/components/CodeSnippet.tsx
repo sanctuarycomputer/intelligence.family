@@ -16,12 +16,13 @@ export default function CodeSnippet({
 }: CodeSnippetProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const preRef = useRef<HTMLPreElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (contentRef.current) {
-      setContentHeight(contentRef.current.scrollHeight);
+    if (preRef.current) {
+      // Measure the pre element directly for accurate height
+      setContentHeight(preRef.current.offsetHeight);
     }
   }, [code]);
 
@@ -33,15 +34,16 @@ export default function CodeSnippet({
 
   const handleToggle = () => {
     if (isExpanded) {
-      // Collapsing - scroll to keep the component in view after animation
-      setIsExpanded(false);
-      // Wait for the collapse animation to complete, then scroll
+      // Scroll to the top of the code snippet first, then collapse
+      // This keeps the user oriented as the content shrinks
+      containerRef.current?.scrollIntoView({ 
+        behavior: "smooth", 
+        block: "start"
+      });
+      // Small delay to let the scroll start, then collapse
       setTimeout(() => {
-        containerRef.current?.scrollIntoView({ 
-          behavior: "smooth", 
-          block: "center" 
-        });
-      }, 100);
+        setIsExpanded(false);
+      }, 150);
     } else {
       setIsExpanded(true);
     }
@@ -63,42 +65,41 @@ export default function CodeSnippet({
           transition: "height 500ms ease-in-out",
         }}
       >
-        <div ref={contentRef}>
-          <Highlight theme={themes.github} code={code.trim()} language={language}>
-            {({ className, style, tokens, getLineProps, getTokenProps }) => (
-              <pre
-                className={className}
-                style={{
-                  ...style,
-                  margin: 0,
-                  padding: "24px",
-                  backgroundColor: "transparent",
-                  fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",
-                  fontSize: "13px",
-                  lineHeight: "1.6",
-                  overflow: "visible",
-                  whiteSpace: "pre-wrap",
-                  wordBreak: "break-word",
-                }}
-              >
-                {tokens.map((line, i) => (
-                  <div key={i} {...getLineProps({ line })}>
-                    {line.map((token, key) => (
-                      <span
-                        key={key}
-                        {...getTokenProps({ token })}
-                        style={{
-                          ...getTokenProps({ token }).style,
-                          color: getTokenColor(token.types),
-                        }}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </pre>
-            )}
-          </Highlight>
-        </div>
+        <Highlight theme={themes.github} code={code.trim()} language={language}>
+          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <pre
+              ref={preRef}
+              className={className}
+              style={{
+                ...style,
+                margin: 0,
+                padding: "24px",
+                backgroundColor: "transparent",
+                fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",
+                fontSize: "13px",
+                lineHeight: "1.6",
+                overflow: "visible",
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+              }}
+            >
+              {tokens.map((line, i) => (
+                <div key={i} {...getLineProps({ line })}>
+                  {line.map((token, key) => (
+                    <span
+                      key={key}
+                      {...getTokenProps({ token })}
+                      style={{
+                        ...getTokenProps({ token }).style,
+                        color: getTokenColor(token.types),
+                      }}
+                    />
+                  ))}
+                </div>
+              ))}
+            </pre>
+          )}
+        </Highlight>
 
         {/* Gradient overlay when collapsed */}
         {!isExpanded && needsExpansion && (
@@ -116,7 +117,7 @@ export default function CodeSnippet({
       {needsExpansion && (
         <button
           onClick={handleToggle}
-          className="w-full py-4 text-center transition-colors hover:bg-[#bfc9b5]"
+          className="w-full py-4 text-center transition-all cursor-pointer hover:opacity-70"
           style={{
             backgroundColor: "#CBD3C3",
             fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",

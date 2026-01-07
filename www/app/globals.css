@@ -97,6 +97,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Scroll margin for section anchors - adds space above when scrolling to anchor */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -361,5 +366,34 @@ p + h4 {
   width: auto;
   display: block;
   border-radius: 20px;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+/* Leaf spring grow animation from bottom-left */
+@keyframes leaf-spring-grow {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+  70% {
+    transform: scale(0.97);
+  }
+  85% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.leaf-animate {
+  transform-origin: bottom left;
+  animation: leaf-spring-grow 0.7s ease-out both;
+  animation-delay: 0.3s;
 }
 
