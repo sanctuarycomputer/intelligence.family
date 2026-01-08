@@ -135,7 +135,6 @@ h2 {
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.01em;
-  margin: 0;
   color: var(--fi-black-900);
 }
 
@@ -394,6 +393,7 @@ p + h4 {
 .leaf-animate {
   transform-origin: bottom left;
   animation: leaf-spring-grow 0.7s ease-out both;
-  animation-delay: 0.3s;
+  animation-delay: 0.5s;
 }
+
 

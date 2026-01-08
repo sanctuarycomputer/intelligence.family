@@ -43,7 +43,7 @@ export default function SubscribeForm() {
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit} className="relative">
-        <div className="flex items-center border border-fi-black-900/30 rounded-sm overflow-hidden bg-fi-green-100 focus-within:border-fi-black-900/50 transition-colors">
+        <div className="flex items-center rounded-sm overflow-hidden bg-[rgba(184,198,176,0.4)]">
           <input
             type="email"
             value={email}
@@ -62,7 +62,7 @@ export default function SubscribeForm() {
           <button
             type="submit"
             disabled={status === 'loading' || !email.trim()}
-            className="px-6 py-3 bg-fi-green-100 border-l border-fi-black-900/30 hover:bg-fi-green-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium tracking-wide"
+            className="m-[10px] px-4 py-2 bg-[#B8C6B0] hover:bg-fi-green-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium tracking-wide rounded-sm"
           >
             {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
           </button>

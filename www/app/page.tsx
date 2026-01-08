@@ -7,6 +7,7 @@ import AudioPlayer from "@/components/AudioPlayer";
 import CodeSnippet from "@/components/CodeSnippet";
 import SubscribeForm from "@/components/SubscribeForm";
 import Navigation, { MobileNavigation } from "@/components/Navigation";
+import { AnimatedElement } from "@/components/PageAnimations";
 
 const RESEARCH_LINKS = [
   {
@@ -175,12 +176,14 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       {/* Fixed Work with Us Button */}
-      <a
-        href="#work-with-us"
-        className="absolute top-10 right-10 p-4 rounded bg-fi-green-200 hover:bg-fi-green-300 transition-colors z-50"
-      >
-        <h4>Work with Us</h4>
-      </a>
+      <AnimatedElement delay={300} className="absolute top-10 right-10 z-50">
+        <a
+          href="#work-with-us"
+          className="block p-4 rounded bg-fi-green-200 hover:bg-fi-green-300 transition-colors"
+        >
+          <h4>Work with Us</h4>
+        </a>
+      </AnimatedElement>
 
       {/* Main Content */}
       <main className="container-content">
@@ -189,26 +192,30 @@ export default function Home() {
           <div className="grid-layout">
             <div className="col-span-12 flex flex-col items-center text-center">
               {/* H1 Title with Leaf */}
-              <h1 className="relative inline-block">
-                Family<span className="tracking-[-0.1em]"> </span>Intelligence
-                <LeafIcon 
-                  className="absolute leaf-animate" 
-                  style={{ 
-                    width: '0.35em', 
-                    height: '0.4em', 
-                    top: '-0.05em', 
-                    right: '-0.4em' 
-                  }} 
-                />
-              </h1>
+              <AnimatedElement delay={0} className="relative inline-block">
+                <h1 className="relative inline-block">
+                  Family<span className="tracking-[-0.1em]"> </span>Intelligence
+                  <LeafIcon 
+                    className="absolute leaf-animate" 
+                    style={{ 
+                      width: '0.35em', 
+                      height: '0.4em', 
+                      top: '-0.05em', 
+                      right: '-0.4em' 
+                    }} 
+                  />
+                </h1>
+              </AnimatedElement>
               
               {/* H2 Subtitle */}
-              <h2 className="mt-4">
-                Bringing memories back home.
-              </h2>
+              <AnimatedElement delay={100}>
+                <h2 className="mt-2">
+                  Bringing memories back home.
+                </h2>
+              </AnimatedElement>
               
               {/* Byline */}
-              <div className="byline mt-4">
+              <AnimatedElement delay={200} className="byline mt-8">
                 Speculative Research in local LLMs,
                 <br />
                 by{" "}
@@ -220,28 +227,28 @@ export default function Home() {
                   Garden3D
                 </a>
                 .
-              </div>
+              </AnimatedElement>
             </div>
           </div>
         </header>
 
         {/* Mobile Navigation */}
-        <nav className="md:hidden mb-8">
+        <AnimatedElement delay={400} as="nav" className="md:hidden mb-8">
           <MobileNavigation />
-        </nav>
+        </AnimatedElement>
       </main>
 
       {/* Content wrapper with sticky sidebar - spans full page height */}
       <div className="content-with-sidebar">
         {/* Side Navigation - sticky, aligned with section header divider */}
-        <nav className="sidebar-nav">
+        <AnimatedElement delay={400} as="nav" className="sidebar-nav">
           <div className="sticky top-8 z-10">
             <Navigation />
           </div>
-        </nav>
+        </AnimatedElement>
 
         {/* Main content column */}
-        <div className="main-content">
+        <AnimatedElement delay={500} className="main-content">
           {/* Section I: The Moment - 4 column width */}
           <div className="container-content">
             <div className="grid-layout">
@@ -722,7 +729,7 @@ export default function Home() {
         </div>
 
         {/* HLSD Explanation Paragraphs */}
-        <div className="grid-layout mb-24">
+        <div className="grid-layout mb-6">
           <div className="hidden md:block md:col-span-3" />
           <div className="col-span-12 md:col-span-6">
             <div className="space-y-6">
@@ -738,7 +745,27 @@ export default function Home() {
               <p>
                 Lastly, to ensure family members feel safe and in control, we&apos;ll utilize a physical disconnect switch that allows for pausing of recording during the conversation – perfect for Grandma&apos;s dicey side stories.
               </p>
+            </div>
+          </div>
+        </div>
+        {/* Extract Diagram */}
+        <div className="grid-layout mb-12">
+          <div className="col-span-12 md:col-span-6 md:col-start-4 flex flex-col items-center">
+            <div className="w-full overflow-hidden">
+              <img 
+                src="/research/diagram-extract.svg" 
+                alt="Detect and process all unprocessed Transcript Chunks" 
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
 
+        {/* Step Two */}
+        <div className="grid-layout mb-6">
+          <div className="hidden md:block md:col-span-3" />
+          <div className="col-span-12 md:col-span-6">
+            <div className="space-y-6">
               <h4>Step Two: Transform Audio to Recognize Speakers</h4>
               <p>
                 As chunks are stored safely on disk, the system will pick them up and separate out audio and transcriptions for different speakers. These are often referred to as &quot;Speaker Turns&quot;. A couple Python libraries and offline models backed by <a href="https://github.com/pyannote/pyannote-audio" className="underline hover:no-underline">pyannote-audio</a> and <a href="https://github.com/SYSTRAN/faster-whisper" className="underline hover:no-underline">faster-whisper</a> are helpful here.
@@ -752,7 +779,7 @@ export default function Home() {
         </div>
 
         {/* Transform Diagram - 8 Column */}
-        <div className="grid-layout mb-16 mt-2">
+        <div className="grid-layout mb-12">
           <div className="col-span-12 md:col-span-6 md:col-start-4 flex flex-col items-center">
             <div className="w-full overflow-hidden">
               <img 
@@ -765,7 +792,7 @@ export default function Home() {
         </div>
 
         {/* Step Three and Code Snippet */}
-        <div className="grid-layout mb-24">
+        <div className="grid-layout mb-6">
           <div className="hidden md:block md:col-span-3" />
           <div className="col-span-12 md:col-span-6">
             <div className="space-y-6">
@@ -798,8 +825,21 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Load Diagram */}
+        <div className="grid-layout mb-6 mt-2">
+          <div className="col-span-12 md:col-span-6 md:col-start-4 flex flex-col items-center">
+            <div className="w-full overflow-hidden">
+              <img 
+                src="/research/diagram-load.svg" 
+                alt="Detect and process all unprocessed Transcript Chunks" 
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Neo4j Diagram - 8 Column */}
-        <div className="grid-layout mb-24 mt-8">
+        <div className="grid-layout mb-24">
           <div className="col-span-12 md:col-span-8 md:col-start-3 flex flex-col items-center">
             <div className="w-full overflow-hidden">
               <img 
@@ -882,21 +922,21 @@ export default function Home() {
                 </p>
 
                 {/* Local Intelligence Research List */}
-                <div className="mt-4 border border-fi-black-900/20 rounded-sm overflow-hidden">
-                  <div className="px-4 py-3 border-b border-fi-black-900/20">
+                <div className="mt-4 border border-[rgba(94,123,41,0.5)] rounded-sm overflow-hidden">
+                  <div className="px-4 py-3 border-b border-[rgba(94,123,41,0.5)]">
                     <h4 className="text-sm font-medium">Local Intelligence Research</h4>
                   </div>
                   <ul>
                     {RESEARCH_LINKS.map((item, index) => (
                       <li 
                         key={index}
-                        className={index !== RESEARCH_LINKS.length - 1 ? "border-b border-fi-black-900/10" : ""}
+                        className={`ml-4 ${index !== RESEARCH_LINKS.length - 1 ? "border-b border-[rgba(94,123,41,0.5)]" : ""}`}
                       >
                         <a
                           href={item.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-start gap-4 px-4 py-3 hover:bg-fi-green-200/50 transition-colors group"
+                          className="flex items-start gap-4 pl-0 pr-4 py-3 hover:bg-fi-green-200/50 transition-colors group"
                         >
                           <span className="text-sm text-fi-black-900/60 shrink-0 w-16">{item.part}</span>
                           <span className="text-sm group-hover:text-fi-green-500 transition-colors">{item.title}</span>
@@ -907,7 +947,13 @@ export default function Home() {
                 </div>
 
                 {/* Footer */}
-                <div className="mt-12 pt-8 border-t border-fi-black-900/20">
+                <div className="mt-8 mb-8 border-t border-[rgba(94,123,41,0.5)]">
+                  {/* Manual pt-[2px] isn't supported directly by Tailwind since pixel values aren't in spacing scale.
+                      Use inline style for paddingTop: '2px'. */}
+                  <div
+                    className="w-full border-t border-[rgba(94,123,41,0.5)] mb-4"
+                    style={{ marginTop: '4px' }}
+                  ></div>
                   <p className="text-sm text-fi-black-900/70">
                     Published January 2026 by
                     <br />
@@ -924,16 +970,14 @@ export default function Home() {
                   </div>
 
                   <div className="mt-6">
-                    <p className="text-sm text-fi-black-900/70">Thank you to,</p>
-                    <p className="text-sm text-fi-black-900/50">...list</p>
-                    <p className="text-sm text-fi-black-900/50">...here</p>
+                    <p className="text-sm text-fi-black-900/70">Thank you.</p>
                   </div>
                 </div>
               </div>
             </section>
           </div>
         </div>
-        </div>
+        </AnimatedElement>
       </div>
     </div>
   );
