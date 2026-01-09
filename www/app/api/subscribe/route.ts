@@ -44,30 +44,38 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
 
     const normalizedEmail = email.toLowerCase().trim();
 
-    // Check if already subscribed
-    if (subscribedEmails.has(normalizedEmail)) {
+    const response = await fetch('https://stacks.garden3d.net/api/contacts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': process.env.STACKS_API_KEY!,
+      },
+      body: JSON.stringify({
+        email: normalizedEmail,
+        sources: ['g3d:family_intelligence']
+      }),
+    });
+
+    if (response.ok) {
       return NextResponse.json(
         {
           success: true,
-          message: 'This email is already subscribed to our updates.',
-          status: 'already_subscribed',
+          message: 'Thank you for subscribing! We\'ll keep you updated.',
+          status: 'subscribed',
         },
-        { status: 200 }
+        { status: 201 }
+      );
+    } else {
+      console.error('Subscription error:', response.statusText);
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Something went wrong. Please try again later.',
+          status: 'error',
+        },
+        { status: 500 }
       );
     }
-
-    // Add to subscribers (in production, save to database/email service)
-    subscribedEmails.add(normalizedEmail);
-
-    // Success response
-    return NextResponse.json(
-      {
-        success: true,
-        message: 'Thank you for subscribing! We\'ll keep you updated.',
-        status: 'subscribed',
-      },
-      { status: 201 }
-    );
 
   } catch (error) {
     console.error('Subscription error:', error);
@@ -82,25 +90,3 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
     );
   }
 }
-
-// GET endpoint to check subscription status (optional utility)
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  const { searchParams } = new URL(request.url);
-  const email = searchParams.get('email');
-
-  if (!email) {
-    return NextResponse.json(
-      { error: 'Email parameter required' },
-      { status: 400 }
-    );
-  }
-
-  const normalizedEmail = email.toLowerCase().trim();
-  const isSubscribed = subscribedEmails.has(normalizedEmail);
-
-  return NextResponse.json({
-    email: normalizedEmail,
-    subscribed: isSubscribed,
-  });
-}
-
