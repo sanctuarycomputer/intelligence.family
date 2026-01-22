@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, ReactNode, CSSProperties } from "react";
+import { useEffect, useState, ReactNode, CSSProperties, JSX } from "react";
 
 interface AnimatedElementProps {
   children: ReactNode;
