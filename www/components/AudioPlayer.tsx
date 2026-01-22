@@ -103,7 +103,7 @@ export default function AudioPlayer({ src, quote, filename }: AudioPlayerProps) 
 
       {/* Quote */}
       <p className="text-[#313131] text-lg leading-relaxed">
-        "{quote}"
+        &ldquo;{quote}&rdquo;
       </p>
 
       {/* Controls Row */}

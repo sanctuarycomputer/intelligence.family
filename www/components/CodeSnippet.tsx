@@ -106,7 +106,7 @@ export default function CodeSnippet({
           <div
             className="absolute bottom-0 left-0 right-0 pointer-events-none transition-opacity duration-300"
             style={{
-              height: "80px",
+              height: "50px",
               background: "linear-gradient(to bottom, rgba(203, 211, 195, 0) 13%, rgba(203, 211, 195, 1) 52%)",
             }}
           />
@@ -117,7 +117,7 @@ export default function CodeSnippet({
       {needsExpansion && (
         <button
           onClick={handleToggle}
-          className="w-full py-4 text-center transition-all cursor-pointer hover:opacity-70"
+          className="w-full pt-2 pb-3 text-center cursor-pointer transition-opacity duration-200 hover:opacity-60"
           style={{
             backgroundColor: "#CBD3C3",
             fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",

@@ -234,6 +234,7 @@ p + h4 {
   color: var(--fi-black-900);
   opacity: 0.7;
   text-align: center;
+  text-wrap-style: balance;
 }
 
 /* ============================================
@@ -242,30 +243,34 @@ p + h4 {
 
 @media (max-width: 768px) {
   h1 {
-    font-size: 56px;
+    font-size: 54px;
     line-height: 1;
   }
-  
+
   h2 {
+    font-size: 24px;
+  }
+
+  h3 {
     font-size: 28px;
   }
-  
-  h3 {
-    font-size: 20px;
-  }
-  
+
   p.large {
     font-size: 18px;
   }
+
+  .byline {
+    font-size: 16px;
+  }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 1280px) {
   h1 {
-    font-size: 40px;
+    font-size: 124px;
   }
-  
+
   h2 {
-    font-size: 24px;
+    font-size: 47px;
   }
 }
 
@@ -310,15 +315,47 @@ p + h4 {
   display: none;
 }
 
+/* Wrapper for all page content - allows sidebar to span full height */
+.page-content-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* Fixed sidebar that spans the entire page content - absolute within wrapper, sticky inside */
+.sidebar-nav-fixed {
+  display: none;
+}
+
 @media (min-width: 768px) {
-  .sidebar-nav {
+  .sidebar-nav-fixed {
     display: block;
     position: absolute;
     left: var(--container-padding);
     top: 0;
     bottom: 0;
     width: calc((100% - 2 * var(--container-padding) - 11 * var(--grid-gap)) / 12 * 2);
+    z-index: 10;
+    pointer-events: none;
   }
+
+  .sidebar-nav-fixed > * {
+    pointer-events: auto;
+  }
+}
+
+/* Content section - used for alternating z-index layers */
+.content-section {
+  position: relative;
+  width: 100%;
+}
+
+/* Remove padding from container-content inside content-section since wrapper already has it */
+.content-section .container-content {
+  padding-inline: 0;
+  max-width: none;
 }
 
 .main-content {
@@ -347,24 +384,64 @@ p + h4 {
 
 .media-row {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   overflow: hidden;
   gap: 16px;
   width: 100%;
+  padding-inline: 0;
+}
+
+@media (max-width: 767px) {
+  .media-row {
+    height: auto !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .media-row {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 .media-item {
   flex: 0 0 auto;
-  border-radius: 20px;
+  border-radius: 0;
   overflow: hidden;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .media-item {
+    height: auto !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .media-item {
+    width: auto;
+    border-radius: 20px;
+  }
 }
 
 .media-item img,
 .media-item video {
-  height: 100%;
-  width: auto;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
   display: block;
-  border-radius: 20px;
+  border-radius: 0;
+}
+
+@media (min-width: 768px) {
+  .media-item img,
+  .media-item video {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    border-radius: 20px;
+  }
 }
 
 /* ============================================
@@ -396,4 +473,18 @@ p + h4 {
   animation-delay: 0.5s;
 }
 
+/* Tree SVG fade-in animation */
+@keyframes tree-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
+.tree-animate {
+  opacity: 0;
+  animation: tree-fade-in 0.6s ease-in-out forwards;
+  animation-delay: 0.5s;
+}

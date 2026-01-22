@@ -16,7 +16,7 @@ export default function QuoteBox({ quote, source, actionLabel, href }: QuoteBoxP
       {/* Quote Content */}
       <div className="p-6">
         <p className="font-sans text-base font-normal leading-relaxed text-fi-black-900">
-          "{quote}"
+          &ldquo;{quote}&rdquo;
         </p>
       </div>
       
