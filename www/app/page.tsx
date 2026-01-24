@@ -225,7 +225,7 @@ export default function Home() {
                 </a>{" "}
                 and{" "}
                 <a href="https://garden3d.net" className="underline hover:no-underline">
-                  Garden3D
+                  garden3d
                 </a>
                 .
               </AnimatedElement>
@@ -908,7 +908,7 @@ export default function Home() {
 
                 <div className="mt-8 space-y-6">
                   <p>
-                    Garden3D helps forward-thinking teams explore the edges of local AI, speculative hardware, and product storytelling. We collaborate with brands, labs, and founders to design the next generation of tangible AI experiences. This research is in partnership with USB Club, a memory network for preserving what matters.
+                  garden3d helps forward-thinking teams explore the edges of local ai, speculative hardware, and product storytelling. We collaborate with brands, labs, and founders to design the next generation of tangible ai experiences. This research is in partnership with usb club, a memory network for preserving what matters.
                   </p>
 
                   <p>
@@ -982,7 +982,7 @@ export default function Home() {
                     <p className="text-sm text-fi-black-900/70">
                       Published January 2026 by
                       <br />
-                      USB Club (<a href="https://usb.club" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Norm</a>, <a href="https://usb.club" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Yatú</a>) and Garden3D (<a href="https://garden3d.net" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Hugh</a>)
+                      USB Club (<a href="https://usb.club" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Norm</a>, <a href="https://usb.club" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Yatú</a>) and garden3d (<a href="https://garden3d.net" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Hugh</a>)
                     </p>
 
                     <div className="mt-6 space-y-1">
