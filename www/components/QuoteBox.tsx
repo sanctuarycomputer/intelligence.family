@@ -21,7 +21,7 @@ export default function QuoteBox({ quote, source, actionLabel, href }: QuoteBoxP
       </div>
       
       {/* Footer Bar */}
-      <div className="flex justify-between items-center px-6 py-4 border-t border-fi-green-500/50 bg-fi-green-500/5">
+      <div className="flex flex-col items-start gap-0 md:flex-row md:justify-between md:items-center md:gap-2 px-6 py-4 border-t border-fi-green-500/50 bg-fi-green-500/5">
         <span className="font-sans text-sm font-medium text-fi-black-900">{source}</span>
         <span className="font-sans text-sm font-normal text-fi-green-500 group-hover:underline">{actionLabel}</span>
       </div>

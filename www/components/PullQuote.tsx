@@ -4,7 +4,7 @@ interface PullQuoteProps {
 
 export default function PullQuote({ children }: PullQuoteProps) {
   return (
-    <blockquote className="flex flex-col gap-4 text-center">
+    <blockquote className="flex flex-col gap-4 text-center italic">
       <div 
         className="h-px w-full" 
         style={{ backgroundColor: 'rgba(94, 123, 41, 0.5)' }}
