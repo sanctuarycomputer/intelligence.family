@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://intelligence.family"),
   title: "Family Intelligence",
   description: "Speculative Research by USB Club and garden3d",
+  icons: {
+    icon: [
+      { url: "/research/leaf-favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/research/leaf-favicon.png", sizes: "48x48", type: "image/png" },
+    ],
+    apple: "/research/leaf-favicon-180.png",
+  },
   openGraph: {
     title: "Family Intelligence",
     description: "Speculative Research by USB Club and garden3d",
