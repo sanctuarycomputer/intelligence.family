@@ -17,7 +17,7 @@ const RESEARCH_LINKS = [
   },
   {
     part: "Part Two",
-    title: "Off-Brain",
+    title: "Off Brain",
     url: "https://garden3d.substack.com/p/off-brain",
   },
   {
@@ -220,11 +220,11 @@ export default function Home() {
                 Bringing memories back home,
                 <br />
                 by{" "}
-                <a href="https://usb.club" className="underline hover:no-underline">
+                <a href="https://usb.club" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">
                   USB Club
                 </a>{" "}
                 and{" "}
-                <a href="https://garden3d.net" className="underline hover:no-underline">
+                <a href="https://garden3d.net" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">
                   garden3d
                 </a>
                 .
@@ -712,7 +712,7 @@ export default function Home() {
               <div className="space-y-6">
                 <h4>Step Two: Transform Audio to Recognize Speakers</h4>
                 <p>
-                  As chunks are stored safely on disk, the system will pick them up and separate out audio and transcriptions for different speakers. These are often referred to as &quot;Speaker Turns&quot;. A couple Python libraries and offline models backed by <a href="https://github.com/pyannote/pyannote-audio" className="underline hover:no-underline">pyannote-audio</a> and <a href="https://github.com/SYSTRAN/faster-whisper" className="underline hover:no-underline">faster-whisper</a> are helpful here.
+                  As chunks are stored safely on disk, the system will pick them up and separate out audio and transcriptions for different speakers. These are often referred to as &quot;Speaker Turns&quot;. A couple Python libraries and offline models backed by <a href="https://github.com/pyannote/pyannote-audio" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">pyannote-audio</a> and <a href="https://github.com/SYSTRAN/faster-whisper" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">faster-whisper</a> are helpful here.
                 </p>
 
                 <p>
@@ -746,7 +746,7 @@ export default function Home() {
                 </p>
 
                 <p>
-                  For compression, <a href="https://arxiv.org/abs/2309.04269" className="underline hover:no-underline">Chain of Density</a> (CoD) is a common prompting technique we can employ to ensure our speaker turns are vectorized at a high degree of detail and predictable length.
+                  For compression, <a href="https://arxiv.org/abs/2309.04269" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Chain of Density</a> (CoD) is a common prompting technique we can employ to ensure our speaker turns are vectorized at a high degree of detail and predictable length.
                 </p>
 
                 <p>
@@ -799,6 +799,9 @@ export default function Home() {
                   className="w-full h-auto"
                 />
               </div>
+              <p className="caption mt-4 text-center">
+                A graph database representation of the relationships of actors in a story, extracted offline by Qwen.
+              </p>
             </div>
           </div>
 
@@ -812,7 +815,7 @@ export default function Home() {
                 A key part of our thesis points to the drastic strides in processing speeds that both open source models and consumer-level chipsets have been making every 6 months. Its safe to bet that what might seem resource constrained and inefficient today is likely to be a breeze on hardware and architectures just a year from now. 
                 </p>
                 <p>
-                We wrote a lightweight test harness (<a href="https://github.com/sanctuarycomputer/intelligence.family" className="underline hover:no-underline">view codebase</a>) to asses the feasibility of running this workload on consumer grade hardware. We used this testing framework to run the same benchmark against three best-in-class chipsets. From least to most performant they are: 
+                We wrote a lightweight test harness (<a href="https://github.com/sanctuarycomputer/intelligence.family" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">view codebase</a>) to asses the feasibility of running this workload on consumer grade hardware. We used this testing framework to run the same benchmark against three best-in-class chipsets. From least to most performant they are: 
                 </p>
 
               </div>
@@ -856,7 +859,7 @@ export default function Home() {
             <div className="col-span-12 md:col-span-6 md:col-start-4 flex flex-col items-center">
               <div className="w-full overflow-hidden">
                 <p>
-                To benchmark the relative performance of these chips, we ran a speaker diarisation process with a local model of pyannote/speaker-diarization-3.1 (<a href="https://huggingface.co/pyannote/speaker-diarization-3.1" className="underline hover:no-underline">Hugging Face</a>) via the <a href="https://github.com/pyannote/pyannote-audio" className="underline hover:no-underline">pyannote-audio</a> python library.
+                To benchmark the relative performance of these chips, we ran a speaker diarisation process with a local model of pyannote/speaker-diarization-3.1 (<a href="https://huggingface.co/pyannote/speaker-diarization-3.1" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Hugging Face</a>) via the <a href="https://github.com/pyannote/pyannote-audio" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">pyannote-audio</a> python library.
                 </p>
                 <p>
                 As expected, the Thor & Orin drastically outperformed the Raspberry Pi 5 16gb, indicating that for the best possible UX we&apos;ll need to run the Application Runtime against a GPU enabled system for these processing loads.
