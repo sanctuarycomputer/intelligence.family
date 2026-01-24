@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useAnimationContext } from "./PageAnimations";
 
 const NAV_ITEMS = [
   { id: "the-moment", numeral: "I.", title: "The Moment" },
@@ -270,14 +271,20 @@ export function MobileNavigation() {
   }, []);
 
   const [hasMounted, setHasMounted] = useState(false);
+  const { canAnimate } = useAnimationContext();
 
-  // Fade in after mount with delay
+  // Fade in after mount with delay, but only when animations are allowed
   useEffect(() => {
+    if (!canAnimate) {
+      setHasMounted(false);
+      return;
+    }
+
     const timer = setTimeout(() => {
       setHasMounted(true);
-    }, 300); // 300ms delay to fade in after byline
+    }, 400); // 400ms delay to match desktop sidebar nav
     return () => clearTimeout(timer);
-  }, []);
+  }, [canAnimate]);
 
   return (
     <>
