@@ -350,7 +350,7 @@ export default function Home() {
                       quote="In just a few cycles, our handheld devices will house small, local LLMs [...] routing more complex or topical queries through to to the bigger, more expensive cloud-based models. But this architecture will do little to improve upon our privacy under the gaze of Big Tech."
                       source="Research: Where the Flower Grows"
                       actionLabel="View our Previous Post"
-                      href="https://garden3d.net"
+                      href="https://garden3d.substack.com/p/where-the-flower-grows"
                     />
                   </div>
 
@@ -400,7 +400,7 @@ export default function Home() {
                   Previous generations stored family memories physically. Our generation is waking up to the fact that we&apos;re losing these memories unless we put systems in place to preserve them.
                 </p>
                 <p>
-                  These memories also need to be embodied, as objects of heritage. They cannot solely live in a phone or a black box home server. We believe in three tenets that these objects must uphold if they wish to be accepted as a new method of archiving. A family intelligence object must be Timeless in its ability to withstand generations, Observable to have an ease of control, and Trustworthy from first glance to the 100th entry into the family tree.
+                  These memories also need to be embodied, as objects of heritage. They cannot solely live in a phone or a black box home server. We believe in three tenets that these objects must uphold if they wish to be accepted as a new method of archiving. A family intelligence object must be <b>Timeless</b> in its ability to withstand generations, <b>Observable</b> to have an ease of control, and <b>Trustworthy</b> from first glance to the 100th entry into the family tree.
                 </p>
               </div>
             </div>
