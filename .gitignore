@@ -1,8 +1,3 @@
 venv/
 .env
 .DS_Store
-
-models/*
-!models/.gitkeep
-__pycache__
-benchmark/__pycache__
