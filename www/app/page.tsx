@@ -210,14 +210,14 @@ export default function Home() {
               
               {/* H2 Subtitle */}
               <AnimatedElement delay={100}>
-                <h2 className="mt-2">
-                  Bringing memories back home.
+                <h2 className="mt-2 text-balance">
+                  Speculative Research in Local LLMs.
                 </h2>
               </AnimatedElement>
               
               {/* Byline */}
               <AnimatedElement delay={200} className="byline mt-8">
-                Speculative Research in local LLMs,
+                Bringing memories back home,
                 <br />
                 by{" "}
                 <a href="https://usb.club" className="underline hover:no-underline">
@@ -251,15 +251,19 @@ export default function Home() {
         {/* ===== SECTION: Text content (z-0) ===== */}
         <div className="content-section relative z-0">
         {/* Tree SVG - positioned to sit on the sidebar nav divider line, aligned left */}
-        <img
-          src="/research/tree-svg.svg"
-          alt=""
-          className="hidden md:block absolute left-0 z-0 pointer-events-none tree-animate"
+        <AnimatedElement
+          delay={500}
+          className="hidden md:block absolute left-0 z-0 pointer-events-none"
           style={{
             top: 0,
             transform: 'translateY(calc(-100% + 13px))',
           }}
-        />
+        >
+          <img
+            src="/research/tree-svg.svg"
+            alt=""
+          />
+        </AnimatedElement>
 
         <AnimatedElement delay={500} className="main-content">
           {/* Section I: The Moment - 4 column width */}

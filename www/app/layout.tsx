@@ -1,9 +1,26 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import EmailGateWrapper from "@/components/EmailGateWrapper";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://intelligence.family"),
   title: "Family Intelligence",
-  description: "Bringing memories back home. Speculative Research in local LLMs.",
+  description: "Speculative Research by USB Club and garden3d",
+  openGraph: {
+    title: "Family Intelligence",
+    description: "Speculative Research by USB Club and garden3d",
+    images: [
+      {
+        url: "/research/fam-og-image.png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Family Intelligence",
+    description: "Speculative Research by USB Club and garden3d",
+    images: ["/research/fam-og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -14,7 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        {children}
+        <EmailGateWrapper>
+          {children}
+        </EmailGateWrapper>
       </body>
     </html>
   );

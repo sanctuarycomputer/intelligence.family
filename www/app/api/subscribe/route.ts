@@ -1,21 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Example in-memory store for demonstration
-// In production, you'd use a real database or email service like Mailchimp, ConvertKit, etc.
-const subscribedEmails = new Set<string>([
-  'already@subscribed.com', // Example of already subscribed email for testing
-]);
-
 interface SubscribeResponse {
   success: boolean;
   message: string;
   status: 'subscribed' | 'already_subscribed' | 'error';
 }
 
+function appendTimestampToEmail(email: string): string {
+  const now = new Date();
+  const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const randomChars = Array.from({ length: 3 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  const suffix = `${date}.${randomChars}`;
+  const atIndex = email.indexOf('@');
+  if (atIndex === -1) return email;
+  const localPart = email.substring(0, atIndex);
+  const domain = email.substring(atIndex);
+  return `${localPart}+${suffix}${domain}`;
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse<SubscribeResponse>> {
   try {
     const body = await request.json();
-    const { email } = body;
+    const { email, appendTimestamp } = body;
 
     // Validate email
     if (!email || typeof email !== 'string') {
@@ -42,7 +49,23 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
       );
     }
 
-    const normalizedEmail = email.toLowerCase().trim();
+    let normalizedEmail = email.toLowerCase().trim();
+
+    // Append timestamp if requested (for email gate modal)
+    if (appendTimestamp) {
+      normalizedEmail = appendTimestampToEmail(normalizedEmail);
+    }
+
+    // // FOR DEBUGGING ONLY
+    // console.log('appended email:', normalizedEmail);
+    // return NextResponse.json(
+    //   {
+    //     success: true,
+    //     message: 'Thank you for subscribing! We\'ll keep you updated.',
+    //     status: 'subscribed',
+    //   },
+    //   { status: 201 }
+    // );
 
     const response = await fetch('https://stacks.garden3d.net/api/contacts', {
       method: 'POST',
