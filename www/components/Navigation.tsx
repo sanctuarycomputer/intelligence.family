@@ -121,6 +121,14 @@ export default function Navigation() {
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+                  // Track "Work with Us" clicks in sidebar
+                  if (id === 'work-with-us' && typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'work_with_us_click', {
+                      event_category: 'engagement',
+                      event_label: 'sidebar_menu',
+                      value: 1
+                    });
+                  }
                 }}
                 className={`flex items-center whitespace-nowrap transition-colors duration-200 ${
                   isActive
@@ -166,6 +174,14 @@ function MobileNavContent({ activeSection }: { activeSection: string }) {
               onClick={(e) => {
                 e.preventDefault();
                 document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+                // Track "Work with Us" clicks in mobile nav
+                if (id === 'work-with-us' && typeof window !== 'undefined' && window.gtag) {
+                  window.gtag('event', 'work_with_us_click', {
+                    event_category: 'engagement',
+                    event_label: 'mobile_menu',
+                    value: 1
+                  });
+                }
               }}
               className={`flex flex-col items-center text-center transition-colors ${
                 isActive

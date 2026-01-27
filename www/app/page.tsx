@@ -1,3 +1,5 @@
+'use client';
+
 import SectionHeader from "@/components/SectionHeader";
 import PullQuote from "@/components/PullQuote";
 import LeafIcon from "@/components/LeafIcon";
@@ -180,6 +182,15 @@ export default function Home() {
       <AnimatedElement delay={300} className="absolute top-5 right-5 md:top-10 md:right-10 z-50">
         <a
           href="#work-with-us"
+          onClick={() => {
+            if (typeof window !== 'undefined' && window.gtag) {
+              window.gtag('event', 'work_with_us_click', {
+                event_category: 'engagement',
+                event_label: 'top_right_button',
+                value: 1
+              });
+            }
+          }}
           className="block p-4 rounded bg-fi-green-200 hover:bg-fi-green-300 transition-colors"
         >
           <h4>Work with Us</h4>
@@ -919,6 +930,15 @@ export default function Home() {
                     <span className="relative inline-block">
                       <a
                         href="mailto:partner@intelligence.family"
+                        onClick={() => {
+                          if (typeof window !== 'undefined' && window.gtag) {
+                            window.gtag('event', 'email_click', {
+                              event_category: 'engagement',
+                              event_label: 'partner_email',
+                              value: 1
+                            });
+                          }
+                        }}
                         className="no-underline hover:underline"
                       >
                         partner@intelligence.family

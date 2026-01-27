@@ -30,8 +30,16 @@ export default function SubscribeForm() {
       setStatus(data.status);
       setMessage(data.message);
       
-      if (data.status === 'subscribed') {
+      if (data.status === 'subscribed' || data.status === 'already_subscribed') {
         setEmail('');
+        // Send Google Analytics event
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'email_subscribe', {
+            event_category: 'engagement',
+            event_label: 'subscribe_form',
+            value: 1
+          });
+        }
       }
     } catch (error) {
       console.error('Subscribe error:', error);
