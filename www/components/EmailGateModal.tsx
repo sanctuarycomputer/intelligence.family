@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-type SubscribeStatus = 'idle' | 'loading' | 'subscribed' | 'error';
+type SubscribeStatus = 'idle' | 'loading' | 'subscribed' | 'already_subscribed' | 'error';
 
 interface EmailGateModalProps {
   onSuccess: () => void;
@@ -50,6 +50,15 @@ export default function EmailGateModal({ onSuccess }: EmailGateModalProps) {
       if (data.status === 'subscribed' || data.status === 'already_subscribed') {
         setStatus('subscribed');
         setMessage(data.message);
+
+        // Send Google Analytics event
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'email_subscribe', {
+            event_category: 'engagement',
+            event_label: 'email_gate',
+            value: 1
+          });
+        }
 
         // Start fade out animation
         setTimeout(() => {
