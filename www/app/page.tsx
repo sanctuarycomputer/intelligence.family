@@ -1009,11 +1009,11 @@ export default function Home() {
                     </p>
 
                     <div className="mt-6 space-y-1">
-                      <a href="https://www.are.na/garden3d/family-intelligence-secondary-research" target="_blank" rel="noopener noreferrer" className="block text-sm underline hover:no-underline">
-                        Secondary Research Are.na
-                      </a>
-                      <a href="https://www.are.na/garden3d/family-intelligence-primary-research" target="_blank" rel="noopener noreferrer" className="block text-sm underline hover:no-underline">
+                      <a href="https://www.are.na/yatu/airgapt" target="_blank" rel="noopener noreferrer" className="block text-sm underline hover:no-underline">
                         Primary Research Are.na
+                      </a>
+                      <a href="https://www.are.na/norman-o-hagan/airgapt-references" target="_blank" rel="noopener noreferrer" className="block text-sm underline hover:no-underline">
+                        Secondary Research Are.na
                       </a>
                     </div>
 
