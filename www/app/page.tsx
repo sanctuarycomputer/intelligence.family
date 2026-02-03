@@ -222,7 +222,7 @@ export default function Home() {
               {/* H2 Subtitle */}
               <AnimatedElement delay={100}>
                 <h2 className="mt-2 text-balance">
-                  Speculative Research in Local LLMs.
+                  Speculative Research on Local LLMs.
                 </h2>
               </AnimatedElement>
               
