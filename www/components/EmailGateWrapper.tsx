@@ -5,7 +5,7 @@ import EmailGateModal from './EmailGateModal';
 import { AnimationProvider } from './PageAnimations';
 
 // Toggle this to enable/disable the email gate modal
-export const EMAIL_GATE_ENABLED = true;
+export const EMAIL_GATE_ENABLED = false;
 
 interface EmailGateWrapperProps {
   children: ReactNode;
