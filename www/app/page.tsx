@@ -826,7 +826,7 @@ export default function Home() {
                 A key part of our thesis points to the drastic strides in processing speeds that both open source models and consumer-level chipsets have been making every 6 months. Its safe to bet that what might seem resource constrained and inefficient today is likely to be a breeze on hardware and architectures just a year from now. 
                 </p>
                 <p>
-                We wrote a lightweight test harness (<a href="https://github.com/sanctuarycomputer/intelligence.family" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">view codebase</a>) to asses the feasibility of running this workload on consumer grade hardware. We used this testing framework to run the same benchmark against three best-in-class chipsets. From least to most performant they are: 
+                We wrote a lightweight test harness (<a href="https://github.com/sanctuarycomputer/intelligence.family" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">view codebase</a>) to asses the feasibility of running this workload on consumer grade hardware. We used this testing framework to run the same benchmark against three best-in-class chipsets. From most to least performant they are: 
                 </p>
 
               </div>
