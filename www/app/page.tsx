@@ -1008,6 +1008,24 @@ export default function Home() {
                       USB Club (<a href="https://usb.club" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Norm</a>, <a href="https://usb.club" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Yatú</a>) and garden3d (<a href="https://garden3d.net" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Hugh</a>)
                     </p>
 
+                    <p className="text-sm text-fi-black-900/70">
+                      In partnership with
+                      <br />
+                      <a
+                        href="https://www.mozillafoundation.org/en/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block"
+                        aria-label="Mozilla Foundation"
+                      >
+                        <img
+                          src="/research/mozilla-foundation.svg"
+                          alt="Mozilla Foundation logo"
+                          style={{ width: '140px', height: 'auto', marginTop: '8px' }}
+                        />
+                      </a>
+                    </p>
+
                     <div className="mt-6 space-y-1">
                       <a href="https://www.are.na/yatu/airgapt" target="_blank" rel="noopener noreferrer" className="block text-sm underline hover:no-underline">
                         Primary Research Are.na
