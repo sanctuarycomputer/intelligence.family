@@ -49,6 +49,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
       );
     }
 
+    // Only allow known source tags so callers can't pollute the CRM
+    const ALLOWED_SOURCES = ['g3d:family_intelligence', 'g3d:family_intelligence:fundraising'];
+    const resolvedSource = typeof source === 'string' && ALLOWED_SOURCES.includes(source)
+      ? source
+      : 'g3d:family_intelligence';
+
     let normalizedEmail = email.toLowerCase().trim();
 
     // Append timestamp if requested (for email gate modal)
@@ -75,7 +81,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
       },
       body: JSON.stringify({
         email: normalizedEmail,
-        sources: [typeof source === 'string' && source ? source : 'g3d:family_intelligence']
+        sources: [resolvedSource]
       }),
     });
 

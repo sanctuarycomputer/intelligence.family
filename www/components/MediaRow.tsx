@@ -10,9 +10,10 @@ interface MediaRowProps {
   caption?: string;
   height?: number;
   padded?: boolean;
+  preload?: "none" | "metadata" | "auto";
 }
 
-export default function MediaRow({ items, caption, height = 400, padded = false }: MediaRowProps) {
+export default function MediaRow({ items, caption, height = 400, padded = false, preload }: MediaRowProps) {
   return (
     <div className={`media-row-wrapper${padded ? " media-row-wrapper--padded" : ""}`}>
       <div 
@@ -29,6 +30,7 @@ export default function MediaRow({ items, caption, height = 400, padded = false 
               <video
                 src={item.src}
                 poster={item.poster}
+                preload={preload}
                 autoPlay
                 loop
                 muted

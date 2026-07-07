@@ -49,10 +49,10 @@ export default function Fundraising() {
     window.setTimeout(() => setUnlocked(true), 1150);
   };
 
-  // Clipped while locked; full height the moment we start revealing (hidden
-  // under the scrim), so the reveal is a fade rather than a slide.
-  const gatedStyle: CSSProperties | undefined =
-    unlocked || revealing ? undefined : GATE_LOCKED_STYLE;
+  // Fully locked (teaser clipped) vs. revealing/unlocked. While locked the
+  // gated region is inert so keyboard users can't tab into the clipped links.
+  const locked = !unlocked && !revealing;
+  const gatedStyle: CSSProperties | undefined = locked ? GATE_LOCKED_STYLE : undefined;
 
   return (
     <div className="min-h-screen relative">
@@ -153,8 +153,9 @@ export default function Fundraising() {
                     {/* ===== Email gate: everything below fades until an email is submitted ===== */}
                     <div className="relative">
                     <div
-                      className={`space-y-6 ${unlocked ? '' : 'select-none'}`}
-                      aria-hidden={!unlocked}
+                      className={`space-y-6 ${locked ? 'select-none' : ''}`}
+                      aria-hidden={locked}
+                      inert={locked}
                       style={gatedStyle}
                     >
 
@@ -219,6 +220,7 @@ export default function Fundraising() {
                         ]}
                         caption="We've built and scaled domestic and international consumer hardware businesses."
                         height={400}
+                        preload="none"
                       />
                     </div>
 
