@@ -22,7 +22,7 @@ function appendTimestampToEmail(email: string): string {
 export async function POST(request: NextRequest): Promise<NextResponse<SubscribeResponse>> {
   try {
     const body = await request.json();
-    const { email, appendTimestamp } = body;
+    const { email, appendTimestamp, source } = body;
 
     // Validate email
     if (!email || typeof email !== 'string') {
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
       },
       body: JSON.stringify({
         email: normalizedEmail,
-        sources: ['g3d:family_intelligence']
+        sources: [typeof source === 'string' && source ? source : 'g3d:family_intelligence']
       }),
     });
 

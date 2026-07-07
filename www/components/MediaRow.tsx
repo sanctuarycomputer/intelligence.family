@@ -2,17 +2,19 @@ interface MediaItem {
   type: "image" | "video";
   src: string;
   alt?: string;
+  poster?: string;
 }
 
 interface MediaRowProps {
   items: MediaItem[];
   caption?: string;
   height?: number;
+  padded?: boolean;
 }
 
-export default function MediaRow({ items, caption, height = 400 }: MediaRowProps) {
+export default function MediaRow({ items, caption, height = 400, padded = false }: MediaRowProps) {
   return (
-    <div className="media-row-wrapper">
+    <div className={`media-row-wrapper${padded ? " media-row-wrapper--padded" : ""}`}>
       <div 
         className="media-row"
         style={{ height: `${height}px` }}
@@ -26,6 +28,7 @@ export default function MediaRow({ items, caption, height = 400 }: MediaRowProps
             {item.type === "video" ? (
               <video
                 src={item.src}
+                poster={item.poster}
                 autoPlay
                 loop
                 muted
