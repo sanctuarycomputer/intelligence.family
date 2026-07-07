@@ -22,7 +22,7 @@ function appendTimestampToEmail(email: string): string {
 export async function POST(request: NextRequest): Promise<NextResponse<SubscribeResponse>> {
   try {
     const body = await request.json();
-    const { email, appendTimestamp } = body;
+    const { email, appendTimestamp, source } = body;
 
     // Validate email
     if (!email || typeof email !== 'string') {
@@ -48,6 +48,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
         { status: 400 }
       );
     }
+
+    // Only allow known source tags so callers can't pollute the CRM
+    const ALLOWED_SOURCES = ['g3d:family_intelligence', 'g3d:family_intelligence:fundraising'];
+    const resolvedSource = typeof source === 'string' && ALLOWED_SOURCES.includes(source)
+      ? source
+      : 'g3d:family_intelligence';
 
     let normalizedEmail = email.toLowerCase().trim();
 
@@ -75,7 +81,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
       },
       body: JSON.stringify({
         email: normalizedEmail,
-        sources: ['g3d:family_intelligence']
+        sources: [resolvedSource]
       }),
     });
 

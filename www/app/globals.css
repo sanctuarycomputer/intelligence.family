@@ -434,6 +434,17 @@ p + h4 {
   border-radius: 0;
 }
 
+/* Padded variant: inset the lockup on mobile so images aren't edge-to-edge */
+@media (max-width: 767px) {
+  .media-row-wrapper--padded {
+    padding-inline: var(--container-padding);
+  }
+
+  .media-row-wrapper--padded .media-item {
+    border-radius: 20px;
+  }
+}
+
 @media (min-width: 768px) {
   .media-item img,
   .media-item video {
