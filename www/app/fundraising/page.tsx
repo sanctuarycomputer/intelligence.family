@@ -78,8 +78,8 @@ export default function Fundraising() {
     
               {/* H1 Title with Leaf */}
               <AnimatedElement delay={0} className="relative inline-block">
-                <h1 className="relative inline-block" style={{ fontFamily: 'var(--font-serif)' }}>
-                  Fundraising
+                <h1 className="relative inline-block" style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(40px, 9vw, 64px)', fontWeight: 400 }}>
+                  Investor Memo
                   <LeafIcon
                     className="absolute leaf-animate"
                     style={{
@@ -94,7 +94,7 @@ export default function Fundraising() {
 
               {/* H2 Subtitle */}
               <AnimatedElement delay={100}>
-                <h2 className="mt-2 text-balance">
+                <h2 className="mt-2 text-balance" style={{ fontSize: 'clamp(20px, 4vw, 28px)' }}>
                   We're building a consumer hardware business and software platform for private intelligence.
                 </h2>
               </AnimatedElement>

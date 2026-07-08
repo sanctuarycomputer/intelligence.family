@@ -102,6 +102,17 @@ section[id] {
   scroll-margin-top: 80px;
 }
 
+/* Text selection - darkest green. Literal hex (not var()) because Chrome
+   doesn't reliably resolve CSS custom properties inside ::selection. */
+::selection {
+  background: #B8C6B0;
+  color: #313131;
+}
+::-moz-selection {
+  background: #B8C6B0;
+  color: #313131;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
