@@ -42,5 +42,5 @@ jobs:
           vercel-project-id: prj_5wJWsrSkl9yTZ3rY1DgEV7UpAtly
           scope: ${{ secrets.VERCEL_ORG_ID }}
           working-directory: ./www
-          github-comment: ${{ github.ref != 'refs/heads/production' }}
-          vercel-args: ${{ github.ref == 'refs/heads/production' && '--prod' || '' }}
+          github-comment: ${{ github.ref != 'refs/heads/main' }}
+          vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}
