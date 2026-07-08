@@ -94,7 +94,7 @@ export default function Fundraising() {
 
               {/* H2 Subtitle */}
               <AnimatedElement delay={100}>
-                <h2 className="mt-2 text-balance" style={{ fontSize: 'clamp(20px, 4vw, 28px)' }}>
+                <h2 className="mt-2 text-balance max-w-2xl" style={{ fontSize: 'clamp(20px, 4vw, 28px)' }}>
                   We're building a consumer hardware business and software platform for private intelligence.
                 </h2>
               </AnimatedElement>
