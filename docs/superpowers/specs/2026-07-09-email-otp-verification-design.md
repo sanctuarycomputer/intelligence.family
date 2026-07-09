@@ -61,18 +61,16 @@ DIY, native to the existing Next.js app:
    - Send the code via Resend to the submitted email.
    - Always return `{ ok: true }` (do **not** reveal whether the address is known).
 2. **Verify code** — visitor submits the code → `POST /api/verify-code { code }`.
-   - Read the iron-session cookie. Reject if absent/expired.
+   - Read the pending iron-session cookie. Reject if absent/expired.
    - Compare the submitted code in **constant time** against the stored hash.
-   - On success: set a separate long-lived signed **"verified" cookie**
-     (`{ email, source, verifiedAt }`, 30 days), and POST the verified email to
-     Garden3D. Return `{ ok: true, verified: true }`.
+   - On success: POST the verified email to Garden3D (the **only** place the CRM
+     is contacted). Return `{ ok: true, verified: true }`.
    - On failure: decrement `attempts`; after 5, invalidate the code and require a
      re-request. Return `{ ok: false, error }` with attempts remaining.
-3. **Unlock** — on the client, a successful verify sets
-   `localStorage.fi_fundraising_unlocked = '1'` (matches the existing unlock
-   contract in `app/fundraising/page.tsx:38-44`) and reveals the content. The
-   30-day verified cookie is the durable, server-side source of truth; the
-   localStorage flag is a client-side mirror for instant unlock on load.
+3. **Unlock** — on a successful verify the client sets
+   `localStorage.fi_fundraising_unlocked = '1'` (the existing unlock contract at
+   `app/fundraising/page.tsx:38-44`) and reveals the content. Returning visitors
+   skip the gate via this same localStorage flag (unchanged from today).
 
 ## 5. Components & files
 
@@ -89,10 +87,10 @@ DIY, native to the existing Next.js app:
 - `www/components/InlineEmailGate.tsx` — add a second step: state machine
   `enter-email → enter-code → verified`. Calls `/api/request-code` then
   `/api/verify-code`; on success invokes the existing `onSuccess` prop.
-- `www/app/fundraising/page.tsx` — no logic change; the gate component gains the
-  second step transparently. Consider seeding the "verified" state from the
-  verified cookie on first paint (SSR/cookie read) so returning visitors skip
-  the gate without a localStorage dependency.
+- `www/app/fundraising/page.tsx` — **no change needed.** This file is a client
+  component (`'use client'`) that already unlocks on the
+  `fi_fundraising_unlocked` localStorage flag. The two-step flow lives entirely
+  inside `InlineEmailGate`, which calls the existing `onSuccess` → `handleUnlock`.
 - `www/package.json` — add deps `iron-session`, `resend`, `@dotenvx/dotenvx`;
   wrap scripts in `dotenvx run --` (see §8).
 - `www/.gitignore` — commit the encrypted `.env`; ignore `.env.keys` and
@@ -114,19 +112,34 @@ DIY, native to the existing Next.js app:
 - **Rate limiting:** per-IP limit on `/api/request-code` using an in-memory map
   (MVP). Documented limitation: resets on cold start and is per-instance; upgrade to
   Upstash Redis if traffic grows. This is acceptable for the current threat model.
+- **CSRF:** the iron-session cookie uses `sameSite=lax`, so it is not sent on
+  cross-site POSTs; both endpoints are same-origin only.
+- **Source allowlist:** the existing `ALLOWED_SOURCES` check in the current
+  `subscribe/route.ts` is preserved when extracting `lib/crm.ts`, so clients
+  cannot tag CRM contacts with arbitrary sources.
 - **Enumeration:** `/request-code` returns the same response shape regardless of
   whether the email is "known" (there are no accounts, but the principle holds).
 - **No code in URLs** and no logging of codes.
 
 ## 7. Verified state
 
-- The 30-day signed cookie (`fi_verified`) bound to `{ email, source, verifiedAt }`
-  is the durable signal. Set by `/api/verify-code` on success.
-- The client also sets `localStorage.fi_fundraising_unlocked = '1'` for instant
-  unlock on subsequent loads (existing behavior).
-- Returning visitors with a valid `fi_verified` cookie skip the gate. If the cookie
-  is absent but localStorage is set, the gate still unlocks client-side (current
-  behavior) — the cookie is additive hardening, not a regression.
+- For the MVP, "verified" is remembered **client-side** via the existing
+  `localStorage.fi_fundraising_unlocked` flag (set on successful verify, read on
+  load at `app/fundraising/page.tsx:38`). Returning visitors skip the gate this
+  way — unchanged from today.
+- **No separate long-lived "verified" cookie in the MVP.** An earlier draft
+  proposed a 30-day signed `fi_verified` cookie as the "source of truth," but
+  `app/fundraising/page.tsx` is a client component and cannot read an httpOnly
+  cookie; making such a cookie drive the unlock would require a server-component
+  wrapper reading it via `next/headers`. That is real extra surface for no gain
+  under this threat model, so it is deferred (see §12).
+- The security guarantee — *the CRM only ever receives verified emails* — is
+  enforced server-side inside `/api/verify-code` (a correct code is required
+  before the Garden3D POST) and is **independent** of any cookie/localStorage.
+  Unlocked content is client-gated by design (acceptable for the "casual
+  fake-email" threat model).
+- Note: rotating `SESSION_SECRET` invalidates in-flight pending-code cookies
+  (anyone mid-flow must re-request); it does not affect the localStorage flag.
 
 ## 8. Environment & secrets (encrypted dotenv)
 
@@ -190,11 +203,21 @@ Vercel.
 - Rate limit on `/request-code` triggers after repeated requests from one IP.
 - `EMAIL_GATE_ENABLED` / gate toggles still behave; the inline gate is the focus.
 
+**Test harness note:** the repo has no test runner today (no `test` script; no
+vitest/jest). The above are manual checks for the MVP. Optionally add vitest + a
+route-level harness for the two endpoints as part of this work — flagged for the
+implementation plan to decide.
+
 ## 12. Open decisions / risks
 
 - **Rate-limit store:** in-memory for MVP; call out the cold-start/per-instance
   caveat. Upgrade to Upstash Redis if abused.
-- **Verified cookie vs. localStorage:** cookie is the source of truth (recommended);
-  localStorage remains as a client mirror. Confirm this dual approach is acceptable.
+- **Robust returning-visitor skip (deferred):** if you later want the gate to stay
+  unlocked even after a visitor clears localStorage, add a server-component
+  wrapper around `/fundraising` that reads a signed `fi_verified` cookie (via
+  `next/headers`) and seeds `initialUnlocked`. Not in the MVP — flagged here so
+  the endpoints won't need to change to support it later.
 - **Scope:** inline gate only. The disabled `EmailGateModal` is untouched; it can
   adopt the same `/api/request-code` + `/api/verify-code` endpoints later.
+- **Test harness:** none today; decide during planning whether to add vitest or
+  rely on manual verification.
