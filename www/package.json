@@ -3,21 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "dotenvx run -- next dev",
+    "build": "dotenvx run -- next build",
+    "start": "dotenvx run -- next start",
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lighthouse": "npx @lhci/cli autorun"
+    "lighthouse": "npx @lhci/cli autorun",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "iron-session": "^8.0.4",
     "next": "16.1.1",
     "prism-react-renderer": "^2.4.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "resend": "^6.17.2"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^2.3.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -26,6 +31,7 @@
     "eslint-config-next": "16.1.1",
     "prettier": "^3.7.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.10"
   }
 }
