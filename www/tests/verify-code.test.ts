@@ -1,18 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { sealPending, type PendingSession } from '../lib/pending-session'
 import { hashCode } from '../lib/otp'
+import { _resetForTests } from '../lib/rate-limit'
 
 const crmMock = vi.fn().mockResolvedValue({ ok: true, status: 'created' })
 vi.mock('../lib/crm', () => ({ createCrmContact: (...a: unknown[]) => crmMock(...a) }))
 
 import { POST } from '../app/api/verify-code/route'
 
-async function reqWithSession(code: string, session: PendingSession) {
+async function reqWithSession(code: string, session: PendingSession, headers: Record<string, string> = {}) {
   const seal = await sealPending(session)
   return new NextRequest('http://localhost/api/verify-code', {
     method: 'POST',
-    headers: { 'content-type': 'application/json', cookie: `fi_pending=${seal}` },
+    headers: { 'content-type': 'application/json', cookie: `fi_pending=${seal}`, ...headers },
     body: JSON.stringify({ code }),
   })
 }
@@ -28,6 +29,7 @@ const baseSession = (overrides: Partial<PendingSession> = {}): PendingSession =>
 })
 
 beforeEach(() => {
+  _resetForTests()
   crmMock.mockClear()
   crmMock.mockResolvedValue({ ok: true, status: 'created' })
 })
@@ -68,6 +70,18 @@ describe('POST /api/verify-code', () => {
     }
     const res = await POST(await reqWithSession('000000', baseSession({ attempts: 4 })))
     expect(res.status).toBe(400) // locked, pending cookie cleared
+    expect(crmMock).not.toHaveBeenCalled()
+  })
+
+  it('rate-limits verify attempts per IP after 10 in 60s', async () => {
+    const ip = '203.0.113.9'
+    for (let i = 0; i < 10; i++) {
+      const res = await POST(await reqWithSession('000000', baseSession(), { 'x-forwarded-for': ip }))
+      expect(res.status).toBe(200)
+    }
+    const res = await POST(await reqWithSession('000000', baseSession(), { 'x-forwarded-for': ip }))
+    expect(res.status).toBe(429)
+    expect(await res.json()).toEqual({ ok: false, error: 'Too many attempts. Please try again later.' })
     expect(crmMock).not.toHaveBeenCalled()
   })
 })

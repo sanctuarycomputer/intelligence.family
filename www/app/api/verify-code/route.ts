@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyCode, isExpired } from '@/lib/otp'
+import { consume } from '@/lib/rate-limit'
 import {
   readPendingCookie,
   clearPendingCookie,
@@ -11,7 +12,18 @@ import { createCrmContact } from '@/lib/crm'
 
 const MAX_ATTEMPTS = 5
 
+function clientIp(req: NextRequest): string {
+  const xff = req.headers.get('x-forwarded-for')
+  if (xff) return xff.split(',')[0]!.trim()
+  return 'unknown'
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const ip = clientIp(request)
+  if (!consume(`verify-code:${ip}`, 10, 60_000)) {
+    return NextResponse.json({ ok: false, error: 'Too many attempts. Please try again later.' }, { status: 429 })
+  }
+
   const session = await readPendingCookie(request)
   if (!session) {
     return NextResponse.json({ ok: false, error: 'No pending code. Please request a new code.' }, { status: 400 })
