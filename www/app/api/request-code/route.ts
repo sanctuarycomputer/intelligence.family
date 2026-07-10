@@ -48,7 +48,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   if (
-    !consume(`request-code-email:${email}`, EMAIL_RATE_LIMIT, RATE_WINDOW_MS)
+    !consume(
+      `request-code-email:${email.toLowerCase()}`,
+      EMAIL_RATE_LIMIT,
+      RATE_WINDOW_MS
+    )
   ) {
     return NextResponse.json(
       { ok: true, error: RATE_LIMIT_ERROR },
