@@ -58,7 +58,7 @@ export function setPendingCookie(res: NextResponse, seal: string): void {
     name: PENDING_COOKIE,
     value: seal,
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
     maxAge: Math.floor(PENDING_TTL_MS / 1000),
