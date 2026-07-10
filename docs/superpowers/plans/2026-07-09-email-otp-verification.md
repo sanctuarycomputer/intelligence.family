@@ -24,7 +24,7 @@
 - Unlock contract: client sets `localStorage.fi_fundraising_unlocked = '1'` and calls the existing `onSuccess` (`app/fundraising/page.tsx:42` `handleUnlock`). Do not change `app/fundraising/page.tsx`.
 - `/api/request-code` always returns the same response shape (no email enumeration).
 - Env vars (encrypted `.env`, dotenvx): `SESSION_SECRET` (≥32 chars), `RESEND_API_KEY`, `RESEND_FROM` (`Family Intelligence <verify@intelligence.family>`), `STACKS_API_KEY`.
-- Retire `www/app/api/subscribe/route.ts` and the `appendTimestampToEmail` hack.
+- Keep `www/app/api/subscribe/route.ts` — the live newsletter form (`SubscribeForm` at `app/page.tsx:969`) still uses it. Remove only the `appendTimestampToEmail` hack from it. OTP verification applies solely to the fundraising gate.
 - No new comments unless requested. Follow existing code style (no semicolons — see `app/fundraising/page.tsx`).
 
 ---
@@ -42,7 +42,7 @@
 - **Modify** `www/package.json` — deps + `dotenvx run --` scripts.
 - **Modify** `www/.gitignore` — commit encrypted `.env`, ignore `.env.keys` / `.env*.local`.
 - **Modify** `www/.env.example` — document new keys (placeholders only).
-- **Delete** `www/app/api/subscribe/route.ts`.
+- **Modify** `www/app/api/subscribe/route.ts` — remove the `appendTimestampToEmail` hack (route stays; the newsletter form still uses it).
 - **Create** `www/vitest.config.ts` — test config.
 - **Create** `www/tests/` — unit + route tests.
 
@@ -1099,7 +1099,7 @@ git commit -m "Add /api/verify-code endpoint (verify, attempts, CRM on success)"
 
 **Files:**
 - Modify: `www/components/InlineEmailGate.tsx`
-- Delete: `www/app/api/subscribe/route.ts`
+- Modify: `www/app/api/subscribe/route.ts` (remove the `appendTimestampToEmail` function + its body param and `if` block; keep the route — the newsletter form still uses it)
 - Test: manual (no React component test harness in this repo; see spec §11).
 
 **Interfaces:**
@@ -1310,13 +1310,9 @@ export default function InlineEmailGate({ onSuccess, source, prompt }: InlineEma
 }
 ```
 
-- [ ] **Step 3: Delete the old subscribe route**
+- [ ] **Step 3: Remove the appendTimestamp hack from /api/subscribe (keep the route)**
 
-Run:
-```bash
-git rm www/app/api/subscribe/route.ts
-```
-(If the directory becomes empty, also remove it: `rmdir www/app/api/subscribe` — git handles this automatically with `git rm`.)
+In `www/app/api/subscribe/route.ts`: delete the `appendTimestampToEmail` function, drop `appendTimestamp` from the destructured body and remove the `if (appendTimestamp) { normalizedEmail = appendTimestampToEmail(normalizedEmail) }` block. Leave everything else (email validation, `ALLOWED_SOURCES`, the Garden3D POST) intact — the live `SubscribeForm` on the home page still calls this route with just `{ email }`. Do **not** delete the route or its directory.
 
 - [ ] **Step 4: Run the full test suite + lint + build**
 
@@ -1342,7 +1338,7 @@ Run `npm run dev`, open `/fundraising`, clear `localStorage.fi_fundraising_unloc
 
 ```bash
 git add www/components/InlineEmailGate.tsx
-git commit -m "Two-step email OTP gate; retire /api/subscribe"
+git commit -m "Two-step email OTP gate; drop appendTimestamp hack"
 ```
 
 ---
