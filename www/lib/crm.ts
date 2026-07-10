@@ -4,6 +4,9 @@ export const ALLOWED_SOURCES = [
   'g3d:family_intelligence:fundraising-viewed',
 ] as const;
 
+export const GATE_SOURCE = 'g3d:family_intelligence:fundraising';
+export const VIEWED_SOURCE = 'g3d:family_intelligence:fundraising-viewed';
+
 const DEFAULT_SOURCE = 'g3d:family_intelligence';
 const CRM_URL = 'https://stacks.garden3d.net/api/contacts';
 
@@ -29,9 +32,9 @@ export async function createCrmContact(
   const normalizedEmail = email.toLowerCase().trim();
   const apiKey = process.env.STACKS_API_KEY;
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 3000);
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3000);
     const res = await fetch(CRM_URL, {
       method: 'POST',
       headers: {
@@ -44,11 +47,12 @@ export async function createCrmContact(
       }),
       signal: controller.signal,
     });
-    clearTimeout(timeout);
     return res.ok
       ? { ok: true, status: 'created' }
       : { ok: false, status: 'error' };
   } catch {
     return { ok: false, status: 'error' };
+  } finally {
+    clearTimeout(timeout);
   }
 }

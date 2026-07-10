@@ -13,12 +13,13 @@ const crmMock = vi.fn().mockResolvedValue({ ok: true, status: 'created' });
 vi.mock('../lib/crm', async importOriginal => {
   const actual = await importOriginal<typeof import('../lib/crm')>();
   return {
+    ...actual,
     createCrmContact: (...a: unknown[]) => crmMock(...a),
-    ALLOWED_SOURCES: actual.ALLOWED_SOURCES,
   };
 });
 
 import { POST } from '../app/api/request-code/route';
+import { GATE_SOURCE } from '../lib/crm';
 
 function req(body: unknown, ip = '1.2.3.4', cookie?: string) {
   const headers: Record<string, string> = {
@@ -76,6 +77,13 @@ describe('POST /api/request-code', () => {
       'user@example.com',
       'g3d:family_intelligence:fundraising'
     );
+  });
+
+  it('ignores a client-supplied allowlisted source and always tags with GATE_SOURCE', async () => {
+    await POST(
+      req({ email: 'user@example.com', source: 'g3d:family_intelligence' })
+    );
+    expect(crmMock).toHaveBeenCalledWith('user@example.com', GATE_SOURCE);
   });
 
   it('rate-limits repeated requests from one IP', async () => {
@@ -144,5 +152,26 @@ describe('POST /api/request-code', () => {
     );
     expect(res.status).toBe(200);
     expect(crmMock).not.toHaveBeenCalled();
+  });
+
+  it('does not apply the resend cooldown to a different email', async () => {
+    const seal = await sealPending({
+      email: 'a@x.com',
+      codeHash: hashCode('000000'),
+      attempts: 0,
+      expiresAt: Date.now() + 600_000,
+      resendAt: Date.now() + 60_000,
+      source: 'g3d:family_intelligence:fundraising',
+    });
+    const res = await POST(
+      req({ email: 'b@x.com' }, '5.6.7.8', `fi_pending=${seal}`)
+    );
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json).toEqual({ ok: true });
+    expect(sendOtp).toHaveBeenCalledWith(
+      'b@x.com',
+      expect.stringMatching(/^\d{6}$/)
+    );
   });
 });

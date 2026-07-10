@@ -127,6 +127,25 @@ DIY, native to the existing Next.js app:
   whether the email is "known" (there are no accounts, but the principle holds).
 - **No code in URLs** and no logging of codes.
 
+### 6.1 Brute-force bound and rate-limit caveats (honest note)
+
+The **real brute-force bound is the per-IP verify-code rate limit** (10 attempts /
+60s). The cookie-based 5-attempt lock only deters casual single-session guessing:
+because the lock lives in a client-held cookie, an attacker can simply drop the
+cookie and start a fresh session to get another 5 attempts, so the lock is
+**replayable**. Against that, the per-IP limit is what actually enforces the
+bound — a single IP gets ~150 guesses per 15-minute code window (10/60s × 15 min),
+which is ~0.015% of the 10⁶ code space. The 5-attempt lock is defense-in-depth,
+not the primary bound.
+
+Email canonicalization does **not** collapse Gmail dot/`+` aliases
+(`a.b@gmail.com`, `a+spam@gmail.com`, and `ab@gmail.com` are treated as distinct
+addresses). The per-email resend limit is therefore **best-effort**: an attacker
+who varies aliases can request more codes than the limit intends. The per-IP
+rate limit backstops this (and limits mail-bombing) by capping total code emails
+per IP regardless of how the address is varied.
+
+
 ## 7. Verified state
 
 - For the MVP, "verified" is remembered **client-side** via the existing

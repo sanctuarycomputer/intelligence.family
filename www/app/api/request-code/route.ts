@@ -8,7 +8,7 @@ import {
   type PendingSession,
 } from '@/lib/pending-session';
 import { sendOtpEmail } from '@/lib/email';
-import { createCrmContact, ALLOWED_SOURCES } from '@/lib/crm';
+import { createCrmContact, GATE_SOURCE } from '@/lib/crm';
 import { clientIp } from '@/lib/client-ip';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,7 +16,6 @@ const RATE_LIMIT = 5;
 const RATE_WINDOW_MS = 60_000;
 const EMAIL_RATE_LIMIT = 3;
 const RESEND_COOLDOWN_MS = 60_000;
-const DEFAULT_SOURCE = 'g3d:family_intelligence:fundraising';
 const RATE_LIMIT_ERROR =
   'Too many requests. Please wait a minute and try again.';
 
@@ -62,15 +61,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const now = Date.now();
   const existing = await readPendingCookie(request);
-  if (existing && now < existing.resendAt) {
+  if (existing && existing.email === email && now < existing.resendAt) {
     return NextResponse.json({ ok: true, resendAt: existing.resendAt });
   }
 
-  const source =
-    typeof body.source === 'string' &&
-    (ALLOWED_SOURCES as readonly string[]).includes(body.source)
-      ? body.source
-      : DEFAULT_SOURCE;
   const code = generateCode();
   const session: PendingSession = {
     email,
@@ -78,7 +72,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     attempts: 0,
     expiresAt: now + 900_000,
     resendAt: now + RESEND_COOLDOWN_MS,
-    source,
+    source: GATE_SOURCE,
   };
 
   const sent = await sendOtpEmail(email, code);
@@ -90,7 +84,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   if (!existing) {
-    await createCrmContact(email, source);
+    await createCrmContact(email, GATE_SOURCE);
   }
 
   const seal = await sealPending(session);
