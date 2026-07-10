@@ -6,23 +6,10 @@ interface SubscribeResponse {
   status: 'subscribed' | 'already_subscribed' | 'error';
 }
 
-function appendTimestampToEmail(email: string): string {
-  const now = new Date();
-  const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  const randomChars = Array.from({ length: 3 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-  const suffix = `${date}.${randomChars}`;
-  const atIndex = email.indexOf('@');
-  if (atIndex === -1) return email;
-  const localPart = email.substring(0, atIndex);
-  const domain = email.substring(atIndex);
-  return `${localPart}+${suffix}${domain}`;
-}
-
 export async function POST(request: NextRequest): Promise<NextResponse<SubscribeResponse>> {
   try {
     const body = await request.json();
-    const { email, appendTimestamp, source } = body;
+    const { email, source } = body;
 
     // Validate email
     if (!email || typeof email !== 'string') {
@@ -55,12 +42,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Subscribe
       ? source
       : 'g3d:family_intelligence';
 
-    let normalizedEmail = email.toLowerCase().trim();
-
-    // Append timestamp if requested (for email gate modal)
-    if (appendTimestamp) {
-      normalizedEmail = appendTimestampToEmail(normalizedEmail);
-    }
+    const normalizedEmail = email.toLowerCase().trim();
 
     // // FOR DEBUGGING ONLY
     // console.log('appended email:', normalizedEmail);
