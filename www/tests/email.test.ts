@@ -28,7 +28,7 @@ describe('sendOtpEmail', () => {
     expect(sendMock).toHaveBeenCalledOnce()
     const payload = sendMock.mock.calls[0][0]
     expect(payload.to).toBe('user@example.com')
-    expect(payload.from).toContain('invest@intelligence.family')
+    expect(payload.from).toContain('invest@mail.intelligence.family')
     expect(payload.text).toContain('123456')
   })
 
