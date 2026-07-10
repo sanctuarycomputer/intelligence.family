@@ -5,6 +5,9 @@ import { _resetForTests as resetRateLimit } from '../lib/rate-limit'
 const sendOtp = vi.fn().mockResolvedValue(true)
 vi.mock('../lib/email', () => ({ sendOtpEmail: (e: string, c: string) => sendOtp(e, c) }))
 
+const crmMock = vi.fn().mockResolvedValue({ ok: true, status: 'created' })
+vi.mock('../lib/crm', () => ({ createCrmContact: (...a: unknown[]) => crmMock(...a) }))
+
 import { POST } from '../app/api/request-code/route'
 
 function req(body: unknown, ip = '1.2.3.4', cookie?: string) {
@@ -21,6 +24,8 @@ beforeEach(() => {
   resetRateLimit()
   sendOtp.mockReset()
   sendOtp.mockResolvedValue(true)
+  crmMock.mockClear()
+  crmMock.mockResolvedValue({ ok: true, status: 'created' })
 })
 
 describe('POST /api/request-code', () => {
@@ -30,6 +35,7 @@ describe('POST /api/request-code', () => {
     const json = await res.json()
     expect(json).toEqual({ ok: true })
     expect(sendOtp).toHaveBeenCalledWith('user@example.com', expect.stringMatching(/^\d{6}$/))
+    expect(crmMock).toHaveBeenCalledWith('user@example.com', 'g3d:family_intelligence:fundraising')
     expect(res.headers.get('set-cookie') || '').toContain('fi_pending=')
   })
 
@@ -37,6 +43,7 @@ describe('POST /api/request-code', () => {
     const res = await POST(req({ email: 'not-an-email' }))
     expect(res.status).toBe(400)
     expect(sendOtp).not.toHaveBeenCalled()
+    expect(crmMock).not.toHaveBeenCalled()
   })
 
   it('rate-limits repeated requests from one IP', async () => {
@@ -44,11 +51,13 @@ describe('POST /api/request-code', () => {
     const res = await POST(req({ email: 'u9@example.com' }))
     expect(res.status).toBe(429)
     expect(sendOtp).toHaveBeenCalledTimes(5)
+    expect(crmMock).toHaveBeenCalledTimes(5)
   })
 
   it('still returns ok=shape even when email send fails (no enumeration), HTTP 500', async () => {
     sendOtp.mockResolvedValue(false)
     const res = await POST(req({ email: 'user@example.com' }))
     expect(res.status).toBe(500)
+    expect(crmMock).not.toHaveBeenCalled()
   })
 })

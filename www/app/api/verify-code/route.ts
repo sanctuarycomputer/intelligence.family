@@ -62,7 +62,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return res
   }
 
-  await createCrmContact(session.email, session.source)
+  await createCrmContact(session.email, `${session.source}-viewed`)
   const res = NextResponse.json({ ok: true, verified: true })
   clearPendingCookie(res)
   return res

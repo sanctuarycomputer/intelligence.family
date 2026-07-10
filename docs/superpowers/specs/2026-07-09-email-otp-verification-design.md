@@ -28,7 +28,8 @@ Add email one-time-password (OTP) verification to the inline fundraising gate:
 
 - User enters email → server emails a short code.
 - User enters the code → server verifies → content unlocks.
-- The CRM receives **only verified** emails.
+- The CRM tags leads in two stages: `g3d:family_intelligence:fundraising` when a
+  code is requested, and `g3d:family_intelligence:fundraising-viewed` once verified.
 - "Verified" is remembered so returning visitors skip the gate.
 
 ## 3. Non-goals
@@ -49,7 +50,9 @@ DIY, native to the existing Next.js app:
 - **`iron-session`** stores the pending code in an **encrypted, tamper-proof cookie**
   (clients cannot read or forge it). No database required.
 - **Resend** delivers the code email directly from the server.
-- **Garden3D CRM** is contacted only after a successful verification.
+- **Garden3D CRM** is contacted in two stages: at code-request (lead capture, source
+  `g3d:family_intelligence:fundraising`) and again on successful verification
+  (source `g3d:family_intelligence:fundraising-viewed`).
 
 ### 4.1 Flow
 
@@ -59,12 +62,15 @@ DIY, native to the existing Next.js app:
    - Store `{ email, codeHash, attempts, expiresAt, source, resendAt }` in the
      iron-session cookie.
    - Send the code via Resend to the submitted email.
+   - On a successful send, capture the lead in Garden3D with source
+     `g3d:family_intelligence:fundraising` (the request `source`).
    - Always return `{ ok: true }` (do **not** reveal whether the address is known).
 2. **Verify code** — visitor submits the code → `POST /api/verify-code { code }`.
    - Read the pending iron-session cookie. Reject if absent/expired.
    - Compare the submitted code in **constant time** against the stored hash.
-   - On success: POST the verified email to Garden3D (the **only** place the CRM
-     is contacted). Return `{ ok: true, verified: true }`.
+   - On success: POST the verified email to Garden3D with source
+     `g3d:family_intelligence:fundraising-viewed` (`<request source>-viewed`).
+     Return `{ ok: true, verified: true }`.
    - On failure: decrement `attempts`; after 5, invalidate the code and require a
      re-request. Return `{ ok: false, error }` with attempts remaining.
 3. **Unlock** — on a successful verify the client sets
@@ -133,10 +139,12 @@ DIY, native to the existing Next.js app:
   cookie; making such a cookie drive the unlock would require a server-component
   wrapper reading it via `next/headers`. That is real extra surface for no gain
   under this threat model, so it is deferred (see §12).
-- The security guarantee — *the CRM only ever receives verified emails* — is
-  enforced server-side inside `/api/verify-code` (a correct code is required
-  before the Garden3D POST) and is **independent** of any cookie/localStorage.
-  Unlocked content is client-gated by design (acceptable for the "casual
+- The CRM contact strategy is two-stage: a successful code request captures the
+  lead (`g3d:family_intelligence:fundraising`), and a successful verification adds
+  the `g3d:family_intelligence:fundraising-viewed` tag — so the `-viewed` tag is
+  applied only to verified emails. Both writes are server-side and **independent**
+  of any cookie/localStorage.
+- Unlocked content is client-gated by design (acceptable for the "casual
   fake-email" threat model).
 - Note: rotating `SESSION_SECRET` invalidates in-flight pending-code cookies
   (anyone mid-flow must re-request); it does not affect the localStorage flag.

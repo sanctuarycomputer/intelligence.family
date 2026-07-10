@@ -3,6 +3,7 @@ import { generateCode, hashCode } from '@/lib/otp'
 import { consume } from '@/lib/rate-limit'
 import { sealPending, setPendingCookie, readPendingCookie, type PendingSession } from '@/lib/pending-session'
 import { sendOtpEmail } from '@/lib/email'
+import { createCrmContact } from '@/lib/crm'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const RATE_LIMIT = 5
@@ -54,6 +55,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!sent) {
     return NextResponse.json({ ok: false, error: 'Could not send code. Please try again.' }, { status: 500 })
   }
+
+  await createCrmContact(email, source)
 
   const seal = await sealPending(session)
   const res = NextResponse.json({ ok: true })

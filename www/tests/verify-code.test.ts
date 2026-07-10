@@ -39,7 +39,7 @@ describe('POST /api/verify-code', () => {
     const res = await POST(await reqWithSession('123456', baseSession()))
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({ ok: true, verified: true })
-    expect(crmMock).toHaveBeenCalledWith('user@example.com', 'g3d:family_intelligence:fundraising')
+    expect(crmMock).toHaveBeenCalledWith('user@example.com', 'g3d:family_intelligence:fundraising-viewed')
     const setCookie = res.headers.get('set-cookie') || ''
     expect(setCookie).toContain('fi_pending=')
     expect(setCookie).toContain('Max-Age=0')

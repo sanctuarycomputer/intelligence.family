@@ -1,6 +1,7 @@
 export const ALLOWED_SOURCES = [
   'g3d:family_intelligence',
   'g3d:family_intelligence:fundraising',
+  'g3d:family_intelligence:fundraising-viewed',
 ] as const
 
 const DEFAULT_SOURCE = 'g3d:family_intelligence'

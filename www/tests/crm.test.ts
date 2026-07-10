@@ -10,6 +10,7 @@ describe('ALLOWED_SOURCES', () => {
     expect(ALLOWED_SOURCES).toEqual([
       'g3d:family_intelligence',
       'g3d:family_intelligence:fundraising',
+      'g3d:family_intelligence:fundraising-viewed',
     ])
   })
 })
