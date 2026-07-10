@@ -30,6 +30,7 @@ export default function InlineEmailGate({ onSuccess, source, prompt }: InlineEma
     setCode('')
     setStatus('idle')
     setMessage('')
+    setResendSecondsLeft(0)
   }
 
   const submitEmail = async (e: React.FormEvent) => {
