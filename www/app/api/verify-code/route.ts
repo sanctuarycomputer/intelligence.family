@@ -8,6 +8,7 @@ import {
   setPendingCookie,
   type PendingSession,
 } from '@/lib/pending-session';
+import { sealVerified, setVerifiedCookie } from '@/lib/verified-session';
 import { createCrmContact, VIEWED_SOURCE } from '@/lib/crm';
 import { clientIp } from '@/lib/client-ip';
 
@@ -75,5 +76,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   await createCrmContact(session.email, VIEWED_SOURCE);
   const res = NextResponse.json({ ok: true, verified: true });
   clearPendingCookie(res);
+  setVerifiedCookie(res, await sealVerified({ email: session.email }));
   return res;
 }

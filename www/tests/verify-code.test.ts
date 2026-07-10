@@ -61,6 +61,24 @@ describe('POST /api/verify-code', () => {
     expect(setCookie).toContain('Max-Age=0');
   });
 
+  it('sets a 30-day fi_verified cookie for the verified email on success', async () => {
+    const res = await POST(await reqWithSession('123456', baseSession()));
+    expect(res.status).toBe(200);
+    const setCookie = res.headers.get('set-cookie') || '';
+    const seal = /fi_verified=([^;,\s]+)/.exec(setCookie)?.[1];
+    expect(seal).toBeTruthy();
+    expect(setCookie).toContain('Max-Age=2592000');
+    const { unsealVerified } = await import('../lib/verified-session');
+    expect(await unsealVerified(decodeURIComponent(seal!))).toEqual({
+      email: 'user@example.com',
+    });
+  });
+
+  it('does not set fi_verified on a wrong code', async () => {
+    const res = await POST(await reqWithSession('000000', baseSession()));
+    expect(res.headers.get('set-cookie') || '').not.toContain('fi_verified=');
+  });
+
   it('always tags with VIEWED_SOURCE even when the stored source is not fundraising', async () => {
     const res = await POST(
       await reqWithSession(

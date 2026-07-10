@@ -25,6 +25,22 @@ export default function InlineEmailGate({ onSuccess, source, prompt }: InlineEma
     return () => clearTimeout(id)
   }, [resendSecondsLeft])
 
+  // Returning visitors with a valid fi_verified cookie skip the gate; the
+  // endpoint also logs the view in the CRM.
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/gate-status')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled && data.verified) onSuccess()
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const reset = () => {
     setStep('email')
     setCode('')
