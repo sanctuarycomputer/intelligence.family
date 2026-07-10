@@ -2,11 +2,13 @@ import { Resend } from 'resend'
 
 export async function sendOtpEmail(email: string, code: string): Promise<boolean> {
   const resend = new Resend(process.env.RESEND_API_KEY!)
-  const from = process.env.RESEND_FROM ?? 'Family Intelligence <verify@intelligence.family>'
+  const from = process.env.RESEND_FROM ?? 'Family Intelligence <invest@intelligence.family>'
+  const replyTo = process.env.REPLY_TO
 
   const { error } = await resend.emails.send({
     from,
     to: email,
+    ...(replyTo ? { replyTo } : {}),
     subject: `Your Family Intelligence code: ${code}`,
     text: [
       'Welcome to Family Intelligence.',

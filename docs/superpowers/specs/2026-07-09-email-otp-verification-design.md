@@ -158,7 +158,8 @@ Mirror the `@dotenvx/dotenvx` pattern used in `../actual-weather-services`:
 |---|---|
 | `SESSION_SECRET` | iron-session encryption key (≥32 random chars; generate with `openssl rand -hex 32`) |
 | `RESEND_API_KEY` | Resend send API key |
-| `RESEND_FROM` | Sender, e.g. `Family Intelligence <verify@intelligence.family>` |
+| `RESEND_FROM` | Sender, e.g. `Family Intelligence <invest@intelligence.family>` |
+| `REPLY_TO` | Reply-to address, e.g. `invest@intelligence.family` (optional; omitted from the send when unset) |
 | `STACKS_API_KEY` | Garden3D CRM key (moved from Vercel-only into the encrypted `.env`) |
 
 ### `www/.gitignore` changes
