@@ -440,8 +440,17 @@ export default function Fundraising() {
                             <strong>we license it to enterprises</strong>.
                           </p>
 
-                          <figure className="my-10">
-                            <div className="border border-fi-green-500/50 rounded overflow-hidden">
+                          <figure
+                            className="my-10 relative z-20"
+                            style={{
+                              width: '100vw',
+                              marginLeft: 'calc(-50vw + 50%)',
+                            }}
+                          >
+                            <div
+                              className="mx-auto border border-fi-green-500/50 md:rounded-[20px] overflow-hidden"
+                              style={{ maxWidth: 'min(1280px, 94vw)' }}
+                            >
                               <iframe
                                 src="https://embed.figma.com/board/CXl5xhLZOzBHkGiz8CgCUh/Untitled?node-id=2-952&embed-host=intelligence-family"
                                 title="Family Intelligence product & technology trajectory, 2026 to 2030+"
