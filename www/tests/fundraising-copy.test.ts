@@ -47,7 +47,7 @@ describe('fundraising page copy contract', () => {
   it('follows the pitch arc section order', () => {
     const order = [
       'The Context',
-      'The Device',
+      'Our First Device',
       'Why This Wins',
       'Who We Are',
       'The Ask',
@@ -66,10 +66,10 @@ describe('fundraising page copy contract', () => {
     );
   });
 
-  it('gates from The Device onward; The Context is public', () => {
+  it('gates from Our First Device onward; The Context is public', () => {
     const gateStart = page.indexOf('/* ===== Email gate');
     expect(page.indexOf('title="The Context"')).toBeLessThan(gateStart);
-    expect(page.indexOf('title="The Device"')).toBeGreaterThan(gateStart);
+    expect(page.indexOf('title="Our First Device"')).toBeGreaterThan(gateStart);
   });
 
   it('opens on the category-creation lane', () => {

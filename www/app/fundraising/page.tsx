@@ -116,10 +116,10 @@ export default function Fundraising() {
 
               {/* Byline */}
               <AnimatedElement delay={200} className="byline mt-8">
-                AI that lives in your home, your office, your hand.
+                AI that runs local in your home, your office, your hand.
                 <br />
                 <span className="relative inline-block">
-                  We&apos;re starting with the Family
+                  We&apos;re starting with families.
                   <img
                     src="/research/email-underline.png"
                     alt=""
@@ -258,12 +258,15 @@ export default function Fundraising() {
                         >
                           {/* ===== II. THE DEVICE ===== */}
                           <div className="pt-8">
-                            <SectionHeader label="II" title="The Device" />
+                            <SectionHeader
+                              label="II"
+                              title="Our First Device"
+                            />
                           </div>
 
                           <p className="large">
                             <strong>
-                              The device is a living archive of your family.
+                              This device is a living archive of your family.
                             </strong>{' '}
                             It sits on the kitchen shelf, and when you invite it
                             into the conversation it can resurface the story
@@ -438,6 +441,8 @@ export default function Fundraising() {
                             <strong>we license it to enterprises</strong>.
                           </p>
 
+                          <TrajectoryDiagram />
+
                           <p className="large">
                             <strong>Our math is simple</strong>: an $899 device,
                             a $9/month end-to-end encrypted backup subscription,
@@ -593,27 +598,10 @@ export default function Fundraising() {
                             />
                           </div>
 
-                          <p className="large">
-                            <strong>
-                              We&apos;ve built a working prototype and written a
-                              full investor memo
-                            </strong>
-                            : product, unit economics, go-to-market, and the
-                            three-phase path from a single device to a platform
-                            company powering every privacy-conscious hardware
-                            maker.{' '}
-                            <strong>
-                              Our team lives in New York City and San Francisco
-                            </strong>
-                            .
-                          </p>
-
                           {/* ===== V. THE ASK ===== */}
                           <div className="pt-8">
                             <SectionHeader label="V" title="The Ask" />
                           </div>
-
-                          <TrajectoryDiagram />
 
                           <div className="my-10">
                             <QuoteBox
@@ -646,6 +634,52 @@ export default function Fundraising() {
                               }}
                             />
                           </div>
+
+                          <p className="large">
+                            <strong>
+                              We&apos;ve built a working prototype and written a
+                              full investor memo
+                            </strong>
+                            : product, unit economics, go-to-market, and the
+                            three-phase path from a single device to a platform
+                            company powering every privacy-conscious hardware
+                            maker.{' '}
+                            <strong>
+                              Our team lives in New York City and San Francisco
+                            </strong>
+                            .{' '}
+                            <strong>
+                              If you&apos;d like a demo, please email us
+                            </strong>{' '}
+                            at{' '}
+                            <span className="relative inline-block">
+                              <a
+                                href="mailto:invest@intelligence.family?subject=Investor%20Memo%20Request"
+                                onClick={() => {
+                                  if (
+                                    typeof window !== 'undefined' &&
+                                    window.gtag
+                                  ) {
+                                    window.gtag('event', 'email_click', {
+                                      event_category: 'engagement',
+                                      event_label: 'investor_memo_request',
+                                      value: 1,
+                                    });
+                                  }
+                                }}
+                                className="no-underline hover:underline"
+                              >
+                                invest@intelligence.family
+                              </a>
+                              <img
+                                src="/research/email-underline.png"
+                                alt=""
+                                className="absolute left-0 -bottom-1 w-full h-auto pointer-events-none"
+                                style={{ transform: 'translateY(50%)' }}
+                              />
+                            </span>
+                            .
+                          </p>
                         </div>
                         {/* /gated content */}
 
