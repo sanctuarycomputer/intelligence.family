@@ -459,7 +459,10 @@ export default function Fundraising() {
                             <strong>
                               The three of us have spent our careers building
                               intimate, human-centric hardware.
-                            </strong>{' '}
+                            </strong>
+                          </p>
+
+                          <p className="large">
                             <strong>Hugh Francis</strong> founded{' '}
                             <a
                               href="https://garden3d.net"
