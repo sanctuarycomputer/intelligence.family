@@ -30,8 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# dotenvx: encrypted .env IS safe to commit; .env.keys is the secret — NEVER commit
+.env.keys
+.env*.local
 !.env.example
 
 # vercel

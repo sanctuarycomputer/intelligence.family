@@ -1,3 +1,6 @@
 venv/
 .env
 .DS_Store
+
+# dotenvx: encrypted www/.env is safe to commit; only www/.env.keys is the secret
+!www/.env
