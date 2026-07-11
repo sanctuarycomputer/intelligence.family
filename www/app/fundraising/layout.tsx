@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-const title = "Fundraising · Family Intelligence";
+const title = 'Fundraising · Family Intelligence';
 const description =
-  "We're raising $25M to ship the first device in a new category: beautiful consumer hardware running a fully local AI stack, never exposed to the cloud.";
+  'The first device in a new category: beautiful consumer hardware running a fully local AI stack. Private intelligence, never exposed to the cloud.';
 
 export const metadata: Metadata = {
   title,
