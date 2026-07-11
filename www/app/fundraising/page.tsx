@@ -108,10 +108,12 @@ export default function Fundraising() {
             <div className="col-span-12 md:col-span-6">
               <AnimatedElement delay={300}>
                 <section id="fundraising" className="mb-10">
-                  <SectionHeader label="I" title="Business Concept" />
+                  {/* ===== I. THE CONTEXT — public teaser ===== */}
+                  <SectionHeader label="I" title="The Context" />
 
                   <div className="mt-8 space-y-6">
                     <div className="mb-10">
+                      {/* KEEP: opening thesis QuoteBox (de-asked in Task 1) */}
                       <QuoteBox
                         large
                         quote={<><strong>We&apos;re building the first device in a new category</strong>: beautiful consumer hardware running a fully local AI stack, where your most intimate data is understood, agentified, inferred against... <strong>but never exposed to the cloud</strong>.</>}
@@ -131,7 +133,15 @@ export default function Fundraising() {
                       />
                     </div>
 
-                    {/* ===== Email gate: everything below fades until an email is submitted ===== */}
+                    <p className="large">
+                      <strong>We're starting with families, then branching out</strong>. There are ~84 million households in the US alone, and 200M+ across the English-speaking world. It&apos;s a safe place to prove our technology: high value emotionally, low stakes legally. <a href="https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('pew_trust')}>Nearly 70% of Americans don't trust Big AI</a> with their data, but <a href="https://www.instagram.com/p/DUWLI8hiUai/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('research_instagram')}>the Instagram response to our research</a> (across 28k+ impressions, with Mozilla Foundation) was overwhelmingly positive: <strong>privacy-preserving AI architecture is what wins customers over</strong>.
+                    </p>
+
+                    <p className="large">
+                      From there, <strong>the same stack extends to any industry where private data needs inference</strong>: law, journalism, healthcare, and any organization that&apos;s regulated or conscientious about trust. This product category is newly possible: <a href="https://epoch.ai/data-insights/open-weights-vs-closed-weights-models" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('models_shrink')}>open models now trail frontier cloud models by just months</a>, and <a href="https://www.qualcomm.com/snapdragon/smartphones/ai" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('chips_grow')}>consumer chipsets are fast enough to run them</a>. This is AI that no one can surveil or turn off. It runs in your home without internet, with no server to go dark and no company that can revoke it. <strong>AI as an offline appliance</strong>.
+                    </p>
+
+                    {/* ===== Email gate: everything below fades until verified ===== */}
                     <div className="relative">
                     <div
                       className={`space-y-6 ${locked ? 'select-none' : ''}`}
@@ -140,13 +150,10 @@ export default function Fundraising() {
                       style={gatedStyle}
                     >
 
-                    <p className="large">
-                      <strong>We're starting with families, then branching out</strong>. There are ~84 million households in the US alone, and 200M+ across the English-speaking world. It&apos;s a safe place to prove our technology: high value emotionally, low stakes legally. <a href="https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('pew_trust')}>Nearly 70% of Americans don't trust Big AI</a> with their data, but <a href="https://www.instagram.com/p/DUWLI8hiUai/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('research_instagram')}>the Instagram response to our research</a> (across 28k+ impressions, with Mozilla Foundation) was overwhelmingly positive: <strong>privacy-preserving AI architecture is what wins customers over</strong>.
-                    </p>
-    
-                    <p className="large">
-                      From there, <strong>the same stack extends to any industry where private data needs inference</strong>: law, journalism, healthcare, and any organization that&apos;s regulated or conscientious about trust. This product category is newly possible: <a href="https://epoch.ai/data-insights/open-weights-vs-closed-weights-models" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('models_shrink')}>open models now trail frontier cloud models by just months</a>, and <a href="https://www.qualcomm.com/snapdragon/smartphones/ai" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('chips_grow')}>consumer chipsets are fast enough to run them</a>. This is AI that no one can surveil or turn off. It runs in your home without internet, with no server to go dark and no company that can revoke it. <strong>AI as an offline appliance</strong>.
-                    </p>
+                    {/* ===== II. THE DEVICE ===== */}
+                    <div className="pt-8">
+                      <SectionHeader label="II" title="The Device" />
+                    </div>
 
                     <div className="my-10">
                       <MediaRow
@@ -158,6 +165,12 @@ export default function Fundraising() {
                         caption="Play tests for our early industrial designs."
                         height={400}
                       />
+                    </div>
+                    {/* Task 4 adds the lived-experience paragraph above the MediaRow */}
+
+                    {/* ===== III. WHY THIS WINS ===== */}
+                    <div className="pt-8">
+                      <SectionHeader label="III" title="Why This Wins" />
                     </div>
 
                     <p className="large">
@@ -179,15 +192,16 @@ export default function Fundraising() {
                         onActionClick={() => trackOutbound('signal_backups_footer')}
                       />
                     </div>
-  
+
                     <p className="large">
                       <strong>Our stack is licensable, too</strong>. The infrastructure under the family device (on-device inference, encrypted sync, and fleet tooling that updates thousands of devices without ever reading their contents) is what a hospital network or a law firm needs to run AI on data that can&apos;t leave the building. Think a platform company like <a href="https://www.balena.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('balena')}>balena</a>, but for specialist IoT fleets that run private inference at the edge. The consumer arena hardens our tech, then <strong>we license it to enterprises</strong>.
                     </p>
-    
+
+                    {/* ===== IV. WHO WE ARE ===== */}
                     <div className="pt-8">
-                      <SectionHeader label="II" title="Our Experience" />
+                      <SectionHeader label="IV" title="Who We Are" />
                     </div>
-    
+
                     <p className="large">
                       <strong>The three of us have spent our careers building intimate, human-centric hardware.</strong>{" "}
                       <strong>Hugh Francis</strong> founded <a href="https://garden3d.net" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('garden3d')}>garden3d</a> and Sanctuary Computer, and oversees a $6mm+ design & development studio. He&apos;s a patented inventor for architecting <a href="https://www.sanctuary.computer/work/light-three" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('light_phone')}>The Light Phone II & III</a> (named among TIME Magazine&apos;s Best Inventions in 2019 and 2025), architected <a href="https://www.sanctuary.computer/work/mill" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('mill')}>Mill&apos;s IoT infrastructure</a> (from the founders of Google&apos;s Nest), and <strong>holds direct relationships in Taipei and Shenzhen with Foxconn</strong>, Arima, Coosea, and other top-tier contract manufacturers.
@@ -196,7 +210,7 @@ export default function Fundraising() {
                     <p className="large">
                       <strong>Yatú Pelaez-Espinosa & Norm O&rsquo;Hagan</strong> are a product duo with 10+ years of creative collaboration: they founded <a href="https://usb.club/about" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('usb_club')}>USB Club</a>, a hardware-enabled social network, founded the Advanced Concepts hardware team at <a href="https://www.recordsofthought.com/proof" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('world')}>Sam Altman&apos;s World</a>, researched new educational models at Other Internet, and in past lives designed at IBM and early Plaid.
                     </p>
-    
+
                     <div className="my-10">
                       <MediaRow
                         items={[
@@ -210,34 +224,34 @@ export default function Fundraising() {
                       />
                     </div>
 
-                    <SectionHeader label="III" title="Our Prototype & Memo" />
-
                     <p className="large">
-                      <strong>We&apos;ve built a working prototype and written a full investor memo</strong>: product, unit economics, go-to-market, and the three-phase path from a single device to a platform company powering every privacy-conscious hardware maker. <strong>Our team lives in New York City and San Francisco</strong>. <strong>If you&apos;d like a demo, please email us</strong> at{" "}
-                      <span className="relative inline-block">
-                        <a
-                          href="mailto:invest@intelligence.family?subject=Investor%20Memo%20Request"
-                          onClick={() => {
-                            if (typeof window !== 'undefined' && window.gtag) {
-                              window.gtag('event', 'email_click', {
-                                event_category: 'engagement',
-                                event_label: 'investor_memo_request',
-                                value: 1,
-                              });
-                            }
-                          }}
-                          className="no-underline hover:underline"
-                        >
-                          invest@intelligence.family
-                        </a>
-                        <img
-                          src="/research/email-underline.png"
-                          alt=""
-                          className="absolute left-0 -bottom-1 w-full h-auto pointer-events-none"
-                          style={{ transform: 'translateY(50%)' }}
-                        />
-                      </span>.
+                      <strong>We&apos;ve built a working prototype and written a full investor memo</strong>: product, unit economics, go-to-market, and the three-phase path from a single device to a platform company powering every privacy-conscious hardware maker. <strong>Our team lives in New York City and San Francisco</strong>.
                     </p>
+
+                    {/* ===== V. THE ASK ===== */}
+                    <div className="pt-8">
+                      <SectionHeader label="V" title="The Ask" />
+                    </div>
+
+                    <div className="my-10">
+                      <QuoteBox
+                        large
+                        quote={<><strong>We&apos;re raising $15M</strong> to design, manufacture, and ship the first device in this category &mdash; with the runway to prove it in families&apos; homes. It&apos;s the same stack every private-intelligence product after it will run on.</>}
+                        showQuotes={false}
+                        source="Email us for the full memo & a demo"
+                        actionLabel="invest@intelligence.family"
+                        href="mailto:invest@intelligence.family?subject=Investor%20Memo%20Request"
+                        onClick={() => {
+                          if (typeof window !== 'undefined' && window.gtag) {
+                            window.gtag('event', 'email_click', {
+                              event_category: 'engagement',
+                              event_label: 'investor_memo_request_ask',
+                              value: 1,
+                            });
+                          }
+                        }}
+                      />
+                    </div>
 
                     </div>{/* /gated content */}
 

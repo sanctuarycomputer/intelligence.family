@@ -42,4 +42,24 @@ describe('fundraising page copy contract', () => {
     expect(page).not.toMatch(/\bran\b.*agency/i)
     expect(page).toMatch(/oversees/)
   })
+
+  it('follows the pitch arc section order', () => {
+    const order = ['The Context', 'The Device', 'Why This Wins', 'Who We Are', 'The Ask']
+    const idx = order.map((t) => page.indexOf(`title="${t}"`))
+    expect(idx.every((i) => i >= 0)).toBe(true)
+    expect([...idx].sort((a, b) => a - b)).toEqual(idx)
+    expect(page).not.toContain('Business Concept')
+    expect(page).not.toContain('Our Experience')
+  })
+
+  it('asks for $15M exactly once, in The Ask section', () => {
+    expect(page.match(/\$15M/g)).toHaveLength(1)
+    expect(page.indexOf('$15M')).toBeGreaterThan(page.indexOf('title="The Ask"'))
+  })
+
+  it('gates from The Device onward; The Context is public', () => {
+    const gateStart = page.indexOf('/* ===== Email gate')
+    expect(page.indexOf('title="The Context"')).toBeLessThan(gateStart)
+    expect(page.indexOf('title="The Device"')).toBeGreaterThan(gateStart)
+  })
 })
