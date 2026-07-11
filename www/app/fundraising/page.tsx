@@ -91,7 +91,7 @@ export default function Fundraising() {
               {/* H2 Subtitle */}
               <AnimatedElement delay={100}>
                 <h2 className="mt-2 text-balance max-w-2xl" style={{ fontSize: 'clamp(20px, 4vw, 28px)' }}>
-                  We're building a consumer hardware business and software platform for private intelligence.
+                  Private intelligence is a new category of computing: AI that lives in your home, works offline, and answers to no one. We&apos;re starting with the family.
                 </h2>
               </AnimatedElement>
             </div>
@@ -155,6 +155,10 @@ export default function Fundraising() {
                       <SectionHeader label="II" title="The Device" />
                     </div>
 
+                    <p className="large">
+                      <strong>The device is a living archive of your family.</strong> It sits on the kitchen shelf, and when you invite it into the conversation it can resurface the story your grandfather told last Thanksgiving, find the recording of your daughter&apos;s first words, and help your kids interview their grandparents while they still can. Everything it hears and remembers <strong>stays inside the house</strong>. That&apos;s the unlock: an AI families actually welcome at the dinner table, because it works for them and no one else.
+                    </p>
+
                     <div className="my-10">
                       <MediaRow
                         items={[
@@ -166,7 +170,6 @@ export default function Fundraising() {
                         height={400}
                       />
                     </div>
-                    {/* Task 4 adds the lived-experience paragraph above the MediaRow */}
 
                     {/* ===== III. WHY THIS WINS ===== */}
                     <div className="pt-8">
@@ -179,6 +182,10 @@ export default function Fundraising() {
 
                     <p className="large">
                       The device will be sold at a premium consumer price point, but the memories it holds are irreplaceable, and families will pay extra to never lose them. <strong>We sell a recurring, end-to-end encrypted cloud backup</strong>, where the keys live only with the family and the data syncs as an opaque vault we cannot open. All inference runs locally; the cloud is a sealed mirror.
+                    </p>
+
+                    <p className="large">
+                      <strong>Family-focused hardware plus subscription is a proven category</strong>: <a href="https://www.mynewsdesk.com/us/tonies/pressreleases/tonies-reaches-upper-end-of-fy-2025-guidance-portfolio-expansion-and-internationalization-drive-profitable-growth-with-record-adjusted-ebitda-margin-3430792" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('tonies_proof')}>tonies built a public company on it</a> (&euro;630M revenue in FY2025, up 31%, at a record EBITDA margin), and <a href="https://musically.com/2025/08/27/childrens-speakers-startup-yoto-saw-sales-grow-by-86-in-2024/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('yoto_proof')}>Yoto grew 86% last year to &pound;95M</a> with backing from the Chan Zuckerberg Initiative.
                     </p>
 
                     <div className="my-10">
@@ -195,6 +202,10 @@ export default function Fundraising() {
 
                     <p className="large">
                       <strong>Our stack is licensable, too</strong>. The infrastructure under the family device (on-device inference, encrypted sync, and fleet tooling that updates thousands of devices without ever reading their contents) is what a hospital network or a law firm needs to run AI on data that can&apos;t leave the building. Think a platform company like <a href="https://www.balena.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline" onClick={() => trackOutbound('balena')}>balena</a>, but for specialist IoT fleets that run private inference at the edge. The consumer arena hardens our tech, then <strong>we license it to enterprises</strong>.
+                    </p>
+
+                    <p className="large">
+                      <strong>The math is simple</strong>: an $899 device, a $9/month end-to-end encrypted backup subscription, and a five-year plan built on ~110,000 devices &mdash; roughly 0.05% of the 200M+ English-speaking households we&apos;re selling into.
                     </p>
 
                     {/* ===== IV. WHO WE ARE ===== */}

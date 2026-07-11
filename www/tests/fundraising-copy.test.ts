@@ -62,4 +62,22 @@ describe('fundraising page copy contract', () => {
     expect(page.indexOf('title="The Context"')).toBeLessThan(gateStart)
     expect(page.indexOf('title="The Device"')).toBeGreaterThan(gateStart)
   })
+
+  it('opens on the category-creation lane', () => {
+    expect(page).toContain('new category of computing')
+  })
+
+  it('cites verified category proof', () => {
+    expect(page).toMatch(/tonies/i)
+    expect(page).toContain('Yoto')
+    expect(page).toContain('630')
+    expect(page).toContain('86%')
+  })
+
+  it('has stage-1 economics only (no model outputs)', () => {
+    expect(page).toContain('$899')
+    expect(page).toContain('$9/month')
+    expect(page).toContain('110,000')
+    expect(page).not.toMatch(/52\.5|2\.7x|LTV/)
+  })
 })
