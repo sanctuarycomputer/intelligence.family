@@ -33,6 +33,9 @@ const GATE_LOCKED_STYLE: CSSProperties = {
 export default function Fundraising() {
   const [unlocked, setUnlocked] = useState(false);
   const [revealing, setRevealing] = useState(false);
+  // The FigJam embed stays inert until clicked so scrolling over it moves the
+  // page, not the canvas; mousing away re-locks it.
+  const [figmaActive, setFigmaActive] = useState(false);
 
   useEffect(() => {
     try {
@@ -448,8 +451,9 @@ export default function Fundraising() {
                             }}
                           >
                             <div
-                              className="mx-auto border border-fi-green-500/50 md:rounded-[20px] overflow-hidden"
+                              className="mx-auto border border-fi-green-500/50 md:rounded-[20px] overflow-hidden relative"
                               style={{ maxWidth: 'min(1280px, 94vw)' }}
+                              onMouseLeave={() => setFigmaActive(false)}
                             >
                               <iframe
                                 src="https://embed.figma.com/board/CXl5xhLZOzBHkGiz8CgCUh/Untitled?node-id=2-952&embed-host=intelligence-family"
@@ -460,8 +464,17 @@ export default function Fundraising() {
                                 style={{
                                   aspectRatio: '4864 / 3528',
                                   border: 0,
+                                  pointerEvents: figmaActive ? 'auto' : 'none',
                                 }}
                               />
+                              {!figmaActive && (
+                                <button
+                                  type="button"
+                                  aria-label="Activate the interactive diagram"
+                                  className="absolute inset-0 w-full h-full cursor-default"
+                                  onClick={() => setFigmaActive(true)}
+                                />
+                              )}
                             </div>
                             <figcaption className="byline mt-3 text-center">
                               Phase 1&apos;s fleet is Phase 3&apos;s reference
