@@ -273,7 +273,7 @@ export default function Fundraising() {
                             they still can. Everything it hears and remembers{' '}
                             <strong>stays inside the house</strong>, so everyone
                             can rest easy knowing their cherished memories are
-                            captured <strong>for them, and them alone</strong>.
+                            captured for them, and them alone.
                           </p>
 
                           <div className="my-10">
