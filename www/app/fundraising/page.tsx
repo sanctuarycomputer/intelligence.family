@@ -756,7 +756,10 @@ export default function Fundraising() {
 
                         {!unlocked && (
                           <div
-                            className="absolute inset-0"
+                            // z-30 beats .media-row-wrapper's z-20, which
+                            // otherwise paints the Section II photo row over
+                            // the scrim and email form while locked.
+                            className="absolute inset-0 z-30"
                             style={{
                               background: GATE_SCRIM,
                               opacity: revealing ? 0 : 1,
