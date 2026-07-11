@@ -305,7 +305,7 @@ This is a **move-only** step: existing JSX blocks are relocated verbatim (identi
                     <div className="my-10">
                       <QuoteBox
                         large
-                        quote={<><strong>We&apos;re raising $15M</strong> to design, manufacture, and ship the first device in this category &mdash; and to prove the stack that every private-intelligence product after it will run on.</>}
+                        quote={<><strong>We&apos;re raising $15M</strong> to design, manufacture, and ship the first device in this category &mdash; with the runway to prove it in families&apos; homes. It&apos;s the same stack every private-intelligence product after it will run on.</>}
                         showQuotes={false}
                         source="Email us for the full memo & a demo"
                         actionLabel="invest@intelligence.family"
