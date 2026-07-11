@@ -109,10 +109,24 @@ export default function Fundraising() {
                   className="mt-2 text-balance max-w-2xl"
                   style={{ fontSize: 'clamp(20px, 4vw, 28px)' }}
                 >
-                  Private intelligence is a new category of computing: AI that
-                  lives in your home, works offline, and answers to no one.
-                  We&apos;re starting with the family.
+                  Private intelligence is a newly possible category of
+                  computing.
                 </h2>
+              </AnimatedElement>
+
+              {/* Byline */}
+              <AnimatedElement delay={200} className="byline mt-8">
+                AI that lives in your home, your office, your hand.
+                <br />
+                <span className="relative inline-block">
+                  We&apos;re starting with the Family
+                  <img
+                    src="/research/email-underline.png"
+                    alt=""
+                    className="absolute left-0 -bottom-1 w-full h-auto pointer-events-none"
+                    style={{ transform: 'translateY(50%)' }}
+                  />
+                </span>
               </AnimatedElement>
             </div>
           </div>

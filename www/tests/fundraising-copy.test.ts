@@ -73,7 +73,7 @@ describe('fundraising page copy contract', () => {
   });
 
   it('opens on the category-creation lane', () => {
-    expect(page).toContain('new category of computing');
+    expect(page).toMatch(/newly possible category of\s+computing/);
   });
 
   it('cites verified category proof', () => {
