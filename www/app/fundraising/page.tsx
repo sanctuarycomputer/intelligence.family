@@ -625,6 +625,13 @@ export default function Fundraising() {
                             , and in past lives designed at IBM and early Plaid.
                           </p>
 
+                          <p className="large">
+                            <strong>
+                              Today, all three of us work together at garden3d
+                            </strong>
+                            , a creative studio of 30+ designers and developers.
+                          </p>
+
                           <div className="my-10">
                             <MediaRow
                               items={[
