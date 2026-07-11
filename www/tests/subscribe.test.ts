@@ -30,6 +30,24 @@ describe('POST /api/subscribe', () => {
     expect(crmMock).toHaveBeenCalledWith('New@Example.com', undefined);
   });
 
+  it('forwards a provided source to the CRM client', async () => {
+    const res = await POST(
+      req({ email: 'user@example.com', source: 'g3d:family_intelligence:fundraising' })
+    );
+    expect(res.status).toBe(201);
+    expect(crmMock).toHaveBeenCalledWith(
+      'user@example.com',
+      'g3d:family_intelligence:fundraising'
+    );
+  });
+
+  it('surfaces a rejected source as an error', async () => {
+    crmMock.mockResolvedValue({ ok: false, status: 'rejected_source' });
+    const res = await POST(req({ email: 'user@example.com', source: 'evil' }));
+    expect(res.status).toBe(500);
+    expect(await res.json()).toMatchObject({ success: false, status: 'error' });
+  });
+
   it('rejects an invalid email without touching the CRM', async () => {
     const res = await POST(req({ email: 'not-an-email' }));
     expect(res.status).toBe(400);
