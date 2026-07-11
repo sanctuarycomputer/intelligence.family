@@ -647,7 +647,10 @@ export default function Fundraising() {
                             <strong>
                               Our team lives in New York City and San Francisco
                             </strong>
-                            .{' '}
+                            .
+                          </p>
+
+                          <p className="large">
                             <strong>
                               If you&apos;d like a demo, please email us
                             </strong>{' '}
