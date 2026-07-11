@@ -26,6 +26,7 @@ describe('fundraising page copy contract', () => {
   });
 
   it('hero contains no raise ask', () => {
+    expect(page.indexOf('<header')).toBeGreaterThan(-1);
     const hero = page.slice(page.indexOf('<header'), page.indexOf('</header>'));
     expect(hero).not.toMatch(/raising/i);
     expect(hero).not.toMatch(/\$1?5M/);
@@ -80,6 +81,8 @@ describe('fundraising page copy contract', () => {
     expect(page).toContain('Yoto');
     expect(page).toContain('630');
     expect(page).toContain('86%');
+    expect(page).toContain('95M');
+    expect(page).toContain('in 2024');
   });
 
   it('has stage-1 economics only (no model outputs)', () => {

@@ -133,7 +133,6 @@ export default function Fundraising() {
 
                     <div className="mt-8 space-y-6">
                       <div className="mb-10">
-                        {/* KEEP: opening thesis QuoteBox (de-asked in Task 1) */}
                         <QuoteBox
                           large
                           quote={
@@ -344,7 +343,7 @@ export default function Fundraising() {
                               tonies built a public company on it
                             </a>{' '}
                             (&euro;630M revenue in FY2025, up 31%, at a record
-                            EBITDA margin), and{' '}
+                            adjusted EBITDA margin), and{' '}
                             <a
                               href="https://musically.com/2025/08/27/childrens-speakers-startup-yoto-saw-sales-grow-by-86-in-2024/"
                               target="_blank"
@@ -352,7 +351,7 @@ export default function Fundraising() {
                               className="underline hover:no-underline"
                               onClick={() => trackOutbound('yoto_proof')}
                             >
-                              Yoto grew 86% last year to &pound;95M
+                              Yoto grew 86% in 2024 to &pound;95M
                             </a>{' '}
                             with backing from the Chan Zuckerberg Initiative.
                           </p>
