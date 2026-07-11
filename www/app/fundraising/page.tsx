@@ -307,6 +307,35 @@ export default function Fundraising() {
 
                           <p className="large">
                             <strong>
+                              Family-focused hardware plus subscription is a
+                              proven category
+                            </strong>
+                            :{' '}
+                            <a
+                              href="https://www.mynewsdesk.com/us/tonies/pressreleases/tonies-reaches-upper-end-of-fy-2025-guidance-portfolio-expansion-and-internationalization-drive-profitable-growth-with-record-adjusted-ebitda-margin-3430792"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline hover:no-underline"
+                              onClick={() => trackOutbound('tonies_proof')}
+                            >
+                              tonies built a public company on it
+                            </a>{' '}
+                            (&euro;630M revenue in FY2025, up 31%, at a record
+                            adjusted EBITDA margin), and{' '}
+                            <a
+                              href="https://musically.com/2025/08/27/childrens-speakers-startup-yoto-saw-sales-grow-by-86-in-2024/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline hover:no-underline"
+                              onClick={() => trackOutbound('yoto_proof')}
+                            >
+                              Yoto grew 86% in 2024 to &pound;95M
+                            </a>{' '}
+                            with backing from the Chan Zuckerberg Initiative.
+                          </p>
+
+                          <p className="large">
+                            <strong>
                               Big AI labs can't afford to compete in this
                               category
                             </strong>
@@ -338,35 +367,6 @@ export default function Fundraising() {
                             data syncs as an opaque vault we cannot open. All
                             inference runs locally; the cloud is a sealed
                             mirror.
-                          </p>
-
-                          <p className="large">
-                            <strong>
-                              Family-focused hardware plus subscription is a
-                              proven category
-                            </strong>
-                            :{' '}
-                            <a
-                              href="https://www.mynewsdesk.com/us/tonies/pressreleases/tonies-reaches-upper-end-of-fy-2025-guidance-portfolio-expansion-and-internationalization-drive-profitable-growth-with-record-adjusted-ebitda-margin-3430792"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="underline hover:no-underline"
-                              onClick={() => trackOutbound('tonies_proof')}
-                            >
-                              tonies built a public company on it
-                            </a>{' '}
-                            (&euro;630M revenue in FY2025, up 31%, at a record
-                            adjusted EBITDA margin), and{' '}
-                            <a
-                              href="https://musically.com/2025/08/27/childrens-speakers-startup-yoto-saw-sales-grow-by-86-in-2024/"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="underline hover:no-underline"
-                              onClick={() => trackOutbound('yoto_proof')}
-                            >
-                              Yoto grew 86% in 2024 to &pound;95M
-                            </a>{' '}
-                            with backing from the Chan Zuckerberg Initiative.
                           </p>
 
                           <div className="my-10">
