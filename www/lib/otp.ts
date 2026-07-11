@@ -1,4 +1,5 @@
 import { createHash, randomInt, timingSafeEqual } from 'node:crypto'
+import { sessionSecret } from './session-secret'
 
 const CODE_MIN = 0
 const CODE_MAX_EXCLUSIVE = 1_000_000
@@ -8,8 +9,7 @@ export function generateCode(): string {
 }
 
 export function hashCode(code: string): string {
-  const secret = process.env.SESSION_SECRET ?? ''
-  return createHash('sha256').update(`${secret}:${code}`).digest('hex')
+  return createHash('sha256').update(`${sessionSecret()}:${code}`).digest('hex')
 }
 
 export function verifyCode(submitted: string, storedHash: string): boolean {

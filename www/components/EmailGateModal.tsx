@@ -41,7 +41,6 @@ export default function EmailGateModal({ onSuccess }: EmailGateModalProps) {
         },
         body: JSON.stringify({
           email: email.trim(),
-          appendTimestamp: true,
         }),
       });
 

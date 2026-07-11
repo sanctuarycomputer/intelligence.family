@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
+
+vi.mock('next/server', async importOriginal => {
+  const actual = await importOriginal<typeof import('next/server')>();
+  return { ...actual, after: (fn: () => unknown) => fn() };
+});
+
 import { sealVerified } from '../lib/verified-session';
 import { _resetForTests } from '../lib/rate-limit';
 
@@ -45,6 +51,27 @@ describe('GET /api/gate-status', () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ verified: false });
     expect(crmMock).not.toHaveBeenCalled();
+  });
+
+  it('ignores a cross-site request so third parties cannot inflate views', async () => {
+    const res = await GET(
+      await verifiedReq('user@example.com', { 'sec-fetch-site': 'cross-site' })
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ verified: false });
+    expect(crmMock).not.toHaveBeenCalled();
+  });
+
+  it('honors a same-origin fetch (the real caller)', async () => {
+    const res = await GET(
+      await verifiedReq('user@example.com', { 'sec-fetch-site': 'same-origin' })
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ verified: true });
+    expect(crmMock).toHaveBeenCalledWith(
+      'user@example.com',
+      'g3d:family_intelligence:fundraising-viewed'
+    );
   });
 
   it('reports verified and records a view for a valid cookie', async () => {

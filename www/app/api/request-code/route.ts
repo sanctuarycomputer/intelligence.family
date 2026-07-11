@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { generateCode, hashCode } from '@/lib/otp';
 import { consume } from '@/lib/rate-limit';
 import {
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   if (!existing) {
-    await createCrmContact(email, GATE_SOURCE);
+    after(() => createCrmContact(email, GATE_SOURCE));
   }
 
   const seal = await sealPending(session);

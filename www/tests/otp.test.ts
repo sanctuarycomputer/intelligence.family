@@ -32,3 +32,15 @@ describe('isExpired', () => {
     expect(isExpired(11_000, now)).toBe(false)
   })
 })
+
+describe('hashCode secret guard', () => {
+  it('throws when SESSION_SECRET is missing rather than hashing with an empty secret', () => {
+    const saved = process.env.SESSION_SECRET
+    delete process.env.SESSION_SECRET
+    try {
+      expect(() => hashCode('123456')).toThrow(/SESSION_SECRET/)
+    } finally {
+      process.env.SESSION_SECRET = saved
+    }
+  })
+})

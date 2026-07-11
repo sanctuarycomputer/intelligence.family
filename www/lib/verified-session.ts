@@ -1,19 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sealData, unsealData } from 'iron-session'
+import { sessionSecret } from './session-secret'
 
 export const VERIFIED_COOKIE = 'fi_verified'
 export const VERIFIED_TTL_MS = 2_592_000_000 // 30 days
 
 export type VerifiedSession = {
   email: string
-}
-
-function password(): string {
-  const pw = process.env.SESSION_SECRET
-  if (!pw || pw.length < 32) {
-    throw new Error('SESSION_SECRET must be set and at least 32 characters')
-  }
-  return pw
 }
 
 function isVerifiedSession(v: unknown): v is VerifiedSession {
@@ -23,7 +16,7 @@ function isVerifiedSession(v: unknown): v is VerifiedSession {
 
 export async function sealVerified(session: VerifiedSession): Promise<string> {
   return sealData(session, {
-    password: password(),
+    password: sessionSecret(),
     ttl: VERIFIED_TTL_MS / 1000,
   })
 }
@@ -31,7 +24,7 @@ export async function sealVerified(session: VerifiedSession): Promise<string> {
 export async function unsealVerified(seal: string): Promise<VerifiedSession | null> {
   try {
     const data = await unsealData(seal, {
-      password: password(),
+      password: sessionSecret(),
       ttl: VERIFIED_TTL_MS / 1000,
     })
     return isVerifiedSession(data) ? data : null

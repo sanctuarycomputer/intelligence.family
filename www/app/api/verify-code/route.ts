@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { verifyCode, isExpired } from '@/lib/otp';
 import { consume } from '@/lib/rate-limit';
 import {
@@ -28,6 +28,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(
       { ok: false, error: 'No pending code. Please request a new code.' },
       { status: 400 }
+    );
+  }
+
+  // Per-email limit keyed on the sealed session email. The attempt counter
+  // lives in a client-held cookie and is replayable, so this backstops the
+  // per-IP limit against an attacker rotating IPs against one email.
+  if (!consume(`verify-code-email:${session.email.toLowerCase()}`, 10, 60_000)) {
+    return NextResponse.json(
+      { ok: false, error: 'Too many attempts. Please try again later.' },
+      { status: 429 }
     );
   }
   if (isExpired(session.expiresAt)) {
@@ -73,7 +83,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return res;
   }
 
-  await createCrmContact(session.email, VIEWED_SOURCE);
+  after(() => createCrmContact(session.email, VIEWED_SOURCE));
   const res = NextResponse.json({ ok: true, verified: true });
   clearPendingCookie(res);
   setVerifiedCookie(res, await sealVerified({ email: session.email }));

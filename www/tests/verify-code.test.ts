@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
+
+vi.mock('next/server', async importOriginal => {
+  const actual = await importOriginal<typeof import('next/server')>();
+  return { ...actual, after: (fn: () => unknown) => fn() };
+});
+
 import { sealPending, type PendingSession } from '../lib/pending-session';
 import { hashCode } from '../lib/otp';
 import { _resetForTests } from '../lib/rate-limit';
@@ -124,6 +130,26 @@ describe('POST /api/verify-code', () => {
       await reqWithSession('000000', baseSession({ attempts: 4 }))
     );
     expect(res.status).toBe(400); // locked, pending cookie cleared
+    expect(crmMock).not.toHaveBeenCalled();
+  });
+
+  it('rate-limits verify attempts per email across rotating IPs', async () => {
+    // The stateless attempt counter is replayable, so IP rotation must not
+    // grant unlimited guesses against a single email.
+    for (let i = 0; i < 10; i++) {
+      const res = await POST(
+        await reqWithSession('000000', baseSession(), {
+          'x-forwarded-for': `198.51.100.${i}`,
+        })
+      );
+      expect(res.status).toBe(200);
+    }
+    const res = await POST(
+      await reqWithSession('000000', baseSession(), {
+        'x-forwarded-for': '198.51.100.250',
+      })
+    );
+    expect(res.status).toBe(429);
     expect(crmMock).not.toHaveBeenCalled();
   });
 

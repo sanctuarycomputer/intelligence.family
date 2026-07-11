@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sealData, unsealData } from 'iron-session'
+import { sessionSecret } from './session-secret'
 
 export const PENDING_COOKIE = 'fi_pending'
 export const PENDING_TTL_MS = 900_000 // 15 minutes
@@ -11,14 +12,6 @@ export type PendingSession = {
   expiresAt: number
   resendAt: number
   source: string
-}
-
-function password(): string {
-  const pw = process.env.SESSION_SECRET
-  if (!pw || pw.length < 32) {
-    throw new Error('SESSION_SECRET must be set and at least 32 characters')
-  }
-  return pw
 }
 
 function isPendingSession(v: unknown): v is PendingSession {
@@ -35,12 +28,12 @@ function isPendingSession(v: unknown): v is PendingSession {
 }
 
 export async function sealPending(session: PendingSession): Promise<string> {
-  return sealData(session, { password: password() })
+  return sealData(session, { password: sessionSecret() })
 }
 
 export async function unsealPending(seal: string): Promise<PendingSession | null> {
   try {
-    const data = await unsealData(seal, { password: password() })
+    const data = await unsealData(seal, { password: sessionSecret() })
     return isPendingSession(data) ? data : null
   } catch {
     return null

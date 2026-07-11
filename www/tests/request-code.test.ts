@@ -1,5 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
+
+// Run after() callbacks synchronously so deferred CRM writes are observable.
+vi.mock('next/server', async importOriginal => {
+  const actual = await importOriginal<typeof import('next/server')>();
+  return { ...actual, after: (fn: () => unknown) => fn() };
+});
+
 import { _resetForTests as resetRateLimit } from '../lib/rate-limit';
 import { sealPending } from '../lib/pending-session';
 import { hashCode } from '../lib/otp';
