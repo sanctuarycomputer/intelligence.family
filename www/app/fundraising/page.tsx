@@ -463,7 +463,18 @@ export default function Fundraising() {
                           </p>
 
                           <p className="large">
-                            <strong>Hugh Francis</strong> founded{' '}
+                            <strong>
+                              <a
+                                href="http://hhff.solar"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline hover:no-underline"
+                                onClick={() => trackOutbound('hugh_francis')}
+                              >
+                                Hugh Francis
+                              </a>
+                            </strong>{' '}
+                            founded{' '}
                             <a
                               href="https://garden3d.net"
                               target="_blank"
@@ -473,9 +484,20 @@ export default function Fundraising() {
                             >
                               garden3d
                             </a>{' '}
-                            and Sanctuary Computer, and oversees a $6mm+ design
-                            & development studio. He&apos;s a patented inventor
-                            for architecting{' '}
+                            and{' '}
+                            <a
+                              href="https://www.sanctuary.computer"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline hover:no-underline"
+                              onClick={() =>
+                                trackOutbound('sanctuary_computer')
+                              }
+                            >
+                              Sanctuary Computer
+                            </a>
+                            , and oversees a $6mm+ design & development studio.
+                            He&apos;s a patented inventor for architecting{' '}
                             <a
                               href="https://www.sanctuary.computer/work/light-three"
                               target="_blank"
@@ -531,9 +553,17 @@ export default function Fundraising() {
                             >
                               Sam Altman&apos;s World
                             </a>
-                            , researched new educational models at Other
-                            Internet, and in past lives designed at IBM and
-                            early Plaid.
+                            , researched new educational models at{' '}
+                            <a
+                              href="https://otherinter.net"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline hover:no-underline"
+                              onClick={() => trackOutbound('other_internet')}
+                            >
+                              Other Internet
+                            </a>
+                            , and in past lives designed at IBM and early Plaid.
                           </p>
 
                           <div className="my-10">
