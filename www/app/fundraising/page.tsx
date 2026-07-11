@@ -501,8 +501,8 @@ export default function Fundraising() {
 
                           <p className="large">
                             <strong>
-                              The three of us have spent our careers building
-                              intimate, human-centric hardware.
+                              We&apos;ve spent our careers building intimate,
+                              human-centric hardware.
                             </strong>
                           </p>
 
