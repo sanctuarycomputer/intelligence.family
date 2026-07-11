@@ -7,7 +7,6 @@ import QuoteBox from '@/components/QuoteBox';
 import MediaRow from '@/components/MediaRow';
 import LeafIcon from '@/components/LeafIcon';
 import InlineEmailGate from '@/components/InlineEmailGate';
-import TrajectoryDiagram from '@/components/TrajectoryDiagram';
 import { AnimatedElement } from '@/components/PageAnimations';
 
 function trackOutbound(label: string) {
@@ -441,7 +440,25 @@ export default function Fundraising() {
                             <strong>we license it to enterprises</strong>.
                           </p>
 
-                          <TrajectoryDiagram />
+                          <figure className="my-10">
+                            <div className="border border-fi-green-500/50 rounded overflow-hidden">
+                              <iframe
+                                src="https://embed.figma.com/board/CXl5xhLZOzBHkGiz8CgCUh/Untitled?node-id=2-952&embed-host=intelligence-family"
+                                title="Family Intelligence product & technology trajectory, 2026 to 2030+"
+                                loading="lazy"
+                                allowFullScreen
+                                className="block w-full"
+                                style={{
+                                  aspectRatio: '4864 / 3528',
+                                  border: 0,
+                                }}
+                              />
+                            </div>
+                            <figcaption className="byline mt-3 text-center">
+                              Phase 1&apos;s fleet is Phase 3&apos;s reference
+                              customer.
+                            </figcaption>
+                          </figure>
 
                           <p className="large">
                             <strong>Our math is simple</strong>: an $899 device,
