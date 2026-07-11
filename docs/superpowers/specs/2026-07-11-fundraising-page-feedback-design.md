@@ -15,7 +15,7 @@ for the least-context (cold) reader. Decisions made during brainstorming:
 | Raise ask | Single figure: **$15M** (range removed). Controller re-models the seed at $15M targeting 24+ months post-launch runway; page ships with $15M regardless since the model is being rebuilt to match. |
 | Team framing | Named, no titles: Hugh + Yatú & Norm ("the three of us") |
 | Opening lane | Category creation ("private intelligence is a new category of computing"), immediately backed by traction |
-| Scale math on page | Qualitative + unit-economics proof only after Hugh reviews the re-modeled financials; no projections on the public page |
+| Scale math on page | Two-stage: raise-proof pricing/scale facts now; model figures (margin, LTV:CAC, breakeven) only after Hugh reviews the re-modeled financials. No projections on the public page. |
 
 ### Feedback explicitly ignored (with reasons)
 
@@ -80,11 +80,17 @@ for the least-context (cold) reader. Decisions made during brainstorming:
    - Sources: tonies FY2025 press release (mynewsdesk/EQS); Music Ally Yoto 2024
      revenue article. Tin Can may be cited as a demand signal only (no numbers),
      or omitted.
-9. **Unit-economics proof line** (gated section) — BLOCKED until the controller
-   re-models at $15M and Hugh reviews. Candidate copy: 52.5% net hardware gross
-   margin, 2.7x LTV:CAC, path to positive EBITDA on ~110k devices — a rounding
-   error of the 200M+ English-speaking household market. Ship everything else
-   without waiting for this.
+9. **Unit-economics proof line** (gated section) — two stages:
+   - **Stage 1 (ship now, raise-proof facts only):** pricing and market-sliver
+     framing — an $899 device, a $9/mo end-to-end-encrypted backup subscription,
+     and a five-year plan built on ~110k devices: roughly 0.05% of the 200M+
+     English-speaking household market. Pricing is a product decision; the
+     device count is scale framing, not a profitability claim.
+   - **Stage 2 (after the $15M re-model and Hugh's review):** add the model
+     figures — net hardware gross margin, LTV:CAC, EBITDA-breakeven point.
+     Current draft values (52.5%, 2.7x, month 41) are expected to move with
+     the tariff line, churn/CAC stress tests, and the new spend plan; do not
+     publish until reviewed. See `docs/finance/2026-07-11-model-v2-controller-notes.md`.
 
 ## P3 — Diagram
 
