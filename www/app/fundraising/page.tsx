@@ -226,41 +226,6 @@ export default function Fundraising() {
                         .
                       </p>
 
-                      <p className="large">
-                        From there,{' '}
-                        <strong>
-                          the same stack extends to any industry where private
-                          data needs inference
-                        </strong>
-                        : law, journalism, healthcare, and any organization
-                        that&apos;s regulated or conscientious about trust. This
-                        product category is newly possible:{' '}
-                        <a
-                          href="https://epoch.ai/data-insights/open-weights-vs-closed-weights-models"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="underline hover:no-underline"
-                          onClick={() => trackOutbound('models_shrink')}
-                        >
-                          open models now trail frontier cloud models by just
-                          months
-                        </a>
-                        , and{' '}
-                        <a
-                          href="https://www.qualcomm.com/snapdragon/smartphones/ai"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="underline hover:no-underline"
-                          onClick={() => trackOutbound('chips_grow')}
-                        >
-                          consumer chipsets are fast enough to run them
-                        </a>
-                        . This is AI that no one can surveil or turn off. It
-                        runs in your home without internet, with no server to go
-                        dark and no company that can revoke it.{' '}
-                        <strong>AI as an offline appliance</strong>.
-                      </p>
-
                       {/* ===== Email gate: everything below fades until verified ===== */}
                       <div className="relative">
                         <div
@@ -269,6 +234,41 @@ export default function Fundraising() {
                           inert={locked}
                           style={gatedStyle}
                         >
+                          <p className="large">
+                            From there,{' '}
+                            <strong>
+                              the same stack extends to any industry where
+                              private data needs inference
+                            </strong>
+                            : law, journalism, healthcare, and any organization
+                            that&apos;s regulated or conscientious about trust.
+                            This product category is newly possible:{' '}
+                            <a
+                              href="https://epoch.ai/data-insights/open-weights-vs-closed-weights-models"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline hover:no-underline"
+                              onClick={() => trackOutbound('models_shrink')}
+                            >
+                              open models now trail frontier cloud models by
+                              just months
+                            </a>
+                            , and{' '}
+                            <a
+                              href="https://www.qualcomm.com/snapdragon/smartphones/ai"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline hover:no-underline"
+                              onClick={() => trackOutbound('chips_grow')}
+                            >
+                              consumer chipsets are fast enough to run them
+                            </a>
+                            . This is AI that no one can surveil or turn off. It
+                            runs in your home without internet, with no server
+                            to go dark and no company that can revoke it.{' '}
+                            <strong>AI as an offline appliance</strong>.
+                          </p>
+
                           {/* ===== II. OUR FIRST DEVICE ===== */}
                           <div className="pt-8">
                             <SectionHeader
