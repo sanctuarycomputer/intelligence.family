@@ -30,6 +30,9 @@ const GATE_LOCKED_STYLE: CSSProperties = {
   pointerEvents: 'none',
 };
 
+// Bump the suffix to force all returning visitors back through the gate.
+const UNLOCK_KEY = 'fi_fundraising_unlocked_v2';
+
 export default function Fundraising() {
   const [unlocked, setUnlocked] = useState(false);
   const [revealing, setRevealing] = useState(false);
@@ -44,14 +47,17 @@ export default function Fundraising() {
 
   useEffect(() => {
     try {
-      if (localStorage.getItem('fi_fundraising_unlocked') === '1')
-        setUnlocked(true);
+      // v1 (pre-OTP) unlocks are deliberately not honored: cycling the key
+      // sends earlier visitors back through the gate so their views are
+      // verified and tracked. Cookie holders auto-unlock via /api/gate-status.
+      localStorage.removeItem('fi_fundraising_unlocked');
+      if (localStorage.getItem(UNLOCK_KEY) === '1') setUnlocked(true);
     } catch {}
   }, []);
 
   const handleUnlock = () => {
     try {
-      localStorage.setItem('fi_fundraising_unlocked', '1');
+      localStorage.setItem(UNLOCK_KEY, '1');
     } catch {}
     // Content snaps to full height beneath the still-opaque scrim (no visible
     // movement), then the scrim softly fades away to reveal it.
@@ -623,6 +629,13 @@ export default function Fundraising() {
                               Other Internet
                             </a>
                             , and in past lives designed at IBM and early Plaid.
+                          </p>
+
+                          <p className="large">
+                            <strong>
+                              Today, all three of us work together at garden3d
+                            </strong>
+                            , a creative studio of 30+ designers and developers.
                           </p>
 
                           <div className="my-10">
