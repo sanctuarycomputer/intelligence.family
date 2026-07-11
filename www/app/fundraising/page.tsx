@@ -456,7 +456,7 @@ export default function Fundraising() {
                               onMouseLeave={() => setFigmaActive(false)}
                             >
                               <iframe
-                                src="https://embed.figma.com/board/CXl5xhLZOzBHkGiz8CgCUh/Untitled?node-id=2-952&embed-host=intelligence-family"
+                                src="https://embed.figma.com/board/CXl5xhLZOzBHkGiz8CgCUh/Untitled?node-id=2-952&embed-host=intelligence-family&footer=false&page-selector=false"
                                 title="Family Intelligence product & technology trajectory, 2026 to 2030+"
                                 loading="lazy"
                                 allowFullScreen
