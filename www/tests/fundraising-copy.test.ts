@@ -30,4 +30,16 @@ describe('fundraising page copy contract', () => {
     expect(hero).not.toMatch(/raising/i)
     expect(hero).not.toMatch(/\$1?5M/)
   })
+
+  it('names the team', () => {
+    expect(page).toContain('Hugh Francis')
+    expect(page).toContain('Yatú Pelaez-Espinosa')
+    // Source uses an HTML entity for the apostrophe (O&rsquo;Hagan)
+    expect(page).toMatch(/Norm O.{0,8}Hagan/)
+  })
+
+  it('does not claim the agency in past tense', () => {
+    expect(page).not.toMatch(/\bran\b.*agency/i)
+    expect(page).toMatch(/oversees/)
+  })
 })
