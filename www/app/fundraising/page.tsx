@@ -439,11 +439,15 @@ export default function Fundraising() {
                           </p>
 
                           <p className="large">
-                            <strong>The math is simple</strong>: an $899 device,
+                            <strong>Our math is simple</strong>: an $899 device,
                             a $9/month end-to-end encrypted backup subscription,
-                            and a five-year plan built on ~110,000 devices
-                            &mdash; roughly 0.05% of the 200M+ English-speaking
-                            households we&apos;re selling into.
+                            and a five-year plan built on ~110,000 devices,
+                            roughly 0.05% of the 200M+ English-speaking
+                            households we&apos;re selling into.{' '}
+                            <strong>
+                              And that&apos;s before we roll out companion
+                              devices, or branch into other industries.
+                            </strong>
                           </p>
 
                           {/* ===== IV. WHO WE ARE ===== */}
@@ -585,10 +589,10 @@ export default function Fundraising() {
                                 <>
                                   <strong>We&apos;re raising $15M</strong> to
                                   design, manufacture, and ship the first device
-                                  in this category &mdash; with the runway to
-                                  prove it in families&apos; homes. It&apos;s
-                                  the same stack every private-intelligence
-                                  product after it will run on.
+                                  in this category, with the runway to prove it
+                                  in families&apos; homes. It&apos;s the same
+                                  stack every private-intelligence product after
+                                  it will run on.
                                 </>
                               }
                               showQuotes={false}
