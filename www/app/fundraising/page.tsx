@@ -234,7 +234,10 @@ export default function Fundraising() {
                           inert={locked}
                           style={gatedStyle}
                         >
-                          <p className="large">
+                          {/* The gate wrapper breaks the `p + p` adjacency that
+                              globals.css uses for paragraph rhythm, so restore
+                              the margin explicitly. */}
+                          <p className="large" style={{ marginTop: '1em' }}>
                             From there,{' '}
                             <strong>
                               the same stack extends to any industry where
