@@ -34,8 +34,13 @@ export default function Fundraising() {
   const [unlocked, setUnlocked] = useState(false);
   const [revealing, setRevealing] = useState(false);
   // The FigJam embed stays inert until clicked so scrolling over it moves the
-  // page, not the canvas; mousing away re-locks it.
+  // page, not the canvas; mousing away re-locks it. Touch devices have no
+  // mouseleave to re-lock with, so they never activate: without this the
+  // near-full-viewport canvas would trap page scrolling after one tap.
   const [figmaActive, setFigmaActive] = useState(false);
+  const activateFigma = () => {
+    if (window.matchMedia('(hover: hover)').matches) setFigmaActive(true);
+  };
 
   useEffect(() => {
     try {
@@ -258,7 +263,7 @@ export default function Fundraising() {
                           inert={locked}
                           style={gatedStyle}
                         >
-                          {/* ===== II. THE DEVICE ===== */}
+                          {/* ===== II. OUR FIRST DEVICE ===== */}
                           <div className="pt-8">
                             <SectionHeader
                               label="II"
@@ -336,7 +341,17 @@ export default function Fundraising() {
                             >
                               Yoto grew 86% in 2024 to &pound;95M
                             </a>{' '}
-                            with backing from the Chan Zuckerberg Initiative.
+                            with backing from{' '}
+                            <a
+                              href="https://chanzuckerberg.com/newsroom/yoto-investment/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline hover:no-underline"
+                              onClick={() => trackOutbound('czi_yoto')}
+                            >
+                              the Chan Zuckerberg Initiative
+                            </a>
+                            .
                           </p>
 
                           <p className="large">
@@ -472,7 +487,7 @@ export default function Fundraising() {
                                   type="button"
                                   aria-label="Activate the interactive diagram"
                                   className="absolute inset-0 w-full h-full cursor-default"
-                                  onClick={() => setFigmaActive(true)}
+                                  onClick={activateFigma}
                                 />
                               )}
                             </div>
@@ -616,12 +631,12 @@ export default function Fundraising() {
                                 {
                                   type: 'image',
                                   src: '/fundraising/signal-source.jpg',
-                                  alt: 'Early prototype hardware',
+                                  alt: 'USB Club Transport product poster',
                                 },
                                 {
                                   type: 'image',
                                   src: '/fundraising/family-together.webp',
-                                  alt: 'A family together',
+                                  alt: 'On the factory floor with our contract manufacturing partners',
                                 },
                                 {
                                   type: 'video',
@@ -691,7 +706,8 @@ export default function Fundraising() {
 
                           <p className="large">
                             <strong>
-                              If you&apos;d like a demo, please email us
+                              If you&apos;d like a demo or the full memo, please
+                              email us
                             </strong>{' '}
                             at{' '}
                             <span className="relative inline-block">

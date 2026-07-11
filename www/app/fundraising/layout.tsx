@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 const title = 'Fundraising · Family Intelligence';
 const description =
-  'The first device in a new category: beautiful consumer hardware running a fully local AI stack — private intelligence, never exposed to the cloud.';
+  'The first device in a new category: beautiful consumer hardware running a fully local AI stack. Private intelligence, never exposed to the cloud.';
 
 export const metadata: Metadata = {
   title,
