@@ -476,9 +476,9 @@ export default function Fundraising() {
                                 />
                               )}
                             </div>
-                            <figcaption className="byline mt-3 text-center">
-                              Phase 1&apos;s fleet is Phase 3&apos;s reference
-                              customer.
+                            <figcaption className="caption text-fi-black-900 text-center mt-4">
+                              Our roadmap: from the family home, to
+                              privacy-critical industries, to the enterprise.
                             </figcaption>
                           </figure>
 
