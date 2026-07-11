@@ -656,7 +656,7 @@ export default function Fundraising() {
                                 </>
                               }
                               showQuotes={false}
-                              source="Email us for the full memo & a demo"
+                              source="Book a demo"
                               actionLabel="invest@intelligence.family"
                               href="mailto:invest@intelligence.family?subject=Investor%20Memo%20Request"
                               onClick={() => {
