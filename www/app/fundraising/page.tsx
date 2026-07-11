@@ -7,6 +7,7 @@ import QuoteBox from "@/components/QuoteBox";
 import MediaRow from "@/components/MediaRow";
 import LeafIcon from "@/components/LeafIcon";
 import InlineEmailGate from "@/components/InlineEmailGate";
+import TrajectoryDiagram from "@/components/TrajectoryDiagram";
 import { AnimatedElement } from "@/components/PageAnimations";
 
 function trackOutbound(label: string) {
@@ -243,6 +244,8 @@ export default function Fundraising() {
                     <div className="pt-8">
                       <SectionHeader label="V" title="The Ask" />
                     </div>
+
+                    <TrajectoryDiagram />
 
                     <div className="my-10">
                       <QuoteBox

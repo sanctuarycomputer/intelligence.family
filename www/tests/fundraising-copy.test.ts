@@ -80,4 +80,11 @@ describe('fundraising page copy contract', () => {
     expect(page).toContain('110,000')
     expect(page).not.toMatch(/52\.5|2\.7x|LTV/)
   })
+
+  it('renders the trajectory diagram', () => {
+    expect(page).toContain('<TrajectoryDiagram')
+    const diagram = read('components/TrajectoryDiagram.tsx')
+    expect(diagram).toContain('One product, one market')
+    expect(diagram).toContain('every hardware company')
+  })
 })
