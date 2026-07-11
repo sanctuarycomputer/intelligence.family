@@ -450,9 +450,8 @@ export default function Fundraising() {
                             roughly 0.05% of the 200M+ English-speaking
                             households we&apos;re selling into.{' '}
                             <strong>
-                              That&apos;s a ~$50M+ business by Y5... and
-                              that&apos;s before we roll out companion devices,
-                              or branch into other industries.
+                              And that&apos;s before we roll out companion
+                              devices, or branch into other industries.
                             </strong>
                           </p>
 
