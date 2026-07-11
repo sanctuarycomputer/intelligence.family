@@ -271,10 +271,9 @@ export default function Fundraising() {
                             recording of your daughter&apos;s first words, and
                             help your kids interview their grandparents while
                             they still can. Everything it hears and remembers{' '}
-                            <strong>stays inside the house</strong>. That&apos;s
-                            the unlock: an AI families actually welcome at the
-                            dinner table, because it works for them and no one
-                            else.
+                            <strong>stays inside the house</strong>, so everyone
+                            can rest easy knowing their cherished memories are
+                            captured <strong>for them, and them alone</strong>.
                           </p>
 
                           <div className="my-10">
