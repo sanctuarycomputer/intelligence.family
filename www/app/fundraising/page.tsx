@@ -72,14 +72,10 @@ export default function Fundraising() {
         <header className="pt-40 md:pt-48 pb-16 md:pb-24 xl:pb-32">
           <div className="grid-layout">
             <div className="col-span-12 flex flex-col items-center text-center">
-              <AnimatedElement delay={200} className="byline mt-8">
-                August · September 2026
-              </AnimatedElement>
-    
               {/* H1 Title with Leaf */}
               <AnimatedElement delay={0} className="relative inline-block">
                 <h1 className="relative inline-block" style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(40px, 9vw, 64px)', fontWeight: 400 }}>
-                  Investor Memo
+                  Investor Preview
                   <LeafIcon
                     className="absolute leaf-animate"
                     style={{
@@ -97,21 +93,6 @@ export default function Fundraising() {
                 <h2 className="mt-2 text-balance max-w-2xl" style={{ fontSize: 'clamp(20px, 4vw, 28px)' }}>
                   We're building a consumer hardware business and software platform for private intelligence.
                 </h2>
-              </AnimatedElement>
-
-              {/* Byline */}
-              <AnimatedElement delay={200} className="byline mt-8">
-                <span className="relative inline-block">
-                  We&apos;re raising $15M&ndash;$25M
-                  <img
-                    src="/research/email-underline.png"
-                    alt=""
-                    className="absolute left-0 -bottom-1 w-full h-auto pointer-events-none"
-                    style={{ transform: 'translateY(50%)' }}
-                  />
-                </span>
-                <br />
-                to ship our first device.
               </AnimatedElement>
             </div>
           </div>
@@ -133,7 +114,7 @@ export default function Fundraising() {
                     <div className="mb-10">
                       <QuoteBox
                         large
-                        quote={<><strong>We&apos;re raising $15M&ndash;$25M</strong> to design, manufacture, and ship the first device in a new category: beautiful consumer hardware running a fully local AI stack, where your most intimate data is understood, agentified, inferred against... <strong>but never exposed to the cloud</strong>.</>}
+                        quote={<><strong>We&apos;re building the first device in a new category</strong>: beautiful consumer hardware running a fully local AI stack, where your most intimate data is understood, agentified, inferred against... <strong>but never exposed to the cloud</strong>.</>}
                         showQuotes={false}
                         source="Email us to learn more"
                         actionLabel="invest@intelligence.family"
