@@ -164,11 +164,24 @@ export default function Fundraising() {
                           large
                           quote={
                             <>
-                              <strong>
-                                We&apos;re building the first device in a new
-                                category
-                              </strong>
-                              : beautiful consumer hardware running a fully
+                              <span
+                                style={{
+                                  display: 'block',
+                                  marginBottom: '1em',
+                                }}
+                              >
+                                Open models running consumer hardware is newly
+                                possible in 2026. We intend to be the
+                                trusted, privacy-forward brand that brings local
+                                AI devices into the home and workplace.{' '}
+                                <strong>
+                                  Today no one owns this market, but that window
+                                  is closing fast.
+                                </strong>
+                              </span>
+                              We&apos;re building the first device in this new
+                              category: beautiful consumer hardware running a
+                              fully
                               local AI stack, where your most intimate data is
                               understood, agentified, inferred against...{' '}
                               <strong>but never exposed to the cloud</strong>.
@@ -680,10 +693,10 @@ export default function Fundraising() {
                                 <>
                                   <strong>We&apos;re raising $15M</strong> to
                                   design, manufacture, and ship the first device
-                                  in this category, with the runway to prove it
-                                  in families&apos; homes. It&apos;s the same
-                                  stack every private-intelligence product after
-                                  it will run on.
+                                  in this category, on shelves and ready to gift{' '}
+                                  <strong>by Christmas 2027</strong>. It&apos;s
+                                  the same stack every private-intelligence
+                                  product after it will run on.
                                 </>
                               }
                               showQuotes={false}
@@ -754,6 +767,19 @@ export default function Fundraising() {
                             </span>
                             .
                           </p>
+
+                          <figure className="my-10 w-screen ml-[calc(-50vw+50%)] md:w-full md:ml-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src="/fundraising/grandma-text.png"
+                              alt='Text message: "So my grandma beat the odds and lived. So if y&apos;all can speed it up on the family intelligence that would be greatly appreciated."'
+                              className="block w-full h-auto rounded-none md:rounded-[20px]"
+                            />
+                            <figcaption className="caption text-fi-black-900 text-center mt-4">
+                              A real text message from an early user tester.
+                              &#9825;
+                            </figcaption>
+                          </figure>
                         </div>
                         {/* /gated content */}
 
