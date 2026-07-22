@@ -14,13 +14,48 @@ const CLAY_COLORS: Partial<Record<BodyName, string>> = {
   leaf: '#5E7B29',
 };
 
-// Shared stepped ramp for every MeshToonMaterial: four flat shading bands.
+// Inverted-hull cel outlines on the broad shapes only (the shell bodies):
+// a BackSide copy of each shell, pushed out along its normals, draws a
+// clean silhouette line. Electronics stay outline-free; hulling a joined
+// circuit board would read as noise.
+const OUTLINED: ReadonlySet<string> = new Set([
+  'enclosure-back',
+  'enclosure-front',
+  'enclosure-top',
+  'leaf',
+]);
+const OUTLINE_COLOR = '#596647';
+// Outline thickness in world metres (device is ~0.185 m wide).
+const OUTLINE_WORLD_THICKNESS = 0.0012;
+const OUTLINE_SUFFIX = '-cel-outline';
+
+// The hull offset happens in the mesh's local (quantised) space, so each
+// body needs the world thickness divided by its own node scale. Distinct
+// shader constants need distinct program cache keys.
+function makeOutlineMaterial(localThickness: number): THREE.MeshBasicMaterial {
+  const mat = new THREE.MeshBasicMaterial({
+    color: OUTLINE_COLOR,
+    side: THREE.BackSide,
+  });
+  mat.onBeforeCompile = shader => {
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      `vec3 transformed = position + normal * ${localThickness.toFixed(6)};`
+    );
+  };
+  mat.customProgramCacheKey = () => `cel-outline-${localThickness.toFixed(6)}`;
+  return mat;
+}
+
+// Shared stepped ramp for every MeshToonMaterial: three flat shading bands
+// (fewer, harder steps keep each face of the wedge in a distinct band, so
+// the case's contours stay legible).
 // Module-level singleton (a few bytes; never disposed) so both canvases and
 // StrictMode re-invocations reuse one texture.
 let toonRamp: THREE.DataTexture | null = null;
 function getToonRamp(): THREE.DataTexture {
   if (!toonRamp) {
-    const steps = new Uint8Array([152, 196, 228, 255]);
+    const steps = new Uint8Array([135, 195, 255]);
     toonRamp = new THREE.DataTexture(steps, steps.length, 1, THREE.RedFormat);
     toonRamp.minFilter = THREE.NearestFilter;
     toonRamp.magFilter = THREE.NearestFilter;
@@ -54,40 +89,57 @@ export function useTrunkPivots(gltfScene: THREE.Group): {
 
     // Swap a body's materials for toon: one shared clay material when the
     // body has a clay colour, else per-material colour-preserving toon.
-    const toonify = (obj: THREE.Object3D, clayColor?: string) => {
+    // Outlined bodies also gain their inverted-hull silhouette mesh.
+    const scaleScratch = new THREE.Vector3();
+    const toonify = (obj: THREE.Object3D, name: BodyName) => {
+      const clayColor = CLAY_COLORS[name];
       const clay = clayColor
         ? new THREE.MeshToonMaterial({ color: clayColor, gradientMap: ramp })
         : null;
       if (clay) materials.push(clay);
       obj.traverse(child => {
         if (!(child instanceof THREE.Mesh)) return;
+        if (child.name.endsWith(OUTLINE_SUFFIX)) return;
         if (child.material instanceof THREE.MeshToonMaterial) return;
         if (clay) {
           child.material = clay;
-          return;
+        } else {
+          const old = child.material as THREE.MeshStandardMaterial;
+          const toon = new THREE.MeshToonMaterial({
+            color: old.color?.clone() ?? new THREE.Color('#DDDDDD'),
+            map: old.map ?? null,
+            vertexColors: old.vertexColors ?? false,
+            gradientMap: ramp,
+          });
+          materials.push(toon);
+          child.material = toon;
         }
-        const old = child.material as THREE.MeshStandardMaterial;
-        const toon = new THREE.MeshToonMaterial({
-          color: old.color?.clone() ?? new THREE.Color('#DDDDDD'),
-          map: old.map ?? null,
-          vertexColors: old.vertexColors ?? false,
-          gradientMap: ramp,
-        });
-        materials.push(toon);
-        child.material = toon;
+        if (OUTLINED.has(name)) {
+          child.getWorldScale(scaleScratch);
+          const outlineMat = makeOutlineMaterial(
+            OUTLINE_WORLD_THICKNESS / (scaleScratch.x || 1)
+          );
+          materials.push(outlineMat);
+          const hull = new THREE.Mesh(child.geometry, outlineMat);
+          hull.name = `${name}${OUTLINE_SUFFIX}`;
+          // Child of the body mesh: inherits the exact transform chain, so
+          // the hull overlays the body without any bookkeeping.
+          child.add(hull);
+        }
       });
     };
 
     // Re-collect materials on re-invocation so disposal tracking survives
-    // StrictMode without minting duplicates.
+    // StrictMode without minting duplicates. Outline hulls count too.
     const collect = (obj: THREE.Object3D) => {
       obj.traverse(child => {
         if (
           child instanceof THREE.Mesh &&
-          child.material instanceof THREE.MeshToonMaterial &&
-          !materials.includes(child.material)
+          (child.material instanceof THREE.MeshToonMaterial ||
+            child.name.endsWith(OUTLINE_SUFFIX)) &&
+          !materials.includes(child.material as THREE.Material)
         ) {
-          materials.push(child.material);
+          materials.push(child.material as THREE.Material);
         }
       });
     };
@@ -105,7 +157,7 @@ export function useTrunkPivots(gltfScene: THREE.Group): {
       obj.parent.add(pivot);
       pivot.add(obj);
       found.set(name, pivot);
-      toonify(obj, CLAY_COLORS[name]);
+      toonify(obj, name);
     }
     return { pivots: found, clayMaterials: materials };
   }, [gltfScene]);

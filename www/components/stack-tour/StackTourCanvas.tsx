@@ -308,6 +308,7 @@ export default function StackTourCanvas({
           camera={{ fov: 35, near: 0.01, far: 10 }}
           onCreated={({ gl }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 1.2;
           }}
         >
           <Suspense fallback={null}>
@@ -315,9 +316,9 @@ export default function StackTourCanvas({
             {/* Toon materials ignore the environment map: the cel bands come
                 from these lights. The environment still lights the frosted
                 sheets. */}
-            <ambientLight intensity={1.35} />
-            <directionalLight position={[1.5, 2.5, 2]} intensity={1.3} />
-            <directionalLight position={[-2, 1, -1]} intensity={0.45} />
+            <ambientLight intensity={1.05} />
+            <directionalLight position={[1.5, 2.5, 2]} intensity={1.9} />
+            <directionalLight position={[-2, 1, -1]} intensity={0.5} />
             <TourScene
               storyElementId={storyElementId}
               reducedMotion={reducedMotion}
