@@ -8,6 +8,7 @@ import MediaRow from '@/components/MediaRow';
 import LeafIcon from '@/components/LeafIcon';
 import InlineEmailGate from '@/components/InlineEmailGate';
 import { AnimatedElement } from '@/components/PageAnimations';
+import { FUNDRAISING_UNLOCK_KEY } from '@/lib/fundraising-gate';
 
 function trackOutbound(label: string) {
   if (typeof window !== 'undefined' && window.gtag) {
@@ -30,8 +31,6 @@ const GATE_LOCKED_STYLE: CSSProperties = {
   pointerEvents: 'none',
 };
 
-// Bump the suffix to force all returning visitors back through the gate.
-const UNLOCK_KEY = 'fi_fundraising_unlocked_v2';
 
 export default function Fundraising() {
   const [unlocked, setUnlocked] = useState(false);
@@ -51,13 +50,13 @@ export default function Fundraising() {
       // sends earlier visitors back through the gate so their views are
       // verified and tracked. Cookie holders auto-unlock via /api/gate-status.
       localStorage.removeItem('fi_fundraising_unlocked');
-      if (localStorage.getItem(UNLOCK_KEY) === '1') setUnlocked(true);
+      if (localStorage.getItem(FUNDRAISING_UNLOCK_KEY) === '1') setUnlocked(true);
     } catch {}
   }, []);
 
   const handleUnlock = () => {
     try {
-      localStorage.setItem(UNLOCK_KEY, '1');
+      localStorage.setItem(FUNDRAISING_UNLOCK_KEY, '1');
     } catch {}
     // Content snaps to full height beneath the still-opaque scrim (no visible
     // movement), then the scrim softly fades away to reveal it.
