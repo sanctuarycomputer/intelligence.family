@@ -42,7 +42,6 @@ export default function CalloutLayer({
   anchorsRef: React.RefObject<AnchorScreenMap>;
 }) {
   const progressRef = useScrollProgress(storyElementId);
-  const rootRef = useRef<HTMLDivElement>(null);
   const lineRefs = useRef<(SVGPolylineElement | null)[]>([]);
   const groupRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -101,9 +100,11 @@ export default function CalloutLayer({
   }, [progressRef, anchorsRef, reducedMotion]);
 
   return (
+    // aria-hidden: the labels echo concepts the flow copy already carries;
+    // the right column is the authoritative, accessible text.
     <div
-      ref={rootRef}
       className="absolute inset-0 overflow-hidden pointer-events-none"
+      aria-hidden="true"
     >
       {/* Projected hairline callouts. */}
       {TOUR_CALLOUTS.map((c, i) => (

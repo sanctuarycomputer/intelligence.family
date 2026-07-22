@@ -8,6 +8,10 @@ export function assign<T extends object>(target: T, patch: Partial<T>): void {
   Object.assign(target, patch);
 }
 
+// Kept alongside assign() even while every current visibility write goes
+// through a component-local ref (which the lint rules allow directly): this
+// is the sanctioned helper the moment one of those writes moves behind a
+// memoized or prop-carried handle.
 export function setVisible(
   object: { visible: boolean } | null,
   visible: boolean
