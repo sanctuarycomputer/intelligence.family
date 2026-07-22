@@ -32,7 +32,7 @@
 - Modify: `www/package.json` (devDependencies + `optimize:trunk` script)
 
 **Interfaces:**
-- Produces: `public/fundraising/trunk.glb` whose scene contains exactly 7 top-level nodes named `enclosure-back`, `enclosure-front`, `enclosure-top`, `leaf`, `display`, `orin`, `ups`, each with identity transform (geometry baked to world space, meters). Meshopt-compressed (EXT_meshopt_compression).
+- Produces: `public/fundraising/trunk.glb` whose scene contains exactly 7 top-level nodes named `enclosure-back`, `enclosure-front`, `enclosure-top`, `leaf`, `display`, `orin`, `ups`. Geometry is baked to world space (meters), but the body nodes carry KHR_mesh_quantization decode transforms (translation + uniform scale), NOT identity — quantized positions cannot coexist with identity nodes. Downstream code MUST animate via wrapper pivots or deltas and never set a body node's own transform (Task 4's pivot groups exist for exactly this reason). Runtime draw calls: 84 (74 materials across orin/ups is genuine source BOM). Meshopt-compressed (EXT_meshopt_compression).
 
 - [ ] **Step 1: Install dev dependencies**
 
