@@ -10,15 +10,19 @@ import {
   type AnchorScreenMap,
 } from './stackTour';
 
-const INK = '#313131';
+// Hairline ink: the site's dark green (fi-green-600).
+const INK = '#596647';
 
 const LABEL_STYLE: React.CSSProperties = {
   fontFamily: 'var(--font-sans)',
   fontVariationSettings: "'MONO' 100",
   fontSize: '11px',
-  letterSpacing: '0.12em',
-  color: INK,
+  letterSpacing: '0.03em',
+  color: '#D7DDD4',
   whiteSpace: 'nowrap',
+  backgroundColor: INK,
+  padding: '3px 8px',
+  borderRadius: '4px',
 };
 
 // A simple side-profile trunk wedge for the line-art silhouettes.
@@ -37,6 +41,8 @@ export default function CalloutLayer({
   tRef: React.RefObject<number>;
 }) {
   const lineRefs = useRef<(SVGPolylineElement | null)[]>([]);
+  const dotRefs = useRef<(SVGCircleElement | null)[]>([]);
+  const jointRefs = useRef<(SVGCircleElement | null)[]>([]);
   const groupRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const artRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -70,6 +76,17 @@ export default function CalloutLayer({
           Math.hypot(elbowX - anchor.x, ly - anchor.y) + Math.abs(lx - elbowX);
         line.style.strokeDasharray = String(len);
         line.style.strokeDashoffset = String(len * (1 - phase.draw));
+        // Terminal nodes: one on the anchor tail, one at the label junction.
+        const dot = dotRefs.current[i];
+        if (dot) {
+          dot.setAttribute('cx', String(anchor.x));
+          dot.setAttribute('cy', String(anchor.y));
+        }
+        const joint = jointRefs.current[i];
+        if (joint) {
+          joint.setAttribute('cx', String(lx));
+          joint.setAttribute('cy', String(ly));
+        }
         label.style.transform = `translate(${lx + (c.dx >= 0 ? 8 : -8)}px, ${ly}px) translate(${c.dx >= 0 ? '0' : '-100%'}, -50%)`;
       });
 
@@ -113,6 +130,24 @@ export default function CalloutLayer({
               stroke={INK}
               strokeWidth="1"
               points="0,0"
+            />
+            <circle
+              ref={el => {
+                dotRefs.current[i] = el;
+              }}
+              r="2.5"
+              fill={INK}
+              cx="-10"
+              cy="-10"
+            />
+            <circle
+              ref={el => {
+                jointRefs.current[i] = el;
+              }}
+              r="2.5"
+              fill={INK}
+              cx="-10"
+              cy="-10"
             />
           </svg>
           <div
