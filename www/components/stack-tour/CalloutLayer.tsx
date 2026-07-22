@@ -10,8 +10,8 @@ import {
   type AnchorScreenMap,
 } from './stackTour';
 
-// Hairline ink: the site's dark green (fi-green-600).
-const INK = '#596647';
+// Hairline ink: the QuoteBox outline green (fi-green-500).
+const INK = '#5E7B29';
 
 const LABEL_STYLE: React.CSSProperties = {
   fontFamily: 'var(--font-sans)',
