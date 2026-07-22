@@ -133,3 +133,92 @@ export function beatIndexAt(t: number): number {
   }
   return BEAT_COUNT - 1;
 }
+
+// ---------- Motion tracks ----------
+// Beat centres for reference: 01 at 0, 02 at 0.111, 03 at 0.222, 04 at
+// 0.333, 05 at 0.444, 06 at 0.556, 07 at 0.667, 08 at 0.778, 09 at 0.889,
+// 10 at 1.
+
+// Top, leaf, front, and display travel along their EXPLODE_VECTORS by this
+// factor: the trunk opens on the way into beat 02 and closes again on the
+// way into beat 08.
+export function openFactor(t: number): number {
+  return smoothstep(0.06, 0.105, t) * (1 - smoothstep(0.7, 0.75, t));
+}
+
+export const SHEET_COUNT = 4;
+export const SHEET_X = 0.082;
+export const SHEET_Z = 0.0575;
+// Slots above the orin (top of module at y 0.0245), highest first: the
+// stack grows downward, toward silicon.
+export const SHEET_SLOT_Y = [0.115, 0.09, 0.065, 0.04];
+export const SLAB_Y = 0.032;
+
+// A dim step once a sheet's own beat has passed.
+const SHEET_DIM = 0.45;
+// Consolidation completes just before beat 06's centre (0.556), so the
+// slab is whole while its copy is up.
+const CONSOLIDATE_START = 0.49;
+const CONSOLIDATE_END = 0.545;
+// The slab dissipates early in beat 07's window.
+const DISSIPATE_START = 0.6;
+const DISSIPATE_END = 0.645;
+
+export function sheetState(
+  sheet: number,
+  t: number
+): { y: number; opacity: number } {
+  const beat = sheet + 1; // sheet 0 belongs to LAYER 02 (index 1)
+  const c = beatCenter(beat);
+  // Materialize: fade in with a small settle from above the slot.
+  const appear = smoothstep(c - 0.06, c - 0.015, t);
+  const settle = SHEET_SLOT_Y[sheet] + 0.03 * (1 - appear);
+  // Dim once the next beat's centre arrives.
+  const dim = smoothstep(beatCenter(beat) + 0.02, beatCenter(beat + 1), t);
+  // Consolidate: glide to the slab position and hand off to the slab mesh.
+  const consolidate = smoothstep(CONSOLIDATE_START, CONSOLIDATE_END, t);
+  const y = settle + (SLAB_Y - settle) * consolidate;
+  const opacity = appear * (1 - dim * (1 - SHEET_DIM)) * (1 - consolidate);
+  return { y, opacity: clamp01(opacity) };
+}
+
+export function slabOpacity(t: number): number {
+  return (
+    smoothstep(CONSOLIDATE_START + 0.03, CONSOLIDATE_END, t) *
+    (1 - smoothstep(DISSIPATE_START, DISSIPATE_END, t))
+  );
+}
+
+// Hairline callouts: draw in just before the beat centre, fade out toward
+// the window edges.
+export function calloutPhase(
+  beat: number,
+  t: number
+): { opacity: number; draw: number } {
+  const c = beatCenter(beat);
+  const rise = beat === 0 ? 1 : smoothstep(c - 0.05, c - 0.02, t);
+  const fall =
+    beat === BEAT_COUNT - 1 ? 1 : 1 - smoothstep(c + 0.02, c + 0.05, t);
+  const opacity = clamp01(Math.min(rise, fall));
+  const draw = beat === 0 ? 1 : smoothstep(c - 0.055, c - 0.005, t);
+  return { opacity, draw: clamp01(Math.min(draw, fall > 0 ? 1 : 0)) };
+}
+
+// Static line-art opacities, one per fabric beat.
+function beatArt(beat: number, t: number): number {
+  const c = beatCenter(beat);
+  const rise = smoothstep(c - 0.05, c - 0.02, t);
+  const fall =
+    beat === BEAT_COUNT - 1 ? 1 : 1 - smoothstep(c + 0.02, c + 0.05, t);
+  return clamp01(Math.min(rise, fall));
+}
+
+export function silhouetteOpacity(t: number): number {
+  return beatArt(7, t);
+}
+export function mirrorArtOpacity(t: number): number {
+  return beatArt(8, t);
+}
+export function fotaArtOpacity(t: number): number {
+  return beatArt(9, t);
+}
