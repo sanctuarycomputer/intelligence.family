@@ -1,0 +1,145 @@
+'use client';
+
+import { Component, Suspense, useEffect, useMemo, useRef, type ReactNode } from 'react';
+import * as THREE from 'three';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { ContactShadows, useGLTF } from '@react-three/drei';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { BODY_NAMES, cameraPose, explodeOffset, type BodyName } from './explodeTimeline';
+import { useScrollProgress } from './useScrollProgress';
+
+const MODEL_URL = '/fundraising/trunk.glb';
+const SMOOTHING = 0.08;
+
+// Mixed treatment: clay brand tones on the shell bodies, original CAD
+// materials on the electronics so they read as real hardware.
+const CLAY_COLORS: Partial<Record<BodyName, string>> = {
+  'enclosure-back': '#CAD4C6',
+  'enclosure-front': '#B8C6B0',
+  'enclosure-top': '#B8C6B0',
+  leaf: '#5E7B29',
+};
+
+// Procedural environment lighting: no network fetch, unlike drei's
+// <Environment preset>, which pulls HDRs from a CDN.
+function ProceduralEnvironment() {
+  // Use the store's get() accessor so we access scene/gl inside the effect
+  // without triggering react-hooks/immutability (React 19 compiler rule).
+  const get = useThree((s) => s.get);
+  useEffect(() => {
+    const { gl, scene } = get();
+    const pmrem = new THREE.PMREMGenerator(gl);
+    const tex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = tex;
+    return () => {
+      scene.environment = null;
+      tex.dispose();
+      pmrem.dispose();
+    };
+  }, [get]);
+  return null;
+}
+
+function TrunkModel({
+  storyElementId,
+  progressOverride,
+}: {
+  storyElementId: string;
+  progressOverride?: number;
+}) {
+  const { scene: gltfScene } = useGLTF(MODEL_URL);
+  const progressRef = useScrollProgress(storyElementId);
+  const smoothed = useRef(progressOverride ?? 0);
+  const camera = useThree((s) => s.camera);
+
+  // Each body moves via a wrapper pivot, never its own node: loaders and
+  // quantization may store meaningful transforms on the body nodes, and
+  // setting their position directly would clobber those.
+  const pivots = useMemo(() => {
+    const found = new Map<BodyName, THREE.Group>();
+    for (const name of BODY_NAMES) {
+      const obj = gltfScene.getObjectByName(name);
+      if (!obj || !obj.parent) continue;
+      const pivot = new THREE.Group();
+      pivot.name = `${name}-pivot`;
+      obj.parent.add(pivot);
+      pivot.add(obj);
+      found.set(name, pivot);
+      if (CLAY_COLORS[name]) {
+        const clay = new THREE.MeshStandardMaterial({
+          color: CLAY_COLORS[name],
+          roughness: 0.85,
+          metalness: 0,
+        });
+        obj.traverse((child) => {
+          if (child instanceof THREE.Mesh) child.material = clay;
+        });
+      }
+    }
+    return found;
+  }, [gltfScene]);
+
+  useFrame(() => {
+    const target = progressOverride ?? progressRef.current;
+    smoothed.current =
+      progressOverride !== undefined
+        ? target
+        : smoothed.current + (target - smoothed.current) * SMOOTHING;
+    const t = smoothed.current;
+
+    for (const [name, pivot] of pivots) {
+      const [x, y, z] = explodeOffset(name, t);
+      pivot.position.set(x, y, z);
+    }
+
+    const pose = cameraPose(t);
+    camera.position.set(...pose.position);
+    camera.lookAt(...pose.target);
+  });
+
+  return <primitive object={gltfScene} />;
+}
+
+// A broken canvas must never break the fundraising flow: on any render
+// error (WebGL unavailable, asset failure) the page falls back to copy
+// on the sage background.
+class CanvasErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
+
+export default function TrunkCanvas({
+  storyElementId,
+  progressOverride,
+}: {
+  storyElementId: string;
+  progressOverride?: number;
+}) {
+  return (
+    <div className="fixed inset-0" aria-hidden="true">
+      <CanvasErrorBoundary>
+        <Canvas
+          gl={{ alpha: true, antialias: true }}
+          dpr={[1, 2]}
+          camera={{ fov: 35, near: 0.01, far: 10 }}
+          onCreated={({ gl }) => {
+            gl.toneMapping = THREE.ACESFilmicToneMapping;
+          }}
+        >
+          <Suspense fallback={null}>
+            <ProceduralEnvironment />
+            <TrunkModel storyElementId={storyElementId} progressOverride={progressOverride} />
+            <ContactShadows position={[0.09, -0.05, 0.085]} scale={0.8} blur={2.5} opacity={0.35} far={0.3} />
+          </Suspense>
+        </Canvas>
+      </CanvasErrorBoundary>
+    </div>
+  );
+}
+
+useGLTF.preload(MODEL_URL);
