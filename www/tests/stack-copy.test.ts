@@ -12,6 +12,7 @@ const fundraisingPage = read('app/fundraising/page.tsx');
 describe('stack page contract', () => {
   it('contains no em dashes in copy', () => {
     expect(page).not.toMatch(/—/);
+    expect(layout).not.toMatch(/—/);
   });
 
   it('covers all seven hardware beats', () => {

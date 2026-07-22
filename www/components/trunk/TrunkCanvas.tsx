@@ -123,7 +123,7 @@ function TrunkModel({
     };
   }, [clayMaterials]);
 
-  useFrame(() => {
+  useFrame((state) => {
     const target = progressOverride ?? progressRef.current;
     smoothed.current =
       progressOverride !== undefined
@@ -137,7 +137,16 @@ function TrunkModel({
     }
 
     const pose = cameraPose(t);
-    camera.position.set(...pose.position);
+    // Vertical fov is fixed in three.js, so narrow aspects need extra camera
+    // distance to keep the trunk horizontally framed.
+    const { width, height } = state.size;
+    const aspect = width / height;
+    const REF_ASPECT = 1.6;
+    const dolly = Math.min(1.8, Math.max(1, REF_ASPECT / aspect));
+    const px = pose.target[0] + (pose.position[0] - pose.target[0]) * dolly;
+    const py = pose.target[1] + (pose.position[1] - pose.target[1]) * dolly;
+    const pz = pose.target[2] + (pose.position[2] - pose.target[2]) * dolly;
+    camera.position.set(px, py, pz);
     camera.lookAt(...pose.target);
   });
 
@@ -154,6 +163,9 @@ class CanvasErrorBoundary extends Component<
   state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
+  }
+  componentDidCatch(error: Error) {
+    console.error('TrunkCanvas failed to render:', error);
   }
   render() {
     return this.state.failed ? null : this.props.children;
@@ -184,12 +196,13 @@ export default function TrunkCanvas({
               storyElementId={storyElementId}
               progressOverride={progressOverride}
             />
+            {/* Plane sits below the UPS's fully-exploded rest position (y ≈ −0.137). */}
             <ContactShadows
-              position={[0.09, -0.05, 0.085]}
+              position={[0.09, -0.16, 0.085]}
               scale={0.8}
               blur={2.5}
               opacity={0.35}
-              far={0.3}
+              far={0.45}
             />
           </Suspense>
         </Canvas>

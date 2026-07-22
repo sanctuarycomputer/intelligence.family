@@ -21,7 +21,7 @@ export type Vec3 = [number, number, number];
 // behind it, orin slides out, ups drops beneath it, back recedes.
 export const EXPLODE_VECTORS: Record<BodyName, Vec3> = {
   'enclosure-top': [0, 0.13, 0],
-  leaf: [0, 0.2, 0],
+  leaf: [0, 0.13, 0],
   'enclosure-front': [0, 0, 0.16],
   display: [0, 0, 0.1],
   orin: [0.12, 0.02, 0],
