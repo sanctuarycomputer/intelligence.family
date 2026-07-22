@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, ReactNode, CSSProperties, JSX, createContext, useContext } from "react";
+import { useEffect, useState, ReactNode, CSSProperties, ElementType, createContext, useContext } from "react";
 
 // Context to control when animations should start
 interface AnimationContextType {
@@ -32,7 +32,7 @@ interface AnimatedElementProps {
   delay: number;
   className?: string;
   style?: CSSProperties;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType<{ className?: string; style?: CSSProperties; children?: ReactNode }>;
 }
 
 export function AnimatedElement({
