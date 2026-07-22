@@ -19,9 +19,8 @@ import { useScrollProgress } from '../trunk/useScrollProgress';
 import { useTrunkPivots } from '../trunk/useTrunkPivots';
 import {
   anchorWorld,
-  beatCenter,
-  beatIndexAt,
   openFactor,
+  reducedMotionTarget,
   sheetState,
   slabOpacity,
   tourCameraPose,
@@ -163,7 +162,7 @@ function TourScene({
 
   useFrame(state => {
     const raw = progressRef.current;
-    const target = reducedMotion ? beatCenter(beatIndexAt(raw)) : raw;
+    const target = reducedMotion ? reducedMotionTarget(raw) : raw;
     smoothed.current = reducedMotion
       ? target
       : smoothed.current + (target - smoothed.current) * SMOOTHING;

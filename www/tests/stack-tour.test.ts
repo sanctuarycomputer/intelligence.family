@@ -30,9 +30,10 @@ describe('tour beats', () => {
     });
   });
 
-  it('centres beat i at i/9 and tiles windows without gaps', () => {
-    expect(beatCenter(0)).toBe(0);
+  it('centres beat i at (i+1)/10, leaving the intro below 0.1, and tiles windows', () => {
+    expect(beatCenter(0)).toBe(0.1);
     expect(beatCenter(9)).toBe(1);
+    // Beat 0's window opens at 0 so the intro region still resolves to it.
     expect(beatWindow(0).start).toBe(0);
     expect(beatWindow(9).end).toBe(1);
     for (let i = 1; i < BEAT_COUNT; i++) {

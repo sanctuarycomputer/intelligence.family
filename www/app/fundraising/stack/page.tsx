@@ -65,6 +65,39 @@ const UNDERLINE_STYLE: React.CSSProperties = {
   boxDecorationBreak: 'clone',
 };
 
+// "The Stack" intro: shown beside the gate while locked, and as the story's
+// opening section once unlocked, so the copy never disappears on unlock.
+function StackIntro() {
+  return (
+    <>
+      {/* Bare h1: takes the site display treatment from globals.css,
+          same as the homepage. Its `margin: 0` is why the gap below
+          lives on the copy block instead. */}
+      <h1>The Stack</h1>
+      <div className="mt-6 text-fi-black-900 text-pretty">
+        <p className="large">
+          Under the hood, we&rsquo;re solving for zero knowledge data sync,
+          end-to-end encryption at rest, runtime memory management, model
+          agnostic agentic harness, fleet management and firmware updates.
+        </p>
+        <p className="large">
+          Together, our stack is{' '}
+          <strong>
+            an integrated silicon-to-screen application runtime for deploying
+            privacy preserving inference to edge devices
+          </strong>
+          .
+        </p>
+        <p className="large">
+          <span style={UNDERLINE_STYLE}>
+            This is the Android of privately intelligent hardware.
+          </span>
+        </p>
+      </div>
+    </>
+  );
+}
+
 export default function Stack() {
   const [unlocked, setUnlocked] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -115,31 +148,7 @@ export default function Stack() {
           </div>
 
           <div className="lg:col-span-4 flex flex-col justify-center pb-8 lg:pb-0 lg:pr-4">
-            {/* Bare h1: takes the site display treatment from globals.css,
-                same as the homepage. Its `margin: 0` is why the gap below
-                lives on the copy block instead. */}
-            <h1>The Stack</h1>
-            <div className="mt-6 text-fi-black-900 text-pretty">
-              <p className="large">
-                Under the hood, we&rsquo;re solving for zero knowledge data
-                sync, end-to-end encryption at rest, runtime memory management,
-                model agnostic agentic harness, fleet management and firmware
-                updates.
-              </p>
-              <p className="large">
-                Together, our stack is{' '}
-                <strong>
-                  an integrated silicon-to-screen application runtime for
-                  deploying privacy preserving inference to edge devices
-                </strong>
-                .
-              </p>
-              <p className="large">
-                <span style={UNDERLINE_STYLE}>
-                  This is the Android of privately intelligent hardware.
-                </span>
-              </p>
-            </div>
+            <StackIntro />
           </div>
         </div>
       </main>
@@ -149,7 +158,8 @@ export default function Stack() {
   return (
     <main>
       {/* The story element's own height is the scroll track useScrollProgress
-          reads: one viewport per beat, so beat i centres at t = i/9. */}
+          reads: eleven one-viewport sections (intro + ten beats), so beat i
+          centres at t = (i + 1) / 10. */}
       <div
         id={STORY_ID}
         className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-10 px-4 lg:px-8"
@@ -174,6 +184,13 @@ export default function Stack() {
         </div>
 
         <div className="lg:col-span-4">
+          {/* Intro section: the same "The Stack" copy as the locked frame,
+              always at the top; scrolling descends into Layer 01. */}
+          <section className="min-h-svh flex items-end pb-[10svh] lg:items-center lg:pb-0 lg:pr-4">
+            <div>
+              <StackIntro />
+            </div>
+          </section>
           {TOUR_BEATS.map(beat => (
             <section
               key={beat.id}

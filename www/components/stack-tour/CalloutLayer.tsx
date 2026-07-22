@@ -3,11 +3,10 @@
 import { useEffect, useRef } from 'react';
 import { useScrollProgress } from '../trunk/useScrollProgress';
 import {
-  beatCenter,
-  beatIndexAt,
   calloutPhase,
   fotaArtOpacity,
   mirrorArtOpacity,
+  reducedMotionTarget,
   silhouetteOpacity,
   TOUR_CALLOUTS,
   type AnchorScreenMap,
@@ -53,7 +52,7 @@ export default function CalloutLayer({
     const loop = () => {
       raf = requestAnimationFrame(loop);
       const raw = progressRef.current;
-      const target = reducedMotion ? beatCenter(beatIndexAt(raw)) : raw;
+      const target = reducedMotion ? reducedMotionTarget(raw) : raw;
       smoothed = reducedMotion
         ? target
         : smoothed + (target - smoothed) * SMOOTHING;

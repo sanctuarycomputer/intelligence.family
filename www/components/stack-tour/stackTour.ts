@@ -117,10 +117,12 @@ export const TOUR_BEATS: TourBeat[] = [
 
 export const BEAT_COUNT = TOUR_BEATS.length;
 
-// Ten one-viewport sections: computeProgress spans (height - viewport), so
-// section i sits vertically centred at t = i / 9.
+// Eleven one-viewport sections: an intro ("The Stack") followed by the ten
+// beats. computeProgress spans (height - viewport) = ten viewports, so
+// section k centres at t = k / 10 and beat i (section i + 1) centres at
+// t = (i + 1) / 10. The intro occupies t < 0.1.
 export function beatCenter(i: number): number {
-  return i / (BEAT_COUNT - 1);
+  return (i + 1) / BEAT_COUNT;
 }
 
 export function beatWindow(i: number): { start: number; end: number } {
@@ -128,6 +130,13 @@ export function beatWindow(i: number): { start: number; end: number } {
   const end =
     i === BEAT_COUNT - 1 ? 1 : (beatCenter(i) + beatCenter(i + 1)) / 2;
   return { start, end };
+}
+
+// Reduced-motion snap target: the intro (t < 0.05, midway between the
+// intro centre and beat 01's centre) snaps to the resting hero at t = 0;
+// everything else snaps to its beat centre.
+export function reducedMotionTarget(raw: number): number {
+  return raw < 0.05 ? 0 : beatCenter(beatIndexAt(raw));
 }
 
 export function beatIndexAt(t: number): number {
@@ -139,15 +148,15 @@ export function beatIndexAt(t: number): number {
 }
 
 // ---------- Motion tracks ----------
-// Beat centres for reference: 01 at 0, 02 at 0.111, 03 at 0.222, 04 at
-// 0.333, 05 at 0.444, 06 at 0.556, 07 at 0.667, 08 at 0.778, 09 at 0.889,
-// 10 at 1.
+// Beat centres for reference: 01 at 0.1, 02 at 0.2, 03 at 0.3, 04 at 0.4,
+// 05 at 0.5, 06 at 0.6, 07 at 0.7, 08 at 0.8, 09 at 0.9, 10 at 1. The
+// intro section sits below t = 0.1.
 
 // Top, leaf, front, and display travel along their EXPLODE_VECTORS by this
 // factor: the trunk opens on the way into beat 02 and closes again on the
 // way into beat 08.
 export function openFactor(t: number): number {
-  return smoothstep(0.06, 0.105, t) * (1 - smoothstep(0.7, 0.75, t));
+  return smoothstep(0.154, 0.194, t) * (1 - smoothstep(0.73, 0.775, t));
 }
 
 export const SHEET_COUNT = 4;
@@ -162,11 +171,11 @@ export const SLAB_Y = 0.03;
 const SHEET_DIM = 0.45;
 // Consolidation completes just before beat 06's centre (0.556), so the
 // slab is whole while its copy is up.
-const CONSOLIDATE_START = 0.49;
-const CONSOLIDATE_END = 0.545;
+const CONSOLIDATE_START = 0.534;
+const CONSOLIDATE_END = 0.589;
 // The slab dissipates early in beat 07's window.
-const DISSIPATE_START = 0.6;
-const DISSIPATE_END = 0.645;
+const DISSIPATE_START = 0.633;
+const DISSIPATE_END = 0.678;
 
 export function sheetState(
   sheet: number,
@@ -200,11 +209,11 @@ export function calloutPhase(
   t: number
 ): { opacity: number; draw: number } {
   const c = beatCenter(beat);
-  const rise = beat === 0 ? 1 : smoothstep(c - 0.05, c - 0.02, t);
+  const rise = smoothstep(c - 0.05, c - 0.02, t);
   const fall =
     beat === BEAT_COUNT - 1 ? 1 : 1 - smoothstep(c + 0.02, c + 0.05, t);
   const opacity = clamp01(Math.min(rise, fall));
-  const draw = beat === 0 ? 1 : smoothstep(c - 0.055, c - 0.005, t);
+  const draw = smoothstep(c - 0.055, c - 0.005, t);
   return { opacity, draw: clamp01(Math.min(draw, fall > 0 ? 1 : 0)) };
 }
 
@@ -234,50 +243,56 @@ export interface TourPose {
   target: Vec3;
 }
 
-// Time-keyed keyframes at beat centres (native model coordinates; device
-// centre is roughly [0.09, 0.02, 0.085]). Eased with smoothstep between
-// neighbours; the aspect dolly in the canvas keeps narrow screens framed.
+// Time-keyed keyframes: the intro at t = 0, then one per beat centre
+// (native model coordinates; device centre is roughly [0.09, 0.02, 0.085]).
+// Eased with smoothstep between neighbours; the aspect dolly in the canvas
+// keeps narrow screens framed.
 const CAMERA_KEYFRAMES: { t: number; pose: TourPose }[] = [
+  // Intro: the locked card's resting hero, so the unlock is seamless.
+  { t: 0, pose: { position: [0.37, 0.17, 0.5], target: [0.09, 0.02, 0.085] } },
   // 01 hero: assembled, front three-quarter, screen prominent.
-  { t: 0, pose: { position: [0.34, 0.16, 0.46], target: [0.09, 0.02, 0.085] } },
+  {
+    t: 0.1,
+    pose: { position: [0.34, 0.16, 0.46], target: [0.09, 0.02, 0.085] },
+  },
   // 02 over the opened cavity: orin + the first sheet.
   {
-    t: 1 / 9,
+    t: 0.2,
     pose: { position: [0.12, 0.2, 0.34], target: [0.082, 0.06, 0.058] },
   },
   // 03 orbit right, slightly closer.
   {
-    t: 2 / 9,
+    t: 0.3,
     pose: { position: [0.21, 0.14, 0.24], target: [0.082, 0.065, 0.058] },
   },
   // 04 orbit to the left side.
   {
-    t: 3 / 9,
+    t: 0.4,
     pose: { position: [-0.03, 0.13, 0.22], target: [0.082, 0.06, 0.058] },
   },
   // 05 lower and closer: the lowest sheet, just off the silicon.
   {
-    t: 4 / 9,
+    t: 0.5,
     pose: { position: [0.13, 0.12, 0.26], target: [0.082, 0.05, 0.058] },
   },
   // 06 high three-quarter: slab on the orin, floated panels at frame edge.
   {
-    t: 5 / 9,
+    t: 0.6,
     pose: { position: [0.3, 0.2, 0.34], target: [0.09, 0.04, 0.09] },
   },
   // 07 the dive: orin fills the card.
   {
-    t: 6 / 9,
+    t: 0.7,
     pose: { position: [0.11, 0.05, 0.14], target: [0.082, 0.0075, 0.0575] },
   },
   // 08 reassembled; target shifted +x so the trunk sits left-of-card.
   {
-    t: 7 / 9,
+    t: 0.8,
     pose: { position: [0.4, 0.14, 0.52], target: [0.14, 0.02, 0.085] },
   },
   // 09 small and low: target above the device pushes it down-frame.
   {
-    t: 8 / 9,
+    t: 0.9,
     pose: { position: [0.42, 0.2, 0.62], target: [0.09, 0.1, 0.085] },
   },
   // 10 settled hero.
