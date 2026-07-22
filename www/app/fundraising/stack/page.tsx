@@ -49,8 +49,10 @@ export default function Stack() {
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUnlocked(localStorage.getItem(FUNDRAISING_UNLOCK_KEY) === '1');
+    try {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (localStorage.getItem(FUNDRAISING_UNLOCK_KEY) === '1') setUnlocked(true);
+    } catch {}
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mq.matches);
     const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
@@ -59,7 +61,9 @@ export default function Stack() {
   }, []);
 
   const unlock = () => {
-    localStorage.setItem(FUNDRAISING_UNLOCK_KEY, '1');
+    try {
+      localStorage.setItem(FUNDRAISING_UNLOCK_KEY, '1');
+    } catch {}
     setUnlocked(true);
   };
 
