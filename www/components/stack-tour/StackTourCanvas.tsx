@@ -312,6 +312,12 @@ export default function StackTourCanvas({
         >
           <Suspense fallback={null}>
             <ProceduralEnvironment />
+            {/* Toon materials ignore the environment map: the cel bands come
+                from these lights. The environment still lights the frosted
+                sheets. */}
+            <ambientLight intensity={1.35} />
+            <directionalLight position={[1.5, 2.5, 2]} intensity={1.3} />
+            <directionalLight position={[-2, 1, -1]} intensity={0.45} />
             <TourScene
               storyElementId={storyElementId}
               reducedMotion={reducedMotion}
