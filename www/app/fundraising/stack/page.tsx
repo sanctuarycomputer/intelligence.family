@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import InlineEmailGate from '@/components/InlineEmailGate';
 import { FUNDRAISING_UNLOCK_KEY } from '@/lib/fundraising-gate';
 import CalloutLayer from '@/components/stack-tour/CalloutLayer';
+import RenderDebugPanel from '@/components/stack-tour/RenderDebugPanel';
 import {
   TOUR_BEATS,
   type AnchorScreenMap,
@@ -101,12 +102,18 @@ function StackIntro() {
 export default function Stack() {
   const [unlocked, setUnlocked] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [debug, setDebug] = useState(false);
 
   useEffect(() => {
     try {
       if (localStorage.getItem(FUNDRAISING_UNLOCK_KEY) === '1')
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setUnlocked(true);
+    } catch {}
+    try {
+      // ?debug=true enables the render-dial panel on the unlocked story.
+      if (new URLSearchParams(window.location.search).get('debug') === 'true')
+        setDebug(true);
     } catch {}
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mq.matches);
@@ -213,6 +220,7 @@ export default function Stack() {
           ))}
         </div>
       </div>
+      {debug && <RenderDebugPanel />}
     </main>
   );
 }

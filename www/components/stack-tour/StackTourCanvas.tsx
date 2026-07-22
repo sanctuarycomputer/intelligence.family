@@ -32,6 +32,7 @@ import {
   type AnchorScreenMap,
 } from './stackTour';
 import { assign } from './mutate';
+import { useRenderSettings } from './renderSettings';
 
 const MODEL_URL = '/fundraising/trunk.glb';
 // Per-frame smoothing factor at the 60fps reference rate; the frame loop
@@ -58,6 +59,16 @@ const ANCHOR_IDS: AnchorId[] = [
   'sheet2',
   'sheet3',
 ];
+
+// Applies the settings' tone-mapping exposure through the store accessor
+// (the react-hooks/immutability-safe way to reach gl in an effect).
+function ExposureController({ exposure }: { exposure: number }) {
+  const get = useThree(s => s.get);
+  useEffect(() => {
+    get().gl.toneMappingExposure = exposure;
+  }, [get, exposure]);
+  return null;
+}
 
 // Procedural environment lighting: no network fetch, unlike drei's
 // <Environment preset>, which pulls HDRs from a CDN.
@@ -150,6 +161,16 @@ function TourScene({
     [slabGeo]
   );
   const projScratch = useMemo(() => new THREE.Vector3(), []);
+
+  const sheetColors = useRenderSettings().sheets;
+  useEffect(() => {
+    for (const m of sheetMats) {
+      m.face.color.set(sheetColors.face);
+      m.edge.color.set(sheetColors.edge);
+    }
+    slabMats.face.color.set(sheetColors.face);
+    slabMats.edge.color.set(sheetColors.edge);
+  }, [sheetColors, sheetMats, slabMats]);
 
   useEffect(() => {
     return () => {
@@ -298,6 +319,8 @@ export default function StackTourCanvas({
   anchorsRef: RefObject<AnchorScreenMap>;
   tRef: RefObject<number>;
 }) {
+  const settings = useRenderSettings();
+  const { lighting, grid } = settings;
   return (
     // Fills the positioned viewer card, exactly like TrunkCanvas.
     <div className="absolute inset-0" aria-hidden="true">
@@ -308,17 +331,37 @@ export default function StackTourCanvas({
           camera={{ fov: 35, near: 0.01, far: 10 }}
           onCreated={({ gl }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
-            gl.toneMappingExposure = 1.2;
+            gl.toneMappingExposure = lighting.exposure;
           }}
         >
+          <ExposureController exposure={lighting.exposure} />
           <Suspense fallback={null}>
             <ProceduralEnvironment />
             {/* Toon materials ignore the environment map: the cel bands come
                 from these lights. The environment still lights the frosted
                 sheets. */}
-            <ambientLight intensity={1.05} />
-            <directionalLight position={[1.5, 2.5, 2]} intensity={1.9} />
-            <directionalLight position={[-2, 1, -1]} intensity={0.5} />
+            <ambientLight intensity={lighting.ambient} />
+            <directionalLight
+              position={lighting.keyPosition}
+              intensity={lighting.key}
+            />
+            <directionalLight
+              position={lighting.rimPosition}
+              intensity={lighting.rim}
+            />
+            {grid.enabled && (
+              <gridHelper
+                key={JSON.stringify(grid)}
+                args={[grid.size, grid.divisions, grid.color, grid.color]}
+                position={[0.09, grid.y, 0.085]}
+                onUpdate={helper => {
+                  const mat = helper.material as THREE.Material;
+                  mat.transparent = true;
+                  mat.opacity = grid.opacity;
+                  mat.depthWrite = false;
+                }}
+              />
+            )}
             <TourScene
               storyElementId={storyElementId}
               reducedMotion={reducedMotion}
