@@ -1,0 +1,46 @@
+{
+  "name": "www",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "dotenvx run -- next dev",
+    "build": "dotenvx run -- next build",
+    "start": "dotenvx run -- next start",
+    "lint": "eslint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lighthouse": "npx @lhci/cli autorun",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "optimize:trunk": "node scripts/optimize-trunk.mjs"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^2.3.4",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "iron-session": "^8.0.4",
+    "next": "16.1.1",
+    "prism-react-renderer": "^2.4.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "resend": "^6.17.2",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "^4.4.1",
+    "@gltf-transform/extensions": "^4.4.1",
+    "@gltf-transform/functions": "^4.4.1",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.185.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "meshoptimizer": "^1.2.0",
+    "prettier": "^3.7.4",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.10"
+  }
+}
