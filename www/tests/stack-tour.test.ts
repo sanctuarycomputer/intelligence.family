@@ -15,6 +15,9 @@ import {
   SHEET_COUNT,
   SHEET_SLOT_Y,
   SLAB_Y,
+  tourCameraPose,
+  anchorWorld,
+  TOUR_CALLOUTS,
 } from '@/components/stack-tour/stackTour';
 
 describe('tour beats', () => {
@@ -99,5 +102,60 @@ describe('motion tracks', () => {
     expect(mirrorArtOpacity(beatCenter(7))).toBe(0);
     expect(fotaArtOpacity(beatCenter(9))).toBe(1);
     expect(fotaArtOpacity(beatCenter(8))).toBe(0);
+  });
+});
+
+describe('camera and anchors', () => {
+  it('returns finite poses with no cuts anywhere', () => {
+    let prev = tourCameraPose(0);
+    for (let t = 0.001; t <= 1.0001; t += 0.001) {
+      const pose = tourCameraPose(Math.min(1, t));
+      for (const v of [...pose.position, ...pose.target]) {
+        expect(Number.isFinite(v)).toBe(true);
+      }
+      const jump = Math.hypot(
+        pose.position[0] - prev.position[0],
+        pose.position[1] - prev.position[1],
+        pose.position[2] - prev.position[2]
+      );
+      expect(jump).toBeLessThan(0.02);
+      prev = pose;
+    }
+  });
+
+  it('dives closest at the TEE beat', () => {
+    const dist = (t: number) => {
+      const p = tourCameraPose(t);
+      return Math.hypot(
+        p.position[0] - p.target[0],
+        p.position[1] - p.target[1],
+        p.position[2] - p.target[2]
+      );
+    };
+    const teeDist = dist(beatCenter(6));
+    for (const i of [0, 1, 2, 3, 4, 5, 7, 8, 9]) {
+      expect(teeDist).toBeLessThan(dist(beatCenter(i)));
+    }
+  });
+
+  it('anchors move with the open factor and sheet tracks', () => {
+    // Display carries its explode offset when open (beat 02) and returns
+    // home when closed (beat 08).
+    const open = anchorWorld('display', beatCenter(1));
+    const closed = anchorWorld('display', beatCenter(7));
+    expect(open[2]).toBeCloseTo(0.1158 + 0.1, 3);
+    expect(closed[2]).toBeCloseTo(0.1158, 3);
+    // Sheet anchors ride their slots.
+    expect(anchorWorld('sheet0', beatCenter(1))[1]).toBeCloseTo(0.115, 3);
+    expect(anchorWorld('slab', beatCenter(5))[1]).toBeCloseTo(0.032, 3);
+  });
+
+  it('every callout points at a defined anchor within a valid beat', () => {
+    for (const c of TOUR_CALLOUTS) {
+      expect(c.beat).toBeGreaterThanOrEqual(0);
+      expect(c.beat).toBeLessThan(BEAT_COUNT);
+      expect(c.label.length).toBeGreaterThan(0);
+      expect(() => anchorWorld(c.anchor, 0.5)).not.toThrow();
+    }
   });
 });

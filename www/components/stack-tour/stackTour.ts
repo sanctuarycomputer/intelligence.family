@@ -3,7 +3,11 @@
 //
 // NOTE: this file is covered by the em-dash lint in tests/stack-copy.test.ts.
 // Keep comments and copy free of em dashes.
-import { smoothstep } from '../trunk/explodeTimeline';
+import {
+  smoothstep,
+  EXPLODE_VECTORS,
+  type Vec3,
+} from '../trunk/explodeTimeline';
 
 export { smoothstep };
 
@@ -222,3 +226,216 @@ export function mirrorArtOpacity(t: number): number {
 export function fotaArtOpacity(t: number): number {
   return beatArt(9, t);
 }
+
+// ---------- Camera ----------
+
+export interface TourPose {
+  position: Vec3;
+  target: Vec3;
+}
+
+// Time-keyed keyframes at beat centres (native model coordinates; device
+// centre is roughly [0.09, 0.02, 0.085]). Eased with smoothstep between
+// neighbours; the aspect dolly in the canvas keeps narrow screens framed.
+const CAMERA_KEYFRAMES: { t: number; pose: TourPose }[] = [
+  // 01 hero: assembled, front three-quarter, screen prominent.
+  { t: 0, pose: { position: [0.34, 0.16, 0.46], target: [0.09, 0.02, 0.085] } },
+  // 02 over the opened cavity: orin + the first sheet.
+  {
+    t: 1 / 9,
+    pose: { position: [0.1, 0.17, 0.29], target: [0.082, 0.07, 0.058] },
+  },
+  // 03 orbit right, slightly closer.
+  {
+    t: 2 / 9,
+    pose: { position: [0.21, 0.14, 0.24], target: [0.082, 0.065, 0.058] },
+  },
+  // 04 orbit to the left side.
+  {
+    t: 3 / 9,
+    pose: { position: [-0.03, 0.13, 0.22], target: [0.082, 0.06, 0.058] },
+  },
+  // 05 lower and closer: the lowest sheet, just off the silicon.
+  {
+    t: 4 / 9,
+    pose: { position: [0.09, 0.1, 0.2], target: [0.082, 0.045, 0.058] },
+  },
+  // 06 pull back wide enough to include the floated front panel.
+  {
+    t: 5 / 9,
+    pose: { position: [0.14, 0.13, 0.42], target: [0.085, 0.05, 0.1] },
+  },
+  // 07 the dive: orin fills the card.
+  {
+    t: 6 / 9,
+    pose: { position: [0.11, 0.05, 0.14], target: [0.082, 0.0075, 0.0575] },
+  },
+  // 08 reassembled; target shifted +x so the trunk sits left-of-card.
+  {
+    t: 7 / 9,
+    pose: { position: [0.4, 0.14, 0.52], target: [0.14, 0.02, 0.085] },
+  },
+  // 09 small and low: target above the device pushes it down-frame.
+  {
+    t: 8 / 9,
+    pose: { position: [0.42, 0.2, 0.62], target: [0.09, 0.1, 0.085] },
+  },
+  // 10 settled hero.
+  { t: 1, pose: { position: [0.36, 0.16, 0.48], target: [0.09, 0.02, 0.085] } },
+];
+
+function lerpVec(a: Vec3, b: Vec3, p: number): Vec3 {
+  return [
+    a[0] + (b[0] - a[0]) * p,
+    a[1] + (b[1] - a[1]) * p,
+    a[2] + (b[2] - a[2]) * p,
+  ];
+}
+
+export function tourCameraPose(t: number): TourPose {
+  const c = clamp01(t);
+  if (c >= 1) return CAMERA_KEYFRAMES[CAMERA_KEYFRAMES.length - 1].pose;
+  let i = 0;
+  while (c >= CAMERA_KEYFRAMES[i + 1].t) i++;
+  const a = CAMERA_KEYFRAMES[i];
+  const b = CAMERA_KEYFRAMES[i + 1];
+  const p = smoothstep(a.t, b.t, c);
+  return {
+    position: lerpVec(a.pose.position, b.pose.position, p),
+    target: lerpVec(a.pose.target, b.pose.target, p),
+  };
+}
+
+// ---------- Anchors and callouts ----------
+
+export type AnchorId =
+  | 'display'
+  | 'orin'
+  | 'front'
+  | 'trunk'
+  | 'slab'
+  | 'sheet0'
+  | 'sheet1'
+  | 'sheet2'
+  | 'sheet3';
+
+// Measured body centres (see the optimize script's world-baked geometry).
+const DISPLAY_CENTER: Vec3 = [0.086, 0.0075, 0.1158];
+const FRONT_CENTER: Vec3 = [0.0895, 0.0079, 0.1205];
+const ORIN_CENTER: Vec3 = [0.0821, 0.0075, 0.0575];
+const TRUNK_CENTER: Vec3 = [0.09, 0.01, 0.085];
+
+export function anchorWorld(id: AnchorId, t: number): Vec3 {
+  const open = openFactor(t);
+  switch (id) {
+    case 'display': {
+      const v = EXPLODE_VECTORS.display;
+      return [
+        DISPLAY_CENTER[0] + v[0] * open,
+        DISPLAY_CENTER[1] + v[1] * open,
+        DISPLAY_CENTER[2] + v[2] * open,
+      ];
+    }
+    case 'front': {
+      const v = EXPLODE_VECTORS['enclosure-front'];
+      return [
+        FRONT_CENTER[0] + v[0] * open,
+        FRONT_CENTER[1] + v[1] * open,
+        FRONT_CENTER[2] + v[2] * open,
+      ];
+    }
+    case 'orin':
+      return ORIN_CENTER;
+    case 'trunk':
+      return TRUNK_CENTER;
+    case 'slab':
+      return [SHEET_X, SLAB_Y, SHEET_Z];
+    default: {
+      const sheet = Number(id.slice(5));
+      return [SHEET_X, sheetState(sheet, t).y, SHEET_Z];
+    }
+  }
+}
+
+export interface AnchorScreenPoint {
+  x: number;
+  y: number;
+  visible: boolean;
+}
+export type AnchorScreenMap = Partial<Record<AnchorId, AnchorScreenPoint>>;
+
+export interface TourCallout {
+  beat: number;
+  anchor: AnchorId;
+  label: string;
+  // Label offset from the projected anchor, in card px.
+  dx: number;
+  dy: number;
+}
+
+export const TOUR_CALLOUTS: TourCallout[] = [
+  {
+    beat: 0,
+    anchor: 'display',
+    label: 'VOICE · TACTILE · SCREEN',
+    dx: -170,
+    dy: -90,
+  },
+  {
+    beat: 1,
+    anchor: 'sheet0',
+    label: 'PII · LOCAL INFERENCE ONLY',
+    dx: 150,
+    dy: -70,
+  },
+  {
+    beat: 2,
+    anchor: 'sheet1',
+    label: 'CAPTURE → SEALED CHUNKS',
+    dx: -190,
+    dy: -80,
+  },
+  {
+    beat: 3,
+    anchor: 'sheet2',
+    label: 'GRAPH · BLOBS · INDEXES',
+    dx: 150,
+    dy: -70,
+  },
+  {
+    beat: 4,
+    anchor: 'sheet3',
+    label: 'KEYS ARE MINTED HERE. THEY NEVER LEAVE.',
+    dx: 130,
+    dy: -90,
+  },
+  {
+    beat: 5,
+    anchor: 'slab',
+    label: 'ONE GOVERNED IMAGE · VERIFIED BOOT',
+    dx: -200,
+    dy: -70,
+  },
+  {
+    beat: 5,
+    anchor: 'front',
+    label: 'DISCONNECT SWITCH · HARDWARE TRUTH',
+    dx: 120,
+    dy: 80,
+  },
+  { beat: 6, anchor: 'orin', label: 'ROOT OF TRUST', dx: -150, dy: -110 },
+  {
+    beat: 7,
+    anchor: 'trunk',
+    label: 'VERSION VECTORS · NO COORDINATOR',
+    dx: -140,
+    dy: 120,
+  },
+  {
+    beat: 9,
+    anchor: 'trunk',
+    label: 'SIGNED A/B IMAGES · MODEL WEIGHTS',
+    dx: -160,
+    dy: -120,
+  },
+];
