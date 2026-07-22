@@ -219,12 +219,8 @@ export default function CalloutLayer({
             />
           </g>
         </svg>
-        <div
-          className="absolute"
-          style={{ ...LABEL_STYLE, left: '3%', top: '30%' }}
-        >
-          SIGNED A/B IMAGES · MODEL WEIGHTS
-        </div>
+        {/* The delivery label rides the projected trunk callout; only the
+            return tick is labelled here. */}
         <div
           className="absolute"
           style={{ ...LABEL_STYLE, left: '3%', top: '64%', opacity: 0.6 }}

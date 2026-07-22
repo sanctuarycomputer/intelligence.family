@@ -155,8 +155,8 @@ export const SHEET_X = 0.082;
 export const SHEET_Z = 0.0575;
 // Slots above the orin (top of module at y 0.0245), highest first: the
 // stack grows downward, toward silicon.
-export const SHEET_SLOT_Y = [0.115, 0.09, 0.065, 0.04];
-export const SLAB_Y = 0.032;
+export const SHEET_SLOT_Y = [0.096, 0.076, 0.056, 0.038];
+export const SLAB_Y = 0.03;
 
 // A dim step once a sheet's own beat has passed.
 const SHEET_DIM = 0.45;
@@ -243,7 +243,7 @@ const CAMERA_KEYFRAMES: { t: number; pose: TourPose }[] = [
   // 02 over the opened cavity: orin + the first sheet.
   {
     t: 1 / 9,
-    pose: { position: [0.1, 0.17, 0.29], target: [0.082, 0.07, 0.058] },
+    pose: { position: [0.12, 0.2, 0.34], target: [0.082, 0.06, 0.058] },
   },
   // 03 orbit right, slightly closer.
   {
@@ -258,12 +258,12 @@ const CAMERA_KEYFRAMES: { t: number; pose: TourPose }[] = [
   // 05 lower and closer: the lowest sheet, just off the silicon.
   {
     t: 4 / 9,
-    pose: { position: [0.09, 0.1, 0.2], target: [0.082, 0.045, 0.058] },
+    pose: { position: [0.13, 0.12, 0.26], target: [0.082, 0.05, 0.058] },
   },
-  // 06 pull back wide enough to include the floated front panel.
+  // 06 high three-quarter: slab on the orin, floated panels at frame edge.
   {
     t: 5 / 9,
-    pose: { position: [0.14, 0.13, 0.42], target: [0.085, 0.05, 0.1] },
+    pose: { position: [0.3, 0.2, 0.34], target: [0.09, 0.04, 0.09] },
   },
   // 07 the dive: orin fills the card.
   {
@@ -406,30 +406,30 @@ export const TOUR_CALLOUTS: TourCallout[] = [
     beat: 4,
     anchor: 'sheet3',
     label: 'KEYS ARE MINTED HERE. THEY NEVER LEAVE.',
-    dx: 130,
-    dy: -90,
+    dx: -60,
+    dy: -120,
   },
   {
     beat: 5,
     anchor: 'slab',
     label: 'ONE GOVERNED IMAGE · VERIFIED BOOT',
-    dx: -200,
-    dy: -70,
+    dx: -110,
+    dy: -80,
   },
   {
     beat: 5,
     anchor: 'front',
     label: 'DISCONNECT SWITCH · HARDWARE TRUTH',
-    dx: 120,
-    dy: 80,
+    dx: 150,
+    dy: -60,
   },
   { beat: 6, anchor: 'orin', label: 'ROOT OF TRUST', dx: -150, dy: -110 },
   {
     beat: 7,
     anchor: 'trunk',
     label: 'VERSION VECTORS · NO COORDINATOR',
-    dx: -140,
-    dy: 120,
+    dx: -30,
+    dy: 130,
   },
   {
     beat: 9,

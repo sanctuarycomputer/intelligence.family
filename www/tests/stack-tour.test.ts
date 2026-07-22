@@ -145,9 +145,13 @@ describe('camera and anchors', () => {
     const closed = anchorWorld('display', beatCenter(7));
     expect(open[2]).toBeCloseTo(0.1158 + 0.1, 3);
     expect(closed[2]).toBeCloseTo(0.1158, 3);
-    // Sheet anchors ride their slots.
-    expect(anchorWorld('sheet0', beatCenter(1))[1]).toBeCloseTo(0.115, 3);
-    expect(anchorWorld('slab', beatCenter(5))[1]).toBeCloseTo(0.032, 3);
+    // Sheet anchors ride their slots (via the constants, so slot tuning in
+    // the visual pass cannot silently break this).
+    expect(anchorWorld('sheet0', beatCenter(1))[1]).toBeCloseTo(
+      SHEET_SLOT_Y[0],
+      6
+    );
+    expect(anchorWorld('slab', beatCenter(5))[1]).toBeCloseTo(SLAB_Y, 6);
   });
 
   it('every callout points at a defined anchor within a valid beat', () => {
