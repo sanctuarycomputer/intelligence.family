@@ -11,7 +11,8 @@
     "format:check": "prettier --check .",
     "lighthouse": "npx @lhci/cli autorun",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "optimize:trunk": "node scripts/optimize-trunk.mjs"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^2.3.4",
@@ -23,12 +24,16 @@
     "resend": "^6.17.2"
   },
   "devDependencies": {
+    "@gltf-transform/core": "^4.4.1",
+    "@gltf-transform/extensions": "^4.4.1",
+    "@gltf-transform/functions": "^4.4.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "meshoptimizer": "^1.2.0",
     "prettier": "^3.7.4",
     "tailwindcss": "^4",
     "typescript": "^5",
