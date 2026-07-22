@@ -55,11 +55,33 @@ function TrunkModel({
   // Each body moves via a wrapper pivot, never its own node: loaders and
   // quantization may store meaningful transforms on the body nodes, and
   // setting their position directly would clobber those.
-  const pivots = useMemo(() => {
+  //
+  // useGLTF caches a singleton scene and StrictMode double-invokes useMemo,
+  // so the wrapping must be idempotent: when a body already sits inside its
+  // pivot, reuse that pivot (and re-collect its clay material for disposal
+  // tracking) instead of nesting a second pivot and minting fresh materials.
+  const { pivots, clayMaterials } = useMemo(() => {
     const found = new Map<BodyName, THREE.Group>();
+    const materials: THREE.MeshStandardMaterial[] = [];
+    const collectClay = (obj: THREE.Object3D) => {
+      obj.traverse((child) => {
+        if (
+          child instanceof THREE.Mesh &&
+          child.material instanceof THREE.MeshStandardMaterial &&
+          !materials.includes(child.material)
+        ) {
+          materials.push(child.material);
+        }
+      });
+    };
     for (const name of BODY_NAMES) {
       const obj = gltfScene.getObjectByName(name);
       if (!obj || !obj.parent) continue;
+      if (obj.parent.name === `${name}-pivot`) {
+        found.set(name, obj.parent as THREE.Group);
+        if (CLAY_COLORS[name]) collectClay(obj);
+        continue;
+      }
       const pivot = new THREE.Group();
       pivot.name = `${name}-pivot`;
       obj.parent.add(pivot);
@@ -71,13 +93,23 @@ function TrunkModel({
           roughness: 0.85,
           metalness: 0,
         });
+        materials.push(clay);
         obj.traverse((child) => {
           if (child instanceof THREE.Mesh) child.material = clay;
         });
       }
     }
-    return found;
+    return { pivots: found, clayMaterials: materials };
   }, [gltfScene]);
+
+  // Free the clay materials' GPU resources on unmount. dispose() only drops
+  // GPU-side state, so a StrictMode cleanup/re-setup cycle stays safe: three
+  // re-uploads the material on its next use.
+  useEffect(() => {
+    return () => {
+      for (const material of clayMaterials) material.dispose();
+    };
+  }, [clayMaterials]);
 
   useFrame(() => {
     const target = progressOverride ?? progressRef.current;
