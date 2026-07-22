@@ -50,6 +50,13 @@ group nodes, so the explode rig keys off the 7 top-level group nodes.
   Explicitly rejected: drei `ScrollControls` (hijacks scroll, fights the gate
   and page layout), GSAP/Theatre.js (second animation system for one scalar),
   vanilla three.js (more imperative plumbing than the codebase wants).
+- **Dependencies:** the site runs React 19 / Next 16, so pin
+  `@react-three/fiber@^9` and `@react-three/drei@^10` (v8/v9 respectively do
+  not support React 19). `three` at the version those two peer on.
+- **Raw model is not committed.** The 28MB source GLB stays outside the repo;
+  the optimizer script takes the input path as a CLI argument (current source:
+  `~/Downloads/family-trunk-again/family-trunk-all-again.glb`). Only the
+  optimized `public/fundraising/trunk.glb` is committed.
 
 ## Architecture
 
@@ -117,6 +124,11 @@ triangle budget without visible artifacts on the hero parts, decimate the
 UPS/Orin internal components harder before touching the enclosure or the
 boards' visible faces. Loaded via drei `useGLTF` with meshopt decoder.
 
+The explode rig keys off the 7 body node names, so the script must end with a
+verification step: assert all 7 names exist in the output scene graph (fail
+loudly if flatten/join renamed them), and print final size, triangle count,
+and draw-call estimate.
+
 ### Materials & lighting
 
 - Clay override (sage-adjacent + ink tones from the site palette) applied by
@@ -127,9 +139,10 @@ boards' visible faces. Loaded via drei `useGLTF` with meshopt decoder.
 
 ## Error handling
 
-- GLB fetch failure or WebGL unavailable: canvas area falls back to a static
-  render (pre-captured image) with the copy sections intact — the page never
-  breaks the fundraising flow.
+- GLB fetch failure or WebGL unavailable: the canvas quietly renders nothing
+  and the copy sections remain fully readable on the sage background — the
+  page never breaks the fundraising flow. (A pre-captured static render as a
+  richer fallback is a follow-up, not part of this build.)
 - Canvas load is behind the gate, so the 4MB asset only downloads after
   unlock.
 
