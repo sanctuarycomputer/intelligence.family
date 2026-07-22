@@ -123,7 +123,7 @@ function TrunkModel({
     };
   }, [clayMaterials]);
 
-  useFrame((state) => {
+  useFrame(state => {
     const target = progressOverride ?? progressRef.current;
     smoothed.current =
       progressOverride !== undefined
@@ -180,7 +180,9 @@ export default function TrunkCanvas({
   progressOverride?: number;
 }) {
   return (
-    <div className="fixed inset-0" aria-hidden="true">
+    // Fills its positioned parent (the viewer card), not the viewport: the
+    // page pins the card itself, so the canvas must not escape its corners.
+    <div className="absolute inset-0" aria-hidden="true">
       <CanvasErrorBoundary>
         <Canvas
           gl={{ alpha: true, antialias: true }}
