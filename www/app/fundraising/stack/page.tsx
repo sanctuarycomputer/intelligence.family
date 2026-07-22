@@ -50,8 +50,9 @@ export default function Stack() {
 
   useEffect(() => {
     try {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (localStorage.getItem(FUNDRAISING_UNLOCK_KEY) === '1') setUnlocked(true);
+      if (localStorage.getItem(FUNDRAISING_UNLOCK_KEY) === '1')
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setUnlocked(true);
     } catch {}
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mq.matches);
@@ -94,11 +95,13 @@ export default function Stack() {
             key={beat.heading}
             className="min-h-[120vh] flex items-center px-6 md:px-20"
           >
-            <div
-              className={`max-w-sm ${i % 2 === 0 ? 'mr-auto' : 'ml-auto'}`}
-            >
-              <h2 className="font-serif text-3xl md:text-4xl mb-4">{beat.heading}</h2>
-              <p className="text-lg leading-relaxed text-fi-black-900">{beat.body}</p>
+            <div className={`max-w-sm ${i % 2 === 0 ? 'mr-auto' : 'ml-auto'}`}>
+              <h2 className="font-serif text-3xl md:text-4xl mb-4">
+                {beat.heading}
+              </h2>
+              <p className="text-lg leading-relaxed text-fi-black-900">
+                {beat.body}
+              </p>
             </div>
           </section>
         ))}

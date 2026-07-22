@@ -1,11 +1,23 @@
 'use client';
 
-import { Component, Suspense, useEffect, useMemo, useRef, type ReactNode } from 'react';
+import {
+  Component,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  type ReactNode,
+} from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, useGLTF } from '@react-three/drei';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { BODY_NAMES, cameraPose, explodeOffset, type BodyName } from './explodeTimeline';
+import {
+  BODY_NAMES,
+  cameraPose,
+  explodeOffset,
+  type BodyName,
+} from './explodeTimeline';
 import { useScrollProgress } from './useScrollProgress';
 
 const MODEL_URL = '/fundraising/trunk.glb';
@@ -25,7 +37,7 @@ const CLAY_COLORS: Partial<Record<BodyName, string>> = {
 function ProceduralEnvironment() {
   // Use the store's get() accessor so we access scene/gl inside the effect
   // without triggering react-hooks/immutability (React 19 compiler rule).
-  const get = useThree((s) => s.get);
+  const get = useThree(s => s.get);
   useEffect(() => {
     const { gl, scene } = get();
     const pmrem = new THREE.PMREMGenerator(gl);
@@ -50,7 +62,7 @@ function TrunkModel({
   const { scene: gltfScene } = useGLTF(MODEL_URL);
   const progressRef = useScrollProgress(storyElementId);
   const smoothed = useRef(progressOverride ?? 0);
-  const camera = useThree((s) => s.camera);
+  const camera = useThree(s => s.camera);
 
   // Each body moves via a wrapper pivot, never its own node: loaders and
   // quantization may store meaningful transforms on the body nodes, and
@@ -64,7 +76,7 @@ function TrunkModel({
     const found = new Map<BodyName, THREE.Group>();
     const materials: THREE.MeshStandardMaterial[] = [];
     const collectClay = (obj: THREE.Object3D) => {
-      obj.traverse((child) => {
+      obj.traverse(child => {
         if (
           child instanceof THREE.Mesh &&
           child.material instanceof THREE.MeshStandardMaterial &&
@@ -94,7 +106,7 @@ function TrunkModel({
           metalness: 0,
         });
         materials.push(clay);
-        obj.traverse((child) => {
+        obj.traverse(child => {
           if (child instanceof THREE.Mesh) child.material = clay;
         });
       }
@@ -135,7 +147,10 @@ function TrunkModel({
 // A broken canvas must never break the fundraising flow: on any render
 // error (WebGL unavailable, asset failure) the page falls back to copy
 // on the sage background.
-class CanvasErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+class CanvasErrorBoundary extends Component<
+  { children: ReactNode },
+  { failed: boolean }
+> {
   state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
@@ -165,8 +180,17 @@ export default function TrunkCanvas({
         >
           <Suspense fallback={null}>
             <ProceduralEnvironment />
-            <TrunkModel storyElementId={storyElementId} progressOverride={progressOverride} />
-            <ContactShadows position={[0.09, -0.05, 0.085]} scale={0.8} blur={2.5} opacity={0.35} far={0.3} />
+            <TrunkModel
+              storyElementId={storyElementId}
+              progressOverride={progressOverride}
+            />
+            <ContactShadows
+              position={[0.09, -0.05, 0.085]}
+              scale={0.8}
+              blur={2.5}
+              opacity={0.35}
+              far={0.3}
+            />
           </Suspense>
         </Canvas>
       </CanvasErrorBoundary>

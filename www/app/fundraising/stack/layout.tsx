@@ -14,7 +14,12 @@ export const metadata: Metadata = {
   // Semi-private page: keep it out of search indexes
   robots: { index: false, follow: false },
   openGraph: { title, description, images: [{ url: shareImage }] },
-  twitter: { card: 'summary_large_image', title, description, images: [shareImage] },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [shareImage],
+  },
 };
 
 export default function StackLayout({

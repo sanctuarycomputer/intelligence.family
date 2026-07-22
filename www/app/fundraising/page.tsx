@@ -31,7 +31,6 @@ const GATE_LOCKED_STYLE: CSSProperties = {
   pointerEvents: 'none',
 };
 
-
 export default function Fundraising() {
   const [unlocked, setUnlocked] = useState(false);
   const [revealing, setRevealing] = useState(false);
@@ -50,7 +49,8 @@ export default function Fundraising() {
       // sends earlier visitors back through the gate so their views are
       // verified and tracked. Cookie holders auto-unlock via /api/gate-status.
       localStorage.removeItem('fi_fundraising_unlocked');
-      if (localStorage.getItem(FUNDRAISING_UNLOCK_KEY) === '1') setUnlocked(true);
+      if (localStorage.getItem(FUNDRAISING_UNLOCK_KEY) === '1')
+        setUnlocked(true);
     } catch {}
   }, []);
 
@@ -170,9 +170,9 @@ export default function Fundraising() {
                                 }}
                               >
                                 Open models running consumer hardware is newly
-                                possible in 2026. We intend to be the
-                                trusted, privacy-forward brand that brings local
-                                AI devices into the home and workplace.{' '}
+                                possible in 2026. We intend to be the trusted,
+                                privacy-forward brand that brings local AI
+                                devices into the home and workplace.{' '}
                                 <strong>
                                   Today no one owns this market, but that window
                                   is closing fast.
@@ -180,9 +180,9 @@ export default function Fundraising() {
                               </span>
                               We&apos;re building the first device in this new
                               category: beautiful consumer hardware running a
-                              fully
-                              local AI stack, where your most intimate data is
-                              understood, agentified, inferred against...{' '}
+                              fully local AI stack, where your most intimate
+                              data is understood, agentified, inferred
+                              against...{' '}
                               <strong>but never exposed to the cloud</strong>.
                             </>
                           }

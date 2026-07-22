@@ -14,7 +14,11 @@ export function useScrollProgress(elementId: string): RefObject<number> {
       const el = document.getElementById(elementId);
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      progressRef.current = computeProgress(rect.top, rect.height, window.innerHeight);
+      progressRef.current = computeProgress(
+        rect.top,
+        rect.height,
+        window.innerHeight
+      );
     };
     update();
     window.addEventListener('scroll', update, { passive: true });

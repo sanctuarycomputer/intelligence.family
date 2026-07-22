@@ -3,7 +3,7 @@
 export function computeProgress(
   rectTop: number,
   rectHeight: number,
-  viewportHeight: number,
+  viewportHeight: number
 ): number {
   const span = rectHeight - viewportHeight;
   if (span <= 0) return 0;

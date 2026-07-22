@@ -15,7 +15,15 @@ describe('stack page contract', () => {
   });
 
   it('covers all seven hardware beats', () => {
-    for (const part of ['Lid', 'Leaf', 'Front', 'Display', 'Orin', 'Power', 'Shell']) {
+    for (const part of [
+      'Lid',
+      'Leaf',
+      'Front',
+      'Display',
+      'Orin',
+      'Power',
+      'Shell',
+    ]) {
       expect(page).toContain(part);
     }
   });

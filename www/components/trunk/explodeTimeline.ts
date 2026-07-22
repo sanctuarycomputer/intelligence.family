@@ -74,13 +74,23 @@ export interface CameraPose {
 // for the full exploded family portrait.
 export const CAMERA_KEYFRAMES: { t: number; pose: CameraPose }[] = [
   { t: 0, pose: { position: [0.37, 0.17, 0.5], target: [0.09, 0.02, 0.085] } },
-  { t: 0.35, pose: { position: [-0.25, 0.12, 0.45], target: [0.09, 0.03, 0.09] } },
-  { t: 0.65, pose: { position: [0.45, -0.02, 0.3], target: [0.11, -0.03, 0.07] } },
+  {
+    t: 0.35,
+    pose: { position: [-0.25, 0.12, 0.45], target: [0.09, 0.03, 0.09] },
+  },
+  {
+    t: 0.65,
+    pose: { position: [0.45, -0.02, 0.3], target: [0.11, -0.03, 0.07] },
+  },
   { t: 1, pose: { position: [0.42, 0.16, 0.55], target: [0.09, 0.02, 0.07] } },
 ];
 
 function lerpVec(a: Vec3, b: Vec3, p: number): Vec3 {
-  return [a[0] + (b[0] - a[0]) * p, a[1] + (b[1] - a[1]) * p, a[2] + (b[2] - a[2]) * p];
+  return [
+    a[0] + (b[0] - a[0]) * p,
+    a[1] + (b[1] - a[1]) * p,
+    a[2] + (b[2] - a[2]) * p,
+  ];
 }
 
 export function cameraPose(t: number): CameraPose {

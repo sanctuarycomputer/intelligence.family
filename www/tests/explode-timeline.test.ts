@@ -48,10 +48,18 @@ describe('explodeOffset', () => {
 
   it('staggers in the approved order: top, leaf, front, display, orin, ups, back', () => {
     const order: (keyof typeof STAGGER)[] = [
-      'enclosure-top', 'leaf', 'enclosure-front', 'display', 'orin', 'ups', 'enclosure-back',
+      'enclosure-top',
+      'leaf',
+      'enclosure-front',
+      'display',
+      'orin',
+      'ups',
+      'enclosure-back',
     ];
     for (let i = 1; i < order.length; i++) {
-      expect(STAGGER[order[i]].start).toBeGreaterThan(STAGGER[order[i - 1]].start);
+      expect(STAGGER[order[i]].start).toBeGreaterThan(
+        STAGGER[order[i - 1]].start
+      );
     }
   });
 });
