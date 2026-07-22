@@ -123,6 +123,9 @@ export default function Stack() {
   };
 
   const anchorsRef = useRef<AnchorScreenMap>({});
+  // Single timeline source: the canvas smooths scroll progress into this
+  // ref and the callout layer reads it, so the two can never desync.
+  const tRef = useRef(0);
 
   // Locked: one screen, and the scrolling story is not in the DOM at all,
   // so there is nothing to scroll past the gate.
@@ -173,12 +176,9 @@ export default function Stack() {
                 storyElementId={STORY_ID}
                 reducedMotion={reducedMotion}
                 anchorsRef={anchorsRef}
+                tRef={tRef}
               />
-              <CalloutLayer
-                storyElementId={STORY_ID}
-                reducedMotion={reducedMotion}
-                anchorsRef={anchorsRef}
-              />
+              <CalloutLayer anchorsRef={anchorsRef} tRef={tRef} />
             </div>
           </div>
         </div>

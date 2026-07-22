@@ -1,18 +1,15 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useScrollProgress } from '../trunk/useScrollProgress';
 import {
   calloutPhase,
   fotaArtOpacity,
   mirrorArtOpacity,
-  reducedMotionTarget,
   silhouetteOpacity,
   TOUR_CALLOUTS,
   type AnchorScreenMap,
 } from './stackTour';
 
-const SMOOTHING = 0.08;
 const INK = '#313131';
 
 const LABEL_STYLE: React.CSSProperties = {
@@ -29,18 +26,16 @@ const WEDGE_PATH =
   'M10 62 L24 16 Q25 12 30 12 L82 12 Q87 12 88 17 L91 62 Q91 67 85 67 L15 67 Q10 67 10 62 Z';
 
 // Hairline callouts and static technical-drawing art, drawn over the
-// canvas. Anchor positions arrive per-frame from StackTourCanvas through
-// anchorsRef; everything else is percent-positioned static SVG.
+// canvas. Both the anchor pixels AND the timeline value arrive per-frame
+// from StackTourCanvas through shared refs: the canvas is the single
+// source of truth for t, so callouts can never disagree with the scene.
 export default function CalloutLayer({
-  storyElementId,
-  reducedMotion,
   anchorsRef,
+  tRef,
 }: {
-  storyElementId: string;
-  reducedMotion: boolean;
   anchorsRef: React.RefObject<AnchorScreenMap>;
+  tRef: React.RefObject<number>;
 }) {
-  const progressRef = useScrollProgress(storyElementId);
   const lineRefs = useRef<(SVGPolylineElement | null)[]>([]);
   const groupRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -48,15 +43,9 @@ export default function CalloutLayer({
 
   useEffect(() => {
     let raf = 0;
-    let smoothed = 0;
     const loop = () => {
       raf = requestAnimationFrame(loop);
-      const raw = progressRef.current;
-      const target = reducedMotion ? reducedMotionTarget(raw) : raw;
-      smoothed = reducedMotion
-        ? target
-        : smoothed + (target - smoothed) * SMOOTHING;
-      const t = smoothed;
+      const t = tRef.current ?? 0;
       const map = anchorsRef.current ?? {};
 
       TOUR_CALLOUTS.forEach((c, i) => {
@@ -96,7 +85,7 @@ export default function CalloutLayer({
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [progressRef, anchorsRef, reducedMotion]);
+  }, [tRef, anchorsRef]);
 
   return (
     // aria-hidden: the labels echo concepts the flow copy already carries;

@@ -34,7 +34,11 @@ import {
 import { assign } from './mutate';
 
 const MODEL_URL = '/fundraising/trunk.glb';
+// Per-frame smoothing factor at the 60fps reference rate; the frame loop
+// compensates for the actual delta so convergence speed is framerate
+// independent (slow devices lag no further behind than fast ones).
 const SMOOTHING = 0.08;
+const REF_FPS = 60;
 
 const OPEN_BODIES = [
   'enclosure-top',
@@ -77,10 +81,12 @@ function TourScene({
   storyElementId,
   reducedMotion,
   anchorsRef,
+  tRef,
 }: {
   storyElementId: string;
   reducedMotion: boolean;
   anchorsRef: RefObject<AnchorScreenMap>;
+  tRef: RefObject<number>;
 }) {
   const { scene: gltfScene } = useGLTF(MODEL_URL);
   const { pivots } = useTrunkPivots(gltfScene);
@@ -160,13 +166,17 @@ function TourScene({
     };
   }, [sheetMats, slabMats, sheetGeo, sheetEdgeGeo, slabGeo, slabEdgeGeo]);
 
-  useFrame(state => {
+  useFrame((state, delta) => {
     const raw = progressRef.current;
     const target = reducedMotion ? reducedMotionTarget(raw) : raw;
+    const blend = 1 - Math.pow(1 - SMOOTHING, delta * REF_FPS);
     smoothed.current = reducedMotion
       ? target
-      : smoothed.current + (target - smoothed.current) * SMOOTHING;
+      : smoothed.current + (target - smoothed.current) * blend;
     const t = smoothed.current;
+    // Publish the timeline value: CalloutLayer reads this ref instead of
+    // computing its own t, so canvas and callouts can never disagree.
+    tRef.current = t;
     const time = state.clock.elapsedTime;
 
     // Open and close the shell.
@@ -281,10 +291,12 @@ export default function StackTourCanvas({
   storyElementId,
   reducedMotion,
   anchorsRef,
+  tRef,
 }: {
   storyElementId: string;
   reducedMotion: boolean;
   anchorsRef: RefObject<AnchorScreenMap>;
+  tRef: RefObject<number>;
 }) {
   return (
     // Fills the positioned viewer card, exactly like TrunkCanvas.
@@ -304,6 +316,7 @@ export default function StackTourCanvas({
               storyElementId={storyElementId}
               reducedMotion={reducedMotion}
               anchorsRef={anchorsRef}
+              tRef={tRef}
             />
           </Suspense>
         </Canvas>
