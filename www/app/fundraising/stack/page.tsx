@@ -1,48 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import InlineEmailGate from '@/components/InlineEmailGate';
 import { FUNDRAISING_UNLOCK_KEY } from '@/lib/fundraising-gate';
+import CalloutLayer from '@/components/stack-tour/CalloutLayer';
+import {
+  TOUR_BEATS,
+  type AnchorScreenMap,
+} from '@/components/stack-tour/stackTour';
 
 const TrunkCanvas = dynamic(() => import('@/components/trunk/TrunkCanvas'), {
   ssr: false,
 });
 
-const STORY_ID = 'stack-story';
+const StackTourCanvas = dynamic(
+  () => import('@/components/stack-tour/StackTourCanvas'),
+  { ssr: false }
+);
 
-// PLACEHOLDER copy throughout: every beat below is scaffolding for Hugh
-// to replace with his own words. Structure and part names are real.
-const BEATS: { heading: string; body: string }[] = [
-  {
-    heading: 'One object, whole',
-    body: 'The family trunk arrives as a single sculptural object. Scroll to open it up.',
-  },
-  {
-    heading: 'The Lid',
-    body: 'The top lifts away. Nothing about this device asks to live in a server closet.',
-  },
-  {
-    heading: 'The Leaf',
-    body: 'A small signature. Every trunk carries one.',
-  },
-  {
-    heading: 'The Front, and the Display',
-    body: 'The front panel carries a Waveshare display: the face your family actually talks to.',
-  },
-  {
-    heading: 'The Orin',
-    body: 'An NVIDIA Jetson Orin Nano runs the entire intelligence stack locally. No cloud, no subscription to a stranger.',
-  },
-  {
-    heading: 'The Power',
-    body: 'A UPS module sits beneath the compute, so a blackout never takes your family offline.',
-  },
-  {
-    heading: 'The Shell',
-    body: 'The back shell closes around all of it. This is the whole machine: yours, at home.',
-  },
-];
+const STORY_ID = 'stack-story';
 
 // The viewer card: sage plate, hairline edge, generous radius. Shared by
 // the locked and unlocked layouts so the trunk never appears to move
@@ -50,15 +27,28 @@ const BEATS: { heading: string; body: string }[] = [
 const CARD_CLASS =
   'relative h-full overflow-hidden rounded-[28px] border border-fi-green-200 bg-white/25';
 
-const BEAT_HEADING_STYLE: React.CSSProperties = {
-  fontSize: 'clamp(18px, 1.5vw, 21px)',
+const BEAT_TITLE_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-sans)',
+  fontSize: 'clamp(20px, 1.8vw, 26px)',
   fontWeight: 500,
-  lineHeight: 1.3,
+  lineHeight: 1.25,
+  letterSpacing: '-0.01em',
+  margin: 0,
+};
+
+const BEAT_LABEL_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-sans)',
+  fontVariationSettings: "'MONO' 100",
+  fontSize: '12px',
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: '#7B8F5E',
+  marginBottom: '0.9em',
 };
 
 const BEAT_BODY_STYLE: React.CSSProperties = {
-  fontSize: 'clamp(18px, 1.5vw, 21px)',
-  lineHeight: 1.35,
+  fontSize: 'clamp(16px, 1.25vw, 19px)',
+  lineHeight: 1.45,
 };
 
 // The hand-drawn stroke /fundraising puts under its byline. Carried as a
@@ -98,6 +88,8 @@ export default function Stack() {
     } catch {}
     setUnlocked(true);
   };
+
+  const anchorsRef = useRef<AnchorScreenMap>({});
 
   // Locked: one screen, and the scrolling story is not in the DOM at all,
   // so there is nothing to scroll past the gate.
@@ -157,7 +149,7 @@ export default function Stack() {
   return (
     <main>
       {/* The story element's own height is the scroll track useScrollProgress
-          reads: one viewport per beat, so beat i lands at t = i/(n-1). */}
+          reads: one viewport per beat, so beat i centres at t = i/9. */}
       <div
         id={STORY_ID}
         className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-10 px-4 lg:px-8"
@@ -167,25 +159,38 @@ export default function Stack() {
         <div className="fixed inset-x-4 top-4 z-10 h-[42svh] lg:static lg:inset-auto lg:z-auto lg:h-auto lg:col-span-8">
           <div className="h-full lg:sticky lg:top-0 lg:h-svh lg:py-8">
             <div className={CARD_CLASS}>
-              <TrunkCanvas
+              <StackTourCanvas
                 storyElementId={STORY_ID}
-                progressOverride={reducedMotion ? 1 : undefined}
+                reducedMotion={reducedMotion}
+                anchorsRef={anchorsRef}
+              />
+              <CalloutLayer
+                storyElementId={STORY_ID}
+                reducedMotion={reducedMotion}
+                anchorsRef={anchorsRef}
               />
             </div>
           </div>
         </div>
 
         <div className="lg:col-span-4">
-          {BEATS.map(beat => (
+          {TOUR_BEATS.map(beat => (
             <section
-              key={beat.heading}
+              key={beat.id}
               className="min-h-svh flex items-end pb-[10svh] lg:items-center lg:pb-0 lg:pr-4"
             >
               <div className="text-fi-black-900 text-pretty">
-                <h2 className="mb-5" style={BEAT_HEADING_STYLE}>
-                  {beat.heading}
-                </h2>
-                <p style={BEAT_BODY_STYLE}>{beat.body}</p>
+                <p style={BEAT_LABEL_STYLE}>{beat.label}</p>
+                <h2 style={BEAT_TITLE_STYLE}>{beat.title}</h2>
+                {beat.paragraphs.map(p => (
+                  <p
+                    key={p.slice(0, 24)}
+                    className="mt-4"
+                    style={BEAT_BODY_STYLE}
+                  >
+                    {p}
+                  </p>
+                ))}
               </div>
             </section>
           ))}
