@@ -99,3 +99,20 @@ describe('fundraising page copy contract', () => {
     expect(page).toMatch(/loading="lazy"/);
   });
 });
+
+describe('clarifications content contract', () => {
+  const md = read('app/fundraising/clarifications.md');
+
+  it('covers the four investor objections', () => {
+    const questions = md.match(/^## .+$/gm) ?? [];
+    expect(questions.length).toBeGreaterThanOrEqual(4);
+    expect(md).toMatch(/\$899|price/i);
+    expect(md).toMatch(/subscription/i);
+    expect(md).toMatch(/narrow|niche|memory/i);
+    expect(md).toMatch(/industrial design/i);
+  });
+
+  it('never repeats the raise ask', () => {
+    expect(md).not.toContain('$15M');
+  });
+});
