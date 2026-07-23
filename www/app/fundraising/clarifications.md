@@ -4,9 +4,8 @@ Today, there is no brand synonymous with safe and private local AI.
 This is a newly possible category, and we must move quickly if we 
 intend to own it.
 
-On day one, we'll need ample funds to go directly to a 
-contract manufacturer (like Foxconn) and unblock
-industrial design and electrical engineering.
+On day one we'll need ample funds to go directly to a contract manufacturer 
+(like Foxconn) and unblock industrial design and electrical engineering.
 
 We want to spend our time focused on product (not raising incremental 
 rounds). We intend to launch by Christmas 2027, and expand the device 
