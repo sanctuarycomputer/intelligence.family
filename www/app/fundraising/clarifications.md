@@ -22,6 +22,13 @@ Alongside the flagship device, we'll offer companion devices at a lower price
 point ($499) to join your private family network, tapping into your home's private 
 inference via a hub and spoke model.
 
+Our early adopters already own a Daylight Computer, prefer Signal, and pay for 1Password. 
+They're shopping for trust and quality of life. 
+
+As we deliver on our roadmap, they'll be buying private inference for their smart 
+home, in a heartfelt package from a brand as well respected as Mozilla, reMarkable 
+and Oura. At that level of maturity, $899 is a steal.
+
 ## I hate subscriptions.
 
 The $9/month cloud backup is optional. The device works out of the 
