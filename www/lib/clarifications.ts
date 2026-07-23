@@ -26,7 +26,9 @@ export function parseClarifications(md: string): Clarification[] {
     .slice(1)
     .map(chunk => {
       const newline = chunk.indexOf('\n');
-      const question = (newline === -1 ? chunk : chunk.slice(0, newline)).trim();
+      const question = (
+        newline === -1 ? chunk : chunk.slice(0, newline)
+      ).trim();
       const body = newline === -1 ? '' : chunk.slice(newline + 1).trim();
       if (!question || !body) {
         throw new Error(
