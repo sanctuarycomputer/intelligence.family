@@ -792,7 +792,7 @@ export default function FundraisingClient({
                             <SectionHeader label="VI" title="Clarifications" />
                           </div>
 
-                          <div className="border-b border-fi-green-500/50">
+                          <div className="border-b border-fi-green-300">
                             {clarifications.map(item => (
                               <ClarificationItem
                                 key={item.question}

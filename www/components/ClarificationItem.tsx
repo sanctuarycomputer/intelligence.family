@@ -10,7 +10,7 @@ export default function ClarificationItem({
   return (
     <details
       name="clarifications"
-      className="group border-t border-fi-green-500/50"
+      className="group border-t border-fi-green-300"
     >
       <summary className="cursor-pointer list-none py-5 flex items-baseline gap-3 [&::-webkit-details-marker]:hidden">
         <span
