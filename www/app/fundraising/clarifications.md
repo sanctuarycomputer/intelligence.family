@@ -39,11 +39,11 @@ family stories are safe, even if their device is damaged.
 
 ## Isn't family memory too narrow a use case?
 
-Yes, and it's intentionally narrow. Family memory is where we 
+It's intentionally narrow for GTM. Family memory is where we 
 harden the technology and earn trust. It's high emotional value, 
 but low risk.
 
-Future software revisions will enable the GPU and home server 
+Fast follow software revisions will enable the GPU and home server 
 to integrate with other IoT devices on the local network, 
 and offer general purpose inference to the home, serving as an
 intelligent, local, always-on agent for the smart home.
