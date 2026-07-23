@@ -16,6 +16,7 @@
   "dependencies": {
     "@dotenvx/dotenvx": "^2.3.4",
     "iron-session": "^8.0.4",
+    "marked": "^18.0.7",
     "next": "16.1.1",
     "prism-react-renderer": "^2.4.1",
     "react": "19.2.3",
