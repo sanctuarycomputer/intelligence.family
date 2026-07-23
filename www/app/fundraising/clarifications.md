@@ -1,19 +1,76 @@
-## Why raise so much?
+## Why $15M?
 
-This raise is the minimum to do it right. Building a private inference platform is not a software sprint: custom hardware, on-device model optimization, zero-knowledge cloud infrastructure, and a companion device. We're also targeting Christmas 2027 as our market-owning launch window, which means we need to move fast on manufacturing, industrial design, and go-to-market simultaneously. This is a capital-intensive category, and we'd rather raise the right amount once than undershoot and compromise the product.
+Today, there is no brand synonymous with safe and private local AI.
+This is a newly possible category, and we must move quickly if we 
+intend to own it.
+
+On day one, we'll need ample funds to go directly to a 
+contract manufacturer (like Foxconn) and unblock
+industrial design and electrical engineering.
+
+We want to spend our time focused on product (not raising incremental 
+rounds). We intend to launch by Christmas 2027, and expand the device 
+ecosystem quickly.
 
 ## Isn't $899 too expensive?
 
-$899 is premium, not expensive. It's priced that way deliberately. Our customer is someone who already owns a Light Phone, pays for 1Password, and thinks carefully about what tech they let into their home. They're not looking for cheap; they're looking for trustworthy. At $899 we sit comfortably below a flagship iPhone while offering something no iPhone can: a device that never phones home. The family history use case also makes this a one-time purchase with generational value. Not a gadget, an heirloom.
+Under the hood, our flagship device packs a GPU and home server, capable of
+local inference at the edge. Our final industrial design and product quality 
+will target the premium consumer market.
+
+Alongside the flagship device, we'll offer companion devices at a lower price 
+point ($499) to join your private family network, tapping into your home's private 
+inference via a hub and spoke model.
 
 ## I hate subscriptions.
 
-So do we. The $9/month cloud backup is opt-in, and the device works completely without it. If you want zero-knowledge encrypted offsite backup, it's there. If you'd rather stay fully air-gapped, that's a first-class option too. The hardware is the product. The subscription is just insurance for people who want it.
+The $9/month cloud backup is optional. The device works out of the 
+box with no connectivity. 
+
+Encrypted cloud sync is opt-in for families who'd prefer to know their
+family stories are safe, even if their device is damaged.
 
 ## Isn't family memory too narrow a use case?
 
-Family memory is the beachhead, not the ceiling. It's the use case that earns trust in the home: ambient-off by default, a visible light indicator, a physical kill switch. Once that trust is established, the same private inference stack serves law firms (attorney-client privilege), healthcare (HIPAA), and any regulated industry where data can't leave the building. [Nearly 70% of Americans don't trust Big AI with their data](https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/). We're building the Signal of AI compute. Family memory is the front door.
+Yes, and it's intentionally narrow. Family memory is where we 
+harden the technology and earn trust. It's high emotional value, 
+but low risk.
+
+Future software revisions will enable the GPU and home server 
+to integrate with other IoT devices on the local network, 
+and offer general purpose inference to the home, serving as an
+intelligent, local, always-on agent for the smart home.
+
+Finally, you can dim your lights without telling Jeff Bezos!
+
+## Can this technology be repurposed?
+
+Yes! We see the Family Intelligence use case more as 
+an app over a deep compute stack and generic runtime for any 
+hardware device running private inference.
+
+Each component in our stack will be built as a generic primitive, intended 
+to underpin privately intelligent smart speakers, doorbells, cameras, baby monitors,
+on-prem meeting transcription, clinical scribes, consumer genomics, biometrics and more.
+
+In a world where every home and office houses multiple GPUs, we intend to
+provide the underlying architecture to allow these devices to connect,
+synchronize and infer.
 
 ## The industrial design doesn't wow me.
 
-Fair. We're working from a prototype built on a 2019 Nvidia chip. The chip choice was intentional (it avoids Snapdragon supply competition), but the enclosure is not final. We're targeting Light Phone 3-level industrial design for the flagship hub: considered, quiet, and built to sit on a shelf for a decade. We'll have more to show soon. If the vision resonates, we'd love a design-forward investor in the room helping us get there.
+Today, our industrial design and interaction paradigms are gestural proof of 
+concept only.
+
+As soon as we've got a contract manufacturer lined up, we'll get
+to work designing the actual form factor around the hardware stackup.
+
+## How will you compete for AI chips?
+
+We intentionally built our prototype against a previous-generation NVIDIA Orin 
+chipset to prove that our desired UX and performance is achievable without 
+being beholden to the bleeding edge.
+
+We're confident our product is feasible on increasingly cheap components, and
+as model performance and efficiency improves over time, we'll fold those
+improvements into our technology stack.

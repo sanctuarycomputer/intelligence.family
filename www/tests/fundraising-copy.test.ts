@@ -114,7 +114,9 @@ describe('clarifications content contract', () => {
     expect(md).toMatch(/industrial design/i);
   });
 
-  it('never repeats the raise ask', () => {
-    expect(md).not.toContain('$15M');
+  it('mentions the raise figure only as a question heading, never as a second ask', () => {
+    expect(md.match(/\$15M/g)).toHaveLength(1);
+    expect(md).toMatch(/^## .*\$15M/m);
+    expect(md).not.toMatch(/raising \$15M/i);
   });
 });

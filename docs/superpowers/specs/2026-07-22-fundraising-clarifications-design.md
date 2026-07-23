@@ -31,8 +31,9 @@ Question phrasing and answer copy are drafted by Hugh directly in the
 markdown file; Claude polishes (no em dashes, no AI-isms). Until drafts land,
 the file ships with clearly marked placeholder copy behind the structure.
 
-Copy constraint: answers must not add a second "$15M" without updating the
-copy-contract tests deliberately (see Testing).
+Copy constraint: "$15M" may appear once in the md, only as a question
+heading ("Why $15M?"); answer bodies must never restate the ask. The
+copy-contract tests enforce this.
 
 ## Content: `app/fundraising/clarifications.md`
 
