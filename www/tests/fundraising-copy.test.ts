@@ -5,7 +5,7 @@ import path from 'node:path';
 const read = (rel: string) =>
   readFileSync(path.join(__dirname, '..', rel), 'utf8');
 
-const page = read('app/fundraising/page.tsx');
+const page = read('app/fundraising/FundraisingClient.tsx');
 const layout = read('app/fundraising/layout.tsx');
 
 describe('fundraising page copy contract', () => {
@@ -51,6 +51,7 @@ describe('fundraising page copy contract', () => {
       'Why This Wins',
       'Who We Are',
       'The Ask',
+      'Clarifications',
     ];
     const idx = order.map(t => page.indexOf(`title="${t}"`));
     expect(idx.every(i => i >= 0)).toBe(true);
@@ -70,6 +71,7 @@ describe('fundraising page copy contract', () => {
     const gateStart = page.indexOf('/* ===== Email gate');
     expect(page.indexOf('title="The Context"')).toBeLessThan(gateStart);
     expect(page.indexOf('title="Our First Device"')).toBeGreaterThan(gateStart);
+    expect(page.indexOf('title="Clarifications"')).toBeGreaterThan(gateStart);
   });
 
   it('opens on the category-creation lane', () => {
