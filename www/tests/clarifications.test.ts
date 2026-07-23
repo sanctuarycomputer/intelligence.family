@@ -42,4 +42,16 @@ describe('parseClarifications', () => {
       /missing/
     );
   });
+
+  it('throws when two items share the same question', () => {
+    expect(() =>
+      parseClarifications('## Same?\n\nOne.\n\n## Same?\n\nTwo.\n')
+    ).toThrow(/duplicate/i);
+  });
+
+  it('throws when content appears before the first ## heading', () => {
+    expect(() => parseClarifications('# Title\n\n## Q?\n\nAnswer.\n')).toThrow(
+      /before the first/i
+    );
+  });
 });

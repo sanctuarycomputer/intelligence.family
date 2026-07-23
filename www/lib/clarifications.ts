@@ -21,23 +21,34 @@ function decorate(html: string): string {
 // Each `## ` heading is a question; everything until the next `## ` is its
 // answer, in plain markdown. See app/fundraising/clarifications.md.
 export function parseClarifications(md: string): Clarification[] {
-  return md
-    .split(/^## +/m)
-    .slice(1)
-    .map(chunk => {
-      const newline = chunk.indexOf('\n');
-      const question = (
-        newline === -1 ? chunk : chunk.slice(0, newline)
-      ).trim();
-      const body = newline === -1 ? '' : chunk.slice(newline + 1).trim();
-      if (!question || !body) {
-        throw new Error(
-          `clarifications.md: item "${question}" is missing its question or answer`
-        );
-      }
-      return {
-        question,
-        answerHtml: decorate(marked.parse(body, { async: false })),
-      };
-    });
+  const chunks = md.split(/^## +/m);
+
+  if (chunks.length > 1 && chunks[0].trim() !== '') {
+    throw new Error(
+      'clarifications.md: content must not appear before the first ## heading'
+    );
+  }
+
+  const seenQuestions = new Set<string>();
+
+  return chunks.slice(1).map(chunk => {
+    const newline = chunk.indexOf('\n');
+    const question = (newline === -1 ? chunk : chunk.slice(0, newline)).trim();
+    const body = newline === -1 ? '' : chunk.slice(newline + 1).trim();
+    if (!question || !body) {
+      throw new Error(
+        `clarifications.md: item "${question}" is missing its question or answer`
+      );
+    }
+
+    if (seenQuestions.has(question)) {
+      throw new Error(`clarifications.md: duplicate question "${question}"`);
+    }
+    seenQuestions.add(question);
+
+    return {
+      question,
+      answerHtml: decorate(marked.parse(body, { async: false })),
+    };
+  });
 }
