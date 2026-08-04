@@ -25,7 +25,8 @@ Research basis (DocSend 2023; Rippling Series A memo; two-deck literature):
 
 ## Voice & copy rules
 
-- **Tone of Voice source:** `../website/sanctuary.computer/corpus/artifacts/tone-of-voice.md` (v4, approved 2026-07-30). The rules that bite hardest for this deck: say the exact number (never round into vagueness); every claim carries its "so that"; plain words and layman-friendly metaphors; moral conviction stated flat; aphoristic compression (one earned aphorism per section); name the idea then reuse it (Home Harness is a coinage in exactly this tradition); confident "we don't" refusals lead, humility is earned later.
+- **Titles are direct, confident, obvious (Hugh's rule, 2026-08-04).** Every page gets a title plus a subtitle. No dramatic or aphoristic slide titles, no reveal-frames ("What we're really building:"), no two-sentence punchlines, no triadic staccato ("One product. One stack. Every place..."). The title names the thing; the subtitle states the supporting fact. "A privacy-conscious cloud subscription" is right; "The cloud, without the surrender" is wrong.
+- **Tone of Voice source:** `../website/sanctuary.computer/corpus/artifacts/tone-of-voice.md` (v4, approved 2026-07-30). The rules that bite hardest for this deck: say the exact number (never round into vagueness); every claim carries its "so that"; plain words and layman-friendly metaphors; moral conviction stated flat; name the idea then reuse it (Home Harness is a coinage in exactly this tradition); confident "we don't" refusals lead, humility is earned later. Aphoristic compression stays in occasional body copy where it is earned; it never appears in titles.
 - **Voice tension to respect:** the voice never uses fear, pressure, or manufactured urgency as leverage. The deck's closing urgency ("the category gets claimed once") must be stated as plain fact about the market window with evidence, never as pressure tactics or countdown framing.
 - **Tight, obvious, high impact:** each page carries less text at higher impact. Headline does the arguing (aim under 10 words); body copy supports at roughly 40–80 words on core pages; detail lives in the appendix. If a page needs a paragraph to be understood, the page is wrong.
 - Copy audited with the `avoid-ai-writing` skill at investor-email strictness: no em dashes, no bold overuse, named comparables over vague claims (per established project convention).
@@ -38,26 +39,26 @@ Research basis (DocSend 2023; Rippling Series A memo; two-deck literature):
 
 *Newly possible. Macro inevitable. Unowned. Regulation-aligned.*
 
-**Page 1 — Cover: "Private intelligence for the home."**
-One-sentence company purpose (Sequoia style) plus the single strongest proof point: the published Mozilla Foundation research collaboration. Brand, device silhouette.
+**Page 1 — Title: "Family Intelligence" / Sub: "Private intelligence for the home."**
+Cover. Brand, device silhouette, one-sentence company purpose (Sequoia style), plus the single strongest proof point: the published Mozilla Foundation research collaboration.
 
-**Page 2 — "Every computing era ends the same way: the machine moves into the house."**
-The controlling metaphor. Mainframe → home computer; datacenter → home GPU. Supporting stat: in 1984 only 8% of US households owned a computer; by 2016 it was 89% (US Census). The first wave is the home GPU; eventually every home and office runs its own.
+**Page 2 — Title: "The GPU is coming home" / Sub: "AI compute is moving into the house, the way the personal computer did."**
+The controlling metaphor, stated plainly. Mainframe → home computer; datacenter → home GPU. Supporting stat: in 1984 only 8% of US households owned a computer; by 2016 it was 89% (US Census). The first wave is the home GPU; eventually every home and office runs its own.
 
-**Page 3 — "This is newly possible."**
-Quantitative why-now, technical leg: open-weights capability curves (Epoch AI), consumer NPU cost curves, our prototype running on a previous-generation NVIDIA Orin (no bleeding-edge dependency). Open source is the future and we inherit its upstream advances for free: Thinking Machines Lab released Inkling, the largest American open-weights model (975B params, Apache 2.0, July 2026); NVIDIA's Nemotron 3 family ships permissively licensed with training data and tooling (Dec 2025 – June 2026). Jensen Huang: "Open innovation is the foundation of AI progress."
+**Page 3 — Title: "Local AI now runs on consumer hardware" / Sub: "Open-weight models are closing the gap with the frontier."**
+Quantitative why-now, technical leg: open-weights capability curves (Epoch AI), consumer NPU cost curves, our prototype running on a previous-generation NVIDIA Orin (no bleeding-edge dependency). We inherit upstream open-source advances for free: Thinking Machines Lab released Inkling, the largest American open-weights model (975B params, Apache 2.0, July 2026); NVIDIA's Nemotron 3 family ships permissively licensed with training data and tooling (Dec 2025 – June 2026). Jensen Huang: "Open innovation is the foundation of AI progress."
 
-**Page 4 — "The giants already agree."**
-Macro leg: sovereign AI. NVIDIA–Palantir partnership (Oct 2025); their Sovereign AI Operating System Reference Architecture for air-gapped government deployments where "data can never leave the building" (June 2026); the Nemotron Coalition of eight labs (March 2026); Cohere's sovereign positioning. Nations and enterprises are already buying compute they control. The household is the last sovereign unit nobody serves.
+**Page 4 — Title: "The industry is moving compute to the data" / Sub: "NVIDIA, Palantir and Cohere are betting on sovereign AI."**
+Macro leg. NVIDIA–Palantir partnership (Oct 2025); their Sovereign AI Operating System Reference Architecture for air-gapped government deployments where "data can never leave the building" (June 2026); the Nemotron Coalition of eight labs (March 2026); Cohere's sovereign positioning. Nations and enterprises are already buying compute they control. The household is the last sovereign unit nobody serves.
 
-**Page 5 — "Regulation triggers at the network boundary."**
+**Page 5 — Title: "Privacy law triggers when data leaves the device" / Sub: "Local-first architecture is ahead of the coming AI regulation."**
 The front-running-regulation moat, and it verifies cleanly. The trigger is collection: COPPA's entire apparatus turns on "the gathering of any personal information from a child" (16 CFR 312.2); GDPR exempts purely personal household processing by the user (Art. 2(2)(c)); HIPAA binds only entities that create, receive, maintain, or transmit PHI for covered entities. Data that never crosses the network boundary largely never pulls these triggers. Meanwhile the compliance wall is rising on the server side right now: the amended COPPA Rule hit full compliance April 22, 2026; 20 states have comprehensive privacy laws; the EU AI Act's transparency duties took effect August 2, 2026. And cloud AI is acquiring KYC plumbing exactly as predicted: California AB 1043 mandates OS-level age signals by 2027, SB 243 imposes chatbot duties on operators, OpenAI already runs behavioral age prediction. After the Senate's 99–1 vote killed federal preemption (July 2025), the 50-state patchwork is durable, and architecture that avoids collection is the only compliance strategy that scales across every jurisdiction at once. Apple is the argument in market form: "the cornerstone of Apple Intelligence is on-device processing."
 
-**Page 6 — "Nobody owns this in the home. Seven in ten Americans are waiting."**
+**Page 6 — Title: "Nobody owns this category" / Sub: "7 in 10 Americans don't trust big tech's AI. There is no Signal or Mozilla of the home."**
 The unclaimed-category page. Pew 2026: ~70% of Americans distrust big tech's AI. Parks Associates: 72% of smart home product owners are concerned about the data their devices collect (2024–25). And the incumbents are moving the wrong way: on March 28, 2025 Amazon removed the Echo's only local-processing option, routing all voice requests through its cloud (TechCrunch/The Register). Demand for AI is enormous; trust in its vendors is absent. That delta is the market, and there is no Signal or Mozilla of the home yet.
 
-**Page 7 — "People already pay a premium for restraint."**
-The intentional-tech wave: Light Phone, Daylight, Remarkable, Brick, Yoto (+86% sales growth 2024). The debunk: "convenience always wins" fails where data is intimate; privacy-conscious users choose Signal over iMessage, pay for 1Password, enable Apple ADP. A proven buyer with proven willingness to pay.
+**Page 7 — Title: "People pay for intentional technology" / Sub: "Light Phone, Daylight, Remarkable and Yoto built profitable businesses on it."**
+The intentional-tech wave, with Yoto's +86% sales growth (2024) as the number. The debunk: "convenience always wins" fails where data is intimate; privacy-conscious users choose Signal over iMessage, pay for 1Password, enable Apple ADP. A proven buyer with proven willingness to pay.
 
 ---
 
@@ -65,28 +66,28 @@ The intentional-tech wave: Light Phone, Daylight, Remarkable, Brick, Yoto (+86% 
 
 *The next 12 months. First half of the pitch per the a16z rule.*
 
-**Page 8 — "Our first device starts where trust matters most: the family."**
-Positioning stated plainly: high emotional value, low-risk data category, and this is how the GPU physically enters the home. One device, one market, focus.
+**Page 8 — Title: "Our first device is for families" / Sub: "High emotional value, low-risk data, and a GPU in the living room."**
+Positioning stated plainly: this is how the GPU physically enters the home. One device, one market, focus.
 
-**Page 9 — "A family practice, not an app."**
-The pivot beat. Not an ancestry gadget: a practice of family rhythm the device hosts. Weekly check-ins, budgets, savings goals, school progress, doctor visits. The stories become the heirloom (voices, accents, the archive as a love letter): the most emotionally resonant feature, deliberately sequenced after the practice so it reads as one beloved feature, never the whole premise. Vignette treatment.
+**Page 9 — Title: "A family practice" / Sub: "Weekly check-ins, budgets, school, health, and the family stories."**
+The pivot beat: a practice of family rhythm the device hosts, not an ancestry gadget. The stories become the heirloom (voices, accents, the archive as a love letter): the most emotionally resonant feature, deliberately sequenced after the practice so it reads as one beloved feature, never the whole premise. Vignette treatment.
 
-**Page 10 — "Families already pay for this."**
+**Page 10 — Title: "Families already pay for this" / Sub: "Life360 is a $4.5B public company. Ancestry sold for $4.7B."**
 The habit-risk answer, by evidence. Family coordination and storytelling are existing, monetized behaviors at public-company scale: Life360 (~98M MAU, $489.5M FY2025 revenue, ~$4.5B market cap), Ancestry (sold to Blackstone for $4.7B; 3M+ subscribers, $1B+ revenue at acquisition), StoryWorth (1M+ printed books, 35M+ stories, bootstrapped, $59–199/yr), Cozi (20M+ members), Greenlight (6.5M+ parents and kids). We unify the practice these products serve piecemeal, on hardware the family owns.
 
-**Page 11 — "This data can never live in someone else's cloud."**
+**Page 11 — Title: "Family data is too sensitive for the cloud" / Sub: "23andMe centralized it. That ended in a breach and a bankruptcy."**
 The cautionary proof: 23andMe went from a $6B peak to Chapter 11; a breach exposed 6.9M users' genetic and family data; its bankruptcy turned the database itself into an asset for sale, triggering state attorneys general to urge deletion. Centralized sensitive family data is a liability model. Our answer is architectural, not policy: physical kill switch, end-to-end encryption where we hold no keys, hybrid-source auditable firmware. Trust you can inspect.
 
-**Page 12 — "The home hub is already a proven category. Ours doesn't phone home."**
+**Page 12 — Title: "Home hubs are a proven category" / Sub: "600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."**
 The graveyard answer. The AI-hardware graveyard (Humane, Rabbit, friend.com) died inventing radical new interaction paradigms; we enter an already-massive category with a radically different architecture. Alexa: 600M+ devices sold (2025). Google Home: 800M+ connected devices (2025). 35% of Americans 12+ own a smart speaker (Edison 2025); 51% of US internet households own a speaker or display (Parks 2025). You shouldn't have to ask Jeff Bezos to turn on your lights. Beneath it: a generic stack others build interaction paradigms on, not a bet on one novel gadget.
 
-**Page 13 — "Computing enters the home at a premium. It always has."**
+**Page 13 — Title: "$899 flagship, $499 companions" / Sub: "The Apple II cost $7,000 in today's dollars. Premium first, affordable next."**
 The price-point page. Apple II (1977): $1,298, over $7,000 in 2026 dollars. A usable IBM PC (1981): roughly $11,000 today. Macintosh (1984): about $8,000 today, and only 8% of households owned any computer; premium entry prices didn't cap the category, they funded it. Our flagship at $899 carries a GPU and home server; companion devices ($499) join hub-and-spoke, and future spoke devices without GPUs bring the entry price down further. Works out of the box, offline, no account.
 
-**Page 14 — "The cloud, without the surrender."**
-The subscription page, framed as the optional upgrade it is. $9/mo buys the conveniences the cloud is actually good at: zero-knowledge encrypted backup (we hold no keys; a decade of family memory survives a dropped device), hub-and-spoke sync across flagship and companion devices, and a remote tunnel so family anywhere can reach the archive. Works in hotspot mode or on the private home network. All the convenience of a cloud LLM system, none of the data surrender. For investors this is the recurring revenue line; for families it is never a gate on the core promise. The device works forever without it.
+**Page 14 — Title: "A privacy-conscious cloud subscription" / Sub: "$9/month, optional: zero-knowledge backup, sync, and remote access."**
+The subscription page, framed as the optional upgrade it is. $9/mo buys the conveniences the cloud is good at: zero-knowledge encrypted backup (we hold no keys; a decade of family memory survives a dropped device), hub-and-spoke sync across flagship and companion devices, and a remote tunnel so family anywhere can reach the archive. Works in hotspot mode or on the private home network. It matches the convenience of a cloud LLM system without handing over the data. For investors this is the recurring revenue line; for families it is never a gate on the core promise. The device works forever without it.
 
-**Page 15 — "The unit economics."**
+**Page 15 — Title: "Unit economics" / Sub: "Hardware margin up front, subscription revenue over time."**
 The most-read page class post-2023. BOM envelope (prototype vs. at-scale), path to 40%+ blended gross margin, backup attach rate, blended LTV. Peloton frame: the device is the moat, the recurring layer is the business. *(Numbers arrive from the pro-forma actively in progress; page ships with defensible ranges, never "TK.")*
 
 ---
@@ -95,36 +96,36 @@ The most-read page class post-2023. BOM envelope (prototype vs. at-scale), path 
 
 *Second half of the pitch. One product, one stack, then the stack applied.*
 
-**Page 16 — "What we're really building: a context window for the house."**
-The elevation beat. The home gains a memory: who the plumber is, when the filters were changed, where each person is in life, what the family is saving for. A home that remembers is infrastructure, not a gadget.
+**Page 16 — Title: "A context window for the home" / Sub: "The house keeps its own memory: people, maintenance, money, goals."**
+The elevation beat. Who the plumber is, when the filters were changed, where each person is in life, what the family is saving for. A home that remembers is infrastructure, not a gadget.
 
-**Page 17 — "Every device in your home will want inference. None of them should need their own cloud."**
-The Home Harness: the agentic harness for the home, and the home's generic inference provider. It exposes an MCP server on the local network, a chat-completions endpoint, local RAG, and ontology lookup. The doorbell, the thermostat, the kids' laptop: each taps the home hub over Wi-Fi to perform smarter tasks through one shared agent, instead of every device shipping its own cloud AI subscription and phoning a different datacenter. One GPU, one harness, every device in the house gets intelligent.
+**Page 17 — Title: "The Home Harness" / Sub: "One local agent every device on the network can use."**
+The home's generic inference provider. It exposes an MCP server on the local network, a chat-completions endpoint, local RAG, and ontology lookup. The doorbell, the thermostat, the kids' laptop: each taps the home hub over Wi-Fi to perform smarter tasks through one shared agent, instead of every device shipping its own cloud AI subscription and phoning a different datacenter. Every device in the home will want inference; none of them should need their own cloud.
 
-**Page 18 — "One stack under everything."**
+**Page 18 — Title: "The stack" / Sub: "Six generic primitives, built once, reused in every product."**
 Exploded view: trusted execution environment, zero-knowledge backup server, mirroring server, peer-to-peer gossip between devices on the local network, local inference runtime, and the generic ontology library (declare a schema; the model extracts it) that lets the same stack serve families, firms, clinics, and newsrooms without rewriting anything.
 
-**Page 19 — "Every chipset gets its own distribution."**
+**Page 19 — Title: "Licensing works like Android" / Sub: "Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness."**
 The licensing model with known economics. Every Snapdragon ships with its own tuned Android build that OEMs build on; Qualcomm's licensing arm is the reference business. Every partner device ships a tuned Home Harness distribution adapted to its silicon and form factor, royalty per device. Buyers: Sonos, Dyson, Bang & Olufsen, LG, and every hardware company that wants private intelligence inside its devices and will never build this stack.
 
-**Page 20 — "One product. One stack. Every place private data needs inference."**
+**Page 20 — Title: "One stack, four markets" / Sub: "Families, then homes, then offices, then enterprise hardware partners."**
 The focus frame and the sizing page. Not four businesses: one consumer hardware company and its underlying stack, applied in sequence to the home, the office, and enterprise hardware partnerships. Bottoms-up wedge math (households × ASP × attach) as the precise number; office (per-room/per-seat, on-prem transcription and meeting capture) and enterprise licensing (royalty × partner fleet volumes) as clearly labeled earned upside, with health as the largest private-compute prize. What carries over at every rung is the point: the stack, the trust brand, and the consumer fleet as reference customer. Phase gates state what unlocks each stage and what we are not doing yet. Destination: the 200-person company with Home, Family, Legal, and Health divisions.
 
 ---
 
 ## Act IV — Objections, Team, Ask (pages 21–23)
 
-**Page 21 — "The hard questions, answered."**
+**Page 21 — Title: "The hard questions" / Sub: "Apple, model quality, hardware risk, and consent."**
 Steel-manned, compact, each pointing to appendix depth:
 - *Why won't Apple or Google do this?* Purity of trust (privacy-conscious users choose Signal over iMessage); ad-model conflict for Google and Amazon; an open harness every device can join versus a walled garden; incumbents treat this as a feature, we treat it as the company. Amazon's March 2025 removal of local processing shows the cloud gravity they can't escape.
 - *Won't local models always lag the frontier?* Yes, and it doesn't matter: household tasks are narrow (transcription, extraction, RAG, classification). The gap is closing fast, and open weights (Inkling, Nemotron 3) mean every upstream advance lands in our stack for free.
 - *Why dedicated hardware?* The seven in ten are not hobbyists. The trust boundary must be physical and legible to the oldest person in the family. Beautiful appliances are how AI enters the home; hardware is the moat and the margin.
 - *Recording consent and children's data?* Consent-first capture, no ambient listening, and an architecture that keeps regulated data classes on-device (ties back to page 5; detail in appendix A7).
 
-**Page 22 — "We've built humble tech before."**
+**Page 22 — Title: "The team" / Sub: "We shipped the Light Phone, Mill's IoT stack, and USB Club."**
 Full-page team, ~80 words per founder tied to this company's hard parts: Light Phone II & III, Mill's IoT infrastructure, Foxconn/Arima/Coosea manufacturing experience, USB Club, World Advanced Concepts, the Mozilla research collaboration. The talent thesis: privacy-conscious, sovereign-data-minded builders join missions like this the way they join Signal and Mozilla. The first hires this raise buys, named honestly (including the ML-systems lead).
 
-**Page 23 — "We're raising $15M."**
+**Page 23 — Title: "We're raising $15M" / Sub: "To build the team that ships by Christmas 2027."**
 What it buys: a team hired fast enough to ship by Christmas 2027, a contract manufacturer in the room immediately, Foxconn-grade engineering, and the staffing the multi-device ecosystem vision requires. What it proves for the Series A: units shipped, attach rate, fleet reliability, zero trust incidents. Close on urgency: the category gets claimed once.
 
 ---
