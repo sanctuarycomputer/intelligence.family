@@ -18,8 +18,8 @@
    `p { margin: 0 }` (and friends) beat any layered mt-* utility on those
    elements. Deck spacing therefore uses these unlayered classes. */
 .deck-body {
-  margin-top: 14px;
-  max-width: 42rem;
+  margin-top: 28px;
+  max-width: 500px;
 }
 .deck-card-body {
   margin-top: 12px;
