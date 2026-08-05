@@ -175,7 +175,8 @@ const page12 = (
 
 const page13 = (
   <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
-    <DiagramPage
+    <Split
+      flip
       title="A context window for the home"
       sub="One local agent every device on the network can use."
       media={
@@ -189,7 +190,7 @@ const page13 = (
       </strong>{' '}
       US internet households already run 17 connected devices.
       <Ref k="parks-17-devices" />
-    </DiagramPage>
+    </Split>
   </DeckPage>
 );
 
