@@ -6,6 +6,7 @@ export default function DeckPage({
   act,
   actClass = '',
   chrome = true,
+  counter,
   children,
 }: {
   n: number;
@@ -13,6 +14,8 @@ export default function DeckPage({
   act: string;
   actClass?: string;
   chrome?: boolean;
+  /** Overrides the "NN / total" footer counter; appendix pages pass "A". */
+  counter?: string;
   children: ReactNode;
 }) {
   return (
@@ -26,9 +29,7 @@ export default function DeckPage({
       <div className="flex-1 flex flex-col justify-center">{children}</div>
       {chrome && (
         <footer className="deck-chrome-footer">
-          <span>
-            {String(n).padStart(2, '0')} / {total}
-          </span>
+          <span>{counter ?? `${String(n).padStart(2, '0')} / ${total}`}</span>
           <span>Investor Preview · August 2026</span>
           <span>intelligence.family</span>
         </footer>

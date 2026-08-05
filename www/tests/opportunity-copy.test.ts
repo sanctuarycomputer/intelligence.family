@@ -5,7 +5,7 @@ import path from 'node:path';
 const dir = path.join(__dirname, '..', 'app', 'opportunity', 'content');
 const contentFiles = () =>
   readdirSync(dir)
-    .filter(f => f.endsWith('.tsx'))
+    .filter(f => f.endsWith('.tsx') || f === 'index.ts')
     .map(f => [f, readFileSync(path.join(dir, f), 'utf8')] as const);
 
 describe('opportunity deck copy contract', () => {
@@ -59,6 +59,89 @@ describe('opportunity deck copy contract', () => {
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
     }
+  });
+
+  it('act 3 carries the five approved titles in order', () => {
+    const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
+    const titles = [
+      'A context window for the home',
+      'The Home Harness',
+      'The stack',
+      'Licensing works like Android',
+      'One stack, four markets',
+    ];
+    const idx = titles.map(t => src.indexOf(t));
+    expect(idx.every(i => i >= 0)).toBe(true);
+    expect([...idx].sort((a, b) => a - b)).toEqual(idx);
+  });
+
+  it('act 3 carries the five approved subtitles', () => {
+    const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
+    const subs = [
+      'The house keeps its own memory: people, maintenance, money, goals.',
+      'One local agent every device on the network can use.',
+      'Six generic primitives, built once, reused in every product.',
+      'Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness.',
+      'Families, then homes, then offices, then enterprise hardware partners.',
+    ];
+    for (const sub of subs) {
+      expect(src, sub).toContain(sub);
+    }
+  });
+
+  it('act 4 carries the three approved titles in order', () => {
+    const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
+    const titles = ['The hard questions', 'The team', "We're raising $15M"];
+    const idx = titles.map(t => src.indexOf(t));
+    expect(idx.every(i => i >= 0)).toBe(true);
+    expect([...idx].sort((a, b) => a - b)).toEqual(idx);
+  });
+
+  it('act 4 carries the three approved subtitles', () => {
+    const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
+    const subs = [
+      'Apple, model quality, hardware risk, and consent.',
+      "We shipped the Light Phone, Mill's IoT stack, and USB Club.",
+      'On shelves and ready to gift by Christmas 2027.',
+    ];
+    for (const sub of subs) {
+      expect(src, sub).toContain(sub);
+    }
+  });
+
+  it('asks for $15M exactly once across the deck, on the ask page', () => {
+    const all = contentFiles()
+      .map(([, s]) => s)
+      .join('\n');
+    expect(all.match(/\$15M/g)).toHaveLength(1);
+    const act4 = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
+    expect(act4).toContain("We're raising $15M");
+  });
+
+  it('renders a sources page from the registry', () => {
+    const src = readFileSync(path.join(dir, 'appendix.tsx'), 'utf8');
+    expect(src).toContain('orderedReferences');
+  });
+
+  it('stubs every appendix page under the quiet act label', () => {
+    const src = readFileSync(path.join(dir, 'appendix.tsx'), 'utf8');
+    expect(src).toContain('A · For the Diligent Reader');
+    for (const title of [
+      'A1 · Stack deep-dive',
+      'A2 · Ontology library',
+      'A3 · Home Harness API surfaces',
+      'A4 · Competition matrix',
+      'A5 · Three-year pro-forma',
+      'A6 · GTM detail',
+      'A7 · Trust & risk register',
+      'A8 · Extended FAQ',
+      'A9 · Technical futures',
+      'A10 · Timeline',
+    ]) {
+      expect(src, title).toContain(title);
+    }
+    expect(src).toContain('Sources');
+    expect(src).toContain('Every figure in this deck, linked.');
   });
 
   it('act 2 never states the raise amount', () => {
