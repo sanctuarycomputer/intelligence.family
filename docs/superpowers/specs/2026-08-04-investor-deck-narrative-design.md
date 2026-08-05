@@ -8,7 +8,7 @@
 
 Replace the text-dense investor memo/page with a paced, emphasis-controlled deck that walks an investor through the opportunity. The deck is a **send-ahead reading document** (emailed, read unattended, rendered in the browser, exportable as PDF), not a live-presentation deck. It must self-narrate.
 
-**Delivery:** lives at **`/opportunity`** on intelligence.family (new route in `www/`), with PDF export.
+**Delivery:** lives at **`/opportunity`** on intelligence.family (new route in `www/`). First draft is browser-only, shared with co-founders and advisors for review; PDF export is deferred until the deck is investor-bound.
 
 **The single takeaway an investor must leave with:** a new compute category (private local intelligence) has just become possible, it is a macro inevitability, nobody owns it in the home, and the trusted brand that claims it first (the way Signal and Mozilla claimed theirs) wins a market that ladders from families to every home, office, and hardware partner.
 
@@ -274,14 +274,14 @@ The four acts are the sections, surfaced through page chrome rather than dedicat
 
 - **Header:** brand wordmark small (left) · act label (right), e.g. "II — The Wedge".
 - **Footer:** page counter "07 / 24" (left) · "Investor Preview · August 2026" (center) · `intelligence.family` (right).
-- Chrome appears on every page except the cover, identical in browser and PDF (repeats per printed page via print CSS).
+- Chrome appears on every page except the cover. (When PDF export lands later, it repeats per printed page via print CSS; not built in the first draft.)
 
 ### Reference treatment
 
 - Every cited fact carries a superscript numbered annotation (¹²³), globally numbered across the deck from a single reference registry (`references.ts`: key, short label, source name, date, url).
 - **Click → opens the source in a new tab** (`target="_blank" rel="noopener"`), wired through the site's existing `trackOutbound()` gtag convention.
 - **Hover → tooltip** with source name + date, so a skimmer can judge credibility without leaving the page.
-- **PDF fallback:** superscripts remain live links in the exported PDF, and an auto-generated **Sources** page (final appendix page) lists every reference with its URL for print.
+- An auto-generated **Sources** page (final appendix page) lists every reference with its URL — useful now for reviewers, and it becomes the print fallback when PDF export lands later.
 - Registry is the single source of truth: the evidence bank in this spec maps 1:1 into it, including the do-not-use list staying out.
 
 ### Layout archetypes
@@ -333,8 +333,8 @@ Appendix pages A1–A10 all use a single quiet document archetype (title + prose
 ### Mechanics
 
 - **Navigation:** vertical scroll with per-page snap; arrow keys page through; a thin progress rail shows position and act boundaries.
-- **PDF export:** print stylesheet, one deck page per PDF page, chrome repeated, links live; a visible "Download PDF" affordance on the deck.
-- **Responsive:** pages compose down to mobile (split layouts stack); PDF always renders the desktop composition.
+- **PDF export: deferred.** Not in the first draft (co-founder/advisor review is browser-only). When it lands: print stylesheet, one deck page per PDF page, chrome repeated, links live, "Download PDF" affordance.
+- **Responsive:** pages compose down to mobile (split layouts stack).
 
 ### Visual reference: the family-book home screen (cover slide) + site conventions
 
@@ -343,7 +343,7 @@ The cover (page 1) echoes the device's launcher/lock screens from `../family-boo
 - **Cover composition** (from `launcher.slint` / `lock_screen.slint`): full-bleed sage page; the cloud-tree illustration (`cover-decoration.png`, 632×426) anchored bottom-right behind everything; drifting leaves over the full viewport; display type top-left (device uses Windsor Pro 68px/700 title over Roobert 42px subtitle at x:80/y:80–150). Deck cover maps this to our title/sub/traction-strip.
 - **Drifting leaves** (port from `style.css:100-161` of the remote): three PNG leaf sprites, each two elements — wrapper carries drift translate + opacity "breathe," inner img carries the wobble rotation (the trick that lets translate and rotate coexist). Diagonal paths low-left → top-right in vw/dvh units; periods 23s / 29.44s / 18.4s with phase offsets as negative animation-delays; opacity pulses twice per traversal and is exactly 0 at both path ends so leaves never pop at edges; wobble ±4–6° at 3.25–4.75s alternate; `prefers-reduced-motion: reduce` hides them entirely. Leaves stay small (40–52px ambient specks) even at deck scale.
 - **Assets to copy in:** `cover-leaf-1/2/3.png` and `cover-decoration.png` from `family-book/fam-api/app/static/remote/assets/` → `www/public/opportunity/`. Fonts already live in this repo (`www/public/fonts/` Windsor Pro + Roobert VF).
-- **Palette:** the deck uses this site's `fi-*` tokens (`--fi-green-100 #D7DDD4` … `--fi-green-600 #596647`, `--fi-black-900 #313131`; Windsor Pro serif / Roobert sans already wired in `globals.css`). family-book's sage (`#d5dbd1` page, `#6e8054` accent, `#1e1e1e` ink) is a near-sibling; where the two disagree, the site palette wins so `/opportunity` feels native to intelligence.family. family-book's `STYLE_PARITY.md` and the drifting-leaves design doc are the reference docs.
+- **Palette (decided):** the deck uses this repo's styleguide exclusively — the token block in `www/app/globals.css`: `--fi-green-100 #D7DDD4` through `--fi-green-600 #596647`, `--fi-black-900 #313131` / `--fi-black-1000 #000000`, `--font-serif` Windsor Pro / `--font-sans` Roobert, `--container-max 1352px`, `--container-padding 24/80px`. family-book is a composition and animation reference only, never a color source; its sage values (`#d5dbd1`, `#6e8054`, `#1e1e1e`) map to the nearest `fi-*` token when porting the cover. family-book's `STYLE_PARITY.md` and the drifting-leaves design doc remain the animation reference docs.
 - **Site conventions carried over** (homepage + /fundraising): `AnimatedElement` staged entrance delays (0/100/200/300ms), `LeafIcon` on the H1, `QuoteBox`, `SectionHeader`, `grid-layout`/`container-content`, `underline hover:no-underline` outbound links with `trackOutbound()`.
 - Performance note from the device (`main.slint:1064`): mount the leaves conditionally, not via visibility — continuously animating nodes left in the tree repaint forever. Same principle applies if the deck pauses leaves off-cover.
 
