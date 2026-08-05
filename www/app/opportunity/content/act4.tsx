@@ -6,11 +6,20 @@ import Ref from '../components/Ref';
 import { CardsPage, DiagramPage, Statement } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 25;
+const TOTAL = 26;
 const ACT_CLASS = 'deck-act-4';
 
-const page23 = (
+const page22 = (
   <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
+    <Statement
+      splash
+      title="We're building this either way... this round sets the speed"
+    />
+  </DeckPage>
+);
+
+const page23 = (
+  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="The hard questions"
@@ -118,7 +127,7 @@ const page23 = (
 );
 
 const page24 = (
-  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       title="The team"
       sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
@@ -171,7 +180,7 @@ const page24 = (
 );
 
 const page25 = (
-  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Timeline"
       sub="Round closes, contract manufacturer in the room, shelves by Christmas 2027."
@@ -191,14 +200,13 @@ const page25 = (
 );
 
 const page26 = (
-  <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={26} n={26} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="We're raising $15M"
       sub="On shelves and ready to gift by Christmas 2027."
     >
-      We are building this either way. The round sets the speed. Our research
-      found no funded local-first home hub, in a year when AI took roughly half
-      of global venture funding.
+      Our research found no funded local-first home hub, in a year when AI took
+      roughly half of global venture funding.
       <Ref k="crunchbase-ai-half" />{' '}
       <strong>
         No one owns this market today, and that window is closing fast.
@@ -210,4 +218,4 @@ const page26 = (
   </DeckPage>
 );
 
-export const ACT4_PAGES: ReactNode[] = [page23, page24, page25, page26];
+export const ACT4_PAGES: ReactNode[] = [page22, page23, page24, page25, page26];

@@ -115,9 +115,10 @@ describe('opportunity deck copy contract', () => {
     expect(src).not.toContain('What If It Works');
   });
 
-  it('act 4 carries the four approved titles in order', () => {
+  it('act 4 carries the five approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const titles = [
+      "We're building this either way... this round sets the speed",
       'The hard questions',
       'The team',
       'Timeline',
@@ -207,13 +208,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(25);
+    expect(ALL_PAGES).toHaveLength(26);
     expect(APPENDIX_PAGES).toHaveLength(6);
   });
 
-  it('sets every chrome counter against 25 pages', () => {
+  it('sets every chrome counter against 26 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 25;/);
+      expect(src, name).toMatch(/const TOTAL = 26;/);
     }
   });
 
