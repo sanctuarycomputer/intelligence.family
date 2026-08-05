@@ -81,8 +81,7 @@ const page10 = (
             <>
               Life360 did $489.5M in FY2025 revenue across roughly 98M monthly
               users, and the market values it near $4.5B.
-              <Ref k="life360-q1" /> Families pay every month to keep track of
-              each other.
+              <Ref k="life360-q1" />
             </>
           ),
         },
@@ -119,17 +118,18 @@ const page11 = (
         <FpoBox note="23andMe collapse timeline ($6B → breach → Chapter 11 → $305M); inset: Jan 2026 court-order headline" />
       }
     >
-      23andMe went from a $6B peak to Chapter 11, and the database itself went
-      up for sale at $305M.
+      23andMe went from a $6B peak to Chapter 11, and its database was sold for
+      $305M.
       <Ref k="23andme-sale" /> A breach had already exposed 6.9M people&rsquo;s
       genetic and family data.
       <Ref k="23andme-breach" /> In January 2026 a federal judge handed 20
       million ChatGPT conversations to opposing lawyers, and users were never
       told.
-      <Ref k="chatgpt-logs" /> In February one AI app leaked 300 million private
+      <Ref k="chatgpt-logs" /> In February an AI app leaked 300 million private
       messages.
-      <Ref k="askai-leak" /> Our answer is architectural: there is no backend to
-      misconfigure and no log to subpoena.
+      <Ref k="askai-leak" /> Our answer is architectural: a physical kill
+      switch, end-to-end encryption where we hold no keys, no backend to
+      misconfigure, no log to subpoena.
     </Split>
   </DeckPage>
 );
@@ -141,19 +141,19 @@ const page12 = (
       title="Home hubs are a proven category"
       sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
     >
-      Amazon has sold more than 600M Alexa devices.
-      <Ref k="alexa-600m" /> Google counts 800M+ connected devices in the home.
+      The AI gadget graveyard died inventing new ways to interact; we enter a
+      proven category with a different architecture. Alexa is at that number,
+      <Ref k="alexa-600m" /> and Google counts 800M+ connected devices in the
+      home.
       <Ref k="google-home-800m" /> 35% of Americans 12 and over own a smart
-      speaker.
-      <Ref k="edison-35" /> 51% of US internet households own a speaker or a
+      speaker,
+      <Ref k="edison-35" /> and 51% of US internet households own a speaker or
       display.
-      <Ref k="parks-51" /> The AI gadget graveyard died inventing new ways to
-      interact; we enter a proven category with a different architecture. OpenAI
-      paid $6.5B for Jony Ive&rsquo;s device startup, and its home companion is
-      cloud-tethered.
-      <Ref k="openai-io" /> Amazon bought Bee.
+      <Ref k="parks-51" /> OpenAI paid $6.5B for Jony Ive&rsquo;s device
+      startup, and its companion is cloud-tethered.
+      <Ref k="openai-io" /> Amazon bought Bee,
       <Ref k="bee-amazon" /> Meta bought Limitless.
-      <Ref k="limitless-meta" /> All of it runs in someone else&rsquo;s cloud.
+      <Ref k="limitless-meta" /> It all runs in someone else&rsquo;s cloud.
     </BigStat>
     <div className="mt-10">
       <FpoBox
@@ -262,18 +262,17 @@ const page15 = (
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/fundraising/grandma-text.png"
-            alt="A real text message from an early user tester"
+            alt='Text message: "So my grandma beat the odds and lived. So if y&apos;all can speed it up on the family intelligence that would be greatly appreciated."'
             className="mt-4 block w-2/3 h-auto rounded-[8px]"
           />
         </div>
       }
     >
-      The prototype runs today on a previous-generation NVIDIA Orin, so we can
-      prove the experience without betting on the newest silicon. Our research
-      with Mozilla is published.
-      <Ref k="mozilla-research" /> A tester texted us to ask whether we could
-      speed up the family intelligence. Rabbit shipped four months after its
-      Series A.
+      The prototype runs today on a previous-generation NVIDIA Orin, so we prove
+      the experience without betting on the newest silicon. Our research with
+      Mozilla is published and has 28k+ impressions.
+      <Ref k="mozilla-research" /> A real tester asked us to speed it up. Rabbit
+      shipped four months after its Series A.
       <Ref k="rabbit-ship" /> Plaud shipped in 18 months, bootstrapped.
       <Ref k="plaud" /> tonies launched Toniebox 2 in September and took 80% of
       its Q4 sales.
@@ -305,8 +304,7 @@ const page16 = (
       the moat and the recurring layer is the business. Plaud reached about
       $250M in revenue at roughly 20% margin, on 1M+ devices and essentially no
       venture capital.
-      <Ref k="plaud" /> Consumer AI hardware makes money. The pro-forma is still
-      being written, so these are ranges we can defend today.
+      <Ref k="plaud" /> Consumer AI hardware makes money.
     </p>
     <div className="mt-10">
       <FpoBox
