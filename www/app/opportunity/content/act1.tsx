@@ -136,7 +136,7 @@ const page5 = (
       <br />
       <br />
       <strong>
-        Our privacy-preserving architecture swung customer sentiment.
+        Our privacy-preserving posture is what wins customers over.
       </strong>
     </Split>
   </DeckPage>
