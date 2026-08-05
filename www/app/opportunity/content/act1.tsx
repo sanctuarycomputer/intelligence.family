@@ -16,12 +16,6 @@ import {
 const TOTAL = 26;
 const ACT = 'I · The Category';
 
-const coverTitleStyle = {
-  fontFamily: 'var(--font-serif)',
-  fontSize: 'clamp(48px, 9vw, 96px)',
-  fontWeight: 400,
-  lineHeight: 1.02,
-} as const;
 
 const coverLeafStyle = {
   width: '0.35em',
@@ -59,8 +53,8 @@ export function coverPage(gate: ReactNode): ReactNode {
       />
       <DriftingLeaves />
       <div className="relative mb-auto max-w-3xl">
-        <h1 className="relative inline-block" style={coverTitleStyle}>
-          Family Intelligence
+        <h1 className="relative inline-block">
+          Family<span className="tracking-[-0.1em]"> </span>Intelligence
           <LeafIcon className="absolute leaf-animate" style={coverLeafStyle} />
         </h1>
         <p className="mt-4" style={coverSubStyle}>
