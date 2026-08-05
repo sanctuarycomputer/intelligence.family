@@ -197,7 +197,7 @@ const page7 = (
   <DeckPage key={7} n={7} total={TOTAL}>
     <Statement
       splash
-      title="Family Intelligence will be the first trusted brand to run local compute in the home"
+      title="Family Intelligence will be the first trusted brand to run local inference in the home"
     />
   </DeckPage>
 );

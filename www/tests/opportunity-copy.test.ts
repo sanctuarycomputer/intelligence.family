@@ -23,7 +23,7 @@ describe('opportunity deck copy contract', () => {
       "7 in 10 Americans don't trust big tech's AI",
       'Our architecture makes all the difference',
       'Intentional technology is a proven market',
-      'Family Intelligence will be the first trusted brand to run local compute in the home',
+      'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
     const idx = titles.map(t => src.indexOf(t));
     expect(idx.every(i => i >= 0)).toBe(true);
