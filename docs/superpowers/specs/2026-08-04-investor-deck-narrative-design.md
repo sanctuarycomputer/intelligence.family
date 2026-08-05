@@ -286,7 +286,7 @@ The four acts are the sections, surfaced through page chrome rather than dedicat
 
 ### Layout archetypes
 
-Eight archetypes; no two consecutive pages share one, and split layouts alternate text-left/text-right. This gives the "varied but systematic" feel without bespoke layouts per page.
+Eight archetypes; no two consecutive pages share one (two deliberate exceptions where the content demands it: pages 18/19 are both Diagram, pages 22/23 are both Cards), and split layouts alternate text-left/text-right. This gives the "varied but systematic" feel without bespoke layouts per page.
 
 1. **Cover** — full-bleed brand + title + traction strip
 2. **Statement** — oversized title + subtitle, minimal support; for act openers and thesis beats
