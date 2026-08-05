@@ -186,6 +186,12 @@ section.deck-page[id] {
   bottom: 0;
   width: min(70vw, 632px);
   height: auto;
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
+/* The tree belongs to the cover; it hands off to the chrome at slide 2. */
+.deck-tree-hidden {
+  opacity: 0;
 }
 
 /* Debug copy editor (?debug=true) */

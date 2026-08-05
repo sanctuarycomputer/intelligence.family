@@ -77,7 +77,7 @@ export default function DeckShell({
         <img
           src="/opportunity/cover-decoration.png"
           alt=""
-          className="deck-tree"
+          className={`deck-tree${current > 1 ? ' deck-tree-hidden' : ''}`}
         />
       </div>
       <DeckChrome meta={pageMeta[current - 1]} hidden={current === 1} />
