@@ -363,6 +363,10 @@ The cover (page 1) echoes the device's launcher/lock screens from `../family-boo
 
 ---
 
+## Revision — 2026-08-04, after Hugh's first browser review
+
+The built deck supersedes the act tables above; the code and `tests/opportunity-copy.test.ts` are now the structural source of truth. Summary of the revision: 26-page core in four acts — I · The Category (cover with homepage-style wordmark + LeafIcon and no traction strip; GPU coming home; "Local AI finally runs on consumer hardware"; "No one is trusted with AI in the home" BigStat; "Intentional technology is a proven market"; splash: "Family Intelligence will be the first trusted brand to run local compute in the home") — II · The Wedge (first device; family practice; data too sensitive; home hubs proven; families already pay; $899 price ladder; subscription; merged context-window/Harness page; "Our prototype already works"; unit economics deduped) — III · Under the Hood (splash: "silicon-to-screen stack for privacy-preserving local inference"; the stack; the two relocated sovereignty/regulation pages; licensing; four markets) — IV · The Ask (hard questions as 3-column nine-card grid absorbing the FAQ; team; Timeline as a core page; the ask). Appendix cut to six pages (splash, merged stack deep-dive incl. ontology + API surfaces, competition matrix, pro-forma, GTM, Sources in three columns); trust register, extended FAQ, and technical futures deleted. Chrome: intelligence.family top left, act top right, "Investor Preview" (no date) bottom left, counter bottom right, mono-axis glyphs, every page exactly 100dvh. Bodies trimmed to ~35-60 words with one bold lead phrase per page (Hugh's emphasis style).
+
 ## Out of scope (deliberately)
 
 - Visual/styling system, typography, and color: decided during the build, not in this spec.
