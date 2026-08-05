@@ -197,7 +197,7 @@ const page26 = (
         No one owns this market today, and that window is closing fast.
       </strong>
     </Statement>
-    <p className="mt-14 max-w-2xl">
+    <p className="deck-body">
       If you&rsquo;d like a demo, email us at <MailtoCta />.
     </p>
   </DeckPage>

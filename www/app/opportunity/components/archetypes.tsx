@@ -45,7 +45,7 @@ function Sub({ children }: { children?: ReactNode }) {
 
 function Body({ children }: { children?: ReactNode }) {
   if (!children) return null;
-  return <p className="mt-14 max-w-2xl">{children}</p>;
+  return <p className="deck-body">{children}</p>;
 }
 
 export function Statement({
@@ -132,7 +132,7 @@ export function EvidenceGrid({
         {cards.map(card => (
           <div key={card.heading} className="rounded-[8px] bg-fi-green-200 p-6">
             <h4>{card.heading}</h4>
-            <p className="mt-3">{card.body}</p>
+            <p className="deck-card-body">{card.body}</p>
           </div>
         ))}
       </div>
@@ -218,7 +218,9 @@ export function CardsPage({
             className={`h-full rounded-[8px] bg-fi-green-200 ${tight ? 'p-5' : 'p-6'}`}
           >
             <h4>{card.heading}</h4>
-            <p className={tight ? 'mt-2 text-[15px]' : 'mt-3'}>{card.body}</p>
+            <p className={tight ? 'deck-card-body-tight' : 'deck-card-body'}>
+              {card.body}
+            </p>
           </div>
         ))}
       </div>

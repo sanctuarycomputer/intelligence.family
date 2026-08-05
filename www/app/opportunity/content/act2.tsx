@@ -189,7 +189,7 @@ const page12 = (
         { label: 'Companion devices', value: '$499' },
       ]}
     />
-    <p className="mt-14 max-w-2xl">
+    <p className="deck-body">
       Premium entry prices did not cap the personal computer, they funded it.
       Companions join the flagship hub-and-spoke, and later spokes without GPUs
       bring the entry price down.{' '}
@@ -281,7 +281,7 @@ const page16 = (
         { label: 'Blended gross margin at scale', value: '40%+' },
       ]}
     />
-    <p className="mt-14 max-w-2xl">
+    <p className="deck-body">
       <strong>
         The device is the moat and the recurring layer is the business.
       </strong>{' '}

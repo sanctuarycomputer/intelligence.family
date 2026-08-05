@@ -14,6 +14,21 @@
   flex-direction: column;
   padding: clamp(48px, 7dvh, 72px) var(--container-padding);
 }
+/* Tailwind v4 utilities live in @layer utilities; globals.css's unlayered
+   `p { margin: 0 }` (and friends) beat any layered mt-* utility on those
+   elements. Deck spacing therefore uses these unlayered classes. */
+.deck-body {
+  margin-top: 56px;
+  max-width: 42rem;
+}
+.deck-card-body {
+  margin-top: 12px;
+}
+.deck-card-body-tight {
+  margin-top: 8px;
+  font-size: 15px;
+}
+
 /* globals.css sets `section[id] { scroll-margin-top: 80px }` for anchor
    scrolling; scroll-snap uses scroll-margin to place snap positions, so each
    page was snapping 80px shy of its top. The reset must out-specify the

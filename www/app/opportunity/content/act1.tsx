@@ -16,7 +16,6 @@ import {
 const TOTAL = 26;
 const ACT = 'I · The Category';
 
-
 const coverLeafStyle = {
   width: '0.35em',
   height: '0.4em',
