@@ -22,16 +22,17 @@ export default function DeckPage({
     <section id={`page-${n}`} className={`deck-page ${actClass}`}>
       {chrome && (
         <header className="deck-chrome-header">
-          <span>Family Intelligence</span>
+          <span>intelligence.family</span>
           <span>{act}</span>
         </header>
       )}
-      <div className="flex-1 flex flex-col justify-center">{children}</div>
+      <div className="deck-well flex-1 flex flex-col justify-center">
+        {children}
+      </div>
       {chrome && (
         <footer className="deck-chrome-footer">
+          <span>Investor Preview</span>
           <span>{counter ?? `${String(n).padStart(2, '0')} / ${total}`}</span>
-          <span>Investor Preview · August 2026</span>
-          <span>intelligence.family</span>
         </footer>
       )}
     </section>

@@ -6,25 +6,38 @@ const titleStyle = {
   fontWeight: 400,
 } as const;
 
+const splashTitleStyle = {
+  fontFamily: 'var(--font-serif)',
+  fontSize: 'clamp(40px, 7.5vw, 88px)',
+  fontWeight: 400,
+  lineHeight: 1.04,
+} as const;
+
 const subStyle = {
   fontSize: 'clamp(18px, 2.6vw, 26px)',
 } as const;
 
 const statStyle = {
   fontFamily: 'var(--font-serif)',
-  fontSize: 'clamp(80px, 15vw, 180px)',
+  fontSize: 'clamp(64px, 11vw, 132px)',
   fontWeight: 400,
   lineHeight: 0.9,
 } as const;
 
-function Title({ children }: { children: ReactNode }) {
-  return <h1 style={titleStyle}>{children}</h1>;
+function Title({
+  children,
+  splash,
+}: {
+  children: ReactNode;
+  splash?: boolean;
+}) {
+  return <h1 style={splash ? splashTitleStyle : titleStyle}>{children}</h1>;
 }
 
 function Sub({ children }: { children?: ReactNode }) {
   if (!children) return null;
   return (
-    <h2 className="mt-3" style={subStyle}>
+    <h2 className="mt-4" style={subStyle}>
       {children}
     </h2>
   );
@@ -32,21 +45,24 @@ function Sub({ children }: { children?: ReactNode }) {
 
 function Body({ children }: { children?: ReactNode }) {
   if (!children) return null;
-  return <p className="large mt-6 max-w-2xl">{children}</p>;
+  return <p className="large mt-10 max-w-2xl">{children}</p>;
 }
 
 export function Statement({
   title,
   sub,
+  splash,
   children,
 }: {
   title: ReactNode;
   sub?: ReactNode;
+  /** Oversized, minimal treatment for the act-transition splash pages. */
+  splash?: boolean;
   children?: ReactNode;
 }) {
   return (
-    <div>
-      <Title>{title}</Title>
+    <div className={splash ? 'max-w-5xl' : undefined}>
+      <Title splash={splash}>{title}</Title>
       <Sub>{sub}</Sub>
       <Body>{children}</Body>
     </div>
@@ -179,20 +195,30 @@ export function CardsPage({
   title,
   sub,
   cards,
+  columns = 1,
 }: {
   title: ReactNode;
   sub?: ReactNode;
   cards: Array<{ heading: string; body: ReactNode }>;
+  /** 3 lays the cards out as an equal-height grid instead of a stack. */
+  columns?: 1 | 3;
 }) {
+  const tight = columns === 3;
+  const grid = tight
+    ? 'mt-10 grid md:grid-cols-3 auto-rows-fr gap-4'
+    : 'mt-10 flex flex-col gap-6';
   return (
     <div>
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
-      <div className="mt-10 flex flex-col gap-6">
+      <div className={grid}>
         {cards.map(card => (
-          <div key={card.heading} className="rounded-[8px] bg-fi-green-200 p-6">
+          <div
+            key={card.heading}
+            className={`h-full rounded-[8px] bg-fi-green-200 ${tight ? 'p-5' : 'p-6'}`}
+          >
             <h4>{card.heading}</h4>
-            <p className="mt-3">{card.body}</p>
+            <p className={tight ? 'mt-2 text-[15px]' : 'mt-3'}>{card.body}</p>
           </div>
         ))}
       </div>

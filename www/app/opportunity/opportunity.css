@@ -5,12 +5,19 @@
   scroll-snap-type: y mandatory;
 }
 .deck-page {
-  min-height: 100dvh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   scroll-snap-align: start;
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 72px var(--container-padding);
+  padding: clamp(48px, 7dvh, 72px) var(--container-padding);
+}
+/* The centred content well must be allowed to shrink, or a tall child would
+   push the footer chrome out of the fixed-height page. */
+.deck-page > .deck-well {
+  min-height: 0;
 }
 .deck-chrome-header,
 .deck-chrome-footer {
@@ -24,7 +31,8 @@
   color: var(--fi-black-900);
   font-family: var(--font-sans);
   font-size: 13px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
+  font-variation-settings: 'MONO' 100;
 }
 .deck-chrome-header {
   top: 20px;
@@ -79,6 +87,23 @@
   text-decoration: underline;
 }
 
+/* Sources list — three columns so the whole registry fits one viewport */
+.deck-sources {
+  column-count: 1;
+  column-gap: 32px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.deck-sources li {
+  break-inside: avoid;
+}
+@media (min-width: 768px) {
+  .deck-sources {
+    column-count: 3;
+  }
+}
+
 /* FPO */
 .deck-fpo {
   border: 2px dashed var(--fi-green-400);
@@ -93,6 +118,9 @@
   font-size: 14px;
   padding: 24px;
   width: 100%;
+  /* Every page is exactly one viewport now, so an FPO can never be taller
+     than the room left over for it. */
+  max-height: 32dvh;
 }
 
 /* Drifting leaves — port of family-book remote style.css:133-161.
