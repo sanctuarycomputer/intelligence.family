@@ -260,9 +260,92 @@ The take-it-or-leave-it page. We are building this either way; the round sets th
 3. **Raise framing:** $15M confirmed. Deck copy on what-it-proves milestones (units, attach rate, NPS targets) needs Hugh's real targets before final copy.
 4. **Legal review (page 5):** the regulatory argument is structurally sound and well-cited, but two claims need counsel sign-off before investor distribution: that pure on-device processing falls outside COPPA "collection," and the precise GDPR framing (exposure reduction on content data, not immunity).
 
+---
+
+## Format system (stubbed 2026-08-04; visual design still to come)
+
+The structural format for the `/opportunity` build. Styling, type, and color are deliberately not decided here; this defines the skeleton the design work fills in.
+
+### Sections
+
+The four acts are the sections, surfaced through page chrome rather than dedicated divider pages (divider pages would burn 4 pages against the length budget and slow the read). Each act opener is already a full-bleed statement page; the header's act label plus a subtle per-act background shift does the wayfinding. Act labels: **I — The Category · II — The Wedge · III — What If It Works · IV — The Ask**. The appendix is a fifth, visually quieter section ("A — For the Diligent Reader").
+
+### Page chrome (metadata)
+
+- **Header:** brand wordmark small (left) · act label (right), e.g. "II — The Wedge".
+- **Footer:** page counter "07 / 24" (left) · "Investor Preview · August 2026" (center) · `intelligence.family` (right).
+- Chrome appears on every page except the cover, identical in browser and PDF (repeats per printed page via print CSS).
+
+### Reference treatment
+
+- Every cited fact carries a superscript numbered annotation (¹²³), globally numbered across the deck from a single reference registry (`references.ts`: key, short label, source name, date, url).
+- **Click → opens the source in a new tab** (`target="_blank" rel="noopener"`), wired through the site's existing `trackOutbound()` gtag convention.
+- **Hover → tooltip** with source name + date, so a skimmer can judge credibility without leaving the page.
+- **PDF fallback:** superscripts remain live links in the exported PDF, and an auto-generated **Sources** page (final appendix page) lists every reference with its URL for print.
+- Registry is the single source of truth: the evidence bank in this spec maps 1:1 into it, including the do-not-use list staying out.
+
+### Layout archetypes
+
+Eight archetypes; no two consecutive pages share one, and split layouts alternate text-left/text-right. This gives the "varied but systematic" feel without bespoke layouts per page.
+
+1. **Cover** — full-bleed brand + title + traction strip
+2. **Statement** — oversized title + subtitle, minimal support; for act openers and thesis beats
+3. **Big Stat** — one giant number with context line
+4. **Split** — text one side, asset box the other (50/50)
+5. **Evidence Grid** — 3–6 cards of logos/stats
+6. **Diagram** — full-width asset with title above, caption below
+7. **Ledger** — rows of numbers (pricing, unit math)
+8. **Cards** — stacked Q&A or team columns
+
+### Page-by-page: archetype + FPO asset
+
+Every asset ships first as a bordered FPO box containing the draw instruction below.
+
+| Pg | Archetype | FPO asset (what to draw) |
+|---|---|---|
+| 1 | Cover | Device hero silhouette/render placeholder |
+| 2 | Diagram | Two-era timeline: mainframe→home computer above, datacenter→home GPU below, mirrored |
+| 3 | Split | Epoch open-vs-closed capability-gap chart; inset photo of the Orin prototype board |
+| 4 | Evidence Grid | Deal timeline Oct 2025→Jul 2026 with NVIDIA/Palantir/Cohere/EU marks and dollar figures |
+| 5 | Diagram | House with a drawn trust-boundary line; HIPAA/COPPA/GDPR arrows triggering only where data crosses it |
+| 6 | Big Stat | Giant "7 in 10"; beneath, a brand row (Signal · Mozilla · 1Password) with an empty slot labeled "the home" |
+| 7 | Evidence Grid | Product cards: Light Phone, Daylight, Remarkable, Yoto (+86%) |
+| 8 | Statement | Play-test photo (existing `/research/moment-*.png` assets) |
+| 9 | Split | Week-strip vignette: Sunday check-in → school log → vacation fund → grandmother's story at dinner |
+| 10 | Evidence Grid | Comp cards: tonies €630M · Life360 $4.5B · Ancestry $4.7B · StoryWorth 1M books |
+| 11 | Split | 23andMe collapse timeline ($6B → breach → Chapter 11 → $305M); inset: Jan 2026 court-order headline |
+| 12 | Big Stat | Install-base bars (600M Alexa / 800M Google Home); strip beneath: io $6.5B · Bee→Amazon · Limitless→Meta, all marked "cloud" |
+| 13 | Ledger | Price ladder: Apple II ~$7,000 → Mac ~$8,000 → flagship $899 → companion $499 → future spokes, inflation-adjusted |
+| 14 | Diagram | Hub-and-spoke sync: home devices ↔ zero-knowledge vault ↔ remote family via tunnel; $9/mo card; hotspot + private-network modes labeled |
+| 15 | Split | Prototype photo/video still (existing `moment-video-poster.jpg`); inset: the grandma text screenshot (`grandma-text.png`) |
+| 16 | Ledger | The simple math stack: $899 × 110k devices + $9/mo attach → revenue; margin-path bar prototype→scale |
+| 17 | Split | House cross-section with memory callouts: plumber, filter dates, life stages, vacation fund |
+| 18 | Diagram | Network map: hub centered, doorbell/thermostat/laptop ringed, endpoints labeled MCP · completions · RAG · ontology |
+| 19 | Diagram | Exploded stack: TEE, local runtime, ZK backup, mirroring, P2P gossip, ontology library as lifted layers |
+| 20 | Split | Snapdragon→tuned Android build ∥ partner device→tuned Harness build; margin cards QTL 72% · Dolby 88% · Arm ~$250B |
+| 21 | Diagram | Four-rung staircase (families → homes → offices → enterprise) with a bottoms-up number per rung and the shared stack drawn underneath all four |
+| 22 | Cards | Q&A stack; small icon per question, no hero asset |
+| 23 | Cards | Three founder columns with photos; logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME |
+| 24 | Statement | Timeline bar: round closes → waitlist opens → CM engaged → Christmas 2027; contact block |
+
+Appendix pages A1–A10 all use a single quiet document archetype (title + prose/diagram), plus the auto-generated Sources page.
+
+### Mechanics
+
+- **Navigation:** vertical scroll with per-page snap; arrow keys page through; a thin progress rail shows position and act boundaries.
+- **PDF export:** print stylesheet, one deck page per PDF page, chrome repeated, links live; a visible "Download PDF" affordance on the deck.
+- **Responsive:** pages compose down to mobile (split layouts stack); PDF always renders the desktop composition.
+
+### Format open items
+
+1. **Gate:** does `/opportunity` sit behind the OTP email gate like `/fundraising`, or is it open with the deck link itself as the access control? (Recommend: reuse the gate for consistency and lead capture — Hugh to confirm.)
+2. **Asset production order:** which FPO boxes get real assets first (suggest: p2, p14, p18, p19, p21 — the five diagrams that carry the argument).
+
+---
+
 ## Out of scope (deliberately)
 
-- Visual/styling system, typography, and the Next.js deck implementation with PDF export: planned separately after narrative approval.
+- Visual/styling system, typography, and color: decided during the build, not in this spec.
 - Rewriting the Notion memo or /fundraising page: the deck is a new artifact; those remain as-is.
 
 ## Next step
