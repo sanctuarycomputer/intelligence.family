@@ -4,7 +4,6 @@ import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
-  BigStat,
   EvidenceGrid,
   Split,
   Statement,
@@ -12,7 +11,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+const TOTAL = 25;
 
 const coverLeafStyle = {
   width: '0.35em',
@@ -88,8 +87,7 @@ const page3 = (
 
 const page4 = (
   <DeckPage key={4} n={4} total={TOTAL}>
-    <BigStat
-      stat="7 in 10"
+    <Statement
       title="No one is trusted with AI in the home"
       sub="7 in 10 Americans don't trust big tech's AI. There is no Signal or Mozilla of the home."
     >
@@ -100,7 +98,7 @@ const page4 = (
       <strong>
         Demand is enormous, trust is absent, and that gap is the market.
       </strong>
-    </BigStat>
+    </Statement>
     <div className="mt-10">
       <FpoBox
         note={

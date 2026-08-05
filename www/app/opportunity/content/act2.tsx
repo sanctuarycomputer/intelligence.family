@@ -12,7 +12,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+const TOTAL = 25;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
@@ -153,58 +153,6 @@ const page11 = (
 
 const page12 = (
   <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
-    <Ledger
-      title="$899 flagship, $499 companions"
-      sub="The Apple II cost $7,000 in today's dollars. Premium first, affordable next."
-      rows={[
-        {
-          label: 'Apple II, 1977',
-          value: (
-            <>
-              $1,298 new, about $7,000 today
-              <Ref k="apple2-price" />
-            </>
-          ),
-        },
-        {
-          label: 'A usable IBM PC, 1981',
-          value: (
-            <>
-              roughly $11,000 today
-              <Ref k="ibm-pc-price" />
-            </>
-          ),
-        },
-        {
-          label: 'Macintosh, 1984',
-          value: (
-            <>
-              $2,495 new, about $8,000 today
-              <Ref k="mac-price" />
-            </>
-          ),
-        },
-        { label: 'Our flagship, with GPU and home server', value: '$899' },
-        { label: 'Companion devices', value: '$499' },
-      ]}
-    />
-    <p className="deck-body">
-      Premium entry prices did not cap the personal computer, they funded it.
-      Companions join the flagship hub-and-spoke, and later spokes without GPUs
-      bring the entry price down.{' '}
-      <strong>It works out of the box, offline, with no account.</strong>
-    </p>
-    <div className="mt-10">
-      <FpoBox
-        note="Price ladder: Apple II ~$7,000 → Mac ~$8,000 → flagship $899 → companion $499 → future spokes, inflation-adjusted"
-        aspect="6/1"
-      />
-    </div>
-  </DeckPage>
-);
-
-const page13 = (
-  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="A privacy-conscious cloud subscription"
       sub="$9/month, optional: zero-knowledge backup, sync, and remote access."
@@ -221,8 +169,8 @@ const page13 = (
   </DeckPage>
 );
 
-const page14 = (
-  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
+const page13 = (
+  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="A context window for the home"
       sub="One local agent every device on the network can use."
@@ -241,8 +189,8 @@ const page14 = (
   </DeckPage>
 );
 
-const page15 = (
-  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
+const page14 = (
+  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="Our prototype already works"
@@ -265,8 +213,8 @@ const page15 = (
   </DeckPage>
 );
 
-const page16 = (
-  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
+const page15 = (
+  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       title="Unit economics"
       sub="110,000 devices in five years, a $9/month attach, 40%+ blended margin."
@@ -307,5 +255,4 @@ export const ACT2_PAGES: ReactNode[] = [
   page13,
   page14,
   page15,
-  page16,
 ];

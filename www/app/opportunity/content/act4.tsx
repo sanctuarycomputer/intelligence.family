@@ -6,11 +6,11 @@ import Ref from '../components/Ref';
 import { CardsPage, DiagramPage, Statement } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+const TOTAL = 25;
 const ACT_CLASS = 'deck-act-4';
 
 const page23 = (
-  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="The hard questions"
@@ -112,7 +112,7 @@ const page23 = (
 );
 
 const page24 = (
-  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       title="The team"
       sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
@@ -163,7 +163,7 @@ const page24 = (
 );
 
 const page25 = (
-  <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Timeline"
       sub="Round closes, contract manufacturer in the room, shelves by Christmas 2027."
@@ -183,7 +183,7 @@ const page25 = (
 );
 
 const page26 = (
-  <DeckPage key={26} n={26} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="We're raising $15M"
       sub="On shelves and ready to gift by Christmas 2027."

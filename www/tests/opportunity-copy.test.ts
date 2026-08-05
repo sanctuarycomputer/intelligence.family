@@ -43,7 +43,7 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 2 carries the ten approved titles in order', () => {
+  it('act 2 carries the nine approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
@@ -51,7 +51,6 @@ describe('opportunity deck copy contract', () => {
       'Family data is too sensitive for the cloud',
       'Home hubs are a proven category',
       'Families already pay for this',
-      '$899 flagship, $499 companions',
       'A privacy-conscious cloud subscription',
       'A context window for the home',
       'Our prototype already works',
@@ -62,7 +61,7 @@ describe('opportunity deck copy contract', () => {
     expect([...idx].sort((a, b) => a - b)).toEqual(idx);
   });
 
-  it('act 2 carries the ten approved subtitles', () => {
+  it('act 2 carries the nine approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, low-risk data, and a GPU in the living room.',
@@ -70,7 +69,6 @@ describe('opportunity deck copy contract', () => {
       '23andMe centralized it. That ended in a breach and a bankruptcy.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
-      "The Apple II cost $7,000 in today's dollars. Premium first, affordable next.",
       '$9/month, optional: zero-knowledge backup, sync, and remote access.',
       'One local agent every device on the network can use.',
       'Built on a previous-generation NVIDIA Orin, by choice.',
@@ -210,13 +208,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(26);
+    expect(ALL_PAGES).toHaveLength(25);
     expect(APPENDIX_PAGES).toHaveLength(6);
   });
 
-  it('sets every chrome counter against 26 pages', () => {
+  it('sets every chrome counter against 25 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 26;/);
+      expect(src, name).toMatch(/const TOTAL = 25;/);
     }
   });
 
