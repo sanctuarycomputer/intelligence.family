@@ -79,6 +79,9 @@ export const REFERENCES: Record<string, Reference> = {
   'crunchbase-ai-half': { source: 'Crunchbase News', date: '2026-01', url: 'https://news.crunchbase.com/ai/big-funding-trends-charts-eoy-2025/' },
   'mozilla-research': { source: 'Instagram (Mozilla collaboration)', date: '2026', url: 'https://www.instagram.com/p/DUWLI8hiUai/' },
   'light-phone': { source: 'Sanctuary Computer', date: '2025', url: 'https://www.sanctuary.computer/work/light-three' },
+  // Appended for p4/p7 subtitle facts. Append-only: existing numbering stays stable.
+  'cohere-sovereign': { source: 'The National', date: '2026-07-09', url: 'https://www.thenationalnews.com/future/technology/2026/07/09/cohere-humain-canada-saudi-arabia-ai/' },
+  'remarkable-profitable': { source: 'Sifted', date: '2021', url: 'https://sifted.eu/articles/remarkable-unicorn-norway' },
 };
 
 const ORDER = Object.keys(REFERENCES);

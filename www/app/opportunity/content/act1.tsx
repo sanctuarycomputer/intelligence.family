@@ -43,7 +43,7 @@ const TRACTION_STRIP =
 export function coverPage(gate: ReactNode): ReactNode {
   return (
     <DeckPage key={1} n={1} total={TOTAL} act={ACT} chrome={false}>
-      <DriftingLeaves />
+      {/* Decoration paints first so the drifting leaves sit in front of it. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/opportunity/cover-decoration.png"
@@ -51,6 +51,7 @@ export function coverPage(gate: ReactNode): ReactNode {
         aria-hidden="true"
         style={coverDecorationStyle}
       />
+      <DriftingLeaves />
       <div className="relative mb-auto max-w-3xl">
         <h1 style={coverTitleStyle}>Family Intelligence</h1>
         <p className="mt-4" style={coverSubStyle}>
@@ -91,16 +92,17 @@ const page3 = (
         <FpoBox note="Epoch open-vs-closed capability-gap chart; inset photo of the Orin prototype board" />
       }
     >
-      Our prototype runs on a previous-generation NVIDIA Orin, by choice. The
-      capability curve did the work: open weights keep closing on closed models
-      <Ref k="epoch-open-weights" />, Thinking Machines Lab released Inkling at
-      975B parameters under Apache 2.0 in July 2026
-      <Ref k="inkling" />, and NVIDIA&rsquo;s Nemotron 3 family ships
-      permissively licensed with its training data
-      <Ref k="nemotron3" />. NPU-equipped AI PCs are roughly 59% of 2026 PC
-      shipments
-      <Ref k="ai-pc-shipments" />, and Ollama has 8.9M monthly developers
-      <Ref k="ollama" />. We inherit every upstream advance for free.
+      Our prototype runs on a previous-generation NVIDIA Orin, by choice. Open
+      weights keep closing on closed models.
+      <Ref k="epoch-open-weights" /> Thinking Machines Lab released Inkling,
+      975B parameters, Apache 2.0, in July 2026.
+      <Ref k="inkling" /> NVIDIA ships Nemotron 3 permissively licensed with its
+      training data, so every upstream advance lands in our stack for free.
+      <Ref k="nemotron3" /> NPU-equipped AI PCs are roughly 59% of 2026
+      shipments, so the substrate is already in homes.
+      <Ref k="ai-pc-shipments" /> Ollama has 8.9M monthly developers, so local
+      AI is now default developer behavior.
+      <Ref k="ollama" />
     </Split>
   </DeckPage>
 );
@@ -116,11 +118,10 @@ const page4 = (
           body: (
             <>
               In October 2025 they partnered to run models where enterprise data
-              already sits
-              <Ref k="nvidia-palantir" />, and in June 2026 they shipped an
-              air-gapped sovereign architecture built so data can never leave
-              the building
-              <Ref k="palantir-sovereign-aios" />.
+              sits,
+              <Ref k="nvidia-palantir" /> and in June 2026 shipped an air-gapped
+              architecture built so data can never leave the building.
+              <Ref k="palantir-sovereign-aios" />
             </>
           ),
         },
@@ -129,8 +130,10 @@ const page4 = (
           body: (
             <>
               The EU opened its call for seven sovereign AI gigafactories on
-              July 30, 2026
-              <Ref k="eu-gigafactories" />.
+              July 30, 2026.
+              <Ref k="eu-gigafactories" /> Cohere sells the same sovereignty to
+              governments.
+              <Ref k="cohere-sovereign" />
             </>
           ),
         },
@@ -139,10 +142,10 @@ const page4 = (
           body: (
             <>
               Cloudian found them repatriating or evaluating on-prem AI
-              workloads in March 2026
-              <Ref k="cloudian-onprem" />. Governments and enterprises pay for
-              the property we give families, and the household is the last
-              sovereign unit nobody serves.
+              workloads in March 2026.
+              <Ref k="cloudian-onprem" /> They pay for the property we give
+              families, and the household is the last sovereign unit nobody
+              serves.
             </>
           ),
         },
@@ -166,19 +169,18 @@ const page5 = (
         <FpoBox note="House with a drawn trust-boundary line; HIPAA/COPPA/GDPR arrows triggering only where data crosses it" />
       }
     >
-      Collection is the trigger. COPPA turns on gathering information from a
-      child
-      <Ref k="coppa-definition" />, GDPR exempts household processing
-      <Ref k="gdpr-household" />, and HIPAA binds only entities handling records
-      for covered entities
-      <Ref k="hipaa-ftc" />. Data that never leaves the device rarely pulls
-      those triggers. The server-side wall keeps rising: full COPPA compliance
-      in April 2026
-      <Ref k="coppa-amended" />, EU AI Act transparency duties in August 2026
-      <Ref k="eu-ai-act-enforcement" />, California age signals by 2027
-      <Ref k="ab1043" />, a 99 to 1 Senate vote keeping the patchwork
-      <Ref k="senate-moratorium" />. Avoiding collection is the compliance
-      strategy that scales everywhere at once.
+      COPPA turns on gathering a child&rsquo;s information.
+      <Ref k="coppa-definition" /> GDPR exempts a family&rsquo;s own use of its
+      data, cutting exposure on their content, not ours.
+      <Ref k="gdpr-household" /> HIPAA binds providers, plans, and vendors, not
+      health apps.
+      <Ref k="hipaa-ftc" /> Data that never leaves the device rarely triggers
+      them. The server-side wall rises: COPPA compliance April 22, 2026,
+      <Ref k="coppa-amended" /> EU AI Act transparency August 2, 2026,
+      <Ref k="eu-ai-act-enforcement" /> California age signals by 2027,
+      <Ref k="ab1043" /> a 99 to 1 Senate vote keeping the patchwork durable.
+      <Ref k="senate-moratorium" /> Avoiding collection scales everywhere at
+      once.
     </DiagramPage>
   </DeckPage>
 );
@@ -190,22 +192,21 @@ const page6 = (
       title="Nobody owns this category"
       sub="7 in 10 Americans don't trust big tech's AI. There is no Signal or Mozilla of the home."
     >
-      Pew puts distrust of big tech&rsquo;s AI at roughly 70%
-      <Ref k="pew-distrust" />, and 72% of smart home owners worry about the
-      data their devices collect
-      <Ref k="parks-72" />. The incumbents went the other way: on March 28, 2025
-      Amazon removed the Echo&rsquo;s only local-processing option
-      <Ref k="echo-local-removed" />. Signal&rsquo;s president calls cloud AI
-      agents surveillance infrastructure in disguise
-      <Ref k="whittaker" />, and we are building the version she could endorse.
-      Today no one owns this market, but that window is closing fast.
+      Pew measured that distrust in June 2026.
+      <Ref k="pew-distrust" /> Parks Associates found 72% of smart home owners
+      worried about the data their devices collect.
+      <Ref k="parks-72" /> The incumbents went the other way: on March 28, 2025
+      Amazon removed the Echo&rsquo;s only local-processing option.
+      <Ref k="echo-local-removed" /> Demand is enormous, trust is absent, and
+      that gap is the market. Today no one owns it, but that window is closing
+      fast.
     </BigStat>
     <div className="mt-10">
       <FpoBox
         note={
-          'Giant "7 in 10"; beneath, a brand row (Signal · Mozilla · 1Password) with an empty slot labeled "the home"'
+          "Brand row: Signal · Mozilla · 1Password with an empty slot labeled 'the home'"
         }
-        aspect="6/1"
+        aspect="8/1"
       />
     </div>
   </DeckPage>
@@ -221,18 +222,21 @@ const page7 = (
           heading: 'Yoto grew 86%',
           body: (
             <>
-              Children&rsquo;s audio, no screen, no feed. Sales grew 86% in 2024
-              <Ref k="yoto-growth" />.
+              Children&rsquo;s audio, no screen, no feed. Sales grew 86% in
+              2024.
+              <Ref k="yoto-growth" />
             </>
           ),
         },
         {
-          heading: 'The Light Phone',
+          heading: 'Light Phone and reMarkable',
           body: (
             <>
               We designed and built Light Phone II and III, sold to people who
-              wanted less phone
-              <Ref k="light-phone" />.
+              wanted less phone.
+              <Ref k="light-phone" /> reMarkable reached profitability at $300M
+              revenue.
+              <Ref k="remarkable-profitable" />
             </>
           ),
         },
@@ -240,10 +244,10 @@ const page7 = (
           heading: 'Privacy is a purchase',
           body: (
             <>
-              The same buyers turn on Signal&rsquo;s encrypted backups
-              <Ref k="signal-backups" /> and Apple&rsquo;s Advanced Data
-              Protection
-              <Ref k="apple-adp" />. The convenience argument fails where the
+              The same buyers turn on Signal&rsquo;s encrypted backups and
+              Apple&rsquo;s Advanced Data Protection.
+              <Ref k="signal-backups" />
+              <Ref k="apple-adp" /> The convenience argument fails where the
               data is intimate, and these buyers pay for the alternative.
             </>
           ),
