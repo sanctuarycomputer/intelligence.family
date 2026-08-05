@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { ALL_PAGES, APPENDIX_PAGES } from '../app/opportunity/content';
+import { REFERENCES } from '../app/opportunity/content/references';
 
 const dir = path.join(__dirname, '..', 'app', 'opportunity', 'content');
 // Every content file is deck copy, except the citation registry: its section
@@ -168,6 +169,16 @@ describe('opportunity deck copy contract', () => {
     expect(src).toContain('Working prototype');
     expect(src).toContain('Published research with Mozilla');
     expect(src).toContain('Direct Foxconn relationships');
+  });
+
+  it('every cited reference key exists in the registry', () => {
+    const pattern = /<Ref k="([a-z0-9-]+)"/g;
+    for (const [name, src] of contentFiles()) {
+      for (const match of src.matchAll(pattern)) {
+        const key = match[1];
+        expect(REFERENCES, `${name}: <Ref k="${key}" />`).toHaveProperty(key);
+      }
+    }
   });
 });
 

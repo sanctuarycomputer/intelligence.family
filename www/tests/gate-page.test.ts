@@ -19,8 +19,8 @@ describe('resolveViewedSource', () => {
       'g3d:family_intelligence:fundraising-viewed'
     );
     // A client may never smuggle a raw CRM source string through the param.
-    expect(resolveViewedSource('g3d:family_intelligence:opportunity-viewed')).toBe(
-      'g3d:family_intelligence:fundraising-viewed'
-    );
+    expect(
+      resolveViewedSource('g3d:family_intelligence:opportunity-viewed')
+    ).toBe('g3d:family_intelligence:fundraising-viewed');
   });
 });

@@ -13,6 +13,16 @@ export default function DeckShell({
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
       e.preventDefault();
       const next = Math.min(
         Math.max(current + (e.key === 'ArrowDown' ? 1 : -1), 1),
@@ -26,6 +36,33 @@ export default function DeckShell({
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [current, pages.length]);
+
+  useEffect(() => {
+    const container = document.querySelector('.deck');
+    if (!container) return;
+    const sections = container.querySelectorAll('section[id^="page-"]');
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        let best: { page: number; ratio: number } | null = null;
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const id = entry.target.id;
+          const page = Number(id.replace('page-', ''));
+          if (Number.isNaN(page)) continue;
+          if (!best || entry.intersectionRatio > best.ratio) {
+            best = { page, ratio: entry.intersectionRatio };
+          }
+        }
+        if (best) setCurrent(best.page);
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach(section => observer.observe(section));
+    return () => observer.disconnect();
+  }, [pages.length]);
 
   const actStarts = new Set(railActs.map(a => a.page));
   return (
