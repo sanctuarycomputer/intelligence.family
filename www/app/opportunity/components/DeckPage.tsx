@@ -2,39 +2,22 @@ import type { ReactNode } from 'react';
 
 export default function DeckPage({
   n,
-  total,
-  act,
   actClass = '',
-  chrome = true,
-  counter,
   children,
 }: {
   n: number;
+  // Chrome (and the counter it renders) now lives in DeckChrome, driven by
+  // PAGE_META; total is kept on the type so call sites can keep passing it
+  // unchanged without an excess-property error.
   total: number;
-  act: string;
   actClass?: string;
-  chrome?: boolean;
-  /** Overrides the "NN / total" footer counter; appendix pages pass "A". */
-  counter?: string;
   children: ReactNode;
 }) {
   return (
     <section id={`page-${n}`} className={`deck-page ${actClass}`}>
-      {chrome && (
-        <header className="deck-chrome-header">
-          <span>intelligence.family</span>
-          <span>{act}</span>
-        </header>
-      )}
       <div className="deck-well flex-1 flex flex-col justify-center">
         {children}
       </div>
-      {chrome && (
-        <footer className="deck-chrome-footer">
-          <span>Investor Preview</span>
-          <span>{counter ?? `${String(n).padStart(2, '0')} / ${total}`}</span>
-        </footer>
-      )}
     </section>
   );
 }

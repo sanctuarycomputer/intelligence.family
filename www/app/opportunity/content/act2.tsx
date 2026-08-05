@@ -13,11 +13,10 @@ import {
 
 // Kept local so this module never imports ./index (which imports this file).
 const TOTAL = 26;
-const ACT = 'II · The Wedge';
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
-  <DeckPage key={7} n={7} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={7} n={7} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="Our first device is for families"
       sub="High emotional value, low-risk data, and a GPU in the living room."
@@ -33,7 +32,7 @@ const page7 = (
 );
 
 const page8 = (
-  <DeckPage key={8} n={8} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={8} n={8} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="A family practice"
@@ -55,7 +54,7 @@ const page8 = (
 );
 
 const page9 = (
-  <DeckPage key={9} n={9} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={9} n={9} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       title="Family data is too sensitive for the cloud"
       sub="23andMe centralized it. That ended in a breach and a bankruptcy."
@@ -74,7 +73,7 @@ const page9 = (
 );
 
 const page10 = (
-  <DeckPage key={10} n={10} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
     <BigStat
       stat="600M+"
       title="Home hubs are a proven category"
@@ -100,7 +99,7 @@ const page10 = (
 );
 
 const page11 = (
-  <DeckPage key={11} n={11} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
       title="Families already pay for this"
       sub="tonies did €630M in revenue last year. Life360 is a $4.5B public company."
@@ -153,7 +152,7 @@ const page11 = (
 );
 
 const page12 = (
-  <DeckPage key={12} n={12} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       title="$899 flagship, $499 companions"
       sub="The Apple II cost $7,000 in today's dollars. Premium first, affordable next."
@@ -205,7 +204,7 @@ const page12 = (
 );
 
 const page13 = (
-  <DeckPage key={13} n={13} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="A privacy-conscious cloud subscription"
       sub="$9/month, optional: zero-knowledge backup, sync, and remote access."
@@ -223,7 +222,7 @@ const page13 = (
 );
 
 const page14 = (
-  <DeckPage key={14} n={14} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="A context window for the home"
       sub="One local agent every device on the network can use."
@@ -243,7 +242,7 @@ const page14 = (
 );
 
 const page15 = (
-  <DeckPage key={15} n={15} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="Our prototype already works"
@@ -267,7 +266,7 @@ const page15 = (
 );
 
 const page16 = (
-  <DeckPage key={16} n={16} total={TOTAL} act={ACT} actClass={ACT_CLASS}>
+  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       title="Unit economics"
       sub="110,000 devices in five years, a $9/month attach, 40%+ blended margin."

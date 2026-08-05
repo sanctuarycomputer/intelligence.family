@@ -1,12 +1,16 @@
 'use client';
 import { useEffect, useState, type ReactNode } from 'react';
+import DeckChrome from './DeckChrome';
+import DriftingLeaves from './DriftingLeaves';
 
 export default function DeckShell({
   pages,
   railActs,
+  pageMeta,
 }: {
   pages: ReactNode[];
   railActs: Array<{ page: number }>;
+  pageMeta: Array<{ act: string; counter: string }>;
 }) {
   const [current, setCurrent] = useState(1);
 
@@ -67,6 +71,16 @@ export default function DeckShell({
   const actStarts = new Set(railActs.map(a => a.page));
   return (
     <div className="deck">
+      <div className="deck-ambient" aria-hidden="true">
+        <DriftingLeaves />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/cover-decoration.png"
+          alt=""
+          className="deck-tree"
+        />
+      </div>
+      <DeckChrome meta={pageMeta[current - 1]} />
       {pages}
       <nav className="deck-rail" aria-label="Deck pages">
         {pages.map((_, i) => (

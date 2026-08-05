@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import DeckPage from '../components/DeckPage';
-import DriftingLeaves from '../components/DriftingLeaves';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
@@ -14,7 +13,6 @@ import {
 
 // Kept local so this module never imports ./index (which imports this file).
 const TOTAL = 26;
-const ACT = 'I · The Category';
 
 const coverLeafStyle = {
   width: '0.35em',
@@ -27,30 +25,13 @@ const coverSubStyle = {
   fontSize: 'clamp(20px, 3.2vw, 34px)',
 } as const;
 
-const coverDecorationStyle = {
-  position: 'absolute',
-  right: 0,
-  bottom: 0,
-  width: 'min(70vw, 632px)',
-  pointerEvents: 'none',
-} as const;
-
 /**
  * Page 1, the cover. Takes the gate slot so OpportunityClient can render the
  * email gate beneath the subtitle (null on the server-side page list).
  */
 export function coverPage(gate: ReactNode): ReactNode {
   return (
-    <DeckPage key={1} n={1} total={TOTAL} act={ACT} chrome={false}>
-      {/* Decoration paints first so the drifting leaves sit in front of it. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/opportunity/cover-decoration.png"
-        alt=""
-        aria-hidden="true"
-        style={coverDecorationStyle}
-      />
-      <DriftingLeaves />
+    <DeckPage key={1} n={1} total={TOTAL}>
       <div className="relative mb-auto max-w-3xl">
         <h1 className="relative inline-block">
           Family<span className="tracking-[-0.1em]"> </span>Intelligence
@@ -66,7 +47,7 @@ export function coverPage(gate: ReactNode): ReactNode {
 }
 
 const page2 = (
-  <DeckPage key={2} n={2} total={TOTAL} act={ACT}>
+  <DeckPage key={2} n={2} total={TOTAL}>
     <DiagramPage
       title="The GPU is coming home"
       sub="AI compute is moving into the house, the way the personal computer did."
@@ -86,7 +67,7 @@ const page2 = (
 );
 
 const page3 = (
-  <DeckPage key={3} n={3} total={TOTAL} act={ACT}>
+  <DeckPage key={3} n={3} total={TOTAL}>
     <Split
       title="Local AI finally runs on consumer hardware"
       sub="Open-weight models are closing the gap with the frontier."
@@ -106,7 +87,7 @@ const page3 = (
 );
 
 const page4 = (
-  <DeckPage key={4} n={4} total={TOTAL} act={ACT}>
+  <DeckPage key={4} n={4} total={TOTAL}>
     <BigStat
       stat="7 in 10"
       title="No one is trusted with AI in the home"
@@ -132,7 +113,7 @@ const page4 = (
 );
 
 const page5 = (
-  <DeckPage key={5} n={5} total={TOTAL} act={ACT}>
+  <DeckPage key={5} n={5} total={TOTAL}>
     <EvidenceGrid
       title="Intentional technology is a proven market"
       sub="Light Phone, Daylight, Remarkable and Yoto built profitable businesses on it."
@@ -183,7 +164,7 @@ const page5 = (
 );
 
 const page6 = (
-  <DeckPage key={6} n={6} total={TOTAL} act={ACT}>
+  <DeckPage key={6} n={6} total={TOTAL}>
     <Statement
       splash
       title="Family Intelligence will be the first trusted brand to run local compute in the home"

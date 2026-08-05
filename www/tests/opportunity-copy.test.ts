@@ -111,7 +111,8 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('act 3 is labelled Under the Hood', () => {
-    const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
+    // The act label now lives in content/index.ts (PAGE_META), not act3.tsx.
+    const src = readFileSync(path.join(dir, 'index.ts'), 'utf8');
     expect(src).toContain('III · Under the Hood');
     expect(src).not.toContain('What If It Works');
   });
@@ -170,7 +171,9 @@ describe('opportunity deck copy contract', () => {
 
   it('stubs every appendix page under the quiet act label', () => {
     const src = readFileSync(path.join(dir, 'appendix.tsx'), 'utf8');
-    expect(src).toContain('A · Appendix');
+    // The act label now lives in content/index.ts (PAGE_META), not appendix.tsx.
+    const index = readFileSync(path.join(dir, 'index.ts'), 'utf8');
+    expect(index).toContain('A · Appendix');
     expect(src).toContain('For the diligent reader.');
     for (const title of [
       'A1 · Stack deep-dive',

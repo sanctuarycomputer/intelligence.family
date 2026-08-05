@@ -37,30 +37,15 @@ section.deck-page[id] {
   scroll-margin-top: 0;
 }
 /* The centred content well must be allowed to shrink, or a tall child would
-   push the footer chrome out of the fixed-height page. */
+   push the footer chrome out of the fixed-height page. It also carries all
+   of a page's rendered content, so lifting it above the fixed ambient
+   backdrop (z-index: 1) is enough to keep every page's content readable;
+   the section's tinted act background stays behind it at the default
+   stacking level. */
 .deck-page > .deck-well {
   min-height: 0;
-}
-.deck-chrome-header,
-.deck-chrome-footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 var(--container-padding);
-  color: var(--fi-black-900);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  letter-spacing: 0;
-  font-variation-settings: 'MONO' 100;
-}
-.deck-chrome-header {
-  top: 20px;
-}
-.deck-chrome-footer {
-  bottom: 20px;
+  position: relative;
+  z-index: 2;
 }
 .deck-act-2 {
   background: var(--fi-green-200);
@@ -95,6 +80,106 @@ section.deck-page[id] {
 }
 .deck-rail a.act-start {
   height: 14px;
+}
+
+/* Fixed chrome layer — one instance for the whole deck, values animate as
+   the current page changes instead of remounting per page. */
+.deck-chrome {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  color: var(--fi-black-900);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: 0;
+  font-variation-settings: 'MONO' 100;
+}
+.deck-chrome-corner {
+  position: absolute;
+}
+.deck-chrome-tl {
+  top: 20px;
+  left: var(--container-padding);
+}
+.deck-chrome-tr {
+  top: 20px;
+  right: var(--container-padding);
+  text-align: right;
+}
+.deck-chrome-bl {
+  bottom: 20px;
+  left: var(--container-padding);
+}
+.deck-chrome-br {
+  bottom: 20px;
+  right: var(--container-padding);
+  text-align: right;
+}
+
+/* Rolling value: the incoming value sits in flow (sizing the slot), the
+   outgoing value stacks on top of it while it fades away. */
+.deck-chrome-slot {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+.deck-chrome-value {
+  display: inline-block;
+}
+.deck-chrome-leaving {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.deck-chrome-in {
+  animation: chrome-in 240ms ease-out;
+}
+.deck-chrome-out {
+  animation: chrome-out 240ms ease-out forwards;
+}
+@keyframes chrome-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes chrome-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deck-chrome-in,
+  .deck-chrome-out {
+    animation: none;
+  }
+}
+
+/* Fixed ambient backdrop — drifting leaves and the cover tree, shared by
+   every slide. Sits above each act's tinted background (z-index: auto) but
+   below page content (.deck-well, z-index: 2). */
+.deck-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.deck-tree {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(70vw, 632px);
+  height: auto;
 }
 
 /* References */

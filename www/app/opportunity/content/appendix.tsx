@@ -6,15 +6,13 @@ import { orderedReferences } from './references';
 
 // Kept local so this module never imports ./index (which imports this file).
 const TOTAL = 26;
-const ACT = 'A · Appendix';
 // Appendix pages continue the page ids past the core deck, but the footer
 // counter stays unnumbered so nobody reads them as pages 27 of 26.
 const FIRST = TOTAL + 1;
-const COUNTER = 'A';
 const STUB_BODY = 'Detail follows in the investor-ready revision.';
 
 const splashPage = (
-  <DeckPage key={FIRST} n={FIRST} total={TOTAL} act={ACT} counter={COUNTER}>
+  <DeckPage key={FIRST} n={FIRST} total={TOTAL}>
     <Statement splash title="Appendix" sub="For the diligent reader." />
   </DeckPage>
 );
@@ -39,13 +37,7 @@ const STUBS: Array<{ title: string; note: string }> = [
 ];
 
 const stubPages: ReactNode[] = STUBS.map((stub, i) => (
-  <DeckPage
-    key={FIRST + 1 + i}
-    n={FIRST + 1 + i}
-    total={TOTAL}
-    act={ACT}
-    counter={COUNTER}
-  >
+  <DeckPage key={FIRST + 1 + i} n={FIRST + 1 + i} total={TOTAL}>
     <Statement title={stub.title}>{STUB_BODY}</Statement>
     <div className="mt-10">
       <FpoBox note={stub.note} />
@@ -58,8 +50,6 @@ const sourcesPage = (
     key={FIRST + 1 + STUBS.length}
     n={FIRST + 1 + STUBS.length}
     total={TOTAL}
-    act={ACT}
-    counter={COUNTER}
   >
     <Statement title="Sources" sub="Every figure in this deck, linked." />
     <ol className="deck-sources mt-10">

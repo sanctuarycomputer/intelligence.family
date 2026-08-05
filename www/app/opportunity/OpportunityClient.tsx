@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import InlineEmailGate from '@/components/InlineEmailGate';
 import { OPPORTUNITY_GATE_SOURCE } from '@/lib/crm';
 import DeckShell from './components/DeckShell';
-import { ALL_PAGES, APPENDIX_PAGES, ACT_STARTS } from './content';
+import { ALL_PAGES, APPENDIX_PAGES, ACT_STARTS, PAGE_META } from './content';
 import { coverPage } from './content/act1';
 import './opportunity.css';
 
@@ -38,5 +38,11 @@ export default function OpportunityClient() {
     ? [coverPage(null), ...ALL_PAGES.slice(1), ...APPENDIX_PAGES]
     : [coverPage(gate)];
 
-  return <DeckShell pages={pages} railActs={unlocked ? ACT_STARTS : []} />;
+  return (
+    <DeckShell
+      pages={pages}
+      railActs={unlocked ? ACT_STARTS : []}
+      pageMeta={PAGE_META}
+    />
+  );
 }
