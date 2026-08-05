@@ -50,6 +50,12 @@ section.deck-page[id] {
 .deck-act-2 {
   background: var(--fi-green-200);
 }
+/* On the darker act backgrounds the green-200 cards vanish; lift them to
+   the lighter tone. Unlayered, so it beats the Tailwind bg utility. */
+.deck-act-2 .deck-card,
+.deck-act-4 .deck-card {
+  background: var(--fi-green-100);
+}
 .deck-act-3 {
   background: var(--fi-green-100);
 }

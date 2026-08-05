@@ -136,7 +136,10 @@ export function EvidenceGrid({
       <Sub>{sub}</Sub>
       <div className="grid md:grid-cols-3 gap-6 mt-10">
         {cards.map(card => (
-          <div key={card.heading} className="rounded-[8px] bg-fi-green-200 p-6">
+          <div
+            key={card.heading}
+            className="deck-card rounded-[8px] bg-fi-green-200 p-6"
+          >
             <h4>{card.heading}</h4>
             <p className="deck-card-body">{card.body}</p>
           </div>
@@ -221,7 +224,7 @@ export function CardsPage({
         {cards.map(card => (
           <div
             key={card.heading}
-            className={`h-full rounded-[8px] bg-fi-green-200 ${tight ? 'p-5' : 'p-6'}`}
+            className={`deck-card h-full rounded-[8px] bg-fi-green-200 ${tight ? 'p-5' : 'p-6'}`}
           >
             <h4>{card.heading}</h4>
             <p className={tight ? 'deck-card-body-tight' : 'deck-card-body'}>
