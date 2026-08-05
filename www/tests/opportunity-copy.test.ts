@@ -170,3 +170,25 @@ describe('opportunity deck copy contract', () => {
     expect(src).toContain('Direct Foxconn relationships');
   });
 });
+
+describe('opportunity gate contract', () => {
+  const client = () =>
+    readFileSync(
+      path.join(__dirname, '..', 'app', 'opportunity', 'OpportunityClient.tsx'),
+      'utf8'
+    );
+
+  it('gates with the opportunity source constant and page slug', () => {
+    expect(client()).toContain('OPPORTUNITY_GATE_SOURCE');
+    expect(client()).toContain('page="opportunity"');
+    expect(client()).toContain('fi_opportunity_unlocked_v1');
+  });
+
+  it('is noindexed', () => {
+    const layout = readFileSync(
+      path.join(__dirname, '..', 'app', 'opportunity', 'layout.tsx'),
+      'utf8'
+    );
+    expect(layout).toMatch(/index:\s*false/);
+  });
+});
