@@ -20,7 +20,7 @@ describe('opportunity deck copy contract', () => {
       'Family<span className="tracking-[-0.1em]"> </span>Intelligence',
       'The GPU is coming home',
       'Local AI (finally) runs on consumer hardware',
-      "7 in 10 Americans don't trust big tech's AI.",
+      "7 in 10 Americans don't trust big tech's AI",
       'Our architecture makes all the difference',
       'Intentional technology is a proven market',
       'Family Intelligence will be the first trusted brand to run local compute in the home',
@@ -50,11 +50,11 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       'Our first device is for families',
       'A family practice',
-      'Family data is sensitive.',
+      'Family data is sensitive',
       'Home hubs are a proven category.',
       'Families already pay for this',
-      '(Optional) privacy-conscious backups.',
-      'The context window for smart homes.',
+      '(Optional) privacy-conscious backups',
+      'A context window for smart homes',
       'Unit economics',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -83,7 +83,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
       "But under the hood... we're building the software stack for private AI inference",
-      'Our stack.',
+      'Our stack',
       'The industry is moving compute to the data',
       'Local AI side-steps future regulation',
       'Licensing works like Android',
@@ -119,7 +119,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const titles = [
       'The hard questions',
-      'The Team',
+      'The team',
       'Timeline',
       "We're raising $15M",
     ];

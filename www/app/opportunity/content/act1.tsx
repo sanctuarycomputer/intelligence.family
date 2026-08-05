@@ -88,7 +88,7 @@ const page3 = (
 const page4 = (
   <DeckPage key={4} n={4} total={TOTAL}>
     <Statement
-      title="7 in 10 Americans don't trust big tech's AI."
+      title="7 in 10 Americans don't trust big tech's AI"
       sub="There is no Signal or Mozilla of the home."
     >
       Pew measured that distrust in June 2026.
@@ -117,7 +117,7 @@ const page5 = (
       title="Our architecture makes all the difference"
       sub={
         <>
-          Two listening devices:
+          Two listening devices...
           <br />
           friend.com was panned
           <br />

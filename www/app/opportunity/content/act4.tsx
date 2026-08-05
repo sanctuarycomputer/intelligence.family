@@ -120,7 +120,7 @@ const page23 = (
 const page24 = (
   <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
-      title="The Team"
+      title="The team"
       sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
       cards={[
         {

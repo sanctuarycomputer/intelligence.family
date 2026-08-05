@@ -25,7 +25,7 @@ const page17 = (
 const page18 = (
   <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
-      title="Our stack."
+      title="Our stack"
       sub="A general purpose software suite for running private inference hardware devices."
       media={
         <FpoBox note="Exploded stack: TEE, local runtime, ZK backup, mirroring, P2P gossip, ontology library as lifted layers" />
