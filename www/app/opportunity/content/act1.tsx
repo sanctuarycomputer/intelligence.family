@@ -1,17 +1,19 @@
 import type { ReactNode } from 'react';
+import LeafIcon from '@/components/LeafIcon';
 import DeckPage from '../components/DeckPage';
 import DriftingLeaves from '../components/DriftingLeaves';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
   BigStat,
-  DiagramPage,
   EvidenceGrid,
   Split,
+  Statement,
+  DiagramPage,
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 26;
 const ACT = 'I · The Category';
 
 const coverTitleStyle = {
@@ -19,6 +21,13 @@ const coverTitleStyle = {
   fontSize: 'clamp(48px, 9vw, 96px)',
   fontWeight: 400,
   lineHeight: 1.02,
+} as const;
+
+const coverLeafStyle = {
+  width: '0.35em',
+  height: '0.4em',
+  top: '-0.05em',
+  right: '-0.4em',
 } as const;
 
 const coverSubStyle = {
@@ -33,12 +42,9 @@ const coverDecorationStyle = {
   pointerEvents: 'none',
 } as const;
 
-const TRACTION_STRIP =
-  'Working prototype · Published research with Mozilla · Direct Foxconn relationships';
-
 /**
  * Page 1, the cover. Takes the gate slot so OpportunityClient can render the
- * email gate beneath the traction strip (null on the server-side page list).
+ * email gate beneath the subtitle (null on the server-side page list).
  */
 export function coverPage(gate: ReactNode): ReactNode {
   return (
@@ -53,11 +59,13 @@ export function coverPage(gate: ReactNode): ReactNode {
       />
       <DriftingLeaves />
       <div className="relative mb-auto max-w-3xl">
-        <h1 style={coverTitleStyle}>Family Intelligence</h1>
+        <h1 className="relative inline-block" style={coverTitleStyle}>
+          Family Intelligence
+          <LeafIcon className="absolute leaf-animate" style={coverLeafStyle} />
+        </h1>
         <p className="mt-4" style={coverSubStyle}>
           Private intelligence for the home.
         </p>
-        <p className="mt-10">{TRACTION_STRIP}</p>
         {gate}
       </div>
     </DeckPage>
@@ -74,11 +82,12 @@ const page2 = (
       }
     >
       Compute has made this trip before. The mainframe sat in a room you had to
-      book, and then it moved into the house: 8% of US households owned a
-      computer in 1984, and 89% did by 2016.
+      book, then it moved into the house:{' '}
+      <strong>
+        8% of US households owned a computer in 1984, and 89% did by 2016.
+      </strong>
       <Ref k="census-computer-ownership" /> The datacenter is making the same
-      move. The first wave is a GPU in the living room, so a household runs its
-      own intelligence instead of renting someone else&rsquo;s.
+      move, and the first wave is a GPU in the living room.
     </DiagramPage>
   </DeckPage>
 );
@@ -86,7 +95,7 @@ const page2 = (
 const page3 = (
   <DeckPage key={3} n={3} total={TOTAL} act={ACT}>
     <Split
-      title="Local AI now runs on consumer hardware"
+      title="Local AI finally runs on consumer hardware"
       sub="Open-weight models are closing the gap with the frontier."
       media={
         <FpoBox note="Epoch open-vs-closed capability-gap chart; inset photo of the Orin prototype board" />
@@ -95,13 +104,12 @@ const page3 = (
       Our prototype runs on a previous-generation NVIDIA Orin, by choice. Open
       weights keep closing on closed models.
       <Ref k="epoch-open-weights" /> Thinking Machines Lab released Inkling,
-      975B parameters, Apache 2.0, in July 2026.
-      <Ref k="inkling" /> NVIDIA ships Nemotron 3 permissively licensed with its
-      training data, so every upstream advance lands in our stack for free.
-      <Ref k="nemotron3" /> NPU-equipped AI PCs are roughly 59% of 2026
-      shipments; the substrate is already in homes.
-      <Ref k="ai-pc-shipments" /> Ollama has 8.9M monthly developers, so local
-      AI is now default developer behavior.
+      975B parameters, Apache 2.0.
+      <Ref k="inkling" /> NVIDIA ships Nemotron 3 permissively licensed,
+      <Ref k="nemotron3" /> so{' '}
+      <strong>every upstream advance lands in our stack for free.</strong>{' '}
+      NPU-equipped AI PCs are roughly 59% of 2026 shipments.
+      <Ref k="ai-pc-shipments" /> Ollama has 8.9M monthly developers.
       <Ref k="ollama" />
     </Split>
   </DeckPage>
@@ -109,97 +117,20 @@ const page3 = (
 
 const page4 = (
   <DeckPage key={4} n={4} total={TOTAL} act={ACT}>
-    <EvidenceGrid
-      title="The industry is moving compute to the data"
-      sub="NVIDIA, Palantir and Cohere are betting on sovereign AI."
-      cards={[
-        {
-          heading: 'NVIDIA and Palantir',
-          body: (
-            <>
-              In October 2025 they partnered to run models where enterprise data
-              sits,
-              <Ref k="nvidia-palantir" /> and in June 2026 shipped an air-gapped
-              architecture built so data can never leave the building.
-              <Ref k="palantir-sovereign-aios" />
-            </>
-          ),
-        },
-        {
-          heading: '€10B for seven gigafactories',
-          body: (
-            <>
-              The EU opened its call for seven sovereign AI gigafactories on
-              July 30, 2026.
-              <Ref k="eu-gigafactories" /> Cohere sells the same sovereignty to
-              governments.
-              <Ref k="cohere-sovereign" />
-            </>
-          ),
-        },
-        {
-          heading: '93% of enterprises',
-          body: (
-            <>
-              Cloudian found them repatriating or evaluating on-prem AI
-              workloads in March 2026.
-              <Ref k="cloudian-onprem" /> They pay for the property we give
-              families, and the household is the last sovereign unit nobody
-              serves.
-            </>
-          ),
-        },
-      ]}
-    />
-    <div className="mt-10">
-      <FpoBox
-        note="Deal timeline Oct 2025→Jul 2026 with NVIDIA/Palantir/Cohere/EU marks and dollar figures"
-        aspect="6/1"
-      />
-    </div>
-  </DeckPage>
-);
-
-const page5 = (
-  <DeckPage key={5} n={5} total={TOTAL} act={ACT}>
-    <DiagramPage
-      title="Privacy law triggers when data leaves the device"
-      sub="Local-first architecture is ahead of the coming AI regulation."
-      media={
-        <FpoBox note="House with a drawn trust-boundary line; HIPAA/COPPA/GDPR arrows triggering only where data crosses it" />
-      }
-    >
-      COPPA turns on gathering a child&rsquo;s information.
-      <Ref k="coppa-definition" /> GDPR exempts a family&rsquo;s own use of its
-      data, cutting exposure on their content, not ours.
-      <Ref k="gdpr-household" /> HIPAA binds providers, plans, and vendors, not
-      health apps.
-      <Ref k="hipaa-ftc" /> Data that never leaves the device rarely triggers
-      them. The server-side wall rises: COPPA compliance April 22, 2026,
-      <Ref k="coppa-amended" /> EU AI Act transparency August 2, 2026,
-      <Ref k="eu-ai-act-enforcement" /> California age signals by 2027,
-      <Ref k="ab1043" /> a 99 to 1 Senate vote keeping the patchwork durable.
-      <Ref k="senate-moratorium" /> Avoiding collection scales everywhere at
-      once.
-    </DiagramPage>
-  </DeckPage>
-);
-
-const page6 = (
-  <DeckPage key={6} n={6} total={TOTAL} act={ACT}>
     <BigStat
       stat="7 in 10"
-      title="Nobody owns this category"
+      title="No one is trusted with AI in the home"
       sub="7 in 10 Americans don't trust big tech's AI. There is no Signal or Mozilla of the home."
     >
       Parks Associates found 72% of smart home owners worried about the data
       their devices collect.
       <Ref k="parks-72" /> Pew measured the wider distrust in June 2026.
-      <Ref k="pew-distrust" /> The incumbents went the other way: on March 28,
-      2025 Amazon removed the Echo&rsquo;s only local-processing option.
-      <Ref k="echo-local-removed" /> Demand is enormous, trust is absent, and
-      that gap is the market. Today no one owns it, but that window is closing
-      fast.
+      <Ref k="pew-distrust" /> The incumbents went the other way: in March 2025
+      Amazon removed the Echo&rsquo;s only local-processing option.
+      <Ref k="echo-local-removed" />{' '}
+      <strong>
+        Demand is enormous, trust is absent, and that gap is the market.
+      </strong>
     </BigStat>
     <div className="mt-10">
       <FpoBox
@@ -212,18 +143,18 @@ const page6 = (
   </DeckPage>
 );
 
-const page7 = (
-  <DeckPage key={7} n={7} total={TOTAL} act={ACT}>
+const page5 = (
+  <DeckPage key={5} n={5} total={TOTAL} act={ACT}>
     <EvidenceGrid
-      title="People pay for intentional technology"
+      title="Intentional technology is a proven market"
       sub="Light Phone, Daylight, Remarkable and Yoto built profitable businesses on it."
       cards={[
         {
           heading: 'Yoto grew 86%',
           body: (
             <>
-              Children&rsquo;s audio, no screen, no feed. Sales grew 86% in
-              2024.
+              Children&rsquo;s audio, no screen, no feed.{' '}
+              <strong>Sales grew 86% in 2024.</strong>
               <Ref k="yoto-growth" />
             </>
           ),
@@ -248,7 +179,7 @@ const page7 = (
               Apple&rsquo;s Advanced Data Protection.
               <Ref k="signal-backups" />
               <Ref k="apple-adp" /> The convenience argument fails where the
-              data is intimate, and these buyers pay for the alternative.
+              data is intimate.
             </>
           ),
         },
@@ -263,6 +194,15 @@ const page7 = (
   </DeckPage>
 );
 
+const page6 = (
+  <DeckPage key={6} n={6} total={TOTAL} act={ACT}>
+    <Statement
+      splash
+      title="Family Intelligence will be the first trusted brand to run local compute in the home"
+    />
+  </DeckPage>
+);
+
 export const ACT1_PAGES: ReactNode[] = [
   coverPage(null),
   page2,
@@ -270,5 +210,4 @@ export const ACT1_PAGES: ReactNode[] = [
   page4,
   page5,
   page6,
-  page7,
 ];
