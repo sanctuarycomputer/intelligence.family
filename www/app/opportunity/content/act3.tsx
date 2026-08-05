@@ -17,7 +17,7 @@ const page17 = (
   <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
-      title="Under the hood, we're building a silicon-to-screen stack for privacy-preserving local inference"
+      title="Under the hood... we're building a general purpose stack for privacy-preserving AI inference"
     />
   </DeckPage>
 );
@@ -99,7 +99,7 @@ const page19 = (
 const page20 = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
-      title="Privacy law triggers when data leaves the device"
+      title="We're side-stepping AI regulation"
       sub="Local-first architecture is ahead of the coming AI regulation."
       media={
         <FpoBox note="House with a drawn trust-boundary line; HIPAA/COPPA/GDPR arrows triggering only where data crosses it" />

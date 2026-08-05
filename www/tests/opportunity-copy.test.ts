@@ -19,7 +19,7 @@ describe('opportunity deck copy contract', () => {
       // Cover wordmark carries the homepage's tight-space span between words.
       'Family<span className="tracking-[-0.1em]"> </span>Intelligence',
       'The GPU is coming home',
-      'Local AI finally runs on consumer hardware',
+      'Local AI (finally) runs on consumer hardware',
       "7 in 10 Americans don't trust big tech's AI.",
       'Architecture makes all the difference',
       'Intentional technology is a proven market',
@@ -37,7 +37,7 @@ describe('opportunity deck copy contract', () => {
       'AI compute is moving into the house, the way the personal computer did.',
       'Open-weight models are closing the gap with the frontier.',
       'There is no Signal or Mozilla of the home.',
-      "Same moment, two listening devices: ours was welcomed, friend.com's was panned.",
+      'friend.com was panned',
       'Light Phone, Daylight, Remarkable and Yoto built profitable businesses on it.',
     ];
     for (const sub of subs) {
@@ -66,8 +66,8 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, low-risk data, and a GPU in the living room.',
-      'Weekly check-ins, budgets, school, health, and the family stories.',
-      '23andMe centralized it. That ended in a breach and a bankruptcy.',
+      'Weekly check-ins, budgets, school, health, and family stories.',
+      '23andMe crashed out with a breach & bankruptcy.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       '$9/month, optional: zero-knowledge backup, sync, and remote access.',
@@ -82,10 +82,10 @@ describe('opportunity deck copy contract', () => {
   it('act 3 carries the six approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
-      "Under the hood, we're building a silicon-to-screen stack for privacy-preserving local inference",
+      "Under the hood... we're building a general purpose stack for privacy-preserving AI inference",
       'The stack',
       'The industry is moving compute to the data',
-      'Privacy law triggers when data leaves the device',
+      "We're side-stepping AI regulation",
       'Licensing works like Android',
       'One stack, four markets',
     ];

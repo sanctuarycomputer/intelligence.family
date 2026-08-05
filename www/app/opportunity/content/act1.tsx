@@ -68,7 +68,7 @@ const page2 = (
 const page3 = (
   <DeckPage key={3} n={3} total={TOTAL}>
     <Split
-      title="Local AI finally runs on consumer hardware"
+      title="Local AI (finally) runs on consumer hardware"
       sub="Open-weight models are closing the gap with the frontier."
       media={
         <FpoBox note="Epoch open-vs-closed capability-gap chart; inset photo of the Orin prototype board" />
@@ -115,18 +115,28 @@ const page5 = (
     <Split
       flip
       title="Architecture makes all the difference"
-      sub="Same moment, two listening devices: ours was welcomed, friend.com's was panned."
+      sub={
+        <>
+          Two listening devices:
+          <br />
+          friend.com was panned
+          <br />
+          Family Intelligence was loved
+        </>
+      }
       media={
         <FpoBox note="Side-by-side: Mozilla research reception vs friend.com backlash (Instagram sentiment)" />
       }
     >
-      Our device research, published with the Mozilla Foundation, drew an
+      Our device research, in partnership with the Mozilla Foundation, drew an
       overwhelmingly positive response across 28k+ impressions.
-      <Ref k="mozilla-research" /> friend.com&rsquo;s always-listening pendant
-      was panned in the same feeds.
-      <Ref k="friend-backlash" />{' '}
+      <Ref k="mozilla-research" /> While friend.com&rsquo;s always-listening
+      pendant was vandalized on the subway.
+      <Ref k="friend-backlash" />
+      <br />
+      <br />
       <strong>
-        Privacy-preserving architecture is the difference people can feel.
+        Our privacy-preserving architecture swung customer sentiment.
       </strong>
     </Split>
   </DeckPage>

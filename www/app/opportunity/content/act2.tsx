@@ -36,7 +36,7 @@ const page8 = (
     <Split
       flip
       title="A family practice"
-      sub="Weekly check-ins, budgets, school, health, and the family stories."
+      sub="Weekly check-ins, budgets, school, health, and family stories."
       media={
         <FpoBox
           note={
@@ -57,7 +57,7 @@ const page9 = (
   <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       title="Family data is too sensitive for the cloud"
-      sub="23andMe centralized it. That ended in a breach and a bankruptcy."
+      sub="23andMe crashed out with a breach & bankruptcy."
       media={
         <FpoBox note="23andMe collapse timeline ($6B → breach → Chapter 11 → $305M); inset: Jan 2026 court-order headline" />
       }
@@ -86,6 +86,10 @@ const page10 = (
       <Ref k="openai-io" /> Amazon bought Bee,
       <Ref k="bee-amazon" /> Meta bought Limitless,
       <Ref k="limitless-meta" /> all of it in someone else&rsquo;s cloud.
+      <br />
+      <br />
+      In 2026, you should be able to dim your lights without notifying Jeff
+      Bezos. Home inference (finally) makes that possible.
     </BigStat>
     <div className="mt-10">
       <FpoBox
