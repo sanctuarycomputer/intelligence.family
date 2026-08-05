@@ -61,7 +61,10 @@ export function Statement({
   children?: ReactNode;
 }) {
   return (
-    <div className={splash ? 'max-w-5xl' : undefined}>
+    <div
+      data-archetype={splash ? 'Statement (splash)' : 'Statement'}
+      className={splash ? 'max-w-5xl' : undefined}
+    >
       <Title splash={splash}>{title}</Title>
       <Sub>{sub}</Sub>
       <Body>{children}</Body>
@@ -81,7 +84,7 @@ export function BigStat({
   children?: ReactNode;
 }) {
   return (
-    <div>
+    <div data-archetype="BigStat">
       <p style={statStyle}>{stat}</p>
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
@@ -104,7 +107,10 @@ export function Split({
   children?: ReactNode;
 }) {
   return (
-    <div className="grid md:grid-cols-2 gap-10 items-center">
+    <div
+      data-archetype={flip ? 'Split (flipped)' : 'Split'}
+      className="grid md:grid-cols-2 gap-10 items-center"
+    >
       <div className={flip ? 'md:order-2' : undefined}>
         <Title>{title}</Title>
         <Sub>{sub}</Sub>
@@ -125,7 +131,7 @@ export function EvidenceGrid({
   cards: Array<{ heading: string; body: ReactNode }>;
 }) {
   return (
-    <div>
+    <div data-archetype="EvidenceGrid">
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
       <div className="grid md:grid-cols-3 gap-6 mt-10">
@@ -154,7 +160,7 @@ export function DiagramPage({
   children?: ReactNode;
 }) {
   return (
-    <div>
+    <div data-archetype="DiagramPage">
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
       <Body>{children}</Body>
@@ -176,7 +182,7 @@ export function Ledger({
   rows: Array<{ label: ReactNode; value: ReactNode }>;
 }) {
   return (
-    <div>
+    <div data-archetype="Ledger">
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
       <div className="mt-10 max-w-2xl divide-y divide-fi-green-300">
@@ -208,7 +214,7 @@ export function CardsPage({
     ? 'mt-10 grid md:grid-cols-3 auto-rows-fr gap-4'
     : 'mt-10 flex flex-col gap-6';
   return (
-    <div>
+    <div data-archetype={tight ? 'Cards (3-col)' : 'Cards'}>
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
       <div className={grid}>

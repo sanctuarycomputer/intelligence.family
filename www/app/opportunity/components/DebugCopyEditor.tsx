@@ -17,6 +17,15 @@ function setSlideHidden(page: string, hidden: boolean) {
   if (section) section.style.display = hidden ? 'none' : '';
 }
 
+function slideArchetype(page: string): string {
+  const section = document.getElementById(`page-${page}`);
+  return (
+    section
+      ?.querySelector('[data-archetype]')
+      ?.getAttribute('data-archetype') ?? ''
+  );
+}
+
 function slideTitle(page: string): string {
   const section = document.getElementById(`page-${page}`);
   const heading = section?.querySelector('h1, h2');
@@ -56,6 +65,7 @@ export default function DebugCopyEditor({
   const [count, setCount] = useState(0);
   const [copied, setCopied] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState('1');
+  const [currentArchetype, setCurrentArchetype] = useState('');
   const [deleted, setDeleted] = useState<Map<string, string>>(() => new Map());
 
   useEffect(() => {
@@ -119,7 +129,11 @@ export default function DebugCopyEditor({
               best = { page: section.id.replace('page-', ''), dist };
             }
           });
-        if (best) setCurrentPage((best as { page: string }).page);
+        if (best) {
+          const page = (best as { page: string }).page;
+          setCurrentPage(page);
+          setCurrentArchetype(slideArchetype(page));
+        }
       });
     };
     onScroll();
@@ -153,6 +167,8 @@ export default function DebugCopyEditor({
     }
     for (const [page, variant] of picks) {
       lines.push(`[page ${page} · layout]`);
+      const current = slideArchetype(page);
+      if (current) lines.push(`OLD LAYOUT: ${current}`);
       lines.push(`NEW LAYOUT: ${variant}`);
       lines.push('');
     }
@@ -185,7 +201,8 @@ export default function DebugCopyEditor({
   const pickLayout = (variant: string) => {
     setLayoutPicks(prev => {
       const next = new Map(prev);
-      if (variant === '') {
+      // Re-selecting the slide's real archetype clears the override.
+      if (variant === '' || variant === currentArchetype) {
         next.delete(currentPage);
       } else {
         next.set(currentPage, variant);
@@ -202,10 +219,10 @@ export default function DebugCopyEditor({
       <label className="debug-bar-hint">
         layout{' '}
         <select
-          value={layoutPicks.get(currentPage) ?? ''}
+          value={layoutPicks.get(currentPage) ?? currentArchetype}
           onChange={e => pickLayout(e.target.value)}
         >
-          <option value="">(keep)</option>
+          <option value="">(bespoke)</option>
           {LAYOUT_VARIANTS.map(v => (
             <option key={v} value={v}>
               {v}
