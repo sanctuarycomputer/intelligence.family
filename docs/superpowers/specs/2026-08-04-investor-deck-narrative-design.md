@@ -336,10 +336,30 @@ Appendix pages A1–A10 all use a single quiet document archetype (title + prose
 - **PDF export:** print stylesheet, one deck page per PDF page, chrome repeated, links live; a visible "Download PDF" affordance on the deck.
 - **Responsive:** pages compose down to mobile (split layouts stack); PDF always renders the desktop composition.
 
+### Visual reference: the family-book home screen (cover slide) + site conventions
+
+The cover (page 1) echoes the device's launcher/lock screens from `../family-book`. The fastest path exists already: the remote web UI at `fam-api/app/static/remote/style.css` is a browser-ready CSS transcription of the device home screen.
+
+- **Cover composition** (from `launcher.slint` / `lock_screen.slint`): full-bleed sage page; the cloud-tree illustration (`cover-decoration.png`, 632×426) anchored bottom-right behind everything; drifting leaves over the full viewport; display type top-left (device uses Windsor Pro 68px/700 title over Roobert 42px subtitle at x:80/y:80–150). Deck cover maps this to our title/sub/traction-strip.
+- **Drifting leaves** (port from `style.css:100-161` of the remote): three PNG leaf sprites, each two elements — wrapper carries drift translate + opacity "breathe," inner img carries the wobble rotation (the trick that lets translate and rotate coexist). Diagonal paths low-left → top-right in vw/dvh units; periods 23s / 29.44s / 18.4s with phase offsets as negative animation-delays; opacity pulses twice per traversal and is exactly 0 at both path ends so leaves never pop at edges; wobble ±4–6° at 3.25–4.75s alternate; `prefers-reduced-motion: reduce` hides them entirely. Leaves stay small (40–52px ambient specks) even at deck scale.
+- **Assets to copy in:** `cover-leaf-1/2/3.png` and `cover-decoration.png` from `family-book/fam-api/app/static/remote/assets/` → `www/public/opportunity/`. Fonts already live in this repo (`www/public/fonts/` Windsor Pro + Roobert VF).
+- **Palette:** the deck uses this site's `fi-*` tokens (`--fi-green-100 #D7DDD4` … `--fi-green-600 #596647`, `--fi-black-900 #313131`; Windsor Pro serif / Roobert sans already wired in `globals.css`). family-book's sage (`#d5dbd1` page, `#6e8054` accent, `#1e1e1e` ink) is a near-sibling; where the two disagree, the site palette wins so `/opportunity` feels native to intelligence.family. family-book's `STYLE_PARITY.md` and the drifting-leaves design doc are the reference docs.
+- **Site conventions carried over** (homepage + /fundraising): `AnimatedElement` staged entrance delays (0/100/200/300ms), `LeafIcon` on the H1, `QuoteBox`, `SectionHeader`, `grid-layout`/`container-content`, `underline hover:no-underline` outbound links with `trackOutbound()`.
+- Performance note from the device (`main.slint:1064`): mount the leaves conditionally, not via visibility — continuously animating nodes left in the tree repaint forever. Same principle applies if the deck pauses leaves off-cover.
+
+### Gate (decided 2026-08-04)
+
+`/opportunity` sits behind the same OTP email gate as `/fundraising`, on page 1.
+
+- **Shared access, by architecture:** verification sets the site-wide `fi_verified` cookie; `InlineEmailGate` auto-unlocks via `/api/gate-status` on any page. Verified on either page → both open, no second code. (Requirement met with zero new auth code.)
+- **New CRM sources** in `www/lib/crm.ts` `ALLOWED_SOURCES`: `g3d:family_intelligence:opportunity` (gate submissions) and `g3d:family_intelligence:opportunity-viewed` (verified return views).
+- **Per-page viewed attribution:** `/api/gate-status` currently hardcodes `VIEWED_SOURCE` (fundraising-viewed). It gains a page parameter validated server-side against a slug→source map (`fundraising` | `opportunity`; unknown → fundraising default, never a client-supplied raw string). The opportunity gate passes `source="g3d:family_intelligence:opportunity"` to `/api/request-code` exactly as the fundraising page does today.
+- **Local unlock hint:** own key (`fi_opportunity_unlocked_v1`) mirroring the fundraising pattern; cookie remains the source of truth.
+- **Analytics:** gtag labels `opportunity_gate` on verify, mirroring `fundraising_gate`.
+
 ### Format open items
 
-1. **Gate:** does `/opportunity` sit behind the OTP email gate like `/fundraising`, or is it open with the deck link itself as the access control? (Recommend: reuse the gate for consistency and lead capture — Hugh to confirm.)
-2. **Asset production order:** which FPO boxes get real assets first (suggest: p2, p14, p18, p19, p21 — the five diagrams that carry the argument).
+1. **Asset production order:** which FPO boxes get real assets first (suggest: p2, p14, p18, p19, p21 — the five diagrams that carry the argument).
 
 ---
 
