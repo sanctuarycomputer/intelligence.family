@@ -32,7 +32,7 @@ const STUBS: Array<{ title: string; note: string }> = [
   },
   {
     title: 'A5 · Three-year pro-forma',
-    note: 'Three-year pro-forma (in progress)',
+    note: 'Three-year revenue and margin ranges; detail lands when the pro-forma does',
   },
   {
     title: 'A6 · GTM detail',
@@ -50,7 +50,10 @@ const STUBS: Array<{ title: string; note: string }> = [
     title: 'A9 · Technical futures',
     note: 'Family podcast, multimodal capture, cross-generational Q&A, heirloom integration',
   },
-  { title: 'A10 · Timeline', note: 'Phase timeline by quarter' },
+  {
+    title: 'A10 · Timeline',
+    note: 'Phase gates: what unlocks each stage',
+  },
 ];
 
 const stubPages: ReactNode[] = STUBS.map((stub, i) => (

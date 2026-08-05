@@ -1,11 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
+import { ALL_PAGES, APPENDIX_PAGES } from '../app/opportunity/content';
 
 const dir = path.join(__dirname, '..', 'app', 'opportunity', 'content');
+// Every content file is deck copy, except the citation registry: its section
+// comments legitimately use em dashes.
 const contentFiles = () =>
   readdirSync(dir)
-    .filter(f => f.endsWith('.tsx') || f === 'index.ts')
+    .filter(f => f !== 'references.ts')
     .map(f => [f, readFileSync(path.join(dir, f), 'utf8')] as const);
 
 describe('opportunity deck copy contract', () => {
@@ -153,6 +156,11 @@ describe('opportunity deck copy contract', () => {
     for (const [name, src] of contentFiles()) {
       expect(src.includes('—'), name).toBe(false);
     }
+  });
+
+  it('exports 24 core pages and 11 appendix pages', () => {
+    expect(ALL_PAGES).toHaveLength(24);
+    expect(APPENDIX_PAGES).toHaveLength(11);
   });
 
   it('cover carries the traction strip', () => {

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
+import MailtoCta from '../components/MailtoCta';
 import Ref from '../components/Ref';
 import { CardsPage, Statement } from '../components/archetypes';
 
@@ -16,34 +17,39 @@ const page22 = (
       sub="Apple, model quality, hardware risk, and consent."
       cards={[
         {
-          heading: "Why won't Apple or Google do this?",
+          heading: 'Why won’t Apple or Google do this?',
           body: (
             <>
               Their business depends on your data living in their cloud, so a
               private stack works against them. Amazon killed the Echo&rsquo;s
               local option in 2025.
-              <Ref k="echo-local-removed" />
+              <Ref k="echo-local-removed" /> Truly local, encrypted inference is
+              the real moat; the industrial design is just the part they could
+              copy.
             </>
           ),
         },
         {
-          heading: "Won't local models always lag the frontier?",
+          heading: 'Won’t local models always lag the frontier?',
           body: (
             <>
               Yes, and household tasks are narrow: transcription, extraction,
-              RAG, classification. Open weights like Inkling
-              <Ref k="inkling" /> and Nemotron 3<Ref k="nemotron3" /> land every
-              upstream advance in our stack for free.
+              RAG, classification. Open weights like Inkling and Nemotron 3 land
+              every upstream advance in our stack for free.
+              <Ref k="inkling" />
+              <Ref k="nemotron3" />
             </>
           ),
         },
         {
-          heading: "What about OpenAI's device?",
+          heading: 'What about OpenAI’s device?',
           body: (
             <>
-              It normalizes the always-listening home companion, cloud-tethered.
-              <Ref k="openai-io" /> HP switched Humane&rsquo;s servers off
-              within ten days of buying the assets.
+              It normalizes the always-listening home companion, and it is
+              tethered to the cloud.
+              <Ref k="openai-io" /> Every buyer it creates who reads a privacy
+              policy is our buyer. HP switched Humane&rsquo;s servers off within
+              ten days of buying the assets.
               <Ref k="humane-hp" /> Ours cannot be revoked.
             </>
           ),
@@ -59,7 +65,7 @@ const page22 = (
           ),
         },
         {
-          heading: "Recording consent and children's data?",
+          heading: 'Recording consent and children’s data?',
           body: (
             <>
               Consent-first capture, no ambient listening, and regulated data
@@ -73,8 +79,7 @@ const page22 = (
           body: (
             <>
               Direct relationships with Foxconn, Arima, and Coosea in Taipei and
-              Shenzhen, and a tariff-aware manufacturing plan. Detail in
-              appendix A8.
+              Shenzhen, and a tariff-aware manufacturing plan.
             </>
           ),
         },
@@ -93,8 +98,8 @@ const page23 = (
           heading: 'Hugh Francis',
           body: (
             <>
-              Architected the Light Phone II and III, named among TIME&rsquo;s
-              Best Inventions in 2019 and 2025.
+              A patented inventor for architecting the Light Phone II and III,
+              named among TIME&rsquo;s Best Inventions in 2019 and 2025.
               <Ref k="light-phone" /> Built Mill&rsquo;s IoT infrastructure for
               the founders of Google&rsquo;s Nest. Holds direct relationships
               with Foxconn, Arima, and Coosea in Taipei and Shenzhen. Runs
@@ -103,7 +108,7 @@ const page23 = (
           ),
         },
         {
-          heading: "Yatú Pelaez-Espinosa and Norm O'Hagan",
+          heading: 'Yatú Pelaez-Espinosa and Norm O’Hagan',
           body: (
             <>
               A product duo of ten years. They founded USB Club, a
@@ -144,20 +149,13 @@ const page24 = (
       We are building this either way. The round sets the speed: a team hired
       fast enough to ship by Christmas 2027, a contract manufacturer in the room
       on day one, and the stack every product after this one runs on. AI took
-      half of global venture funding in 2025, and our research found no funded
-      local-first home hub.
+      roughly half of global venture funding in 2025, and our research found no
+      funded local-first home hub.
       <Ref k="crunchbase-ai-half" /> No one owns this market today, and that
       window is closing fast.
     </Statement>
     <p className="large mt-10 max-w-2xl">
-      If you&rsquo;d like a demo, email us at{' '}
-      <a
-        href="mailto:invest@intelligence.family?subject=Family%20Intelligence%20Demo"
-        className="underline hover:no-underline"
-      >
-        invest@intelligence.family
-      </a>
-      .
+      If you&rsquo;d like a demo, email us at <MailtoCta />.
     </p>
     <div className="mt-10">
       <FpoBox
