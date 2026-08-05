@@ -39,11 +39,12 @@ export default function DebugCopyEditor({
   refreshKey: string;
 }) {
   const entries = useRef<Entry[]>([]);
-  const layoutPicks = useRef<Map<string, string>>(new Map());
+  const [layoutPicks, setLayoutPicks] = useState<Map<string, string>>(
+    () => new Map()
+  );
   const [count, setCount] = useState(0);
   const [copied, setCopied] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState('1');
-  const [, forceRender] = useState(0);
 
   useEffect(() => {
     // Wait a frame so the (un)locked page list has rendered before scanning.
@@ -124,7 +125,7 @@ export default function DebugCopyEditor({
 
   const copy = async () => {
     const edits = changed();
-    const picks = [...layoutPicks.current.entries()];
+    const picks = [...layoutPicks.entries()];
     if (edits.length === 0 && picks.length === 0) {
       setCopied('No edits yet');
       setTimeout(() => setCopied(null), 1500);
@@ -150,19 +151,21 @@ export default function DebugCopyEditor({
 
   const reset = () => {
     restoreOriginals(entries.current);
-    layoutPicks.current.clear();
-    forceRender(v => v + 1);
+    setLayoutPicks(new Map());
     setCopied('Reset');
     setTimeout(() => setCopied(null), 1200);
   };
 
   const pickLayout = (variant: string) => {
-    if (variant === '') {
-      layoutPicks.current.delete(currentPage);
-    } else {
-      layoutPicks.current.set(currentPage, variant);
-    }
-    forceRender(v => v + 1);
+    setLayoutPicks(prev => {
+      const next = new Map(prev);
+      if (variant === '') {
+        next.delete(currentPage);
+      } else {
+        next.set(currentPage, variant);
+      }
+      return next;
+    });
   };
 
   return (
@@ -173,7 +176,7 @@ export default function DebugCopyEditor({
       <label className="debug-bar-hint">
         layout{' '}
         <select
-          value={layoutPicks.current.get(currentPage) ?? ''}
+          value={layoutPicks.get(currentPage) ?? ''}
           onChange={e => pickLayout(e.target.value)}
         >
           <option value="">(keep)</option>
