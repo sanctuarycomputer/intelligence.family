@@ -20,7 +20,7 @@ describe('opportunity deck copy contract', () => {
       'Family<span className="tracking-[-0.1em]"> </span>Intelligence',
       'The GPU is coming home',
       'Local AI finally runs on consumer hardware',
-      'No one is trusted with AI in the home',
+      "7 in 10 Americans don't trust big tech's AI.",
       'Intentional technology is a proven market',
       'Family Intelligence will be the first trusted brand to run local compute in the home',
     ];
@@ -35,7 +35,7 @@ describe('opportunity deck copy contract', () => {
       'Private intelligence for the home.',
       'AI compute is moving into the house, the way the personal computer did.',
       'Open-weight models are closing the gap with the frontier.',
-      "7 in 10 Americans don't trust big tech's AI. There is no Signal or Mozilla of the home.",
+      'There is no Signal or Mozilla of the home.',
       'Light Phone, Daylight, Remarkable and Yoto built profitable businesses on it.',
     ];
     for (const sub of subs) {

@@ -88,8 +88,8 @@ const page3 = (
 const page4 = (
   <DeckPage key={4} n={4} total={TOTAL}>
     <Statement
-      title="No one is trusted with AI in the home"
-      sub="7 in 10 Americans don't trust big tech's AI. There is no Signal or Mozilla of the home."
+      title="7 in 10 Americans don't trust big tech's AI."
+      sub="There is no Signal or Mozilla of the home."
     >
       Pew measured that distrust in June 2026.
       <Ref k="pew-distrust" /> Amazon went the other way, removing the
