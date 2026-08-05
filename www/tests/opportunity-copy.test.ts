@@ -16,7 +16,8 @@ describe('opportunity deck copy contract', () => {
   it('act 1 carries the six approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const titles = [
-      'Family Intelligence',
+      // Cover wordmark carries the homepage's tight-space span between words.
+      'Family<span className="tracking-[-0.1em]"> </span>Intelligence',
       'The GPU is coming home',
       'Local AI finally runs on consumer hardware',
       'No one is trusted with AI in the home',
