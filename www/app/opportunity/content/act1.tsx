@@ -11,7 +11,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 25;
 
 const coverLeafStyle = {
   width: '0.35em',
@@ -112,6 +112,28 @@ const page4 = (
 
 const page5 = (
   <DeckPage key={5} n={5} total={TOTAL}>
+    <Split
+      flip
+      title="Architecture makes all the difference"
+      sub="Same moment, two listening devices: ours was welcomed, friend.com's was panned."
+      media={
+        <FpoBox note="Side-by-side: Mozilla research reception vs friend.com backlash (Instagram sentiment)" />
+      }
+    >
+      Our device research, published with the Mozilla Foundation, drew an
+      overwhelmingly positive response across 28k+ impressions.
+      <Ref k="mozilla-research" /> friend.com&rsquo;s always-listening pendant
+      was panned in the same feeds.
+      <Ref k="friend-backlash" />{' '}
+      <strong>
+        Privacy-preserving architecture is the difference people can feel.
+      </strong>
+    </Split>
+  </DeckPage>
+);
+
+const page6 = (
+  <DeckPage key={6} n={6} total={TOTAL}>
     <EvidenceGrid
       title="Intentional technology is a proven market"
       sub="Light Phone, Daylight, Remarkable and Yoto built profitable businesses on it."
@@ -161,8 +183,8 @@ const page5 = (
   </DeckPage>
 );
 
-const page6 = (
-  <DeckPage key={6} n={6} total={TOTAL}>
+const page7 = (
+  <DeckPage key={7} n={7} total={TOTAL}>
     <Statement
       splash
       title="Family Intelligence will be the first trusted brand to run local compute in the home"
@@ -177,4 +199,5 @@ export const ACT1_PAGES: ReactNode[] = [
   page4,
   page5,
   page6,
+  page7,
 ];

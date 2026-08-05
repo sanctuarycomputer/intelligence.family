@@ -13,7 +13,7 @@ const contentFiles = () =>
     .map(f => [f, readFileSync(path.join(dir, f), 'utf8')] as const);
 
 describe('opportunity deck copy contract', () => {
-  it('act 1 carries the six approved titles in order', () => {
+  it('act 1 carries the seven approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const titles = [
       // Cover wordmark carries the homepage's tight-space span between words.
@@ -21,6 +21,7 @@ describe('opportunity deck copy contract', () => {
       'The GPU is coming home',
       'Local AI finally runs on consumer hardware',
       "7 in 10 Americans don't trust big tech's AI.",
+      'Architecture makes all the difference',
       'Intentional technology is a proven market',
       'Family Intelligence will be the first trusted brand to run local compute in the home',
     ];
@@ -36,6 +37,7 @@ describe('opportunity deck copy contract', () => {
       'AI compute is moving into the house, the way the personal computer did.',
       'Open-weight models are closing the gap with the frontier.',
       'There is no Signal or Mozilla of the home.',
+      "Same moment, two listening devices: ours was welcomed, friend.com's was panned.",
       'Light Phone, Daylight, Remarkable and Yoto built profitable businesses on it.',
     ];
     for (const sub of subs) {
@@ -206,13 +208,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(24);
+    expect(ALL_PAGES).toHaveLength(25);
     expect(APPENDIX_PAGES).toHaveLength(6);
   });
 
-  it('sets every chrome counter against 24 pages', () => {
+  it('sets every chrome counter against 25 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 24;/);
+      expect(src, name).toMatch(/const TOTAL = 25;/);
     }
   });
 

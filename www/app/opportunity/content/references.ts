@@ -327,6 +327,11 @@ export const REFERENCES: Record<string, Reference> = {
     date: '2021',
     url: 'https://sifted.eu/articles/remarkable-unicorn-norway',
   },
+  'friend-backlash': {
+    source: 'Instagram (friend.com reception)',
+    date: '2024',
+    url: 'https://www.instagram.com/p/C-DJdMTpbeQ/',
+  },
 };
 
 const ORDER = Object.keys(REFERENCES);
