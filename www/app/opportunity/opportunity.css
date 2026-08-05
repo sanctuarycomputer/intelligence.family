@@ -312,33 +312,33 @@ section.deck-page[id] {
 }
 .drift-leaf:nth-child(1) {
   animation:
-    drift-1 23s linear infinite,
-    leaf-breathe 23s ease-in-out infinite;
+    drift-1 46s linear infinite,
+    leaf-breathe 46s ease-in-out infinite;
 }
 .drift-leaf:nth-child(2) {
   animation:
-    drift-2 29.44s linear -9.72s infinite,
-    leaf-breathe 29.44s ease-in-out -9.72s infinite;
+    drift-2 58.88s linear -19.44s infinite,
+    leaf-breathe 58.88s ease-in-out -19.44s infinite;
 }
 .drift-leaf:nth-child(3) {
   animation:
-    drift-3 18.4s linear -12.14s infinite,
-    leaf-breathe 18.4s ease-in-out -12.14s infinite;
+    drift-3 36.8s linear -24.28s infinite,
+    leaf-breathe 36.8s ease-in-out -24.28s infinite;
 }
 .drift-leaf:nth-child(1) img {
   width: 40px;
   height: 40px;
-  animation: wobble-5 4s ease-in-out infinite alternate;
+  animation: wobble-5 8s ease-in-out infinite alternate;
 }
 .drift-leaf:nth-child(2) img {
   width: 50px;
   height: 40px;
-  animation: wobble-4 3.25s ease-in-out -2.1s infinite alternate;
+  animation: wobble-4 6.5s ease-in-out -4.2s infinite alternate;
 }
 .drift-leaf:nth-child(3) img {
   width: 52px;
   height: 32px;
-  animation: wobble-6 4.75s ease-in-out -6.3s infinite alternate;
+  animation: wobble-6 9.5s ease-in-out -12.6s infinite alternate;
 }
 @keyframes drift-1 {
   from {
