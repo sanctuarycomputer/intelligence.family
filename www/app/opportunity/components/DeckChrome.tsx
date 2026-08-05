@@ -62,9 +62,6 @@ export default function DeckChrome({
 }) {
   return (
     <div className={`deck-chrome${hidden ? ' deck-chrome-hidden' : ''}`}>
-      <span className="deck-chrome-corner deck-chrome-tl">
-        intelligence.family
-      </span>
       <span className="deck-chrome-corner deck-chrome-tr">
         {meta && <RollingValue value={meta.act} />}
       </span>
