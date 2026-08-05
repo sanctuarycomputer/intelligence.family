@@ -43,7 +43,7 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 2 carries the nine approved titles in order', () => {
+  it('act 2 carries the eight approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
@@ -53,7 +53,6 @@ describe('opportunity deck copy contract', () => {
       'Families already pay for this',
       'A privacy-conscious cloud subscription',
       'A context window for the home',
-      'Our prototype already works',
       'Unit economics',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -61,7 +60,7 @@ describe('opportunity deck copy contract', () => {
     expect([...idx].sort((a, b) => a - b)).toEqual(idx);
   });
 
-  it('act 2 carries the nine approved subtitles', () => {
+  it('act 2 carries the eight approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, low-risk data, and a GPU in the living room.',
@@ -71,7 +70,6 @@ describe('opportunity deck copy contract', () => {
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       '$9/month, optional: zero-knowledge backup, sync, and remote access.',
       'One local agent every device on the network can use.',
-      'Built on a previous-generation NVIDIA Orin, by choice.',
       '110,000 devices in five years, a $9/month attach, 40%+ blended margin.',
     ];
     for (const sub of subs) {
@@ -208,13 +206,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(25);
+    expect(ALL_PAGES).toHaveLength(24);
     expect(APPENDIX_PAGES).toHaveLength(6);
   });
 
-  it('sets every chrome counter against 25 pages', () => {
+  it('sets every chrome counter against 24 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 25;/);
+      expect(src, name).toMatch(/const TOTAL = 24;/);
     }
   });
 

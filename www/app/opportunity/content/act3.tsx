@@ -10,11 +10,11 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 25;
+const TOTAL = 24;
 const ACT_CLASS = 'deck-act-3';
 
 const page17 = (
-  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
       title="Under the hood, we're building a silicon-to-screen stack for privacy-preserving local inference"
@@ -23,7 +23,7 @@ const page17 = (
 );
 
 const page18 = (
-  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="The stack"
       sub="Six generic primitives, built once, reused in every product."
@@ -43,7 +43,7 @@ const page18 = (
 );
 
 const page19 = (
-  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
       title="The industry is moving compute to the data"
       sub="NVIDIA, Palantir and Cohere are betting on sovereign AI."
@@ -97,7 +97,7 @@ const page19 = (
 );
 
 const page20 = (
-  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Privacy law triggers when data leaves the device"
       sub="Local-first architecture is ahead of the coming AI regulation."
@@ -119,7 +119,7 @@ const page20 = (
 );
 
 const page21 = (
-  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="Licensing works like Android"
@@ -139,7 +139,7 @@ const page21 = (
 );
 
 const page22 = (
-  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="One stack, four markets"
       sub="Families, then homes, then offices, then enterprise hardware partners."

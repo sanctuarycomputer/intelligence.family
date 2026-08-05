@@ -12,7 +12,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 25;
+const TOTAL = 24;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
@@ -191,30 +191,6 @@ const page13 = (
 
 const page14 = (
   <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
-    <Split
-      flip
-      title="Our prototype already works"
-      sub="Built on a previous-generation NVIDIA Orin, by choice."
-      media={
-        <FpoBox
-          note="Prototype photo strip: device on bench, play-test stills"
-          aspect="8/1"
-        />
-      }
-    >
-      Our research with Mozilla is published, with 28k+ impressions.
-      <Ref k="mozilla-research" /> A tester texted us:{' '}
-      <strong>
-        &ldquo;So my grandma beat the odds and lived. So if y&rsquo;all can
-        speed it up on the family intelligence that would be greatly
-        appreciated.&rdquo;
-      </strong>
-    </Split>
-  </DeckPage>
-);
-
-const page15 = (
-  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       title="Unit economics"
       sub="110,000 devices in five years, a $9/month attach, 40%+ blended margin."
@@ -254,5 +230,4 @@ export const ACT2_PAGES: ReactNode[] = [
   page12,
   page13,
   page14,
-  page15,
 ];
