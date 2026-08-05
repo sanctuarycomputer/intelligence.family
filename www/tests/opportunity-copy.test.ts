@@ -50,11 +50,11 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       'Our first device is for families',
       'A family practice',
-      'Family data is too sensitive for the cloud',
-      'Home hubs are a proven category',
+      'Family data is sensitive.',
+      'Home hubs are a proven category.',
       'Families already pay for this',
-      'A privacy-conscious cloud subscription',
-      'A context window for the home',
+      '(Optional) privacy-conscious backups.',
+      'The context window for smart homes.',
       'Unit economics',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -71,7 +71,7 @@ describe('opportunity deck copy contract', () => {
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       '$9/month, optional: zero-knowledge backup, sync, and remote access.',
-      'One local agent every device on the network can use.',
+      'A local agent and inference server that every IoT device on the network can tap.',
       '110,000 devices in five years, a $9/month attach, 40%+ blended margin.',
     ];
     for (const sub of subs) {
@@ -82,8 +82,8 @@ describe('opportunity deck copy contract', () => {
   it('act 3 carries the six approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
-      "But under the hood... we're building the canonical software stack for private inference",
-      'Our Stack',
+      "But under the hood... we're building the software stack for private AI inference",
+      'Our stack.',
       'The industry is moving compute to the data',
       'Local AI side-steps future regulation',
       'Licensing works like Android',
@@ -99,7 +99,7 @@ describe('opportunity deck copy contract', () => {
     const subs = [
       'A general purpose software suite for running private inference hardware devices.',
       'NVIDIA, Palantir and Cohere are betting on sovereign AI.',
-      'The cloud providers will be regulated, our architecture is immune.',
+      'The cloud providers will be regulated, but our architecture is immune.',
       'Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness.',
       'Families, then homes, then offices, then enterprise hardware partners.',
     ];

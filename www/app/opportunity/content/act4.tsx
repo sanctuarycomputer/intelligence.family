@@ -21,9 +21,9 @@ const page23 = (
           body: (
             <>
               The Big Labs & Hyperscalers&rsquo; business depends on your data
-              living in their cloud. Local, encrypted inference is the moat.
-              Google never tried to compete with Signal or Telegram for the same
-              reason. We&rsquo;re in a category of our own.
+              living in their cloud - they can&rsquo;t afford to compete. Local,
+              encrypted inference is the moat. Google never tried to compete
+              with Signal or Telegram for the same reason.
             </>
           ),
         },
@@ -31,7 +31,7 @@ const page23 = (
           heading: 'Won’t local models always lag the frontier?',
           body: (
             <>
-              Yes, but the gap is closing fast. Household tasks are narrow:
+              Yes, but the gap is narrowing (fast). Household tasks are narrow:
               transcription, extraction, RAG, classification. Open weights land
               every upstream advance in our stack for free.
               <Ref k="inkling" />

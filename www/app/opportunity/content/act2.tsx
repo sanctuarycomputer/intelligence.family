@@ -56,7 +56,7 @@ const page8 = (
 const page9 = (
   <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
     <Split
-      title="Family data is too sensitive for the cloud"
+      title="Family data is sensitive."
       sub="23andMe crashed out with a breach & bankruptcy."
       media={
         <FpoBox note="23andMe collapse timeline ($6B → breach → Chapter 11 → $305M); inset: Jan 2026 court-order headline" />
@@ -76,7 +76,7 @@ const page10 = (
   <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
     <BigStat
       stat="600M+"
-      title="Home hubs are a proven category"
+      title="Home hubs are a proven category."
       sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
     >
       The AI gadget graveyard died inventing new ways to interact.{' '}
@@ -158,7 +158,7 @@ const page11 = (
 const page12 = (
   <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
-      title="A privacy-conscious cloud subscription"
+      title="(Optional) privacy-conscious backups."
       sub="$9/month, optional: zero-knowledge backup, sync, and remote access."
       media={
         <FpoBox note="Hub-and-spoke sync: home devices ↔ zero-knowledge vault ↔ remote family via tunnel; $9/mo card; hotspot + private-network modes labeled" />
@@ -177,8 +177,8 @@ const page13 = (
   <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
-      title="A context window for the home"
-      sub="One local agent every device on the network can use."
+      title="The context window for smart homes."
+      sub="A local agent and inference server that every IoT device on the network can tap."
       media={
         <FpoBox note="Network map: hub centered, doorbell/thermostat/laptop ringed, endpoints labeled MCP · completions · RAG · ontology" />
       }

@@ -17,7 +17,7 @@ const page17 = (
   <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
-      title="But under the hood... we're building the canonical software stack for private inference"
+      title="But under the hood... we're building the software stack for private AI inference"
     />
   </DeckPage>
 );
@@ -25,7 +25,7 @@ const page17 = (
 const page18 = (
   <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
-      title="Our Stack"
+      title="Our stack."
       sub="A general purpose software suite for running private inference hardware devices."
       media={
         <FpoBox note="Exploded stack: TEE, local runtime, ZK backup, mirroring, P2P gossip, ontology library as lifted layers" />
@@ -109,7 +109,7 @@ const page20 = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Local AI side-steps future regulation"
-      sub="The cloud providers will be regulated, our architecture is immune."
+      sub="The cloud providers will be regulated, but our architecture is immune."
       media={
         <FpoBox note="House with a drawn trust-boundary line; HIPAA/COPPA/GDPR arrows triggering only where data crosses it" />
       }
