@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse, after } from 'next/server';
 import { consume } from '@/lib/rate-limit';
 import { readVerifiedCookie } from '@/lib/verified-session';
-import { createCrmContact, VIEWED_SOURCE } from '@/lib/crm';
+import { createCrmContact } from '@/lib/crm';
+import { resolveViewedSource } from '@/lib/gate-page';
 import { clientIp } from '@/lib/client-ip';
 
 const PING_LIMIT = 20;
@@ -22,11 +23,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ verified: false });
   }
 
+  const viewedSource = resolveViewedSource(
+    request.nextUrl.searchParams.get('page')
+  );
   // Each verified page load logs a view in the CRM (source_events counts
   // repeats server-side). Over the ping limit we stop counting but never
   // block the unlock.
   if (consume(`gate-status:${clientIp(request)}`, PING_LIMIT, PING_WINDOW_MS)) {
-    after(() => createCrmContact(session.email, VIEWED_SOURCE));
+    after(() => createCrmContact(session.email, viewedSource));
   }
   return NextResponse.json({ verified: true });
 }

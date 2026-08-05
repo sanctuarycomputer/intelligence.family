@@ -32,6 +32,14 @@ async function verifiedReq(
   return req({ cookie: `fi_verified=${seal}`, ...headers });
 }
 
+async function verifiedPageReq(email: string, page: string) {
+  const seal = await sealVerified({ email });
+  return new NextRequest(
+    `http://localhost/api/gate-status?page=${page}`,
+    { method: 'GET', headers: { cookie: `fi_verified=${seal}` } }
+  );
+}
+
 beforeEach(() => {
   _resetForTests();
   crmMock.mockClear();
@@ -97,5 +105,23 @@ describe('GET /api/gate-status', () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ verified: true });
     expect(crmMock).toHaveBeenCalledTimes(20);
+  });
+
+  it('logs the opportunity viewed source for ?page=opportunity', async () => {
+    const res = await GET(await verifiedPageReq('user@example.com', 'opportunity'));
+    expect(await res.json()).toEqual({ verified: true });
+    expect(crmMock).toHaveBeenCalledWith(
+      'user@example.com',
+      'g3d:family_intelligence:opportunity-viewed'
+    );
+  });
+
+  it('falls back to fundraising-viewed for an unknown page param', async () => {
+    const res = await GET(await verifiedPageReq('user@example.com', 'evil'));
+    expect(await res.json()).toEqual({ verified: true });
+    expect(crmMock).toHaveBeenCalledWith(
+      'user@example.com',
+      'g3d:family_intelligence:fundraising-viewed'
+    );
   });
 });
