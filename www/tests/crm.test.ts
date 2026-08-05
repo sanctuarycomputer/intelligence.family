@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { createCrmContact, ALLOWED_SOURCES } from '../lib/crm';
+import {
+  createCrmContact,
+  ALLOWED_SOURCES,
+  OPPORTUNITY_GATE_SOURCE,
+  OPPORTUNITY_VIEWED_SOURCE,
+} from '../lib/crm';
 
 beforeEach(() => {
   vi.unstubAllGlobals();
@@ -15,6 +20,8 @@ describe('ALLOWED_SOURCES', () => {
       'g3d:family_intelligence',
       'g3d:family_intelligence:fundraising',
       'g3d:family_intelligence:fundraising-viewed',
+      'g3d:family_intelligence:opportunity',
+      'g3d:family_intelligence:opportunity-viewed',
     ]);
   });
 });
@@ -83,5 +90,21 @@ describe('createCrmContact', () => {
     await vi.advanceTimersByTimeAsync(3000);
     const result = await pending;
     expect(result).toEqual({ ok: false, status: 'error' });
+  });
+});
+
+describe('opportunity CRM sources', () => {
+  it('exports the opportunity gate and viewed sources', () => {
+    expect(OPPORTUNITY_GATE_SOURCE).toBe('g3d:family_intelligence:opportunity');
+    expect(OPPORTUNITY_VIEWED_SOURCE).toBe(
+      'g3d:family_intelligence:opportunity-viewed'
+    );
+  });
+
+  it('allowlists both so createCrmContact will not reject them', () => {
+    expect(ALLOWED_SOURCES).toContain('g3d:family_intelligence:opportunity');
+    expect(ALLOWED_SOURCES).toContain(
+      'g3d:family_intelligence:opportunity-viewed'
+    );
   });
 });
