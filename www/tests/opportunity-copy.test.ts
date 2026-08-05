@@ -172,7 +172,6 @@ describe('opportunity deck copy contract', () => {
     // The act label now lives in content/index.ts (PAGE_META), not appendix.tsx.
     const index = readFileSync(path.join(dir, 'index.ts'), 'utf8');
     expect(index).toContain('A · Appendix');
-    expect(src).toContain('For the diligent reader.');
     for (const title of [
       'A1 · Stack deep-dive',
       'A2 · Competition matrix',

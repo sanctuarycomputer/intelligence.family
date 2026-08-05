@@ -13,7 +13,7 @@ const STUB_BODY = 'Detail follows in the investor-ready revision.';
 
 const splashPage = (
   <DeckPage key={FIRST} n={FIRST} total={TOTAL}>
-    <Statement splash title="Appendix" sub="For the diligent reader." />
+    <Statement splash title="Appendix" />
   </DeckPage>
 );
 
