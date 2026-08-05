@@ -17,7 +17,7 @@ const page17 = (
   <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
-      title="Under the hood... we're building a general purpose stack for privacy-preserving AI inference"
+      title="But under the hood... we're building the canonical software stack for private inference"
     />
   </DeckPage>
 );
@@ -25,19 +25,28 @@ const page17 = (
 const page18 = (
   <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
-      title="The stack"
-      sub="Six generic primitives, built once, reused in every product."
+      title="Our Stack"
+      sub="A general purpose software suite for running private inference hardware devices."
       media={
         <FpoBox note="Exploded stack: TEE, local runtime, ZK backup, mirroring, P2P gossip, ontology library as lifted layers" />
       }
+      bodyBlock
     >
-      A trusted execution environment, a zero-knowledge backup server, a
-      mirroring server, peer-to-peer gossip on the LAN, a local inference
-      runtime, and a generic ontology library.{' '}
-      <strong>
-        The same stack serves families, firms, clinics, and newsrooms without a
-        rewrite.
-      </strong>
+      <p>Our core components include:</p>
+      <ul className="deck-list">
+        <li>Trusted execution environment (TEE)</li>
+        <li>Hardware root of trust</li>
+        <li>Zero-knowledge backup server</li>
+        <li>p2p gossip via LAN</li>
+        <li>A generic ontology library</li>
+        <li>A local inference application runtime</li>
+      </ul>
+      <p>
+        <strong>
+          The go-to SDK for private inference, built on Linux &amp; written in
+          Rust.
+        </strong>
+      </p>
     </DiagramPage>
   </DeckPage>
 );
@@ -99,8 +108,8 @@ const page19 = (
 const page20 = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
-      title="We're side-stepping AI regulation"
-      sub="Local-first architecture is ahead of the coming AI regulation."
+      title="Local AI side-steps future regulation"
+      sub="The cloud providers will be regulated, our architecture is immune."
       media={
         <FpoBox note="House with a drawn trust-boundary line; HIPAA/COPPA/GDPR arrows triggering only where data crosses it" />
       }

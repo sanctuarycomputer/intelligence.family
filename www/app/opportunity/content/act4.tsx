@@ -14,15 +14,16 @@ const page23 = (
     <CardsPage
       columns={3}
       title="The hard questions"
-      sub="Apple, model quality, hardware risk, consent, chips, and the raise."
+      sub="Competition, model quality, hardware risk, consent, chips, and the raise."
       cards={[
         {
           heading: 'Why won’t Apple or Google do this?',
           body: (
             <>
-              Their business depends on your data living in their cloud. Local,
-              encrypted inference is the moat; the industrial design is
-              copyable.
+              The Big Labs & Hyperscalers&rsquo; business depends on your data
+              living in their cloud. Local, encrypted inference is the moat.
+              Google never tried to compete with Signal or Telegram for the same
+              reason. We&rsquo;re in a category of our own.
             </>
           ),
         },
@@ -30,9 +31,9 @@ const page23 = (
           heading: 'Won’t local models always lag the frontier?',
           body: (
             <>
-              Yes, and household tasks are narrow: transcription, extraction,
-              RAG, classification. Open weights land every upstream advance in
-              our stack for free.
+              Yes, but the gap is closing fast. Household tasks are narrow:
+              transcription, extraction, RAG, classification. Open weights land
+              every upstream advance in our stack for free.
               <Ref k="inkling" />
               <Ref k="nemotron3" />
             </>
@@ -42,8 +43,8 @@ const page23 = (
           heading: 'What about OpenAI’s device?',
           body: (
             <>
-              It normalizes the always-listening home companion, tethered to the
-              cloud.
+              Like the failed friend.com, OpenAI&rsquo;s device is an
+              always-listening home companion, tethered to the cloud.
               <Ref k="openai-io" /> HP switched Humane&rsquo;s servers off ten
               days after buying it.
               <Ref k="humane-hp" /> <strong>Ours cannot be revoked.</strong>
@@ -54,18 +55,20 @@ const page23 = (
           heading: 'Why this raise size?',
           body: (
             <>
-              No brand owns safe local AI yet. The money goes straight to a
-              contract manufacturer and a team that ships by Christmas 2027.
+              No brand owns safe local AI yet, but that window is closing fast.
+              We&rsquo;re building a full privacy preserving software SDK and a
+              hardware device by Christmas 2027. The capital goes to hiring fast
+              and securing a blue chip contract manufacturer.
             </>
           ),
         },
         {
-          heading: 'I hate subscriptions.',
+          heading: 'Consumers hate subscriptions.',
           body: (
             <>
-              The $9/month cloud backup is optional. The device works out of the
-              box with no connectivity, and encrypted sync is there if hardware
-              breaks.
+              The $9/month cloud backup is optional. Our family device works out
+              of the box with no connectivity. Our encrypted sync opt-in for
+              peace of mind.
             </>
           ),
         },
@@ -73,8 +76,9 @@ const page23 = (
           heading: 'How will you compete for AI chips?',
           body: (
             <>
-              We built the prototype on a previous-generation NVIDIA Orin on
-              purpose. The experience does not need bleeding-edge silicon.
+              Our prototype was built to perform well on a previous-generation
+              NVIDIA Orin dev kit, proving our product experience does not need
+              bleeding-edge silicon.
             </>
           ),
         },
@@ -82,8 +86,10 @@ const page23 = (
           heading: 'Why dedicated hardware?',
           body: (
             <>
-              The seven in ten who distrust cloud AI are not hobbyists. The
-              trust boundary has to be physical.
+              The seven in ten Americans who distrust big tech&rsquo;s cloud AI
+              are not hobbyists. We&rsquo;re giving them AI that&rsquo;s
+              immediately useful out of the box - with no data center in the
+              loop.
             </>
           ),
         },
@@ -101,8 +107,8 @@ const page23 = (
           heading: 'Manufacturing and tariff risk?',
           body: (
             <>
-              Direct relationships with Foxconn, Arima, and Coosea in Taipei and
-              Shenzhen, and a tariff-aware manufacturing plan.
+              Our team hold direct relationships with Foxconn, Arima, and Coosea
+              in Taipei and Shenzhen, and a tariff-aware manufacturing plan.
             </>
           ),
         },
@@ -114,7 +120,7 @@ const page23 = (
 const page24 = (
   <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
-      title="The team"
+      title="The Team"
       sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
       cards={[
         {
@@ -122,11 +128,13 @@ const page24 = (
           body: (
             <>
               <strong>
-                A patented inventor for architecting the Light Phone II and III,
-                named among TIME&rsquo;s Best Inventions in 2019 and 2025.
+                A computer scientist & patented inventor for architecting the
+                Light Phone II and III, named among TIME&rsquo;s Best Inventions
+                in 2019 and 2025.
               </strong>
-              <Ref k="light-phone" /> Built Mill&rsquo;s IoT infrastructure for
-              the founders of Google&rsquo;s Nest, and runs garden3d, a 30+
+              <Ref k="light-phone" /> Among other projects, Hugh architected
+              Mill&rsquo;s IoT infrastructure for the founders of Google&rsquo;s
+              Nest, runs IoT projects for AT&amp;T, and led garden3d, a 30+
               person studio.
             </>
           ),

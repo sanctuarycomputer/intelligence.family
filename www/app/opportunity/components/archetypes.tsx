@@ -43,8 +43,9 @@ function Sub({ children }: { children?: ReactNode }) {
   );
 }
 
-function Body({ children }: { children?: ReactNode }) {
+function Body({ children, block }: { children?: ReactNode; block?: boolean }) {
   if (!children) return null;
+  if (block) return <div className="deck-body">{children}</div>;
   return <p className="deck-body">{children}</p>;
 }
 
@@ -154,19 +155,22 @@ export function DiagramPage({
   sub,
   media,
   caption,
+  bodyBlock,
   children,
 }: {
   title: ReactNode;
   sub?: ReactNode;
   media: ReactNode;
   caption?: ReactNode;
+  /** Render the body as a div so block content (lists) is valid HTML. */
+  bodyBlock?: boolean;
   children?: ReactNode;
 }) {
   return (
     <div data-archetype="DiagramPage">
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
-      <Body>{children}</Body>
+      <Body block={bodyBlock}>{children}</Body>
       <div className="mt-10">
         {media}
         {caption && <p className="caption">{caption}</p>}

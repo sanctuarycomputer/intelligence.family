@@ -21,7 +21,7 @@ describe('opportunity deck copy contract', () => {
       'The GPU is coming home',
       'Local AI (finally) runs on consumer hardware',
       "7 in 10 Americans don't trust big tech's AI.",
-      'Architecture makes all the difference',
+      'Our architecture makes all the difference',
       'Intentional technology is a proven market',
       'Family Intelligence will be the first trusted brand to run local compute in the home',
     ];
@@ -82,10 +82,10 @@ describe('opportunity deck copy contract', () => {
   it('act 3 carries the six approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
-      "Under the hood... we're building a general purpose stack for privacy-preserving AI inference",
-      'The stack',
+      "But under the hood... we're building the canonical software stack for private inference",
+      'Our Stack',
       'The industry is moving compute to the data',
-      "We're side-stepping AI regulation",
+      'Local AI side-steps future regulation',
       'Licensing works like Android',
       'One stack, four markets',
     ];
@@ -97,9 +97,9 @@ describe('opportunity deck copy contract', () => {
   it('act 3 carries the five approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const subs = [
-      'Six generic primitives, built once, reused in every product.',
+      'A general purpose software suite for running private inference hardware devices.',
       'NVIDIA, Palantir and Cohere are betting on sovereign AI.',
-      'Local-first architecture is ahead of the coming AI regulation.',
+      'The cloud providers will be regulated, our architecture is immune.',
       'Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness.',
       'Families, then homes, then offices, then enterprise hardware partners.',
     ];
@@ -119,7 +119,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const titles = [
       'The hard questions',
-      'The team',
+      'The Team',
       'Timeline',
       "We're raising $15M",
     ];
@@ -131,7 +131,7 @@ describe('opportunity deck copy contract', () => {
   it('act 4 carries the four approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const subs = [
-      'Apple, model quality, hardware risk, consent, chips, and the raise.',
+      'Competition, model quality, hardware risk, consent, chips, and the raise.',
       "We shipped the Light Phone, Mill's IoT stack, and USB Club.",
       'Round closes, contract manufacturer in the room, shelves by Christmas 2027.',
       'On shelves and ready to gift by Christmas 2027.',
@@ -146,7 +146,7 @@ describe('opportunity deck copy contract', () => {
     expect(src).toContain('columns={3}');
     for (const heading of [
       'Why this raise size?',
-      'I hate subscriptions.',
+      'Consumers hate subscriptions.',
       'How will you compete for AI chips?',
     ]) {
       expect(src, heading).toContain(heading);

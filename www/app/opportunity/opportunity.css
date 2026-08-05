@@ -24,6 +24,17 @@
 .deck-card-body {
   margin-top: 12px;
 }
+.deck-list {
+  margin-top: 12px;
+  padding-left: 20px;
+  list-style: disc;
+}
+.deck-list li {
+  margin-top: 6px;
+}
+.deck-body p + p {
+  margin-top: 16px;
+}
 .deck-card-body-tight {
   margin-top: 8px;
   font-size: 15px;

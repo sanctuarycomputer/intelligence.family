@@ -114,7 +114,7 @@ const page5 = (
   <DeckPage key={5} n={5} total={TOTAL}>
     <Split
       flip
-      title="Architecture makes all the difference"
+      title="Our architecture makes all the difference"
       sub={
         <>
           Two listening devices:
@@ -130,13 +130,13 @@ const page5 = (
     >
       Our device research, in partnership with the Mozilla Foundation, drew an
       overwhelmingly positive response across 28k+ impressions.
-      <Ref k="mozilla-research" /> While friend.com&rsquo;s always-listening
-      pendant was vandalized on the subway.
+      <Ref k="mozilla-research" /> Meanwhile... friend.com&rsquo;s
+      always-listening pendant was vandalized on the NYC subway.
       <Ref k="friend-backlash" />
       <br />
       <br />
       <strong>
-        Our privacy-preserving posture is what wins customers over.
+        Our privacy-preserving architecture is what wins customers over.
       </strong>
     </Split>
   </DeckPage>
