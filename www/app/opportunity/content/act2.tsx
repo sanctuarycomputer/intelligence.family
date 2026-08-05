@@ -22,14 +22,9 @@ const page7 = (
       title="Our first device is for families"
       sub="High emotional value, low-risk data, and a GPU in the living room."
     >
-      Families hold the memories worth keeping, and what a household records at
-      home carries none of the risk a clinic or a payroll system does. So the
-      first device goes in the living room, where{' '}
-      <strong>
-        the value to the family is highest and the data is safest to keep at
-        home.
-      </strong>{' '}
-      One device, one market.
+      Families hold the memories worth keeping, and what a household records
+      carries none of the risk a clinic or a payroll system does.{' '}
+      <strong>One device, one market.</strong>
     </Statement>
     <div className="mt-10">
       <FpoBox note="Play-test photo (existing /research/moment-*.png assets)" />
@@ -51,12 +46,10 @@ const page8 = (
         />
       }
     >
-      The device hosts the week: a Sunday check-in, the school log, where the
-      vacation fund stands, who has a doctor&rsquo;s appointment coming.{' '}
-      <strong>It earns its place by being useful every week.</strong> Then at
-      dinner a grandmother tells the story again, and the house keeps her voice
-      and her accent. The archive is one beloved feature, never the whole
-      premise.
+      <strong>The device earns its place by being useful every week.</strong>{' '}
+      Then at dinner a grandmother tells the story again, and the house keeps
+      her voice and her accent. The archive is one beloved feature, never the
+      whole premise.
     </Split>
   </DeckPage>
 );
@@ -73,11 +66,9 @@ const page9 = (
       23andMe went from a $6B peak to Chapter 11, and its database sold for
       $305M.
       <Ref k="23andme-sale" /> A breach had already exposed 6.9M people&rsquo;s
-      genetic and family data.
-      <Ref k="23andme-breach" /> In January 2026 a federal judge handed 20
-      million ChatGPT conversations to opposing lawyers.
-      <Ref k="chatgpt-logs" /> Our answer is architectural:{' '}
-      <strong>no backend to misconfigure, no log to subpoena.</strong>
+      genetic data.
+      <Ref k="23andme-breach" />{' '}
+      <strong>No backend to misconfigure, no log to subpoena.</strong>
     </Split>
   </DeckPage>
 );
@@ -89,16 +80,13 @@ const page10 = (
       title="Home hubs are a proven category"
       sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
     >
-      The AI gadget graveyard died inventing new ways to interact;{' '}
-      <strong>we enter a proven category with a different architecture.</strong>{' '}
-      Alexa is at that number,
-      <Ref k="alexa-600m" /> Google counts 800M+ connected devices,
-      <Ref k="google-home-800m" /> and 51% of US internet households own a
-      speaker or display.
-      <Ref k="parks-51" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
+      The AI gadget graveyard died inventing new ways to interact.{' '}
+      <strong>We enter a proven category with a different architecture.</strong>{' '}
+      Alexa is at that number.
+      <Ref k="alexa-600m" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
       <Ref k="openai-io" /> Amazon bought Bee,
-      <Ref k="bee-amazon" /> Meta bought Limitless.
-      <Ref k="limitless-meta" /> All of it runs in someone else&rsquo;s cloud.
+      <Ref k="bee-amazon" /> Meta bought Limitless,
+      <Ref k="limitless-meta" /> all of it in someone else&rsquo;s cloud.
     </BigStat>
     <div className="mt-10">
       <FpoBox
@@ -121,8 +109,8 @@ const page11 = (
           heading: 'tonies did €630M',
           body: (
             <>
-              tonies grew revenue 31% to €630M in FY2025, on a box and the
-              figurines that go with it.
+              tonies grew revenue 31% to €630M in FY2025, on a box and its
+              figurines.
               <Ref k="tonies-fy2025" />{' '}
               <strong>
                 Family hardware with a recurring layer is a public-company
@@ -142,14 +130,13 @@ const page11 = (
           ),
         },
         {
-          heading: 'Ancestry, StoryWorth, Greenlight',
+          heading: 'Ancestry and StoryWorth',
           body: (
             <>
               Blackstone bought Ancestry for $4.7B in 2020.
               <Ref k="ancestry-blackstone" /> StoryWorth reports over 1M printed
               books, bootstrapped.
-              <Ref k="storyworth" /> Greenlight serves 6.5M+ parents and kids.
-              <Ref k="greenlight" /> We unify the practice these products serve
+              <Ref k="storyworth" /> We unify the practice these products serve
               piecemeal.
             </>
           ),
@@ -203,11 +190,10 @@ const page12 = (
       ]}
     />
     <p className="mt-14 max-w-2xl">
-      Premium entry prices did not cap the personal computer, they funded it.{' '}
-      <strong>Our flagship carries the GPU and the home server.</strong>{' '}
-      Companions join it hub-and-spoke, and later spokes without GPUs bring the
-      entry price down. It works out of the box, offline, with no account: no
-      server to go dark and no company that can revoke it.
+      Premium entry prices did not cap the personal computer, they funded it.
+      Companions join the flagship hub-and-spoke, and later spokes without GPUs
+      bring the entry price down.{' '}
+      <strong>It works out of the box, offline, with no account.</strong>
     </p>
     <div className="mt-10">
       <FpoBox
@@ -227,14 +213,11 @@ const page13 = (
         <FpoBox note="Hub-and-spoke sync: home devices ↔ zero-knowledge vault ↔ remote family via tunnel; $9/mo card; hotspot + private-network modes labeled" />
       }
     >
-      $9 a month buys what the cloud is good at: encrypted backup where we hold
-      none of the keys, sync between the flagship and its companions, and a
-      tunnel so family away from home can reach the archive.{' '}
-      <strong>The device works forever without it.</strong> 1Password runs $400M
-      ARR.
+      The cloud does one thing well: encrypted backup where we hold none of the
+      keys. <strong>The device works forever without it.</strong> 1Password runs
+      $400M ARR.
       <Ref k="1password-arr" /> Proton is profitable on subscriptions alone.
-      <Ref k="proton-nonprofit" /> Apple crossed 1.5B paid subscriptions.
-      <Ref k="apple-subscriptions" />
+      <Ref k="proton-nonprofit" />
     </DiagramPage>
   </DeckPage>
 );
@@ -248,16 +231,13 @@ const page14 = (
         <FpoBox note="Network map: hub centered, doorbell/thermostat/laptop ringed, endpoints labeled MCP · completions · RAG · ontology" />
       }
     >
-      The house knows who the plumber is, when the filters were changed, where
-      each person is in life, and what the family is saving for.{' '}
+      The house knows who the plumber is and what the family is saving for.{' '}
       <strong>
         One local agent holds that memory: an MCP server on the LAN, a
         chat-completions endpoint, and local RAG.
       </strong>{' '}
-      US internet households already run 17 connected devices,
-      <Ref k="parks-17-devices" /> 1,200+ device types are Matter-certified,
-      <Ref k="matter-1200" /> and embedded-AI chips reach 4.1B a year by 2031.
-      <Ref k="abi-tinyml" /> Each taps the house instead of its own cloud.
+      US internet households already run 17 connected devices.
+      <Ref k="parks-17-devices" />
     </DiagramPage>
   </DeckPage>
 );
@@ -275,9 +255,7 @@ const page15 = (
         />
       }
     >
-      The prototype runs today on a previous-generation NVIDIA Orin, so we prove
-      the experience without betting on the newest silicon. Our research with
-      Mozilla is published and has 28k+ impressions.
+      Our research with Mozilla is published, with 28k+ impressions.
       <Ref k="mozilla-research" /> A tester texted us:{' '}
       <strong>
         &ldquo;So my grandma beat the odds and lived. So if y&rsquo;all can
@@ -304,8 +282,6 @@ const page16 = (
       ]}
     />
     <p className="mt-14 max-w-2xl">
-      110,000 devices is roughly 0.05% of the 200M+ English-speaking households
-      we sell into, before companions or any other market.{' '}
       <strong>
         The device is the moat and the recurring layer is the business.
       </strong>{' '}

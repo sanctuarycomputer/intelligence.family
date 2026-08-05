@@ -82,12 +82,12 @@ const page2 = (
       }
     >
       Compute has made this trip before. The mainframe sat in a room you had to
-      book, then it moved into the house:{' '}
+      book.{' '}
       <strong>
         8% of US households owned a computer in 1984, and 89% did by 2016.
       </strong>
       <Ref k="census-computer-ownership" /> The datacenter is making the same
-      move, and the first wave is a GPU in the living room.
+      move.
     </DiagramPage>
   </DeckPage>
 );
@@ -101,16 +101,13 @@ const page3 = (
         <FpoBox note="Epoch open-vs-closed capability-gap chart; inset photo of the Orin prototype board" />
       }
     >
-      Our prototype runs on a previous-generation NVIDIA Orin, by choice. Open
-      weights keep closing on closed models.
+      Open weights keep closing on closed models.
       <Ref k="epoch-open-weights" /> Thinking Machines Lab released Inkling,
       975B parameters, Apache 2.0.
-      <Ref k="inkling" /> NVIDIA ships Nemotron 3 permissively licensed,
-      <Ref k="nemotron3" /> so{' '}
-      <strong>every upstream advance lands in our stack for free.</strong>{' '}
+      <Ref k="inkling" />{' '}
+      <strong>Every upstream advance lands in our stack for free.</strong>{' '}
       NPU-equipped AI PCs are roughly 59% of 2026 shipments.
-      <Ref k="ai-pc-shipments" /> Ollama has 8.9M monthly developers.
-      <Ref k="ollama" />
+      <Ref k="ai-pc-shipments" />
     </Split>
   </DeckPage>
 );
@@ -122,11 +119,9 @@ const page4 = (
       title="No one is trusted with AI in the home"
       sub="7 in 10 Americans don't trust big tech's AI. There is no Signal or Mozilla of the home."
     >
-      Parks Associates found 72% of smart home owners worried about the data
-      their devices collect.
-      <Ref k="parks-72" /> Pew measured the wider distrust in June 2026.
-      <Ref k="pew-distrust" /> The incumbents went the other way: in March 2025
-      Amazon removed the Echo&rsquo;s only local-processing option.
+      Pew measured that distrust in June 2026.
+      <Ref k="pew-distrust" /> Amazon went the other way, removing the
+      Echo&rsquo;s only local-processing option in March 2025.
       <Ref k="echo-local-removed" />{' '}
       <strong>
         Demand is enormous, trust is absent, and that gap is the market.
@@ -163,8 +158,8 @@ const page5 = (
           heading: 'Light Phone and reMarkable',
           body: (
             <>
-              We designed and built Light Phone II and III, sold to people who
-              wanted less phone.
+              We designed and built Light Phone II and III for people who wanted
+              less phone.
               <Ref k="light-phone" /> reMarkable reached profitability at $300M
               revenue.
               <Ref k="remarkable-profitable" />
@@ -178,8 +173,8 @@ const page5 = (
               The same buyers turn on Signal&rsquo;s encrypted backups and
               Apple&rsquo;s Advanced Data Protection.
               <Ref k="signal-backups" />
-              <Ref k="apple-adp" /> The convenience argument fails where the
-              data is intimate.
+              <Ref k="apple-adp" /> Convenience loses where the data is
+              intimate.
             </>
           ),
         },

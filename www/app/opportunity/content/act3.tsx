@@ -32,12 +32,11 @@ const page18 = (
         <FpoBox note="Exploded stack: TEE, local runtime, ZK backup, mirroring, P2P gossip, ontology library as lifted layers" />
       }
     >
-      Six primitives sit under every product we make: a trusted execution
-      environment, a zero-knowledge backup server, a mirroring server,
-      peer-to-peer gossip on the local network, a local inference runtime, and a
-      generic ontology library. Declare a schema and the model extracts it, so{' '}
+      A trusted execution environment, a zero-knowledge backup server, a
+      mirroring server, peer-to-peer gossip on the LAN, a local inference
+      runtime, and a generic ontology library.{' '}
       <strong>
-        the same stack serves families, firms, clinics, and newsrooms without a
+        The same stack serves families, firms, clinics, and newsrooms without a
         rewrite.
       </strong>
     </DiagramPage>
@@ -56,8 +55,8 @@ const page19 = (
             <>
               In October 2025 they partnered to run models where enterprise data
               sits,
-              <Ref k="nvidia-palantir" /> and in June 2026 shipped an air-gapped
-              architecture built so data can never leave the building.
+              <Ref k="nvidia-palantir" /> then shipped an air-gapped
+              architecture so data never leaves the building.
               <Ref k="palantir-sovereign-aios" />
             </>
           ),
@@ -80,10 +79,9 @@ const page19 = (
             <>
               Cloudian found them repatriating or evaluating on-prem AI
               workloads in March 2026.
-              <Ref k="cloudian-onprem" /> They pay for the property we give
-              families, and{' '}
+              <Ref k="cloudian-onprem" />{' '}
               <strong>
-                the household is the last sovereign unit nobody serves.
+                The household is the last sovereign unit nobody serves.
               </strong>
             </>
           ),
@@ -111,16 +109,12 @@ const page20 = (
       COPPA turns on gathering a child&rsquo;s information.
       <Ref k="coppa-definition" /> GDPR exempts a family&rsquo;s own use of its
       data.
-      <Ref k="gdpr-household" /> HIPAA binds providers and vendors, not health
-      apps.
-      <Ref k="hipaa-ftc" />{' '}
-      <strong>
-        Data that never leaves the device rarely triggers any of them.
-      </strong>{' '}
-      The server-side wall keeps rising: COPPA compliance April 2026,
+      <Ref k="gdpr-household" />{' '}
+      <strong>Data that never leaves the device rarely triggers either.</strong>{' '}
+      The wall keeps rising: COPPA compliance April 2026,
       <Ref k="coppa-amended" /> EU AI Act transparency August 2026,
       <Ref k="eu-ai-act-enforcement" /> California age signals by 2027.
-      <Ref k="ab1043" /> Avoiding collection scales everywhere at once.
+      <Ref k="ab1043" />
     </DiagramPage>
   </DeckPage>
 );
@@ -135,13 +129,11 @@ const page21 = (
         <FpoBox note="Snapdragon→tuned Android build ∥ partner device→tuned Harness build; margin cards QTL 72% · Dolby 88% · Arm ~$250B" />
       }
     >
-      Partners ship a Home Harness distribution tuned to their silicon and pay a
-      royalty per device. Android proves the shape at 3B+ active devices.
+      Partners pay a royalty per device. Android proves the shape at 3B+ active
+      devices.
       <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B at a 72%
       pre-tax margin.
-      <Ref k="qualcomm-qtl" /> Dolby licenses at roughly 88% gross margin.
-      <Ref k="dolby-licensing" /> Arm is worth about $250B on pennies per chip.
-      <Ref k="arm-royalty" />{' '}
+      <Ref k="qualcomm-qtl" />{' '}
       <strong>Sonos, Dyson, and LG will never build this stack.</strong>
     </Split>
   </DeckPage>
@@ -156,9 +148,7 @@ const page22 = (
         <FpoBox note="Four-rung staircase (families → homes → offices → enterprise) with a bottoms-up number per rung and the shared stack drawn underneath all four" />
       }
     >
-      This is one consumer hardware company and the stack underneath it, applied
-      in sequence: families first, then the whole home, then offices that need
-      on-prem transcription, then hardware partners paying a royalty.{' '}
+      This is one consumer hardware company and the stack underneath it.{' '}
       <strong>
         Office and licensing are earned upside, gated behind the first device
         shipping.
