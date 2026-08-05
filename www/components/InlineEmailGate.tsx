@@ -9,9 +9,10 @@ interface InlineEmailGateProps {
   onSuccess: () => void
   source?: string
   prompt?: string
+  page?: string
 }
 
-export default function InlineEmailGate({ onSuccess, source, prompt }: InlineEmailGateProps) {
+export default function InlineEmailGate({ onSuccess, source, prompt, page }: InlineEmailGateProps) {
   const [step, setStep] = useState<Step>('email')
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
@@ -29,7 +30,7 @@ export default function InlineEmailGate({ onSuccess, source, prompt }: InlineEma
   // endpoint also logs the view in the CRM.
   useEffect(() => {
     let cancelled = false
-    fetch('/api/gate-status')
+    fetch(page ? `/api/gate-status?page=${encodeURIComponent(page)}` : '/api/gate-status')
       .then((res) => res.json())
       .then((data) => {
         if (!cancelled && data.verified) onSuccess()
@@ -92,7 +93,7 @@ export default function InlineEmailGate({ onSuccess, source, prompt }: InlineEma
         if (typeof window !== 'undefined' && window.gtag) {
           window.gtag('event', 'email_subscribe', {
             event_category: 'engagement',
-            event_label: 'fundraising_gate',
+            event_label: page ? `${page}_gate` : 'fundraising_gate',
             value: 1,
           })
         }
