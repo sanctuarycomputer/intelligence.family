@@ -37,7 +37,7 @@ function Title({
 function Sub({ children }: { children?: ReactNode }) {
   if (!children) return null;
   return (
-    <h2 className="mt-4" style={subStyle}>
+    <h2 className="mt-2" style={subStyle}>
       {children}
     </h2>
   );
@@ -45,7 +45,7 @@ function Sub({ children }: { children?: ReactNode }) {
 
 function Body({ children }: { children?: ReactNode }) {
   if (!children) return null;
-  return <p className="large mt-10 max-w-2xl">{children}</p>;
+  return <p className="mt-14 max-w-2xl">{children}</p>;
 }
 
 export function Statement({

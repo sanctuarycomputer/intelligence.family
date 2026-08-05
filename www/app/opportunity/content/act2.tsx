@@ -202,7 +202,7 @@ const page12 = (
         { label: 'Companion devices', value: '$499' },
       ]}
     />
-    <p className="large mt-10 max-w-2xl">
+    <p className="mt-14 max-w-2xl">
       Premium entry prices did not cap the personal computer, they funded it.{' '}
       <strong>Our flagship carries the GPU and the home server.</strong>{' '}
       Companions join it hub-and-spoke, and later spokes without GPUs bring the
@@ -303,7 +303,7 @@ const page16 = (
         { label: 'Blended gross margin at scale', value: '40%+' },
       ]}
     />
-    <p className="large mt-10 max-w-2xl">
+    <p className="mt-14 max-w-2xl">
       110,000 devices is roughly 0.05% of the 200M+ English-speaking households
       we sell into, before companions or any other market.{' '}
       <strong>
