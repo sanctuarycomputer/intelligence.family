@@ -94,6 +94,12 @@ section.deck-page[id] {
   font-size: 13px;
   letter-spacing: 0;
   font-variation-settings: 'MONO' 100;
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
+/* The cover carries no chrome; it fades in on the way to slide 2. */
+.deck-chrome-hidden {
+  opacity: 0;
 }
 .deck-chrome-corner {
   position: absolute;

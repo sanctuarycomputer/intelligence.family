@@ -80,7 +80,7 @@ export default function DeckShell({
           className="deck-tree"
         />
       </div>
-      <DeckChrome meta={pageMeta[current - 1]} />
+      <DeckChrome meta={pageMeta[current - 1]} hidden={current === 1} />
       {pages}
       <nav className="deck-rail" aria-label="Deck pages">
         {pages.map((_, i) => (

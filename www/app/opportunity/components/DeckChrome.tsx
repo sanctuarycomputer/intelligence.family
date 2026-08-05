@@ -38,13 +38,30 @@ function RollingValue({ value }: { value: string }) {
   );
 }
 
+/**
+ * Counters shaped like "07 / 26" roll only the page half; the total is
+ * static. Anything else (the appendix's "A") rolls whole.
+ */
+function Counter({ value }: { value: string }) {
+  const match = value.match(/^(\S+)( \/ \d+)$/);
+  if (!match) return <RollingValue value={value} />;
+  return (
+    <>
+      <RollingValue value={match[1]} />
+      {match[2]}
+    </>
+  );
+}
+
 export default function DeckChrome({
   meta,
+  hidden = false,
 }: {
   meta?: { act: string; counter: string };
+  hidden?: boolean;
 }) {
   return (
-    <div className="deck-chrome">
+    <div className={`deck-chrome${hidden ? ' deck-chrome-hidden' : ''}`}>
       <span className="deck-chrome-corner deck-chrome-tl">
         intelligence.family
       </span>
@@ -55,7 +72,7 @@ export default function DeckChrome({
         Investor Preview
       </span>
       <span className="deck-chrome-corner deck-chrome-br">
-        {meta && <RollingValue value={meta.counter} />}
+        {meta && <Counter value={meta.counter} />}
       </span>
     </div>
   );
