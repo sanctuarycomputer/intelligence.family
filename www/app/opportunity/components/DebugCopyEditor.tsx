@@ -12,6 +12,17 @@ function restoreOriginals(list: Entry[]) {
   }
 }
 
+function setSlideHidden(page: string, hidden: boolean) {
+  const section = document.getElementById(`page-${page}`);
+  if (section) section.style.display = hidden ? 'none' : '';
+}
+
+function slideTitle(page: string): string {
+  const section = document.getElementById(`page-${page}`);
+  const heading = section?.querySelector('h1, h2');
+  return heading?.textContent?.trim() ?? '(untitled)';
+}
+
 const LAYOUT_VARIANTS = [
   'Statement',
   'Statement (splash)',
@@ -45,6 +56,7 @@ export default function DebugCopyEditor({
   const [count, setCount] = useState(0);
   const [copied, setCopied] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState('1');
+  const [deleted, setDeleted] = useState<Map<string, string>>(() => new Map());
 
   useEffect(() => {
     // Wait a frame so the (un)locked page list has rendered before scanning.
@@ -126,7 +138,8 @@ export default function DebugCopyEditor({
   const copy = async () => {
     const edits = changed();
     const picks = [...layoutPicks.entries()];
-    if (edits.length === 0 && picks.length === 0) {
+    const removals = [...deleted.entries()];
+    if (edits.length === 0 && picks.length === 0 && removals.length === 0) {
       setCopied('No edits yet');
       setTimeout(() => setCopied(null), 1500);
       return;
@@ -143,17 +156,30 @@ export default function DebugCopyEditor({
       lines.push(`NEW LAYOUT: ${variant}`);
       lines.push('');
     }
+    for (const [page, title] of removals) {
+      lines.push(`[page ${page} · slide]`);
+      lines.push(`DELETE SLIDE: ${title}`);
+      lines.push('');
+    }
     await navigator.clipboard.writeText(lines.join('\n'));
-    const n = edits.length + picks.length;
+    const n = edits.length + picks.length + removals.length;
     setCopied(`Copied ${n} edit${n === 1 ? '' : 's'}`);
     setTimeout(() => setCopied(null), 2000);
   };
 
   const reset = () => {
     restoreOriginals(entries.current);
+    for (const page of deleted.keys()) setSlideHidden(page, false);
+    setDeleted(new Map());
     setLayoutPicks(new Map());
     setCopied('Reset');
     setTimeout(() => setCopied(null), 1200);
+  };
+
+  const deleteSlide = () => {
+    const title = slideTitle(currentPage);
+    setSlideHidden(currentPage, true);
+    setDeleted(prev => new Map(prev).set(currentPage, title));
   };
 
   const pickLayout = (variant: string) => {
@@ -187,6 +213,9 @@ export default function DebugCopyEditor({
           ))}
         </select>
       </label>
+      <button type="button" onClick={deleteSlide}>
+        Delete slide{deleted.size > 0 ? ` (${deleted.size})` : ''}
+      </button>
       <button type="button" onClick={copy}>
         {copied ?? 'Copy edits'}
       </button>
