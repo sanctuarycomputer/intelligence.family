@@ -25,6 +25,47 @@ describe('opportunity deck copy contract', () => {
     expect([...idx].sort((a, b) => a - b)).toEqual(idx);
   });
 
+  it('act 2 carries the nine approved titles in order', () => {
+    const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
+    const titles = [
+      'Our first device is for families',
+      'A family practice',
+      'Families already pay for this',
+      'Family data is too sensitive for the cloud',
+      'Home hubs are a proven category',
+      '$899 flagship, $499 companions',
+      'A privacy-conscious cloud subscription',
+      'The prototype already works',
+      'Unit economics',
+    ];
+    const idx = titles.map(t => src.indexOf(t));
+    expect(idx.every(i => i >= 0)).toBe(true);
+    expect([...idx].sort((a, b) => a - b)).toEqual(idx);
+  });
+
+  it('act 2 carries the nine approved subtitles', () => {
+    const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
+    const subs = [
+      'High emotional value, low-risk data, and a GPU in the living room.',
+      'Weekly check-ins, budgets, school, health, and the family stories.',
+      'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
+      '23andMe centralized it. That ended in a breach and a bankruptcy.',
+      '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
+      "The Apple II cost $7,000 in today's dollars. Premium first, affordable next.",
+      '$9/month, optional: zero-knowledge backup, sync, and remote access.',
+      'Built on a previous-generation NVIDIA Orin, by choice.',
+      'An $899 device, a $9/month subscription, 110,000 devices in five years.',
+    ];
+    for (const sub of subs) {
+      expect(src, sub).toContain(sub);
+    }
+  });
+
+  it('act 2 never states the raise amount', () => {
+    const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
+    expect(src).not.toMatch(/\$15M/);
+  });
+
   it('deck copy contains no em dashes', () => {
     for (const [name, src] of contentFiles()) {
       expect(src.includes('—'), name).toBe(false);
