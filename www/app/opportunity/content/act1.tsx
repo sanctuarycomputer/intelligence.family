@@ -192,11 +192,11 @@ const page6 = (
       title="Nobody owns this category"
       sub="7 in 10 Americans don't trust big tech's AI. There is no Signal or Mozilla of the home."
     >
-      Pew measured that distrust in June 2026.
-      <Ref k="pew-distrust" /> Parks Associates found 72% of smart home owners
-      worried about the data their devices collect.
-      <Ref k="parks-72" /> The incumbents went the other way: on March 28, 2025
-      Amazon removed the Echo&rsquo;s only local-processing option.
+      Parks Associates found 72% of smart home owners worried about the data
+      their devices collect.
+      <Ref k="parks-72" /> Pew measured the wider distrust in June 2026.
+      <Ref k="pew-distrust" /> The incumbents went the other way: on March 28,
+      2025 Amazon removed the Echo&rsquo;s only local-processing option.
       <Ref k="echo-local-removed" /> Demand is enormous, trust is absent, and
       that gap is the market. Today no one owns it, but that window is closing
       fast.
