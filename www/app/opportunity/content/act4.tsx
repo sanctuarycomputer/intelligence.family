@@ -23,9 +23,8 @@ const page22 = (
               Their business depends on your data living in their cloud, so a
               private stack works against them. Amazon killed the Echo&rsquo;s
               local option in 2025.
-              <Ref k="echo-local-removed" /> Truly local, encrypted inference is
-              the real moat; the industrial design is just the part they could
-              copy.
+              <Ref k="echo-local-removed" /> Local, encrypted inference is the
+              real moat; the industrial design is just the part they could copy.
             </>
           ),
         },
@@ -98,8 +97,8 @@ const page23 = (
           heading: 'Hugh Francis',
           body: (
             <>
-              A patented inventor for architecting the Light Phone II and III,
-              named among TIME&rsquo;s Best Inventions in 2019 and 2025.
+              He is a patented inventor for architecting the Light Phone II and
+              III, named among TIME&rsquo;s Best Inventions in 2019 and 2025.
               <Ref k="light-phone" /> Built Mill&rsquo;s IoT infrastructure for
               the founders of Google&rsquo;s Nest. Holds direct relationships
               with Foxconn, Arima, and Coosea in Taipei and Shenzhen. Runs

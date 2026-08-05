@@ -99,7 +99,7 @@ const page3 = (
       <Ref k="inkling" /> NVIDIA ships Nemotron 3 permissively licensed with its
       training data, so every upstream advance lands in our stack for free.
       <Ref k="nemotron3" /> NPU-equipped AI PCs are roughly 59% of 2026
-      shipments, so the substrate is already in homes.
+      shipments; the substrate is already in homes.
       <Ref k="ai-pc-shipments" /> Ollama has 8.9M monthly developers, so local
       AI is now default developer behavior.
       <Ref k="ollama" />

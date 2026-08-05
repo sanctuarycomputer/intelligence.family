@@ -271,7 +271,7 @@ const page15 = (
       The prototype runs today on a previous-generation NVIDIA Orin, so we prove
       the experience without betting on the newest silicon. Our research with
       Mozilla is published and has 28k+ impressions.
-      <Ref k="mozilla-research" /> A real tester asked us to speed it up. Rabbit
+      <Ref k="mozilla-research" /> A tester asked us to speed it up. Rabbit
       shipped four months after its Series A.
       <Ref k="rabbit-ship" /> Plaud shipped in 18 months, bootstrapped.
       <Ref k="plaud" /> tonies launched Toniebox 2 in September and took 80% of

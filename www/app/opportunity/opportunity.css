@@ -1,51 +1,205 @@
 /* Deck shell */
-.deck { height: 100dvh; overflow-y: auto; scroll-snap-type: y mandatory; }
-.deck-page { min-height: 100dvh; scroll-snap-align: start; position: relative;
-  display: flex; flex-direction: column; padding: 72px var(--container-padding); }
-.deck-chrome-header, .deck-chrome-footer { position: absolute; left: 0; right: 0;
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 0 var(--container-padding); color: var(--fi-black-900);
-  font-family: var(--font-sans); font-size: 13px; letter-spacing: 0.04em; }
-.deck-chrome-header { top: 20px; }
-.deck-chrome-footer { bottom: 20px; }
-.deck-act-2 { background: var(--fi-green-200); }
-.deck-act-3 { background: var(--fi-green-100); }
-.deck-act-4 { background: var(--fi-green-200); }
+.deck {
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+.deck-page {
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 72px var(--container-padding);
+}
+.deck-chrome-header,
+.deck-chrome-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--container-padding);
+  color: var(--fi-black-900);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.deck-chrome-header {
+  top: 20px;
+}
+.deck-chrome-footer {
+  bottom: 20px;
+}
+.deck-act-2 {
+  background: var(--fi-green-200);
+}
+.deck-act-3 {
+  background: var(--fi-green-100);
+}
+.deck-act-4 {
+  background: var(--fi-green-200);
+}
 
 /* Progress rail */
-.deck-rail { position: fixed; right: 10px; top: 50%; transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 6px; z-index: 40; }
-.deck-rail a { width: 6px; height: 6px; border-radius: 999px;
-  background: var(--fi-green-300); display: block; }
-.deck-rail a.active { background: var(--fi-green-500); }
-.deck-rail a.act-start { height: 14px; }
+.deck-rail {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 40;
+}
+.deck-rail a {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--fi-green-300);
+  display: block;
+}
+.deck-rail a.active {
+  background: var(--fi-green-500);
+}
+.deck-rail a.act-start {
+  height: 14px;
+}
 
 /* References */
-.deck-ref { font-size: 0.6em; vertical-align: super; text-decoration: none;
-  color: var(--fi-green-500); margin-left: 1px; }
-.deck-ref:hover { text-decoration: underline; }
+.deck-ref {
+  font-size: 0.6em;
+  vertical-align: super;
+  text-decoration: none;
+  color: var(--fi-green-500);
+  margin-left: 1px;
+}
+.deck-ref:hover {
+  text-decoration: underline;
+}
 
 /* FPO */
-.deck-fpo { border: 2px dashed var(--fi-green-400); border-radius: 8px;
-  display: flex; align-items: center; justify-content: center; text-align: center;
-  color: var(--fi-black-900); background: rgba(184, 198, 176, 0.15);
-  font-family: var(--font-sans); font-size: 14px; padding: 24px; width: 100%; }
+.deck-fpo {
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--fi-black-900);
+  background: rgba(184, 198, 176, 0.15);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 24px;
+  width: 100%;
+}
 
 /* Drifting leaves — port of family-book remote style.css:133-161.
    Two elements per leaf: wrapper drifts + breathes, inner img wobbles. */
-.drifting-leaves { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.drift-leaf { position: absolute; left: 0; top: 0; opacity: 0; }
-.drift-leaf:nth-child(1) { animation: drift-1 23s linear infinite, leaf-breathe 23s ease-in-out infinite; }
-.drift-leaf:nth-child(2) { animation: drift-2 29.44s linear -9.72s infinite, leaf-breathe 29.44s ease-in-out -9.72s infinite; }
-.drift-leaf:nth-child(3) { animation: drift-3 18.4s linear -12.14s infinite, leaf-breathe 18.4s ease-in-out -12.14s infinite; }
-.drift-leaf:nth-child(1) img { width: 40px; height: 40px; animation: wobble-5 4s ease-in-out infinite alternate; }
-.drift-leaf:nth-child(2) img { width: 50px; height: 40px; animation: wobble-4 3.25s ease-in-out -2.1s infinite alternate; }
-.drift-leaf:nth-child(3) img { width: 52px; height: 32px; animation: wobble-6 4.75s ease-in-out -6.3s infinite alternate; }
-@keyframes drift-1 { from { transform: translate(10vw, 70dvh); } to { transform: translate(86vw, 4dvh); } }
-@keyframes drift-2 { from { transform: translate(16vw, 86dvh); } to { transform: translate(92vw, 16dvh); } }
-@keyframes drift-3 { from { transform: translate(6vw, 54dvh); } to { transform: translate(80vw, -4dvh); } }
-@keyframes leaf-breathe { 0%, 50%, 100% { opacity: 0; } 25%, 75% { opacity: 0.65; } }
-@keyframes wobble-5 { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
-@keyframes wobble-4 { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
-@keyframes wobble-6 { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
-@media (prefers-reduced-motion: reduce) { .drifting-leaves { display: none; } }
+.drifting-leaves {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.drift-leaf {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.drift-leaf:nth-child(1) {
+  animation:
+    drift-1 23s linear infinite,
+    leaf-breathe 23s ease-in-out infinite;
+}
+.drift-leaf:nth-child(2) {
+  animation:
+    drift-2 29.44s linear -9.72s infinite,
+    leaf-breathe 29.44s ease-in-out -9.72s infinite;
+}
+.drift-leaf:nth-child(3) {
+  animation:
+    drift-3 18.4s linear -12.14s infinite,
+    leaf-breathe 18.4s ease-in-out -12.14s infinite;
+}
+.drift-leaf:nth-child(1) img {
+  width: 40px;
+  height: 40px;
+  animation: wobble-5 4s ease-in-out infinite alternate;
+}
+.drift-leaf:nth-child(2) img {
+  width: 50px;
+  height: 40px;
+  animation: wobble-4 3.25s ease-in-out -2.1s infinite alternate;
+}
+.drift-leaf:nth-child(3) img {
+  width: 52px;
+  height: 32px;
+  animation: wobble-6 4.75s ease-in-out -6.3s infinite alternate;
+}
+@keyframes drift-1 {
+  from {
+    transform: translate(10vw, 70dvh);
+  }
+  to {
+    transform: translate(86vw, 4dvh);
+  }
+}
+@keyframes drift-2 {
+  from {
+    transform: translate(16vw, 86dvh);
+  }
+  to {
+    transform: translate(92vw, 16dvh);
+  }
+}
+@keyframes drift-3 {
+  from {
+    transform: translate(6vw, 54dvh);
+  }
+  to {
+    transform: translate(80vw, -4dvh);
+  }
+}
+@keyframes leaf-breathe {
+  0%,
+  50%,
+  100% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 0.65;
+  }
+}
+@keyframes wobble-5 {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+@keyframes wobble-4 {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(4deg);
+  }
+}
+@keyframes wobble-6 {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drifting-leaves {
+    display: none;
+  }
+}
