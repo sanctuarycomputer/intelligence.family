@@ -9,6 +9,10 @@
   max-height: 100dvh;
   overflow: hidden;
   scroll-snap-align: start;
+  /* globals.css gives every section[id] an 80px scroll-margin-top for anchor
+     scrolling; scroll-snap uses scroll-margin to place snap positions, so
+     without this reset each page snaps 80px shy of its top. */
+  scroll-margin-top: 0;
   position: relative;
   display: flex;
   flex-direction: column;
