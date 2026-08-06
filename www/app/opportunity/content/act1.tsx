@@ -114,7 +114,7 @@ const page5 = (
   <DeckPage key={5} n={5} total={TOTAL}>
     <Split
       flip
-      title="Our architecture makes all the difference"
+      title="Local architecture makes all the difference"
       sub={
         <>
           Two listening devices...

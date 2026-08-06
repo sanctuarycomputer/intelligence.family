@@ -35,7 +35,7 @@ const page8 = (
   <DeckPage key={9} n={9} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
-      title="A family practice"
+      title="Your family, preserved"
       sub="Weekly check-ins, budgets, school, health, and family stories."
       media={
         <FpoBox
@@ -158,7 +158,7 @@ const page11 = (
 const page12 = (
   <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
-      title="(Optional) privacy-conscious backups"
+      title="Subscribe for peace of mind"
       sub="$9/month, optional: zero-knowledge backup, sync, and remote access."
       media={
         <FpoBox note="Hub-and-spoke sync: home devices ↔ zero-knowledge vault ↔ remote family via tunnel; $9/mo card; hotspot + private-network modes labeled" />

@@ -150,7 +150,7 @@ const page21 = (
 const page22 = (
   <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
-      title="One stack, four markets"
+      title="Our stack, running everywhere"
       sub="Families, then homes, then offices, then enterprise hardware partners."
       media={
         <FpoBox note="Four-rung staircase (families → homes → offices → enterprise) with a bottoms-up number per rung and the shared stack drawn underneath all four" />

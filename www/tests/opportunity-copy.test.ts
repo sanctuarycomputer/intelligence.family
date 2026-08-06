@@ -21,7 +21,7 @@ describe('opportunity deck copy contract', () => {
       'The GPU is coming home',
       'Local AI (finally) runs on consumer hardware',
       "7 in 10 Americans don't trust big tech's AI",
-      'Our architecture makes all the difference',
+      'Local architecture makes all the difference',
       'Intentional technology is a proven market',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
@@ -49,11 +49,11 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
-      'A family practice',
+      'Your family, preserved',
       'Family data is sensitive',
       'Home hubs are a proven category.',
       'Families already pay for this',
-      '(Optional) privacy-conscious backups',
+      'Subscribe for peace of mind',
       'A context window for smart homes',
       'Unit economics',
     ];
@@ -87,7 +87,7 @@ describe('opportunity deck copy contract', () => {
       'The industry is moving compute to the data',
       'Local AI side-steps future regulation',
       'Licensing works like Android',
-      'One stack, four markets',
+      'Our stack, running everywhere',
     ];
     const idx = titles.map(t => src.indexOf(t));
     expect(idx.every(i => i >= 0)).toBe(true);
