@@ -115,6 +115,17 @@ const page22 = (
         {
           label: (
             <>
+              <strong>Families & The Home</strong>
+              <span className="deck-ledger-note">
+                The wedge: one hub per household, companions on every shelf
+              </span>
+            </>
+          ),
+          value: <span className="deck-tam">~$130B</span>,
+        },
+        {
+          label: (
+            <>
               <strong>Office & On-Prem</strong>
               <span className="deck-ledger-note">
                 Meeting capture and document intelligence that never leaves the
