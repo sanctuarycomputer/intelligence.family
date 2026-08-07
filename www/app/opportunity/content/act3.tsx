@@ -45,12 +45,12 @@ const page18 = (
           ),
         },
         {
-          heading: 'Hardware root of trust',
-          art: stackArt('RoT png'),
+          heading: 'Family trust anchor',
+          art: stackArt('anchor png'),
           body: (
             <>
-              Every device proves it is running our signed firmware before it
-              touches family data.
+              The flagship holds the family&rsquo;s root keys. Companions derive
+              their trust from it, and nothing decrypts without it.
             </>
           ),
         },
