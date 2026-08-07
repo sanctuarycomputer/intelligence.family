@@ -79,8 +79,10 @@ const page10 = (
       title="Home hubs are a proven category."
       sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
     >
-      The AI gadget graveyard died inventing new ways to interact.{' '}
-      <strong>We enter a proven category with a different architecture.</strong>{' '}
+      The AI gadget graveyard died trying inventing new ways to interact.{' '}
+      <strong>
+        Instead, entering a proven category with a novel new architecture.
+      </strong>{' '}
       Alexa is at that number.
       <Ref k="alexa-600m" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
       <Ref k="openai-io" /> Amazon bought Bee,
