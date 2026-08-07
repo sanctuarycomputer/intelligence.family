@@ -104,6 +104,93 @@ const page18 = (
   </DeckPage>
 );
 
+const page22 = (
+  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
+    <CardsPage
+      columns={4}
+      title="Our stack, running everywhere"
+      sub="Families, then homes, then offices, then enterprise hardware partners."
+      cards={[
+        {
+          heading: 'Office & On-Prem',
+          body: (
+            <>
+              Meeting capture and document intelligence that never leaves the
+              building. <strong>~$40B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Healthcare & Clinics',
+          body: (
+            <>
+              Clinical scribes and dictation where patient data stays in the
+              practice. <strong>~$30B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Biometrics & Wearables',
+          body: (
+            <>
+              Health signals inferred on the device, not in a vendor cloud.{' '}
+              <strong>~$90B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Legal & Financial Back Office',
+          body: (
+            <>
+              Privileged review and reconciliation behind the firewall.{' '}
+              <strong>~$25B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Government & Defense',
+          body: (
+            <>
+              Air-gapped inference for the people who cannot use cloud AI.{' '}
+              <strong>~$50B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Agriculture & Industrial',
+          body: (
+            <>
+              Edge models on equipment, far from reliable connectivity.{' '}
+              <strong>~$60B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Schools & Childcare',
+          body: (
+            <>
+              Learning tools that keep children&rsquo;s data inside the school.{' '}
+              <strong>~$20B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Enterprise & Partnerships',
+          body: (
+            <>
+              Our stack licensed inside other brands&rsquo; hardware.{' '}
+              <strong>~$95B TAM</strong>
+            </>
+          ),
+        },
+      ]}
+    />
+    <p className="deck-caption-note">
+      Directional market estimates; sourced detail in the appendix pro-forma.
+    </p>
+  </DeckPage>
+);
+
 const page19 = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
@@ -197,93 +284,6 @@ const page21 = (
       <Ref k="qualcomm-qtl" />{' '}
       <strong>Sonos, Dyson, and LG will never build this stack.</strong>
     </Split>
-  </DeckPage>
-);
-
-const page22 = (
-  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
-    <CardsPage
-      columns={4}
-      title="Our stack, running everywhere"
-      sub="Families, then homes, then offices, then enterprise hardware partners."
-      cards={[
-        {
-          heading: 'Office & On-Prem',
-          body: (
-            <>
-              Meeting capture and document intelligence that never leaves the
-              building. <strong>~$40B TAM</strong>
-            </>
-          ),
-        },
-        {
-          heading: 'Healthcare & Clinics',
-          body: (
-            <>
-              Clinical scribes and dictation where patient data stays in the
-              practice. <strong>~$30B TAM</strong>
-            </>
-          ),
-        },
-        {
-          heading: 'Biometrics & Wearables',
-          body: (
-            <>
-              Health signals inferred on the device, not in a vendor cloud.{' '}
-              <strong>~$90B TAM</strong>
-            </>
-          ),
-        },
-        {
-          heading: 'Legal & Financial Back Office',
-          body: (
-            <>
-              Privileged review and reconciliation behind the firewall.{' '}
-              <strong>~$25B TAM</strong>
-            </>
-          ),
-        },
-        {
-          heading: 'Government & Defense',
-          body: (
-            <>
-              Air-gapped inference for the people who cannot use cloud AI.{' '}
-              <strong>~$50B TAM</strong>
-            </>
-          ),
-        },
-        {
-          heading: 'Agriculture & Industrial',
-          body: (
-            <>
-              Edge models on equipment, far from reliable connectivity.{' '}
-              <strong>~$60B TAM</strong>
-            </>
-          ),
-        },
-        {
-          heading: 'Schools & Childcare',
-          body: (
-            <>
-              Learning tools that keep children&rsquo;s data inside the school.{' '}
-              <strong>~$20B TAM</strong>
-            </>
-          ),
-        },
-        {
-          heading: 'Enterprise & Partnerships',
-          body: (
-            <>
-              Our stack licensed inside other brands&rsquo; hardware.{' '}
-              <strong>~$95B TAM</strong>
-            </>
-          ),
-        },
-      ]}
-    />
-    <p className="deck-caption-note">
-      Directional market estimates; sourced detail in the appendix pro-forma.
-    </p>
   </DeckPage>
 );
 
