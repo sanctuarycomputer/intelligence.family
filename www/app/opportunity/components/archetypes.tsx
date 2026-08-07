@@ -199,14 +199,24 @@ export function Ledger({
   wide?: boolean;
 }) {
   return (
-    <div data-archetype="Ledger">
+    <div
+      data-archetype="Ledger"
+      className={wide ? 'deck-ledger-fill' : undefined}
+    >
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
       <div
-        className={`mt-10 divide-y divide-fi-green-300 ${wide ? '' : 'max-w-2xl'}`}
+        className={`mt-10 divide-y divide-fi-green-300 ${wide ? 'deck-ledger-rows' : 'max-w-2xl'}`}
       >
         {rows.map((row, i) => (
-          <div key={i} className="flex items-baseline justify-between py-4">
+          <div
+            key={i}
+            className={
+              wide
+                ? 'deck-ledger-row flex items-center justify-between'
+                : 'flex items-baseline justify-between py-4'
+            }
+          >
             <span>{row.label}</span>
             <span>{row.value}</span>
           </div>
