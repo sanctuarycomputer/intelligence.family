@@ -190,16 +190,21 @@ export function Ledger({
   title,
   sub,
   rows,
+  wide,
 }: {
   title: ReactNode;
   sub?: ReactNode;
   rows: Array<{ label: ReactNode; value: ReactNode }>;
+  /** Full-width rows for rate-card style slides. */
+  wide?: boolean;
 }) {
   return (
     <div data-archetype="Ledger">
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
-      <div className="mt-10 max-w-2xl divide-y divide-fi-green-300">
+      <div
+        className={`mt-10 divide-y divide-fi-green-300 ${wide ? '' : 'max-w-2xl'}`}
+      >
         {rows.map((row, i) => (
           <div key={i} className="flex items-baseline justify-between py-4">
             <span>{row.label}</span>

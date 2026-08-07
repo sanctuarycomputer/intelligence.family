@@ -350,6 +350,27 @@ section.deck-page[id] {
   color: var(--fi-black-1000);
 }
 
+.deck-ledger-note {
+  display: block;
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+.deck-tam {
+  font-size: clamp(20px, 2.6vw, 30px);
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+/* Eight ruled rows must fit one viewport in the dark act. */
+.deck-act-3 [data-archetype='Ledger'] .py-4 {
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+.deck-act-3 .divide-fi-green-300 > * + * {
+  border-color: var(--fi-green-500);
+}
+
 .deck-caption-note {
   margin-top: 14px;
   font-size: 12px;

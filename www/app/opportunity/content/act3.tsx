@@ -6,6 +6,7 @@ import {
   CardsPage,
   DiagramPage,
   EvidenceGrid,
+  Ledger,
   Split,
   Statement,
 } from '../components/archetypes';
@@ -106,82 +107,100 @@ const page18 = (
 
 const page22 = (
   <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
-    <CardsPage
-      columns={4}
+    <Ledger
+      wide
       title="Our stack, running everywhere"
       sub="Families, then homes, then offices, then enterprise hardware partners."
-      cards={[
+      rows={[
         {
-          heading: 'Office & On-Prem',
-          body: (
+          label: (
             <>
-              Meeting capture and document intelligence that never leaves the
-              building. <strong>~$40B TAM</strong>
+              <strong>Office & On-Prem</strong>
+              <span className="deck-ledger-note">
+                Meeting capture and document intelligence that never leaves the
+                building
+              </span>
             </>
           ),
+          value: <span className="deck-tam">~$40B</span>,
         },
         {
-          heading: 'Healthcare & Clinics',
-          body: (
+          label: (
             <>
-              Clinical scribes and dictation where patient data stays in the
-              practice. <strong>~$30B TAM</strong>
+              <strong>Healthcare & Clinics</strong>
+              <span className="deck-ledger-note">
+                Clinical scribes and dictation where patient data stays in the
+                practice
+              </span>
             </>
           ),
+          value: <span className="deck-tam">~$30B</span>,
         },
         {
-          heading: 'Biometrics & Wearables',
-          body: (
+          label: (
             <>
-              Health signals inferred on the device, not in a vendor cloud.{' '}
-              <strong>~$90B TAM</strong>
+              <strong>Biometrics & Wearables</strong>
+              <span className="deck-ledger-note">
+                Health signals inferred on the device, not in a vendor cloud
+              </span>
             </>
           ),
+          value: <span className="deck-tam">~$90B</span>,
         },
         {
-          heading: 'Legal & Financial Back Office',
-          body: (
+          label: (
             <>
-              Privileged review and reconciliation behind the firewall.{' '}
-              <strong>~$25B TAM</strong>
+              <strong>Legal & Financial Back Office</strong>
+              <span className="deck-ledger-note">
+                Privileged review and reconciliation behind the firewall
+              </span>
             </>
           ),
+          value: <span className="deck-tam">~$25B</span>,
         },
         {
-          heading: 'Government & Defense',
-          body: (
+          label: (
             <>
-              Air-gapped inference for the people who cannot use cloud AI.{' '}
-              <strong>~$50B TAM</strong>
+              <strong>Government & Defense</strong>
+              <span className="deck-ledger-note">
+                Air-gapped inference for the people who cannot use cloud AI
+              </span>
             </>
           ),
+          value: <span className="deck-tam">~$50B</span>,
         },
         {
-          heading: 'Agriculture & Industrial',
-          body: (
+          label: (
             <>
-              Edge models on equipment, far from reliable connectivity.{' '}
-              <strong>~$60B TAM</strong>
+              <strong>Agriculture & Industrial</strong>
+              <span className="deck-ledger-note">
+                Edge models on equipment, far from reliable connectivity
+              </span>
             </>
           ),
+          value: <span className="deck-tam">~$60B</span>,
         },
         {
-          heading: 'Schools & Childcare',
-          body: (
+          label: (
             <>
-              Learning tools that keep children&rsquo;s data inside the school.{' '}
-              <strong>~$20B TAM</strong>
+              <strong>Schools & Childcare</strong>
+              <span className="deck-ledger-note">
+                Learning tools that keep children&rsquo;s data inside the school
+              </span>
             </>
           ),
+          value: <span className="deck-tam">~$20B</span>,
         },
         {
-          heading: 'Enterprise & Partnerships',
-          body: (
+          label: (
             <>
-              Our stack licensed inside other brands&rsquo; hardware.{' '}
-              <strong>~$95B TAM</strong>
+              <strong>Enterprise & Partnerships</strong>
+              <span className="deck-ledger-note">
+                Our stack licensed inside other brands&rsquo; hardware
+              </span>
             </>
           ),
+          value: <span className="deck-tam">~$95B</span>,
         },
       ]}
     />
