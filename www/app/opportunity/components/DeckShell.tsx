@@ -10,7 +10,12 @@ export default function DeckShell({
 }: {
   pages: ReactNode[];
   railActs: Array<{ page: number }>;
-  pageMeta: Array<{ act: string; counter: string; dark?: boolean }>;
+  pageMeta: Array<{
+    act: string;
+    counter: string;
+    dark?: boolean;
+    leaves?: boolean;
+  }>;
 }) {
   const [current, setCurrent] = useState(1);
 
@@ -72,7 +77,11 @@ export default function DeckShell({
   return (
     <div className="deck">
       <div className="deck-ambient" aria-hidden="true">
-        <DriftingLeaves />
+        <div
+          className={`deck-leaves${pageMeta[current - 1]?.leaves ? '' : ' deck-leaves-hidden'}${pageMeta[current - 1]?.dark ? ' deck-leaves-dark' : ''}`}
+        >
+          <DriftingLeaves />
+        </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/opportunity/cover-decoration.png"

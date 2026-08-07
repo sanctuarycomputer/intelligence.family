@@ -21,7 +21,12 @@ export const ALL_PAGES = [
 
 /** Chrome values for each rendered page, aligned 1:1 with
  * [...ALL_PAGES, ...APPENDIX_PAGES]. */
-type PageMeta = { act: string; counter: string; dark?: boolean };
+type PageMeta = {
+  act: string;
+  counter: string;
+  dark?: boolean;
+  leaves?: boolean;
+};
 
 function actRun(
   count: number,
@@ -41,6 +46,8 @@ const APPENDIX_META: PageMeta[] = Array.from({ length: 6 }, () => ({
   counter: 'A',
 }));
 
+const LEAF_PAGES = [1, 7, 16, 22, TOTAL + 1]; // cover + act splashes + appendix splash
+
 export const PAGE_META: PageMeta[] = [
   ...actRun(7, 'I · The Category', 1),
   ...actRun(8, 'II · Our First Device', 8),
@@ -48,3 +55,7 @@ export const PAGE_META: PageMeta[] = [
   ...actRun(5, 'IV · The Ask', 22),
   ...APPENDIX_META,
 ];
+
+for (const page of LEAF_PAGES) {
+  if (PAGE_META[page - 1]) PAGE_META[page - 1].leaves = true;
+}

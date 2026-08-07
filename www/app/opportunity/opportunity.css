@@ -79,12 +79,15 @@ section.deck-page[id] {
 .deck-act-3 h4 {
   color: var(--fi-green-100);
 }
-/* Inline title styles need out-ranking, hence !important, scoped tightly. */
+/* Inline title styles need out-ranking, hence !important, scoped tightly.
+   The act splash keeps the warm serif; only the working slides go sans. */
 .deck-act-3 .deck-title {
+  color: var(--fi-green-100);
+}
+.deck-act-3 .deck-title:not(.deck-title-splash) {
   font-family: var(--font-sans) !important;
   font-weight: 500 !important;
   letter-spacing: 0;
-  color: var(--fi-green-100);
 }
 .deck-act-3 .deck-card {
   background: var(--fi-green-500);
@@ -221,6 +224,21 @@ section.deck-page[id] {
   .deck-chrome-out {
     animation: none;
   }
+}
+
+/* Leaves show only on the cover and splash pages, fading out elsewhere;
+   on dark pages the sprites invert to read light-on-dark. */
+.deck-leaves {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 600ms ease-out;
+}
+.deck-leaves-hidden {
+  opacity: 0;
+}
+.deck-leaves-dark .drift-leaf img {
+  filter: brightness(0) invert(0.92);
 }
 
 /* Fixed ambient backdrop — drifting leaves and the cover tree, shared by

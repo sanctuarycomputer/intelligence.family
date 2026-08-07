@@ -32,7 +32,10 @@ function Title({
   splash?: boolean;
 }) {
   return (
-    <h1 className="deck-title" style={splash ? splashTitleStyle : titleStyle}>
+    <h1
+      className={splash ? 'deck-title deck-title-splash' : 'deck-title'}
+      style={splash ? splashTitleStyle : titleStyle}
+    >
       {children}
     </h1>
   );
