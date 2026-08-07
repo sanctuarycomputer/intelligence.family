@@ -84,24 +84,29 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       "But under the hood... we're building the software stack for private AI inference",
       'Our stack',
-      'Our stack, running everywhere',
+      'The Android of Local AI',
       'The industry is moving compute to the data',
       'Local AI side-steps future regulation',
-      'Licensing works like Android',
+      'The Android of Local AI',
     ];
-    const idx = titles.map(t => src.indexOf(t));
-    expect(idx.every(i => i >= 0)).toBe(true);
-    expect([...idx].sort((a, b) => a - b)).toEqual(idx);
+    // The Android title deliberately repeats, so scan forward from the
+    // previous match instead of using absolute indexOf positions.
+    let pos = -1;
+    for (const title of titles) {
+      pos = src.indexOf(title, pos + 1);
+      expect(pos, title).toBeGreaterThan(-1);
+    }
   });
 
   it('act 3 carries the five approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const subs = [
       'A general purpose software suite for running private inference hardware devices.',
-      'NVIDIA, Palantir and Cohere are betting on sovereign AI.',
+      "But today, there's no general purpose software stack to support local deployments.",
       'The cloud providers will be regulated, but our architecture is immune.',
       'Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness.',
-      'Families, then homes, then offices, then enterprise hardware partners.',
+      'Google bought Android in 2005 for ~$50 million.',
+      'What will the canonical infrastructure for private AI be valued at',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);

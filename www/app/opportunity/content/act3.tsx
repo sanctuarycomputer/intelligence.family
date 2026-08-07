@@ -109,8 +109,15 @@ const page22 = (
   <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       wide
-      title="Our stack, running everywhere"
-      sub="Families, then homes, then offices, then enterprise hardware partners."
+      title="The Android of Local AI"
+      sub={
+        <>
+          Google bought Android in 2005 for ~$50 million.
+          <br />
+          What will the canonical infrastructure for private AI be valued at in
+          2030?
+        </>
+      }
       rows={[
         {
           label: (
@@ -225,7 +232,7 @@ const page19 = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
       title="The industry is moving compute to the data"
-      sub="NVIDIA, Palantir and Cohere are betting on sovereign AI."
+      sub="But today, there's no general purpose software stack to support local deployments."
       cards={[
         {
           heading: 'NVIDIA and Palantir',
@@ -301,7 +308,7 @@ const page21 = (
   <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
-      title="Licensing works like Android"
+      title="The Android of Local AI"
       sub="Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness."
       media={
         <FpoBox note="Snapdragon→tuned Android build ∥ partner device→tuned Harness build; margin cards QTL 72% · Dolby 88% · Arm ~$250B" />
