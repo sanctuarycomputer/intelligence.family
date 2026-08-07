@@ -219,7 +219,7 @@ export function CardsPage({
 }: {
   title: ReactNode;
   sub?: ReactNode;
-  cards: Array<{ heading: string; body: ReactNode }>;
+  cards: Array<{ heading: string; body: ReactNode; art?: ReactNode }>;
   /** 3 lays the cards out as an equal-height grid instead of a stack. */
   columns?: 1 | 3;
 }) {
@@ -237,6 +237,7 @@ export function CardsPage({
             key={card.heading}
             className={`deck-card h-full rounded-[8px] bg-fi-green-200 ${tight ? 'p-5' : 'p-6'}`}
           >
+            {card.art && <span className="deck-card-art">{card.art}</span>}
             <h4>{card.heading}</h4>
             <p className={tight ? 'deck-card-body-tight' : 'deck-card-body'}>
               {card.body}

@@ -61,6 +61,36 @@ section.deck-page[id] {
 .deck-act-2 {
   background: var(--fi-green-200);
 }
+/* Cards can carry a small transparent PNG floating off their top-right
+   corner; the card anchors it and lets it overflow. */
+.deck-card {
+  position: relative;
+}
+.deck-card-art {
+  position: absolute;
+  top: -20px;
+  right: -14px;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+}
+.deck-card-art img {
+  width: 100%;
+  height: auto;
+}
+.deck-card-art-fpo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 999px;
+  font-size: 10px;
+  text-align: center;
+  background: rgba(215, 221, 212, 0.12);
+}
+
 /* On the darker act backgrounds the green-200 cards vanish; lift them to
    the lighter tone. Unlayered, so it beats the Tailwind bg utility. */
 .deck-act-2 .deck-card,
@@ -99,7 +129,7 @@ section.deck-page[id] {
   color: var(--fi-green-100);
   background: rgba(215, 221, 212, 0.08);
 }
-.deck-chrome-dark {
+.deck-chrome.deck-chrome-dark {
   color: var(--fi-green-100);
 }
 .deck-rail-dark a {
@@ -150,7 +180,9 @@ section.deck-page[id] {
   letter-spacing: 0;
   font-variation-settings: 'MONO' 100;
   opacity: 1;
-  transition: opacity 400ms ease-out;
+  transition:
+    opacity 400ms ease-out,
+    color 400ms ease-out;
 }
 /* The cover carries no chrome; it fades in on the way to slide 2. */
 .deck-chrome-hidden {

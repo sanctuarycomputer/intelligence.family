@@ -3,6 +3,7 @@ import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
+  CardsPage,
   DiagramPage,
   EvidenceGrid,
   Split,
@@ -22,32 +23,84 @@ const page17 = (
   </DeckPage>
 );
 
+const stackArt = (label: string) => (
+  <span className="deck-card-art-fpo">{label}</span>
+);
+
 const page18 = (
   <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
-    <DiagramPage
+    <CardsPage
+      columns={3}
       title="Our stack"
       sub="A general purpose software suite for running private inference hardware devices."
-      media={
-        <FpoBox note="Exploded stack: TEE, local runtime, ZK backup, mirroring, P2P gossip, ontology library as lifted layers" />
-      }
-      bodyBlock
-    >
-      <p>Our core components include:</p>
-      <ul className="deck-list">
-        <li>Trusted execution environment (TEE)</li>
-        <li>Hardware root of trust</li>
-        <li>Zero-knowledge backup server</li>
-        <li>p2p gossip via LAN</li>
-        <li>A generic ontology library</li>
-        <li>A local inference application runtime</li>
-      </ul>
-      <p>
-        <strong>
-          The go-to SDK for private inference, built on Linux &amp; written in
-          Rust.
-        </strong>
-      </p>
-    </DiagramPage>
+      cards={[
+        {
+          heading: 'Trusted execution environment',
+          art: stackArt('TEE png'),
+          body: (
+            <>
+              Keys and models run in hardware-isolated memory. Even a
+              compromised OS cannot read them.
+            </>
+          ),
+        },
+        {
+          heading: 'Hardware root of trust',
+          art: stackArt('RoT png'),
+          body: (
+            <>
+              Every device proves it is running our signed firmware before it
+              touches family data.
+            </>
+          ),
+        },
+        {
+          heading: 'Zero-knowledge backup server',
+          art: stackArt('vault png'),
+          body: (
+            <>
+              Encrypted archives we cannot open. The keys never leave the home.
+            </>
+          ),
+        },
+        {
+          heading: 'p2p gossip via LAN',
+          art: stackArt('mesh png'),
+          body: (
+            <>
+              Devices find and sync with each other over the local network, no
+              cloud in the loop.
+            </>
+          ),
+        },
+        {
+          heading: 'Generic ontology library',
+          art: stackArt('graph png'),
+          body: (
+            <>
+              Declare a schema and the model extracts it: people, places,
+              recipes, goals.
+            </>
+          ),
+        },
+        {
+          heading: 'Local inference runtime',
+          art: stackArt('runtime png'),
+          body: (
+            <>
+              Schedules models on the GPU and serves every app and device in the
+              house.
+            </>
+          ),
+        },
+      ]}
+    />
+    <p className="deck-body">
+      <strong>
+        The go-to SDK for private inference, built on Linux &amp; written in
+        Rust.
+      </strong>
+    </p>
   </DeckPage>
 );
 
