@@ -82,7 +82,6 @@ section.deck-page[id] {
 /* Inline title styles need out-ranking, hence !important, scoped tightly. */
 .deck-act-3 .deck-title {
   font-family: var(--font-sans) !important;
-  font-variation-settings: 'MONO' 100;
   font-weight: 500 !important;
   letter-spacing: 0;
   color: var(--fi-green-100);
