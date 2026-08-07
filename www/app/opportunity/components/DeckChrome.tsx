@@ -56,12 +56,16 @@ function Counter({ value }: { value: string }) {
 export default function DeckChrome({
   meta,
   hidden = false,
+  dark = false,
 }: {
   meta?: { act: string; counter: string };
   hidden?: boolean;
+  dark?: boolean;
 }) {
   return (
-    <div className={`deck-chrome${hidden ? ' deck-chrome-hidden' : ''}`}>
+    <div
+      className={`deck-chrome${hidden ? ' deck-chrome-hidden' : ''}${dark ? ' deck-chrome-dark' : ''}`}
+    >
       <span className="deck-chrome-corner deck-chrome-tr">
         {meta && <RollingValue value={meta.act} />}
       </span>

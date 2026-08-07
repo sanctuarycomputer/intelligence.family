@@ -31,7 +31,11 @@ function Title({
   children: ReactNode;
   splash?: boolean;
 }) {
-  return <h1 style={splash ? splashTitleStyle : titleStyle}>{children}</h1>;
+  return (
+    <h1 className="deck-title" style={splash ? splashTitleStyle : titleStyle}>
+      {children}
+    </h1>
+  );
 }
 
 function Sub({ children }: { children?: ReactNode }) {

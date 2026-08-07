@@ -67,7 +67,43 @@ section.deck-page[id] {
 .deck-act-4 .deck-card {
   background: var(--fi-green-100);
 }
+/* "Dark Mode" for the technical stack act: darkest palette green, light ink,
+   and mono display type on the H1s only. The warm serif returns after. */
 .deck-act-3 {
+  background: var(--fi-green-600);
+  color: var(--fi-green-100);
+}
+.deck-act-3 h2,
+.deck-act-3 p,
+.deck-act-3 li,
+.deck-act-3 h4 {
+  color: var(--fi-green-100);
+}
+/* Inline title styles need out-ranking, hence !important, scoped tightly. */
+.deck-act-3 .deck-title {
+  font-family: var(--font-sans) !important;
+  font-variation-settings: 'MONO' 100;
+  font-weight: 500 !important;
+  letter-spacing: 0;
+  color: var(--fi-green-100);
+}
+.deck-act-3 .deck-card {
+  background: var(--fi-green-500);
+}
+.deck-act-3 .deck-ref {
+  color: var(--fi-green-300);
+}
+.deck-act-3 .deck-fpo {
+  color: var(--fi-green-100);
+  background: rgba(215, 221, 212, 0.08);
+}
+.deck-chrome-dark {
+  color: var(--fi-green-100);
+}
+.deck-rail-dark a {
+  background: var(--fi-green-400);
+}
+.deck-rail-dark a.active {
   background: var(--fi-green-100);
 }
 .deck-act-4 {

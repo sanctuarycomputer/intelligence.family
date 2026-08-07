@@ -21,12 +21,18 @@ export const ALL_PAGES = [
 
 /** Chrome values for each rendered page, aligned 1:1 with
  * [...ALL_PAGES, ...APPENDIX_PAGES]. */
-type PageMeta = { act: string; counter: string };
+type PageMeta = { act: string; counter: string; dark?: boolean };
 
-function actRun(count: number, act: string, start: number): PageMeta[] {
+function actRun(
+  count: number,
+  act: string,
+  start: number,
+  dark?: boolean
+): PageMeta[] {
   return Array.from({ length: count }, (_, i) => ({
     act,
     counter: `${String(start + i).padStart(2, '0')} / ${TOTAL}`,
+    ...(dark ? { dark: true } : {}),
   }));
 }
 
@@ -38,7 +44,7 @@ const APPENDIX_META: PageMeta[] = Array.from({ length: 6 }, () => ({
 export const PAGE_META: PageMeta[] = [
   ...actRun(7, 'I · The Category', 1),
   ...actRun(8, 'II · Our First Device', 8),
-  ...actRun(6, 'III · Under the Hood', 16),
+  ...actRun(6, 'III · Under the Hood', 16, true),
   ...actRun(5, 'IV · The Ask', 22),
   ...APPENDIX_META,
 ];

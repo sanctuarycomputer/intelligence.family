@@ -10,7 +10,7 @@ export default function DeckShell({
 }: {
   pages: ReactNode[];
   railActs: Array<{ page: number }>;
-  pageMeta: Array<{ act: string; counter: string }>;
+  pageMeta: Array<{ act: string; counter: string; dark?: boolean }>;
 }) {
   const [current, setCurrent] = useState(1);
 
@@ -80,9 +80,16 @@ export default function DeckShell({
           className={`deck-tree${current > 1 ? ' deck-tree-hidden' : ''}`}
         />
       </div>
-      <DeckChrome meta={pageMeta[current - 1]} hidden={current === 1} />
+      <DeckChrome
+        meta={pageMeta[current - 1]}
+        hidden={current === 1}
+        dark={pageMeta[current - 1]?.dark === true}
+      />
       {pages}
-      <nav className="deck-rail" aria-label="Deck pages">
+      <nav
+        className={`deck-rail${pageMeta[current - 1]?.dark ? ' deck-rail-dark' : ''}`}
+        aria-label="Deck pages"
+      >
         {pages.map((_, i) => (
           <a
             key={i}
