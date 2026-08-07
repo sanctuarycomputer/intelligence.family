@@ -105,7 +105,7 @@ const page18 = (
 );
 
 const page19 = (
-  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
       title="The industry is moving compute to the data"
       sub="NVIDIA, Palantir and Cohere are betting on sovereign AI."
@@ -159,7 +159,7 @@ const page19 = (
 );
 
 const page20 = (
-  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Local AI side-steps future regulation"
       sub="The cloud providers will be regulated, but our architecture is immune."
@@ -181,7 +181,7 @@ const page20 = (
 );
 
 const page21 = (
-  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="Licensing works like Android"
@@ -201,30 +201,97 @@ const page21 = (
 );
 
 const page22 = (
-  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
-    <DiagramPage
+  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
+    <CardsPage
+      columns={4}
       title="Our stack, running everywhere"
       sub="Families, then homes, then offices, then enterprise hardware partners."
-      media={
-        <FpoBox note="Four-rung staircase (families → homes → offices → enterprise) with a bottoms-up number per rung and the shared stack drawn underneath all four" />
-      }
-    >
-      This is one consumer hardware company and the stack underneath it.{' '}
-      <strong>
-        Office and licensing are earned upside, gated behind the first device
-        shipping.
-      </strong>{' '}
-      Every device we ship hardens the stack and grows the fleet a partner can
-      point at.
-    </DiagramPage>
+      cards={[
+        {
+          heading: 'Office & On-Prem',
+          body: (
+            <>
+              Meeting capture and document intelligence that never leaves the
+              building. <strong>~$40B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Healthcare & Clinics',
+          body: (
+            <>
+              Clinical scribes and dictation where patient data stays in the
+              practice. <strong>~$30B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Biometrics & Wearables',
+          body: (
+            <>
+              Health signals inferred on the device, not in a vendor cloud.{' '}
+              <strong>~$90B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Legal & Financial Back Office',
+          body: (
+            <>
+              Privileged review and reconciliation behind the firewall.{' '}
+              <strong>~$25B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Government & Defense',
+          body: (
+            <>
+              Air-gapped inference for the people who cannot use cloud AI.{' '}
+              <strong>~$50B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Agriculture & Industrial',
+          body: (
+            <>
+              Edge models on equipment, far from reliable connectivity.{' '}
+              <strong>~$60B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Schools & Childcare',
+          body: (
+            <>
+              Learning tools that keep children&rsquo;s data inside the school.{' '}
+              <strong>~$20B TAM</strong>
+            </>
+          ),
+        },
+        {
+          heading: 'Enterprise & Partnerships',
+          body: (
+            <>
+              Our stack licensed inside other brands&rsquo; hardware.{' '}
+              <strong>~$95B TAM</strong>
+            </>
+          ),
+        },
+      ]}
+    />
+    <p className="deck-caption-note">
+      Directional market estimates; sourced detail in the appendix pro-forma.
+    </p>
   </DeckPage>
 );
 
 export const ACT3_PAGES: ReactNode[] = [
   page17,
   page18,
+  page22,
   page19,
   page20,
   page21,
-  page22,
 ];

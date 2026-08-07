@@ -220,13 +220,16 @@ export function CardsPage({
   title: ReactNode;
   sub?: ReactNode;
   cards: Array<{ heading: string; body: ReactNode; art?: ReactNode }>;
-  /** 3 lays the cards out as an equal-height grid instead of a stack. */
-  columns?: 1 | 3;
+  /** 3 or 4 lays the cards out as an equal-height grid instead of a stack. */
+  columns?: 1 | 3 | 4;
 }) {
-  const tight = columns === 3;
-  const grid = tight
-    ? 'mt-10 grid md:grid-cols-3 auto-rows-fr gap-4'
-    : 'mt-10 flex flex-col gap-6';
+  const tight = columns !== 1;
+  const grid =
+    columns === 4
+      ? 'mt-10 grid md:grid-cols-4 auto-rows-fr gap-3'
+      : columns === 3
+        ? 'mt-10 grid md:grid-cols-3 auto-rows-fr gap-4'
+        : 'mt-10 flex flex-col gap-6';
   return (
     <div data-archetype={tight ? 'Cards (3-col)' : 'Cards'}>
       <Title>{title}</Title>
@@ -235,7 +238,7 @@ export function CardsPage({
         {cards.map(card => (
           <div
             key={card.heading}
-            className={`deck-card h-full rounded-[8px] bg-fi-green-200 ${tight ? 'p-5' : 'p-6'}`}
+            className={`deck-card h-full rounded-[8px] bg-fi-green-200 ${columns === 4 ? 'p-4' : tight ? 'p-5' : 'p-6'}`}
           >
             {card.art && <span className="deck-card-art">{card.art}</span>}
             <h4>{card.heading}</h4>

@@ -84,10 +84,10 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       "But under the hood... we're building the software stack for private AI inference",
       'Our stack',
+      'Our stack, running everywhere',
       'The industry is moving compute to the data',
       'Local AI side-steps future regulation',
       'Licensing works like Android',
-      'Our stack, running everywhere',
     ];
     const idx = titles.map(t => src.indexOf(t));
     expect(idx.every(i => i >= 0)).toBe(true);

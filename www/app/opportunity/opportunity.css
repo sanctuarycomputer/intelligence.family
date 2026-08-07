@@ -350,6 +350,12 @@ section.deck-page[id] {
   color: var(--fi-black-1000);
 }
 
+.deck-caption-note {
+  margin-top: 14px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
 /* References */
 .deck-ref {
   font-size: 0.6em;
