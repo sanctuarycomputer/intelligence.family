@@ -101,7 +101,7 @@ describe('opportunity deck copy contract', () => {
   it('act 3 carries the five approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const subs = [
-      'A general purpose software suite for running private inference hardware devices.',
+      'The go-to SDK for private inference, built on Linux',
       "But today, there's no general purpose software stack to support local deployments.",
       'The cloud providers will be regulated, but our architecture is immune.',
       'Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness.',

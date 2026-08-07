@@ -33,7 +33,7 @@ const page18 = (
     <CardsPage
       columns={3}
       title="Our stack"
-      sub="A general purpose software suite for running private inference hardware devices."
+      sub="The go-to SDK for private inference, built on Linux &amp; written in Rust."
       cards={[
         {
           heading: 'Trusted execution environment',
@@ -98,8 +98,7 @@ const page18 = (
     />
     <p className="deck-body">
       <strong>
-        The go-to SDK for private inference, built on Linux &amp; written in
-        Rust.
+        A general purpose software suite for private inference hardware devices.
       </strong>
     </p>
   </DeckPage>
