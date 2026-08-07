@@ -180,7 +180,12 @@ const page13 = (
       title="A context window for smart homes"
       sub="A local agent and inference server that every IoT device on the network can tap."
       media={
-        <FpoBox note="Network map: hub centered, doorbell/thermostat/laptop ringed, endpoints labeled MCP · completions · RAG · ontology" />
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/opportunity/context-window-home.png"
+          alt="A house cross-section: the Family Book hub on the coffee table, connected by glowing vines to the TV, thermostat, camera, laptop, phone, and speaker in every room"
+          className="deck-slide-media"
+        />
       }
     >
       The house knows who the plumber is and what the family is saving for.{' '}

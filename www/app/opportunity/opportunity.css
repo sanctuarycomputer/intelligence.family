@@ -294,6 +294,14 @@ section.deck-page[id] {
   }
 }
 
+/* Real slide media: cap height so one-viewport pages never clip. */
+.deck-slide-media {
+  width: 100%;
+  height: auto;
+  max-height: 62dvh;
+  object-fit: contain;
+}
+
 /* FPO */
 .deck-fpo {
   border: 2px dashed var(--fi-green-400);
