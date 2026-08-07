@@ -379,8 +379,10 @@ section.deck-page[id] {
   flex-direction: column;
 }
 .deck-ledger-row {
-  flex: 1 1 0;
-  min-height: 0;
+  /* Grow into spare height, but never shrink below the content itself:
+     crushing rows into each other is worse than clipping the page edge. */
+  flex: 1 0 auto;
+  min-height: max-content;
   align-items: flex-end;
   padding-bottom: clamp(4px, 0.9dvh, 9px);
 }
