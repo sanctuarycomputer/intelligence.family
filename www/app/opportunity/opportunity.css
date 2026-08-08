@@ -639,6 +639,12 @@ section.deck-page[id] {
   background: var(--deck-band-icon, url('/opportunity/icons/heart.png'))
     center / contain no-repeat;
 }
+/* On the darker green-200 act backgrounds the green-200 fill vanishes;
+   lift the accent boxes to the off-white. */
+.deck-act-2 .deck-band,
+.deck-act-4 .deck-band {
+  background: #f7f9f6;
+}
 .deck-act-3 .deck-band {
   background: rgba(215, 221, 212, 0.1);
 }
