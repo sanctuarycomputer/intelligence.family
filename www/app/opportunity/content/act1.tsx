@@ -37,7 +37,9 @@ export function coverPage(gate: ReactNode): ReactNode {
           <LeafIcon className="absolute leaf-animate" style={coverLeafStyle} />
         </h1>
         <p className="mt-4" style={coverSubStyle}>
-          Private intelligence for the home.
+          AI that runs in your home, your office, your hand.
+          <br />
+          We&rsquo;re starting with families.
         </p>
         {gate}
       </div>

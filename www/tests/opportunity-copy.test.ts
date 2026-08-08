@@ -32,7 +32,8 @@ describe('opportunity deck copy contract', () => {
   it('act 1 carries the approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const subs = [
-      'Private intelligence for the home.',
+      'AI that runs in your home, your office, your hand.',
+      'starting with families.',
       'AI compute is moving into the house, the way the personal computer did.',
       'Open-weight models are closing the gap with the frontier.',
       'There is no Signal or Mozilla of the home.',
