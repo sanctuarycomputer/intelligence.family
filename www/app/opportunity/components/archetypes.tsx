@@ -130,7 +130,7 @@ export function Split({
         <Title>{title}</Title>
         <Sub>{sub}</Sub>
         <Body>{children}</Body>
-        {band && <Band>{band}</Band>}
+        {band && <Band narrow>{band}</Band>}
       </div>
       <div className={flip ? 'md:order-1' : undefined}>{media}</div>
     </div>
