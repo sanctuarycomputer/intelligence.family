@@ -97,12 +97,14 @@ const page2 = (
       title="The GPU is coming home"
       sub="AI compute is moving into the house, the way the personal computer did."
       media={
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src="/opportunity/compute-eras.png"
-          alt="Six eras of compute: mainframe, home computer, and laptop above; on-prem server, cloud data center, and the home inference server (2027+) below"
-          className="deck-slide-media"
-        />
+        <div className="deck-media-box">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/opportunity/compute-eras.png"
+            alt="Six eras of compute: mainframe, home computer, and laptop above; on-prem server, cloud data center, and the home inference server (2027+) below"
+            className="deck-slide-media"
+          />
+        </div>
       }
     >
       Compute has made this trip before. The mainframe sat in a room you had to

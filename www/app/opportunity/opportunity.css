@@ -733,6 +733,17 @@ section.deck-page[id] {
   object-fit: contain;
 }
 
+/* White card frame for diagram art, brand radius. The inner image shrinks
+   to keep the framed whole inside the media column's height budget. */
+.deck-media-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: clamp(16px, 2.6dvh, 28px);
+}
+.deck-media-box .deck-slide-media {
+  max-height: 56dvh;
+}
+
 /* FPO */
 .deck-fpo {
   border: 2px dashed var(--fi-green-400);
