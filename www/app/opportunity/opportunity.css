@@ -445,6 +445,131 @@ section.deck-page[id] {
   opacity: 0.7;
 }
 
+/* Interactive Gantt for the timeline slide */
+.gantt {
+  background: var(--fi-green-100);
+  border-radius: 20px;
+  padding: clamp(12px, 2dvh, 20px) clamp(14px, 1.6vw, 24px);
+  font-family: var(--font-sans);
+  font-size: clamp(11px, 1.5dvh, 14px);
+  max-height: 58dvh;
+  overflow: hidden;
+}
+.gantt-legend {
+  display: flex;
+  gap: 18px;
+  justify-content: flex-end;
+  margin-bottom: 6px;
+  font-size: clamp(10px, 1.3dvh, 12px);
+}
+.gantt-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.gantt-chip {
+  width: 14px;
+  height: 10px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.gantt-head,
+.gantt-row {
+  display: flex;
+  align-items: center;
+}
+.gantt-label {
+  flex: 0 0 clamp(140px, 16vw, 220px);
+  padding-right: 10px;
+}
+.gantt-track {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  height: 100%;
+}
+.gantt-head .gantt-track {
+  border-bottom: 1px solid var(--fi-green-300);
+  padding-bottom: 4px;
+}
+.gantt-quarter {
+  flex: 1 1 0;
+  text-align: left;
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  font-size: clamp(9px, 1.2dvh, 12px);
+  opacity: 0.7;
+}
+.gantt-phase {
+  border-top: 1px solid var(--fi-green-300);
+  padding: clamp(3px, 0.6dvh, 6px) 0;
+}
+.gantt-phase:first-of-type {
+  border-top: 0;
+}
+.gantt-phase-name {
+  font-weight: 600;
+  padding: 2px 0;
+}
+.gantt-row {
+  height: clamp(18px, 2.8dvh, 26px);
+}
+.gantt-row:hover {
+  background: rgba(184, 198, 176, 0.25);
+}
+.gantt-grid {
+  flex: 1 1 0;
+  border-left: 1px solid rgba(184, 198, 176, 0.55);
+}
+.gantt-grid.first {
+  border-left: 0;
+}
+.gantt-bar {
+  position: absolute;
+  top: 15%;
+  height: 70%;
+  border-radius: 999px;
+  min-width: 10px;
+}
+.gantt-done {
+  background: var(--fi-green-600);
+}
+.gantt-active {
+  background: var(--fi-green-400);
+}
+.gantt-next {
+  background: var(--fi-green-200);
+  border: 1px solid var(--fi-green-300);
+}
+.gantt-star {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(30%, -58%);
+  color: var(--fi-green-600);
+  font-size: clamp(14px, 2.2dvh, 20px);
+  line-height: 1;
+}
+.gantt-tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--fi-black-900);
+  color: var(--fi-green-100);
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.gantt-bar:hover .gantt-tip {
+  display: flex;
+}
+
 /* References */
 .deck-ref {
   font-size: 0.6em;

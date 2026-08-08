@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
 import MailtoCta from '../components/MailtoCta';
+import TimelineGantt from '../components/TimelineGantt';
 import Ref from '../components/Ref';
 import { CardsPage, DiagramPage, Statement } from '../components/archetypes';
 
@@ -197,12 +198,7 @@ const page25 = (
     <DiagramPage
       title="Timeline"
       sub="Round closes, contract manufacturer in the room, shelves by Christmas 2027."
-      media={
-        <FpoBox
-          note="Timeline bar: raise close → waitlist opens → CM engaged → EVT/DVT/PVT → Christmas 2027"
-          aspect="6/1"
-        />
-      }
+      media={<TimelineGantt />}
     >
       Hardware moves faster than it used to.{' '}
       <strong>Rabbit shipped four months after its Series A,</strong>
