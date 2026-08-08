@@ -141,8 +141,11 @@ section.deck-page[id] {
   font-weight: 500 !important;
   letter-spacing: 0;
 }
+/* Glass cards: fi-green-100 at low alpha lifts boxes off the dark act
+   background without introducing a clashing opaque tone. */
 .deck-act-3 .deck-card {
-  background: var(--fi-green-500);
+  background: rgba(215, 221, 212, 0.1);
+  border: 1px solid rgba(215, 221, 212, 0.16);
 }
 .deck-act-3 .deck-ref {
   color: var(--fi-green-300);
