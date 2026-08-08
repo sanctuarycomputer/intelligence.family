@@ -120,14 +120,14 @@ const problemPage = (
   <DeckPage key={4} n={4} total={TOTAL}>
     <CardsPage
       columns={2}
-      title="The most valuable context is the one you'd never upload"
+      title="The most valuable context is what you'll never upload"
       sub="The home holds the richest, longest-running, highest-signal context any AI could use."
       cards={[
         {
           heading: 'What households want',
           body: (
             <ul className="deck-list">
-              <li>An assistant that actually knows the household</li>
+              <li>A system that actually knows the household</li>
               <li>Memory that spans years, not sessions</li>
               <li>Answers grounded in what was really said</li>
               <li>Something the least technical person can use</li>
@@ -138,9 +138,15 @@ const problemPage = (
           heading: 'What they will never do',
           body: (
             <ul className="deck-list">
-              <li>Ship raw household audio to a third-party cloud</li>
-              <li>Trust a business model that monetizes the archive</li>
-              <li>Accept a privacy policy as the only guarantee</li>
+              <li>
+                Send raw household audio &amp; intimate stories to a third-party
+                cloud
+              </li>
+              <li>Trust a business that monetizes their data</li>
+              <li>
+                Accept a privacy policy they&rsquo;ll never read and hope for
+                the best
+              </li>
               <li>Depend on connectivity for a device in their kitchen</li>
             </ul>
           ),
@@ -148,7 +154,8 @@ const problemPage = (
       ]}
     />
     <Band>
-      Every cloud assistant is structurally on the wrong side of this line.
+      Today&rsquo;s most important data is the kind you&rsquo;d rather never
+      send to the cloud.
     </Band>
   </DeckPage>
 );
@@ -159,10 +166,12 @@ const page4 = (
       title="7 in 10 Americans don't trust big tech's AI"
       sub="But today, there's no alternative."
     >
-      Pew measured that distrust in June 2026.
+      Pew measured America&rsquo;s growing AI disdain in June 2026.
       <Ref k="pew-distrust" /> Amazon went the other way, removing the
       Echo&rsquo;s only local-processing option in March 2025.
-      <Ref k="echo-local-removed" />
+      <Ref k="echo-local-removed" /> Today, the data center backlash has arrived
+      at a fever pitch that won&rsquo;t subside, akin to climate dread. America
+      wants an alternative.
       <br />
       <br />
       <strong>
