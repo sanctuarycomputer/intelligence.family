@@ -735,10 +735,13 @@ section.deck-page[id] {
 
 /* White card frame for diagram art, brand radius. The inner image shrinks
    to keep the framed whole inside the media column's height budget. */
+/* "White" in this style guide is the warm off-white, not #fff. */
 .deck-media-box {
-  background: #fff;
+  background: #f7f9f6;
   border-radius: 20px;
-  padding: clamp(16px, 2.6dvh, 28px);
+  padding: clamp(28px, 4.4dvh, 48px);
+  /* Placeholder pending the Airgapt Figma shadow values. */
+  box-shadow: 0 8px 32px rgba(49, 49, 49, 0.12);
 }
 .deck-media-box .deck-slide-media {
   max-height: 56dvh;
