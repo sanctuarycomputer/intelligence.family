@@ -14,7 +14,7 @@ const page22 = (
   <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
-      title="We've spent our careers deploying novel hardware and custom operating systems"
+      title="We've spent our careers deploying novel hardware, low level infrastructure and custom operating systems"
     />
   </DeckPage>
 );
@@ -207,11 +207,13 @@ const page26 = (
   <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="We're raising $15M"
-      sub="On shelves and ready to gift by Christmas 2027."
+      sub="Shipping out and ready to gift by Christmas 2027."
     >
       Our research found no funded local-first home hub, in a year when AI took
       roughly half of global venture funding.
-      <Ref k="crunchbase-ai-half" />{' '}
+      <Ref k="crunchbase-ai-half" />
+      <br />
+      <br />
       <strong>
         No one owns this market today, and that window is closing fast.
       </strong>

@@ -115,7 +115,7 @@ describe('opportunity deck copy contract', () => {
   it('act 4 carries the five approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const titles = [
-      "We've spent our careers deploying novel hardware and custom operating systems",
+      "We've spent our careers deploying novel hardware, low level infrastructure and custom operating systems",
       'The team',
       'The hard questions',
       'title="Timeline"',
@@ -132,7 +132,7 @@ describe('opportunity deck copy contract', () => {
       'Competition, model quality, hardware risk, consent, chips, and the raise.',
       "We shipped the Light Phone, Mill's IoT stack, and USB Club.",
       'Round closes, contract manufacturer in the room, shelves by Christmas 2027.',
-      'On shelves and ready to gift by Christmas 2027.',
+      'Shipping out and ready to gift by Christmas 2027.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
