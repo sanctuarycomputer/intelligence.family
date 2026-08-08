@@ -243,7 +243,7 @@ const page22 = (
 const page19 = (
   <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
-      title="The industry is moving compute to the data"
+      title="Private AI will be crucial for businesses"
       sub="But today, there's no general purpose software stack to support local deployments."
       cards={[
         {

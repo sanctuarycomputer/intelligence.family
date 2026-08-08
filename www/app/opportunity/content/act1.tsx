@@ -115,7 +115,7 @@ const page4 = (
       <br />
       <br />
       <strong>
-        Demand is enormous &amp; trust is absent.
+        Demand for AI is enormous &amp; trust is absent.
         <br />
         Our market is 70% of America.
       </strong>

@@ -60,7 +60,7 @@ describe('opportunity deck copy contract', () => {
   it('act 2 carries the five approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
-      'High emotional value, low-risk data, and a GPU in the living room.',
+      'High emotional value, sensitive data, and a GPU in the living room.',
       'Weekly check-ins, budgets, school, health, and family stories.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
@@ -77,7 +77,7 @@ describe('opportunity deck copy contract', () => {
       "But under the hood... we're building the canonical stack for private AI inference",
       'Our stack',
       'The Android OS for Local AI',
-      'The industry is moving compute to the data',
+      'Private AI will be crucial for businesses',
       'Local AI side-steps future regulation',
       'The Android of Local AI',
     ];

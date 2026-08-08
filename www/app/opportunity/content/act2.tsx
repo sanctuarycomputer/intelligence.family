@@ -19,7 +19,7 @@ const page7 = (
   <DeckPage key={7} n={7} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="Our first device is for families"
-      sub="High emotional value, low-risk data, and a GPU in the living room."
+      sub="High emotional value, sensitive data, and a GPU in the living room."
     >
       Families hold the memories worth keeping, and what a household records
       carries none of the risk a clinic or a payroll system does.{' '}
