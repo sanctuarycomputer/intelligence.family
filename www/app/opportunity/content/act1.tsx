@@ -146,10 +146,8 @@ const problemPage = (
         },
       ]}
     />
-    <p className="deck-body">
-      <strong>
-        Every cloud assistant is structurally on the wrong side of this line.
-      </strong>
+    <p className="deck-band">
+      Every cloud assistant is structurally on the wrong side of this line.
     </p>
   </DeckPage>
 );

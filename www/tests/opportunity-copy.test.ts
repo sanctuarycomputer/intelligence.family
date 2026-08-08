@@ -51,7 +51,7 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       'Our first device is for families',
       'Your own family vault',
-      'Subscribe for peace of mind',
+      'One device becomes a family of them',
       'Home hubs are a proven category.',
       'Families already pay for this',
     ];
@@ -67,7 +67,7 @@ describe('opportunity deck copy contract', () => {
       'Weekly check-ins, budgets, school, health, and stories.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
-      '$9/month, optional: zero-knowledge backup, sync, and remote access.',
+      'The flagship ships first. Every later tier runs the same stack.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);

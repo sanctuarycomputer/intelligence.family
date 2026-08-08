@@ -7,6 +7,7 @@ import {
   DiagramPage,
   EvidenceGrid,
   Ledger,
+  PricingTiers,
   Split,
   Statement,
 } from '../components/archetypes';
@@ -55,19 +56,60 @@ const page8 = (
 
 const page12 = (
   <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
-    <DiagramPage
-      title="Subscribe for peace of mind"
-      sub="$9/month, optional: zero-knowledge backup, sync, and remote access."
-      media={
-        <FpoBox note="Hub-and-spoke sync: home devices ↔ zero-knowledge vault ↔ remote family via tunnel; $9/mo card; hotspot + private-network modes labeled" />
-      }
-    >
-      The cloud does one thing well: encrypted backup where we hold none of the
-      keys. <strong>The device works forever without it.</strong> 1Password runs
-      $400M ARR.
-      <Ref k="1password-arr" /> Proton is profitable on subscriptions alone.
-      <Ref k="proton-nonprofit" />
-    </DiagramPage>
+    <PricingTiers
+      title="One device becomes a family of them"
+      sub="The flagship ships first. Every later tier runs the same stack."
+      tiers={[
+        {
+          name: 'Flagship',
+          price: '$899',
+          body: (
+            <>
+              The whole-home device. Premium, heirloom-grade object carrying the
+              inference runtime and the household graph.
+            </>
+          ),
+          meta: 'Launch',
+        },
+        {
+          name: 'Companion',
+          price: '$499',
+          body: (
+            <>
+              Smaller second unit for other rooms and less technical family.
+              Syncs end-to-end with the flagship.
+            </>
+          ),
+          meta: '+12 months',
+        },
+        {
+          name: 'Professional',
+          price: '$1,999',
+          body: (
+            <>
+              Category-tuned for legal first: array mics, multi-speaker
+              separation, long sessions. Same runtime.
+            </>
+          ),
+          meta: 'Phase 2',
+        },
+        {
+          name: 'Backups',
+          price: '$9/mo',
+          body: (
+            <>
+              Optional e2e encrypted archive we cannot open, plus apps for
+              far-away family. 1Password and Proton run profitable subscriptions
+              on the same promise.
+              <Ref k="1password-arr" />
+              <Ref k="proton-nonprofit" />
+            </>
+          ),
+          meta: 'Attach ~40%',
+        },
+      ]}
+      closer="Family memory is the first thing this device is extraordinary at, and the reason a household lets it into the room."
+    />
   </DeckPage>
 );
 

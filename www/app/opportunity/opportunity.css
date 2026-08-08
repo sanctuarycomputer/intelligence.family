@@ -573,6 +573,51 @@ section.deck-page[id] {
   display: flex;
 }
 
+/* Pricing tier cards, after the pptx product slide: name row, accent price
+   band, description, footer meta strip. */
+.deck-tier {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--fi-green-300);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--fi-green-100);
+}
+.deck-tier-name {
+  padding: 12px 14px 8px;
+}
+.deck-tier-price {
+  padding: 8px 14px;
+  background: var(--fi-green-600);
+  color: var(--fi-green-100);
+  font-size: clamp(18px, 2.6dvh, 24px);
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+}
+.deck-tier-body {
+  padding: 10px 14px;
+  font-size: 14px;
+  flex: 1 1 auto;
+}
+.deck-tier-meta {
+  padding: 8px 14px;
+  border-top: 1px solid var(--fi-green-300);
+  font-size: 12px;
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+
+/* Full-width takeaway band, after the pptx closing strips. */
+.deck-band {
+  margin-top: 22px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: var(--fi-green-600);
+  color: var(--fi-green-100);
+  font-weight: 500;
+}
+
 /* References */
 .deck-ref {
   font-size: 0.6em;

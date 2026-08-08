@@ -43,6 +43,7 @@ const LAYOUT_VARIANTS = [
   'Ledger',
   'Cards',
   'Cards (3-col)',
+  'PricingTiers',
 ] as const;
 
 /**

@@ -226,6 +226,42 @@ export function Ledger({
   );
 }
 
+export function PricingTiers({
+  title,
+  sub,
+  tiers,
+  closer,
+}: {
+  title: ReactNode;
+  sub?: ReactNode;
+  tiers: Array<{
+    name: string;
+    price: string;
+    body: ReactNode;
+    meta: string;
+  }>;
+  /** Full-width takeaway band beneath the tiers. */
+  closer?: ReactNode;
+}) {
+  return (
+    <div data-archetype="PricingTiers">
+      <Title>{title}</Title>
+      <Sub>{sub}</Sub>
+      <div className="mt-10 grid md:grid-cols-4 auto-rows-fr gap-4">
+        {tiers.map(tier => (
+          <div key={tier.name} className="deck-tier">
+            <h4 className="deck-tier-name">{tier.name}</h4>
+            <div className="deck-tier-price">{tier.price}</div>
+            <p className="deck-tier-body">{tier.body}</p>
+            <div className="deck-tier-meta">{tier.meta}</div>
+          </div>
+        ))}
+      </div>
+      {closer && <p className="deck-band">{closer}</p>}
+    </div>
+  );
+}
+
 export function CardsPage({
   title,
   sub,
