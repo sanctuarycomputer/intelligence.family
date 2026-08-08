@@ -47,7 +47,8 @@ export function coverPage(gate: ReactNode): ReactNode {
 
 const page2 = (
   <DeckPage key={2} n={2} total={TOTAL}>
-    <DiagramPage
+    <Split
+      flip
       title="The GPU is coming home"
       sub="AI compute is moving into the house, the way the personal computer did."
       media={
@@ -66,7 +67,7 @@ const page2 = (
       </strong>
       <Ref k="census-computer-ownership" /> The datacenter is making the same
       move.
-    </DiagramPage>
+    </Split>
   </DeckPage>
 );
 
