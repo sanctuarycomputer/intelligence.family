@@ -618,6 +618,23 @@ section.deck-page[id] {
   font-weight: 500;
 }
 
+/* Light-mode callout pair: consecutive callouts alternate filled and
+   outlined so neither reads as the dark-act treatment. */
+.deck-band-light {
+  margin-top: 22px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: var(--fi-green-200);
+  font-weight: 500;
+}
+.deck-band-outline {
+  margin-top: 22px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--fi-green-400);
+  font-weight: 500;
+}
+
 /* Stat tiles, after the pptx footer rows: big mono number on dark, caption
    beneath on the light tone. */
 .deck-stat-tile {

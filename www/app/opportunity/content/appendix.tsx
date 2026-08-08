@@ -169,7 +169,7 @@ const scenariosPage = (
         ))}
       </tbody>
     </table>
-    <p className="deck-band">
+    <p className="deck-band-light">
       Because staffing and licensing spend flex with the case, the downside is a
       smaller, later company, not a broken one.
     </p>
@@ -233,7 +233,7 @@ const methodologyPage = (
         },
       ]}
     />
-    <p className="deck-band">
+    <p className="deck-band-outline">
       Everything left out of the model is upside. Everything hard about hardware
       is in it.
     </p>
