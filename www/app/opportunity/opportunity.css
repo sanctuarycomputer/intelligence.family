@@ -411,7 +411,9 @@ section.deck-page[id] {
 .deck-ledger-row strong {
   font-size: clamp(13px, 1.9dvh, 16px);
 }
-.deck-act-3 .divide-fi-green-300 > * + * {
+/* v4 divide-y borders hang off each row's bottom, so the first child owns
+   the first divider: recolor every child, not just * + *. */
+.deck-act-3 .divide-fi-green-300 > * {
   border-color: var(--fi-green-500);
 }
 
