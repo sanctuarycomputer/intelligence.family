@@ -59,7 +59,8 @@ const page3 = (
             className="deck-screenshot"
           />
           <span className="deck-media-caption">
-            The board inside our working prototype. It fits in your hand.
+            Mid 2025, running Qwen 2.5 on CPU. Holding a squishy representation
+            of all of recorded human thought in the palm of my hand.
           </span>
         </div>
       }
