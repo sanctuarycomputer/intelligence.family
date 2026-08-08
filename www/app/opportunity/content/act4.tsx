@@ -36,13 +36,16 @@ const page24 = (
             <>
               <strong>
                 A computer scientist & patented inventor for architecting the
-                Light Phone II and III, named among TIME&rsquo;s Best Inventions
-                in 2019 and 2025.
+                operating system for Light Phone II and III, named among
+                TIME&rsquo;s Best Inventions in 2019 and 2025.
               </strong>
-              <Ref k="light-phone" /> Among other projects, Hugh architected
-              Mill&rsquo;s IoT infrastructure for the founders of Google&rsquo;s
-              Nest, runs IoT projects for AT&amp;T, and led garden3d, a 30+
-              person studio.
+              <Ref k="light-phone" />
+              <br />
+              <br />
+              Among other projects, Hugh architected Mill&rsquo;s IoT
+              infrastructure (for the founders of Google&rsquo;s Nest), runs IoT
+              projects for AT&amp;T, and led Sanctuary Computer, a 30+ hard
+              technology studio.
             </>
           ),
         },
@@ -63,8 +66,10 @@ const page24 = (
           body: (
             <>
               Co-founded USB Club and built new hardware product experiences at
-              World&rsquo;s Advanced Concepts team. Previously designed at early
-              Plaid.
+              World&rsquo;s Advanced Concepts team.
+              <br />
+              <br />
+              Previously Norm was the 3rd design hire at Plaid.
             </>
           ),
         },
