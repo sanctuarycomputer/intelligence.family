@@ -575,36 +575,43 @@ section.deck-page[id] {
 
 /* Pricing tier cards, after the pptx product slide: name row, accent price
    band, description, footer meta strip. */
+/* Pricing tier cards, referencing the homepage QuoteBox style: thin
+   green-500 half-alpha border, small radius, transparent content area, and
+   a tinted footer bar carrying price + availability. */
 .deck-tier {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--fi-green-300);
-  border-radius: 12px;
+  border: 1px solid rgba(94, 123, 41, 0.5);
+  border-radius: 4px;
   overflow: hidden;
-  background: var(--fi-green-100);
 }
-.deck-tier-name {
-  padding: 12px 14px 8px;
-}
-.deck-tier-price {
-  padding: 8px 14px;
-  background: var(--fi-green-300);
-  font-size: clamp(18px, 2.6dvh, 24px);
-  font-variation-settings: 'MONO' 100;
-  letter-spacing: 0;
-}
-.deck-tier-body {
-  padding: 10px 14px;
-  font-size: 14px;
+.deck-tier-content {
+  padding: 18px 18px 14px;
   flex: 1 1 auto;
 }
-.deck-tier-meta {
-  padding: 8px 14px;
-  border-top: 1px solid var(--fi-green-300);
-  font-size: 12px;
+.deck-tier-name {
+  margin-bottom: 6px;
+}
+.deck-tier-body {
+  font-size: 14px;
+}
+.deck-tier-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 18px;
+  border-top: 1px solid rgba(94, 123, 41, 0.5);
+  background: rgba(94, 123, 41, 0.05);
+}
+.deck-tier-price {
+  font-size: clamp(17px, 2.4dvh, 22px);
   font-variation-settings: 'MONO' 100;
   letter-spacing: 0;
-  opacity: 0.7;
+}
+.deck-tier-meta {
+  font-size: 13px;
+  color: var(--fi-green-500);
 }
 
 /* Full-width takeaway band, after the pptx closing strips. */

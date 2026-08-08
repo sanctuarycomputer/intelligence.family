@@ -84,11 +84,14 @@ export function BigStat({
   stat,
   title,
   sub,
+  band,
   children,
 }: {
   stat: ReactNode;
   title: ReactNode;
   sub?: ReactNode;
+  /** Accent-box callout rendered beneath the body copy, at its width. */
+  band?: ReactNode;
   children?: ReactNode;
 }) {
   return (
@@ -97,6 +100,7 @@ export function BigStat({
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
       <Body>{children}</Body>
+      {band && <Band narrow>{band}</Band>}
     </div>
   );
 }
@@ -254,10 +258,14 @@ export function PricingTiers({
       <div className="mt-10 grid md:grid-cols-4 auto-rows-fr gap-4">
         {tiers.map(tier => (
           <div key={tier.name} className="deck-tier">
-            <h4 className="deck-tier-name">{tier.name}</h4>
-            <div className="deck-tier-price">{tier.price}</div>
-            <p className="deck-tier-body">{tier.body}</p>
-            <div className="deck-tier-meta">{tier.meta}</div>
+            <div className="deck-tier-content">
+              <h4 className="deck-tier-name">{tier.name}</h4>
+              <p className="deck-tier-body">{tier.body}</p>
+            </div>
+            <div className="deck-tier-footer">
+              <span className="deck-tier-price">{tier.price}</span>
+              <span className="deck-tier-meta">{tier.meta}</span>
+            </div>
           </div>
         ))}
       </div>

@@ -120,6 +120,7 @@ const page10 = (
       stat="600M+"
       title="Home hubs are a proven category."
       sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
+      band="In 2026, you should be able to dim your lights without notifying Jeff Bezos. Home inference (finally) makes that possible."
     >
       The AI gadget graveyard died trying inventing new ways to interact.{' '}
       <strong>
@@ -131,10 +132,6 @@ const page10 = (
       <Ref k="openai-io" /> Amazon bought Bee,
       <Ref k="bee-amazon" /> Meta bought Limitless,
       <Ref k="limitless-meta" /> all of it in someone else&rsquo;s cloud.
-      <br />
-      <br />
-      In 2026, you should be able to dim your lights without notifying Jeff
-      Bezos. Home inference (finally) makes that possible.
     </BigStat>
     <div className="mt-10">
       <FpoBox
