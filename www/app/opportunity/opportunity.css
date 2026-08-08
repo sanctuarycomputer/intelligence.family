@@ -474,25 +474,6 @@ section.deck-page[id] {
   }
 }
 
-/* The landing line: one mono sentence under the body, hand-drawn underline. */
-.deck-landing {
-  position: relative;
-  display: inline-block;
-  margin-top: 22px;
-  font-family: var(--font-sans);
-  font-variation-settings: 'MONO' 100;
-  letter-spacing: 0;
-  font-weight: 500;
-}
-.deck-landing > img {
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: auto;
-  pointer-events: none;
-}
-
 /* Standing rule: every raster image that is NOT a die-cut transparent PNG
    gets this treatment (20px brand radius, height-capped). Die-cut art
    (the tree, leaves, the house cross-section) uses .deck-slide-media and
