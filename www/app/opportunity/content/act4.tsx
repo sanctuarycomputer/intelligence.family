@@ -199,12 +199,7 @@ const page25 = (
       title="Timeline"
       sub="Round closes, contract manufacturer in the room, shelves by Christmas 2027."
       media={<TimelineGantt />}
-    >
-      Hardware moves faster than it used to.{' '}
-      <strong>Rabbit shipped four months after its Series A,</strong>
-      <Ref k="rabbit-ship" /> and Plaud shipped in 18 months, bootstrapped.
-      <Ref k="plaud" /> Christmas 2027 is the conservative end.
-    </DiagramPage>
+    />
   </DeckPage>
 );
 

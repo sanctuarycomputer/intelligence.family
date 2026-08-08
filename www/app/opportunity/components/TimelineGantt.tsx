@@ -27,20 +27,22 @@ const QUARTERS = [
   "Q4 '27",
 ];
 
+// Mirrors the Notion plan (garden3d Timeline database), month precision.
 const PHASES: Phase[] = [
   {
     name: 'Proof',
     tasks: [
       {
-        name: 'Prototype on NVIDIA Orin',
-        detail: 'Working prototype on previous-generation silicon, by choice',
-        start: 0,
-        end: 6,
+        name: 'Prototyping',
+        detail:
+          'Mar – Jun ’26 · Working prototype on a previous-gen NVIDIA Orin',
+        start: 2,
+        end: 5,
         status: 'done',
       },
       {
         name: 'Mozilla research published',
-        detail: '28k+ impressions, overwhelmingly positive',
+        detail: 'Apr – Jul ’26 · 28k+ impressions, overwhelmingly positive',
         start: 3,
         end: 7,
         status: 'done',
@@ -51,36 +53,48 @@ const PHASES: Phase[] = [
     name: 'Raise',
     tasks: [
       {
-        name: 'Round closes',
-        detail: 'Waitlist opens the same day',
-        start: 7,
-        end: 10,
+        name: 'Fundraising',
+        detail: 'Jun – Oct ’26 · Waitlist opens at close',
+        start: 5,
+        end: 9,
         status: 'active',
       },
     ],
   },
   {
-    name: 'Team & Manufacturing',
+    name: 'Design',
     tasks: [
       {
-        name: 'Core hires',
-        detail: 'ML-systems lead first',
+        name: 'Product design & research',
+        detail: 'Oct ’26 – Feb ’27 · From gestural proof of concept to product',
         start: 9,
-        end: 14,
+        end: 13,
         status: 'next',
       },
       {
-        name: 'Contract manufacturer engaged',
-        detail: 'Foxconn, Arima, or Coosea; tariff-aware plan',
+        name: 'Industrial design',
+        detail: 'Nov ’26 – Feb ’27 · Form factor around the hardware stackup',
         start: 10,
-        end: 14,
+        end: 13,
+        status: 'next',
+      },
+    ],
+  },
+  {
+    name: 'Manufacturing',
+    tasks: [
+      {
+        name: 'Contract manufacturer partnership',
+        detail: 'Dec ’26 – Feb ’27 · Foxconn, Arima, or Coosea',
+        start: 11,
+        end: 13,
         status: 'next',
       },
       {
-        name: 'EVT / DVT / PVT',
-        detail: 'Engineering, design, and production validation builds',
+        name: 'Hardware iteration (EVT/DVT/PVT)',
+        detail: 'Feb – Jul ’27 · Validation builds through production',
         start: 13,
-        end: 21,
+        end: 18,
         status: 'next',
       },
     ],
@@ -89,28 +103,42 @@ const PHASES: Phase[] = [
     name: 'Software',
     tasks: [
       {
-        name: 'SDK & stack hardening',
-        detail: 'TEE, sync server, MOTA, ontology, harness',
-        start: 10,
-        end: 21,
-        status: 'next',
-      },
-      {
-        name: 'Field beta',
-        detail: 'Founder-family units in real homes',
-        start: 18,
-        end: 22,
+        name: 'Product development',
+        detail: 'Jan – Aug ’27 · SDK, stack, and the family applications',
+        start: 12,
+        end: 19,
         status: 'next',
       },
     ],
   },
   {
-    name: 'Launch',
+    name: 'Go to market',
     tasks: [
       {
-        name: 'Production & shipping',
-        detail: 'First run lands for the holidays',
+        name: 'Brand & marketing team',
+        detail: 'Apr – Aug ’27 · Standing up the launch engine',
+        start: 15,
+        end: 19,
+        status: 'next',
+      },
+      {
+        name: 'Product launch',
+        detail: 'Aug – Sep ’27',
+        start: 19,
+        end: 20,
+        status: 'next',
+      },
+      {
+        name: 'First customer ship',
+        detail: 'Sep – Nov ’27',
         start: 20,
+        end: 22,
+        status: 'next',
+      },
+      {
+        name: 'Customer support stood up',
+        detail: 'Oct ’27 onward',
+        start: 21,
         end: 24,
         status: 'next',
       },
@@ -134,7 +162,7 @@ export default function TimelineGantt() {
     <div
       className="gantt"
       role="img"
-      aria-label="Timeline from a mid-2026 raise to shelves at Christmas 2027"
+      aria-label="Timeline from a 2026 raise to shelves at Christmas 2027"
     >
       <div className="gantt-legend" aria-hidden="true">
         <span>

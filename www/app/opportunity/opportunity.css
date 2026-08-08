@@ -452,7 +452,7 @@ section.deck-page[id] {
   padding: clamp(12px, 2dvh, 20px) clamp(14px, 1.6vw, 24px);
   font-family: var(--font-sans);
   font-size: clamp(11px, 1.5dvh, 14px);
-  max-height: 58dvh;
+  max-height: 68dvh;
   overflow: hidden;
 }
 .gantt-legend {
@@ -512,7 +512,7 @@ section.deck-page[id] {
   padding: 2px 0;
 }
 .gantt-row {
-  height: clamp(18px, 2.8dvh, 26px);
+  height: clamp(16px, 2.5dvh, 24px);
 }
 .gantt-row:hover {
   background: rgba(184, 198, 176, 0.25);
