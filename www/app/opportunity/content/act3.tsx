@@ -46,21 +46,22 @@ const page18 = (
           ),
         },
         {
-          heading: 'Family trust anchor',
-          art: stackArt('anchor png'),
+          heading: 'Hardware Root Certificate Authority',
+          art: stackArt('cert png'),
           body: (
             <>
-              The flagship holds the family&rsquo;s root keys. Companions derive
-              their trust from it, and nothing decrypts without it.
+              The leader device bootstraps the network as the root certificate.
+              Follower devices &amp; apps derive their own keys from it.
             </>
           ),
         },
         {
-          heading: 'Zero-knowledge backup server',
+          heading: 'Zero-knowledge Sync Server',
           art: stackArt('vault png'),
           body: (
             <>
-              Encrypted archives we cannot open. The keys never leave the home.
+              Encrypted archives we cannot open. The keys never leave the device
+              fleet. Our server can only see cipher text.
             </>
           ),
         },
@@ -76,7 +77,7 @@ const page18 = (
           ),
         },
         {
-          heading: 'Ontology, RAG & Application Runtime',
+          heading: 'Generic Ontology, RAG & App Runtime',
           art: stackArt('ontology png'),
           body: (
             <>
@@ -87,12 +88,13 @@ const page18 = (
           ),
         },
         {
-          heading: 'Local inference runtime',
-          art: stackArt('runtime png'),
+          heading: 'Customizable Agentic Harness',
+          art: stackArt('harness png'),
           body: (
             <>
-              Schedules models on the GPU and serves every app and device in the
-              house.
+              Tool calling, job scheduling, context isolation and session
+              handling. Built for coding, general assistance and deep research
+              against your local data.
             </>
           ),
         },
@@ -110,7 +112,7 @@ const page22 = (
   <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       wide
-      title="The Android of Local AI"
+      title="The Android OS for Local AI"
       sub={
         <>
           Google bought Android in 2005 for ~$50 million.
