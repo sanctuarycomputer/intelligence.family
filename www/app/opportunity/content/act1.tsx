@@ -39,7 +39,17 @@ export function coverPage(gate: ReactNode): ReactNode {
         <p className="mt-4" style={coverSubStyle}>
           AI that runs in your home, your office, your hand.
           <br />
-          We&rsquo;re starting with families.
+          <span className="relative inline-block">
+            We&rsquo;re starting with families.
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/research/email-underline.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute left-0 -bottom-1 w-full h-auto pointer-events-none"
+              style={{ transform: 'translateY(50%)' }}
+            />
+          </span>
         </p>
         {gate}
       </div>
