@@ -428,7 +428,10 @@ section.deck-page[id] {
   }
 }
 
-/* Screenshot pairs: brand-radius corners, height-capped for the viewport. */
+/* Standing rule: every raster image that is NOT a die-cut transparent PNG
+   gets this treatment (20px brand radius, height-capped). Die-cut art
+   (the tree, leaves, the house cross-section) uses .deck-slide-media and
+   stays unrounded and unframed. */
 .deck-screenshot {
   width: 100%;
   height: auto;
@@ -437,7 +440,7 @@ section.deck-page[id] {
   border-radius: 20px;
 }
 
-/* Real slide media: cap height so one-viewport pages never clip. */
+/* Die-cut transparent art only: no radius, no frame, height-capped. */
 .deck-slide-media {
   width: 100%;
   height: auto;
