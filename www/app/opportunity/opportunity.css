@@ -66,17 +66,14 @@ section.deck-page[id] {
 .deck-card {
   position: relative;
 }
-.deck-card-art {
-  position: absolute;
-  top: -20px;
-  right: -14px;
-  width: 60px;
-  height: 60px;
-  pointer-events: none;
+.deck-card-icon {
+  display: block;
+  margin-bottom: 10px;
+  height: clamp(44px, 7dvh, 68px);
 }
-.deck-card-art img {
-  width: 100%;
-  height: auto;
+.deck-card-icon img {
+  height: 100%;
+  width: auto;
 }
 .deck-card-photo {
   display: block;

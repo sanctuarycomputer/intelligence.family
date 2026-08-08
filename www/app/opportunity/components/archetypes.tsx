@@ -262,7 +262,7 @@ export function CardsPage({
             key={card.heading}
             className={`deck-card h-full rounded-[8px] bg-fi-green-200 ${columns === 4 ? 'p-4' : tight ? 'p-5' : 'p-6'}`}
           >
-            {card.art && <span className="deck-card-art">{card.art}</span>}
+            {card.art && <span className="deck-card-icon">{card.art}</span>}
             {card.photo && (
               <span className="deck-card-photo">{card.photo}</span>
             )}
