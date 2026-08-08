@@ -639,6 +639,32 @@ section.deck-page[id] {
   font-size: 12px;
 }
 
+/* Compact multi-year plan table, mono figures. */
+.deck-plan-table {
+  margin-top: 24px;
+  width: 100%;
+  max-width: 760px;
+  border-collapse: collapse;
+}
+.deck-plan-table th,
+.deck-plan-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--fi-green-300);
+  text-align: right;
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  font-size: clamp(13px, 1.8dvh, 16px);
+}
+.deck-plan-table th:first-child,
+.deck-plan-table td:first-child {
+  text-align: left;
+  font-variation-settings: normal;
+}
+.deck-plan-table thead th {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
 /* References */
 .deck-ref {
   font-size: 0.6em;
