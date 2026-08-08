@@ -49,9 +49,9 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       'Our first device is for families',
       'Your own family vault',
+      'Subscribe for peace of mind',
       'Home hubs are a proven category.',
       'Families already pay for this',
-      'Subscribe for peace of mind',
     ];
     const idx = titles.map(t => src.indexOf(t));
     expect(idx.every(i => i >= 0)).toBe(true);

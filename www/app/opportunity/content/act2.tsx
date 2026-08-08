@@ -53,8 +53,26 @@ const page8 = (
   </DeckPage>
 );
 
-const page10 = (
+const page12 = (
   <DeckPage key={9} n={9} total={TOTAL} actClass={ACT_CLASS}>
+    <DiagramPage
+      title="Subscribe for peace of mind"
+      sub="$9/month, optional: zero-knowledge backup, sync, and remote access."
+      media={
+        <FpoBox note="Hub-and-spoke sync: home devices ↔ zero-knowledge vault ↔ remote family via tunnel; $9/mo card; hotspot + private-network modes labeled" />
+      }
+    >
+      The cloud does one thing well: encrypted backup where we hold none of the
+      keys. <strong>The device works forever without it.</strong> 1Password runs
+      $400M ARR.
+      <Ref k="1password-arr" /> Proton is profitable on subscriptions alone.
+      <Ref k="proton-nonprofit" />
+    </DiagramPage>
+  </DeckPage>
+);
+
+const page10 = (
+  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
     <BigStat
       stat="600M+"
       title="Home hubs are a proven category."
@@ -87,7 +105,7 @@ const page10 = (
 );
 
 const page11 = (
-  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
       title="Families already pay for this"
       sub="tonies did €630M in revenue last year. Life360 is a $4.5B public company."
@@ -139,22 +157,4 @@ const page11 = (
   </DeckPage>
 );
 
-const page12 = (
-  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
-    <DiagramPage
-      title="Subscribe for peace of mind"
-      sub="$9/month, optional: zero-knowledge backup, sync, and remote access."
-      media={
-        <FpoBox note="Hub-and-spoke sync: home devices ↔ zero-knowledge vault ↔ remote family via tunnel; $9/mo card; hotspot + private-network modes labeled" />
-      }
-    >
-      The cloud does one thing well: encrypted backup where we hold none of the
-      keys. <strong>The device works forever without it.</strong> 1Password runs
-      $400M ARR.
-      <Ref k="1password-arr" /> Proton is profitable on subscriptions alone.
-      <Ref k="proton-nonprofit" />
-    </DiagramPage>
-  </DeckPage>
-);
-
-export const ACT2_PAGES: ReactNode[] = [page7, page8, page10, page11, page12];
+export const ACT2_PAGES: ReactNode[] = [page7, page8, page12, page10, page11];
