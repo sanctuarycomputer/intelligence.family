@@ -61,7 +61,7 @@ const page3 = (
   <DeckPage key={2} n={2} total={TOTAL}>
     <Split
       title="Local AI (finally) runs on consumer hardware"
-      sub="Open-weight models are closing the gap with the frontier."
+      sub="Open models are just months behind the best."
       media={
         <div className="deck-media-figure">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -118,7 +118,7 @@ const page4 = (
   <DeckPage key={4} n={4} total={TOTAL}>
     <Statement
       title="7 in 10 Americans don't trust big tech's AI"
-      sub="There is no Signal or Mozilla of the home."
+      sub="But today, there's no alternative."
     >
       Pew measured that distrust in June 2026.
       <Ref k="pew-distrust" /> Amazon went the other way, removing the
@@ -127,9 +127,7 @@ const page4 = (
       <br />
       <br />
       <strong>
-        Demand for AI is enormous &amp; trust is absent.
-        <br />
-        Our market is 70% of America.
+        Demand for private AI is enormous. Our market is 70% of America.
       </strong>
     </Statement>
     <div className="mt-10">
@@ -147,8 +145,8 @@ const page5 = (
   <DeckPage key={5} n={5} total={TOTAL}>
     <Split
       flip
-      title="Local architecture wins consumer excitement"
-      sub="Two AI listening devices. friend.com was panned, while Family Intelligence was loved ❤︎"
+      title="Local architecture wins consumer sentiment"
+      sub="Two AI listening devices. friend.com was panned, while Family Intelligence was praised."
       media={
         <div className="grid grid-cols-2 gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}

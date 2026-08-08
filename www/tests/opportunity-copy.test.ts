@@ -21,7 +21,7 @@ describe('opportunity deck copy contract', () => {
       'Local AI (finally) runs on consumer hardware',
       'The GPU is coming home',
       "7 in 10 Americans don't trust big tech's AI",
-      'Local architecture wins consumer excitement',
+      'Local architecture wins consumer sentiment',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -35,8 +35,8 @@ describe('opportunity deck copy contract', () => {
       'AI that runs in your home, your office, your hand.',
       'starting with families.',
       'AI compute is moving into the house, the way the personal computer did.',
-      'Open-weight models are closing the gap with the frontier.',
-      'There is no Signal or Mozilla of the home.',
+      'Open models are just months behind the best.',
+      "But today, there's no alternative.",
       'friend.com was panned',
     ];
     for (const sub of subs) {
