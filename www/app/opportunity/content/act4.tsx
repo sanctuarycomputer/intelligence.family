@@ -5,6 +5,7 @@ import MailtoCta from '../components/MailtoCta';
 import TimelineGantt from '../components/TimelineGantt';
 import Ref from '../components/Ref';
 import {
+  Band,
   CardsPage,
   DiagramPage,
   Ledger,
@@ -82,11 +83,11 @@ const page24 = (
         },
       ]}
     />
-    <p className="deck-band">
+    <Band>
       Before launch, roughly 90% of engineering runs through Sanctuary Computer
       at arm&rsquo;s length: a shipped-hardware team of 6 to 8 from day one,
       with no hiring cycle. The handoff completes by Year 4.
-    </p>
+    </Band>
     <div className="mt-6">
       <FpoBox
         note="Logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME"

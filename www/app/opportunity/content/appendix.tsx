@@ -3,6 +3,7 @@ import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
+  Band,
   CardsPage,
   Ledger,
   Split,
@@ -169,10 +170,10 @@ const scenariosPage = (
         ))}
       </tbody>
     </table>
-    <p className="deck-band-outline">
+    <Band>
       Because staffing and licensing spend flex with the case, the downside is a
       smaller, later company, not a broken one.
-    </p>
+    </Band>
     <p className="deck-caption-note">
       The switch moves volume 0.6x / 1.0x / 1.7x, subscription attach 30% / 40%
       / 55%, licensing 0.3x / 1.0x / 1.5x, and the hiring plan with them. The
@@ -233,10 +234,10 @@ const methodologyPage = (
         },
       ]}
     />
-    <p className="deck-band">
+    <Band>
       Everything left out of the model is upside. Everything hard about hardware
       is in it.
-    </p>
+    </Band>
   </DeckPage>
 );
 

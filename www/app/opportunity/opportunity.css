@@ -608,21 +608,26 @@ section.deck-page[id] {
 }
 
 /* Full-width takeaway band, after the pptx closing strips. */
-/* Light-mode callout pair: consecutive callouts through the deck alternate
-   filled and outlined so neither reads as the dark-act treatment. */
+/* Accent-box callout: one component style, heart icon, larger type.
+   The act theme swaps the background. */
 .deck-band {
   margin-top: 22px;
-  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
   border-radius: 12px;
   background: var(--fi-green-200);
+  font-size: clamp(16px, 2.4dvh, 21px);
   font-weight: 500;
 }
-.deck-band-outline {
-  margin-top: 22px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  border: 1px solid var(--fi-green-400);
-  font-weight: 500;
+.deck-band-heart {
+  width: clamp(24px, 3.4dvh, 32px);
+  height: auto;
+  flex: none;
+}
+.deck-act-3 .deck-band {
+  background: rgba(215, 221, 212, 0.1);
 }
 
 /* Stat tiles, after the pptx footer rows: big mono number on dark, caption

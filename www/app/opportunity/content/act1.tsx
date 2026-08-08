@@ -4,11 +4,12 @@ import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
+  Band,
   CardsPage,
+  DiagramPage,
   EvidenceGrid,
   Split,
   Statement,
-  DiagramPage,
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
@@ -146,9 +147,9 @@ const problemPage = (
         },
       ]}
     />
-    <p className="deck-band">
+    <Band>
       Every cloud assistant is structurally on the wrong side of this line.
-    </p>
+    </Band>
   </DeckPage>
 );
 

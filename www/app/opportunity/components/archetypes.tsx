@@ -257,8 +257,24 @@ export function PricingTiers({
           </div>
         ))}
       </div>
-      {closer && <p className="deck-band-outline">{closer}</p>}
+      {closer && <Band>{closer}</Band>}
     </div>
+  );
+}
+
+/** Accent-box callout with the family-book heart. The act theme sets the
+ * background via .deck-band. */
+export function Band({ children }: { children: ReactNode }) {
+  return (
+    <p className="deck-band">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/opportunity/icon-heart.png"
+        alt=""
+        className="deck-band-heart"
+      />
+      <span>{children}</span>
+    </p>
   );
 }
 
