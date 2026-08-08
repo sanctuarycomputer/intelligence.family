@@ -284,8 +284,7 @@ const page19 = (
               Agents acting in the physical world (home, car, robotics,
               industrial) can&rsquo;t tolerate round trips or outages. When the
               model is on-device, the product works in rural areas, on planes,
-              during provider incidents, and at millisecond speeds. Reliability
-              becomes a property you own rather than an SLA you rent.
+              during provider incidents, and at millisecond speeds.
             </>
           ),
         },
@@ -293,11 +292,10 @@ const page19 = (
           heading: 'Inference economics invert at scale',
           body: (
             <>
-              Cloud AI makes every query a billable event, so margins erode as
-              engagement grows. Local inference flips this: hardware is a
-              one-time cost, and usage becomes free at the margin. Any product
-              with high-frequency, always-on AI (ambient assistants, monitoring,
-              agents) is structurally unprofitable on cloud rails.
+              Cloud AI makes every query a billable event. Local inference flips
+              this: hardware is a one-time cost, and usage becomes free at the
+              margin. Any product with high-frequency, always-on AI (ambient
+              assistants, monitoring, agents) becomes untenable on cloud rails.
             </>
           ),
         },
