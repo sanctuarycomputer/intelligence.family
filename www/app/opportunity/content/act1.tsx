@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
+import LandingLine from '../components/LandingLine';
 import Ref from '../components/Ref';
 import {
   EvidenceGrid,
@@ -169,11 +170,9 @@ const page5 = (
       Meanwhile... friend.com&rsquo;s always-listening pendant was vandalized on
       the NYC subway.
       <Ref k="friend-backlash" />
-      <br />
-      <br />
-      <strong>
+      <LandingLine>
         Our privacy-preserving architecture is what wins customers over.
-      </strong>
+      </LandingLine>
     </Split>
   </DeckPage>
 );
