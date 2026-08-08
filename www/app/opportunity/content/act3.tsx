@@ -37,7 +37,10 @@ const page18 = (
       cards={[
         {
           heading: 'Trusted Execution Environment (TEE)',
-          art: stackArt('TEE png'),
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/stack-tee.png" alt="" />
+          ),
           body: (
             <>
               Keys and models run in hardware-isolated memory. Even a
