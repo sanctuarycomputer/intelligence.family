@@ -239,6 +239,7 @@ export function PricingTiers({
   sub,
   tiers,
   closer,
+  columns = 4,
 }: {
   title: ReactNode;
   sub?: ReactNode;
@@ -248,6 +249,8 @@ export function PricingTiers({
     body: ReactNode;
     meta: string;
   }>;
+  /** Cards per row on desktop; defaults to 4. */
+  columns?: 3 | 4;
   /** Full-width takeaway band beneath the tiers. */
   closer?: ReactNode;
 }) {
@@ -255,7 +258,9 @@ export function PricingTiers({
     <div data-archetype="PricingTiers">
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
-      <div className="mt-10 grid md:grid-cols-4 auto-rows-fr gap-4">
+      <div
+        className={`mt-10 grid ${columns === 3 ? 'md:grid-cols-3' : 'md:grid-cols-4'} auto-rows-fr gap-4`}
+      >
         {tiers.map(tier => (
           <div key={tier.name} className="deck-tier">
             <div className="deck-tier-content">

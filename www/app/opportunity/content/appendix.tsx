@@ -13,7 +13,7 @@ import {
 import { orderedReferences } from './references';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 25;
 // Appendix pages continue the page ids past the core deck, but the footer
 // counter stays unnumbered so nobody reads them as pages 27 of 26.
 const FIRST = TOTAL + 1;

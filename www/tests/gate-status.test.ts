@@ -34,10 +34,10 @@ async function verifiedReq(
 
 async function verifiedPageReq(email: string, page: string) {
   const seal = await sealVerified({ email });
-  return new NextRequest(
-    `http://localhost/api/gate-status?page=${page}`,
-    { method: 'GET', headers: { cookie: `fi_verified=${seal}` } }
-  );
+  return new NextRequest(`http://localhost/api/gate-status?page=${page}`, {
+    method: 'GET',
+    headers: { cookie: `fi_verified=${seal}` },
+  });
 }
 
 beforeEach(() => {
@@ -95,7 +95,9 @@ describe('GET /api/gate-status', () => {
   it('keeps unlocking but stops counting views past 20 pings per IP per minute', async () => {
     const ip = '203.0.113.7';
     for (let i = 0; i < 20; i++) {
-      await GET(await verifiedReq('user@example.com', { 'x-forwarded-for': ip }));
+      await GET(
+        await verifiedReq('user@example.com', { 'x-forwarded-for': ip })
+      );
     }
     expect(crmMock).toHaveBeenCalledTimes(20);
 
@@ -108,7 +110,9 @@ describe('GET /api/gate-status', () => {
   });
 
   it('logs the opportunity viewed source for ?page=opportunity', async () => {
-    const res = await GET(await verifiedPageReq('user@example.com', 'opportunity'));
+    const res = await GET(
+      await verifiedPageReq('user@example.com', 'opportunity')
+    );
     expect(await res.json()).toEqual({ verified: true });
     expect(crmMock).toHaveBeenCalledWith(
       'user@example.com',

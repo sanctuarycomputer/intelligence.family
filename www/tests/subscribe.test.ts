@@ -26,13 +26,19 @@ describe('POST /api/subscribe', () => {
   it('subscribes a valid email via the shared CRM client', async () => {
     const res = await POST(req({ email: 'New@Example.com' }));
     expect(res.status).toBe(201);
-    expect(await res.json()).toMatchObject({ success: true, status: 'subscribed' });
+    expect(await res.json()).toMatchObject({
+      success: true,
+      status: 'subscribed',
+    });
     expect(crmMock).toHaveBeenCalledWith('New@Example.com', undefined);
   });
 
   it('forwards a provided source to the CRM client', async () => {
     const res = await POST(
-      req({ email: 'user@example.com', source: 'g3d:family_intelligence:fundraising' })
+      req({
+        email: 'user@example.com',
+        source: 'g3d:family_intelligence:fundraising',
+      })
     );
     expect(res.status).toBe(201);
     expect(crmMock).toHaveBeenCalledWith(

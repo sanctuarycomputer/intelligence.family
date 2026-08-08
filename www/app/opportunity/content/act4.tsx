@@ -14,11 +14,11 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 25;
 const ACT_CLASS = 'deck-act-4';
 
 const page22 = (
-  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
       title="We've spent our careers deploying novel hardware, low level infrastructure and custom operating systems"
@@ -31,7 +31,7 @@ const teamPhoto = (label: string) => (
 );
 
 const page24 = (
-  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="The team"
@@ -98,7 +98,7 @@ const page24 = (
 );
 
 const page23 = (
-  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="The hard questions"
@@ -206,7 +206,7 @@ const page23 = (
 );
 
 const page25 = (
-  <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Timeline"
       sub="Round closes, contract manufacturer in the room, shelves by Christmas 2027."
@@ -216,7 +216,7 @@ const page25 = (
 );
 
 const baseCasePage = (
-  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="The base case funds itself"
       sub="EBITDA-positive in Year 4 on this round alone. The platform upside is what you're pricing."
@@ -274,7 +274,7 @@ const baseCasePage = (
 );
 
 const page26 = (
-  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="We're raising $15M"
       sub="Shipping out and ready to gift by Christmas 2027."

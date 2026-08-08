@@ -642,6 +642,19 @@ section.deck-page[id] {
 .deck-act-3 .deck-band {
   background: rgba(215, 221, 212, 0.1);
 }
+.deck-act-3 .deck-band-icon {
+  filter: brightness(0) invert(0.92);
+}
+.deck-act-3 .deck-tier,
+.deck-act-3 .deck-tier-footer {
+  border-color: rgba(215, 221, 212, 0.25);
+}
+.deck-act-3 .deck-tier-footer {
+  background: rgba(215, 221, 212, 0.08);
+}
+.deck-act-3 .deck-tier-meta {
+  color: var(--fi-green-300);
+}
 
 /* Datapoint tiles, referencing the homepage QuoteBox style: big mono value
    as the content area, label in the tinted footer bar. */

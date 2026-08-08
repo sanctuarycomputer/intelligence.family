@@ -76,14 +76,15 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 3 carries the five approved titles in order', () => {
+  it('act 3 carries the six approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
       "But under the hood... we're building the canonical stack for private AI inference",
       'Private AI is becoming crucial for businesses',
       'Our stack',
       'The Android OS for Local AI',
-      'The Android of Local AI',
+      'One product. Then one stack. Then the platform.',
+      'The platform is the business we are already building',
     ];
     // The Android title deliberately repeats, so scan forward from the
     // previous match instead of using absolute indexOf positions.
@@ -94,12 +95,13 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 3 carries the five approved subtitles', () => {
+  it('act 3 carries the six approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const subs = [
       'The go-to SDK for private inference, built on Linux',
       "But today, there's no general purpose software stack to support local deployments.",
-      'Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness.',
+      "Each phase compounds the previous one. Phase 1's fleet is Phase 3's reference customer.",
+      'Three ways partners pay for a stack nobody else runs in production.',
       'Google bought Android in 2005 for ~$50 million.',
       'What will the canonical infrastructure for private AI be valued at',
     ];
@@ -212,13 +214,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(24);
+    expect(ALL_PAGES).toHaveLength(25);
     expect(APPENDIX_PAGES).toHaveLength(10);
   });
 
-  it('sets every chrome counter against 24 pages', () => {
+  it('sets every chrome counter against 25 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 24;/);
+      expect(src, name).toMatch(/const TOTAL = 25;/);
     }
   });
 
