@@ -50,7 +50,10 @@ const page18 = (
         },
         {
           heading: 'Hardware Root Certificate Authority',
-          art: stackArt('cert png'),
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/stack-cert.png" alt="" />
+          ),
           body: (
             <>
               The leader device bootstraps the network as the root certificate.
@@ -60,7 +63,10 @@ const page18 = (
         },
         {
           heading: 'Zero-knowledge Sync Server',
-          art: stackArt('vault png'),
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/stack-cloud.png" alt="" />
+          ),
           body: (
             <>
               Encrypted archives we cannot open. The keys never leave the device
