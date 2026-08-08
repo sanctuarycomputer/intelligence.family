@@ -293,7 +293,10 @@ const page22 = (
       ]}
     />
     <p className="deck-caption-note">
-      Directional market estimates; sourced detail in the appendix pro-forma.
+      Anchors: ~438,000 US law firms (ABA); ~500 infrastructure-scale
+      deployments would be ~$75M licence ARR; 0.5% of ~1B annual smart-home
+      shipments at a $5 royalty is ~$25M a year (IDC). Detail in the appendix
+      pro-forma.
     </p>
   </DeckPage>
 );

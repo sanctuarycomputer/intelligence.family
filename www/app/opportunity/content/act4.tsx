@@ -82,7 +82,12 @@ const page24 = (
         },
       ]}
     />
-    <div className="mt-10">
+    <p className="deck-band">
+      Before launch, roughly 90% of engineering runs through Sanctuary Computer
+      at arm&rsquo;s length: a shipped-hardware team of 6 to 8 from day one,
+      with no hiring cycle. The handoff completes by Year 4.
+    </p>
+    <div className="mt-6">
       <FpoBox
         note="Logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME"
         aspect="8/1"
