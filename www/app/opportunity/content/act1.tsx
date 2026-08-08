@@ -51,7 +51,12 @@ const page2 = (
       title="The GPU is coming home"
       sub="AI compute is moving into the house, the way the personal computer did."
       media={
-        <FpoBox note="Two-era timeline: mainframe→home computer above, datacenter→home GPU below, mirrored" />
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/opportunity/compute-eras.png"
+          alt="Six eras of compute: mainframe, home computer, and laptop above; on-prem server, cloud data center, and the home inference server (2027+) below"
+          className="deck-slide-media"
+        />
       }
     >
       Compute has made this trip before. The mainframe sat in a room you had to
