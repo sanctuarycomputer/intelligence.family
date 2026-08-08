@@ -13,16 +13,15 @@ const contentFiles = () =>
     .map(f => [f, readFileSync(path.join(dir, f), 'utf8')] as const);
 
 describe('opportunity deck copy contract', () => {
-  it('act 1 carries the seven approved titles in order', () => {
+  it('act 1 carries the six approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const titles = [
       // Cover wordmark carries the homepage's tight-space span between words.
       'Family<span className="tracking-[-0.1em]"> </span>Intelligence',
-      'The GPU is coming home',
       'Local AI (finally) runs on consumer hardware',
+      'The GPU is coming home',
       "7 in 10 Americans don't trust big tech's AI",
       'Local architecture wins consumer excitement',
-      'Intentional technology is a proven market',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -38,41 +37,34 @@ describe('opportunity deck copy contract', () => {
       'Open-weight models are closing the gap with the frontier.',
       'There is no Signal or Mozilla of the home.',
       'friend.com was panned',
-      'Light Phone, Daylight, Remarkable and Yoto built profitable businesses on it.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
     }
   });
 
-  it('act 2 carries the eight approved titles in order', () => {
+  it('act 2 carries the five approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
       'Your family, preserved',
-      'Family data is sensitive',
       'Home hubs are a proven category.',
       'Families already pay for this',
       'Subscribe for peace of mind',
-      'A context window for smart homes',
-      'Unit economics',
     ];
     const idx = titles.map(t => src.indexOf(t));
     expect(idx.every(i => i >= 0)).toBe(true);
     expect([...idx].sort((a, b) => a - b)).toEqual(idx);
   });
 
-  it('act 2 carries the eight approved subtitles', () => {
+  it('act 2 carries the five approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, low-risk data, and a GPU in the living room.',
       'Weekly check-ins, budgets, school, health, and family stories.',
-      '23andMe crashed out with a breach & bankruptcy.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       '$9/month, optional: zero-knowledge backup, sync, and remote access.',
-      'Inference for every IoT device on the network.',
-      '110,000 devices in five years, a $9/month attach, 40%+ blended margin.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
@@ -213,13 +205,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(26);
-    expect(APPENDIX_PAGES).toHaveLength(6);
+    expect(ALL_PAGES).toHaveLength(22);
+    expect(APPENDIX_PAGES).toHaveLength(8);
   });
 
-  it('sets every chrome counter against 26 pages', () => {
+  it('sets every chrome counter against 22 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 26;/);
+      expect(src, name).toMatch(/const TOTAL = 22;/);
     }
   });
 

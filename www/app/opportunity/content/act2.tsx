@@ -12,11 +12,11 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+const TOTAL = 22;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
-  <DeckPage key={8} n={8} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={7} n={7} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="Our first device is for families"
       sub="High emotional value, low-risk data, and a GPU in the living room."
@@ -32,7 +32,7 @@ const page7 = (
 );
 
 const page8 = (
-  <DeckPage key={9} n={9} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={8} n={8} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="Your family, preserved"
@@ -53,27 +53,8 @@ const page8 = (
   </DeckPage>
 );
 
-const page9 = (
-  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
-    <Split
-      title="Family data is sensitive"
-      sub="23andMe crashed out with a breach & bankruptcy."
-      media={
-        <FpoBox note="23andMe collapse timeline ($6B → breach → Chapter 11 → $305M); inset: Jan 2026 court-order headline" />
-      }
-    >
-      23andMe went from a $6B peak to Chapter 11, and its database sold for
-      $305M.
-      <Ref k="23andme-sale" /> A breach had already exposed 6.9M people&rsquo;s
-      genetic data.
-      <Ref k="23andme-breach" />{' '}
-      <strong>No backend to misconfigure, no log to subpoena.</strong>
-    </Split>
-  </DeckPage>
-);
-
 const page10 = (
-  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={9} n={9} total={TOTAL} actClass={ACT_CLASS}>
     <BigStat
       stat="600M+"
       title="Home hubs are a proven category."
@@ -105,7 +86,7 @@ const page10 = (
 );
 
 const page11 = (
-  <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
       title="Families already pay for this"
       sub="tonies did €630M in revenue last year. Life360 is a $4.5B public company."
@@ -158,7 +139,7 @@ const page11 = (
 );
 
 const page12 = (
-  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Subscribe for peace of mind"
       sub="$9/month, optional: zero-knowledge backup, sync, and remote access."
@@ -175,73 +156,4 @@ const page12 = (
   </DeckPage>
 );
 
-const page13 = (
-  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
-    <Split
-      flip
-      title="A context window for smart homes"
-      sub="Inference for every IoT device on the network."
-      media={
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src="/opportunity/context-window-home.png"
-          alt="A house cross-section: the Family Book hub on the coffee table, connected by glowing vines to the TV, thermostat, camera, laptop, phone, and speaker in every room"
-          className="deck-slide-media"
-        />
-      }
-    >
-      The house knows who the plumber is and what the family is saving for.{' '}
-      <strong>
-        One local agent holds that memory: an MCP server on the LAN, a
-        chat-completions endpoint, and local RAG.
-      </strong>
-      <br />
-      <br />
-      &rarr; US internet households already run 17 connected devices.
-      <Ref k="parks-17-devices" /> Soon, they&rsquo;ll all need inference.
-    </Split>
-  </DeckPage>
-);
-
-const page14 = (
-  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
-    <Ledger
-      title="Unit economics"
-      sub="110,000 devices in five years, a $9/month attach, 40%+ blended margin."
-      rows={[
-        { label: 'Devices in five years', value: '110,000' },
-        {
-          label: 'Share of the 200M+ English-speaking households',
-          value: '0.05%',
-        },
-        { label: 'Cloud subscription, optional', value: '$9 / month' },
-        { label: 'Blended gross margin at scale', value: '40%+' },
-      ]}
-    />
-    <p className="deck-body">
-      <strong>
-        The device is the moat and the recurring layer is the business.
-      </strong>{' '}
-      Plaud reached about $250M in revenue at roughly 20% margin, on 1M+ devices
-      and essentially no venture capital.
-      <Ref k="plaud" />
-    </p>
-    <div className="mt-10">
-      <FpoBox
-        note="The simple math stack: 110k devices + $9/mo attach → revenue; margin-path bar prototype→scale"
-        aspect="6/1"
-      />
-    </div>
-  </DeckPage>
-);
-
-export const ACT2_PAGES: ReactNode[] = [
-  page7,
-  page8,
-  page9,
-  page10,
-  page11,
-  page12,
-  page13,
-  page14,
-];
+export const ACT2_PAGES: ReactNode[] = [page7, page8, page10, page11, page12];
