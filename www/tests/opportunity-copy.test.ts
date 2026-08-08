@@ -13,13 +13,14 @@ const contentFiles = () =>
     .map(f => [f, readFileSync(path.join(dir, f), 'utf8')] as const);
 
 describe('opportunity deck copy contract', () => {
-  it('act 1 carries the six approved titles in order', () => {
+  it('act 1 carries the seven approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const titles = [
       // Cover wordmark carries the homepage's tight-space span between words.
       'Family<span className="tracking-[-0.1em]"> </span>Intelligence',
       'Local AI (finally) runs on consumer hardware',
       'The GPU is coming home',
+      "The most valuable context is the one you'd never upload",
       "7 in 10 Americans don't trust big tech's AI",
       'Local architecture wins consumer sentiment',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
@@ -33,6 +34,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const subs = [
       'AI that runs in your home, your office, your hand.',
+      'The home holds the richest, longest-running, highest-signal context any AI could use.',
       'starting with families.',
       'AI compute is moving into the house, the way the personal computer did.',
       'Open models are just months behind the best.',
@@ -204,13 +206,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(21);
+    expect(ALL_PAGES).toHaveLength(22);
     expect(APPENDIX_PAGES).toHaveLength(8);
   });
 
-  it('sets every chrome counter against 21 pages', () => {
+  it('sets every chrome counter against 22 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 21;/);
+      expect(src, name).toMatch(/const TOTAL = 22;/);
     }
   });
 

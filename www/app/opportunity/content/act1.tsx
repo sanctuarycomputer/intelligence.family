@@ -4,6 +4,7 @@ import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
+  CardsPage,
   EvidenceGrid,
   Split,
   Statement,
@@ -11,7 +12,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 21;
+const TOTAL = 22;
 
 const coverLeafStyle = {
   width: '0.35em',
@@ -114,8 +115,47 @@ const page2 = (
   </DeckPage>
 );
 
-const page4 = (
+const problemPage = (
   <DeckPage key={4} n={4} total={TOTAL}>
+    <CardsPage
+      columns={2}
+      title="The most valuable context is the one you'd never upload"
+      sub="The home holds the richest, longest-running, highest-signal context any AI could use."
+      cards={[
+        {
+          heading: 'What households want',
+          body: (
+            <ul className="deck-list">
+              <li>An assistant that actually knows the household</li>
+              <li>Memory that spans years, not sessions</li>
+              <li>Answers grounded in what was really said</li>
+              <li>Something the least technical person can use</li>
+            </ul>
+          ),
+        },
+        {
+          heading: 'What they will never do',
+          body: (
+            <ul className="deck-list">
+              <li>Ship raw household audio to a third-party cloud</li>
+              <li>Trust a business model that monetizes the archive</li>
+              <li>Accept a privacy policy as the only guarantee</li>
+              <li>Depend on connectivity for a device in their kitchen</li>
+            </ul>
+          ),
+        },
+      ]}
+    />
+    <p className="deck-body">
+      <strong>
+        Every cloud assistant is structurally on the wrong side of this line.
+      </strong>
+    </p>
+  </DeckPage>
+);
+
+const page4 = (
+  <DeckPage key={5} n={5} total={TOTAL}>
     <Statement
       title="7 in 10 Americans don't trust big tech's AI"
       sub="But today, there's no alternative."
@@ -142,7 +182,7 @@ const page4 = (
 );
 
 const page5 = (
-  <DeckPage key={5} n={5} total={TOTAL}>
+  <DeckPage key={6} n={6} total={TOTAL}>
     <Split
       flip
       title="Local architecture wins consumer sentiment"
@@ -182,7 +222,7 @@ const page5 = (
 );
 
 const page7 = (
-  <DeckPage key={6} n={6} total={TOTAL}>
+  <DeckPage key={7} n={7} total={TOTAL}>
     <Statement
       splash
       title="Family Intelligence will be the first trusted brand to run local inference in the home"
@@ -194,6 +234,7 @@ export const ACT1_PAGES: ReactNode[] = [
   coverPage(null),
   page3,
   page2,
+  problemPage,
   page4,
   page5,
   page7,
