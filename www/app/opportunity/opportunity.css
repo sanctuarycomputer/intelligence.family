@@ -618,6 +618,27 @@ section.deck-page[id] {
   font-weight: 500;
 }
 
+/* Stat tiles, after the pptx footer rows: big mono number on dark, caption
+   beneath on the light tone. */
+.deck-stat-tile {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--fi-green-300);
+}
+.deck-stat-tile-value {
+  padding: 10px 14px;
+  background: var(--fi-green-600);
+  color: var(--fi-green-100);
+  font-size: clamp(22px, 3.4dvh, 34px);
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+}
+.deck-stat-tile-label {
+  padding: 8px 14px;
+  background: var(--fi-green-100);
+  font-size: 12px;
+}
+
 /* References */
 .deck-ref {
   font-size: 0.6em;

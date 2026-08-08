@@ -46,7 +46,7 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 2 carries the five approved titles in order', () => {
+  it('act 2 carries the six approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
@@ -54,19 +54,21 @@ describe('opportunity deck copy contract', () => {
       'One device becomes a family of them',
       'Home hubs are a proven category.',
       'Families already pay for this',
+      'Paid back at the register',
     ];
     const idx = titles.map(t => src.indexOf(t));
     expect(idx.every(i => i >= 0)).toBe(true);
     expect([...idx].sort((a, b) => a - b)).toEqual(idx);
   });
 
-  it('act 2 carries the five approved subtitles', () => {
+  it('act 2 carries the six approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, sensitive data, and a GPU in the living room.',
       'Weekly check-ins, budgets, school, health, and stories.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
+      'Each flagship earns $418 of gross profit on an $899 price.',
       'The flagship ships first. Every later tier runs the same stack.',
     ];
     for (const sub of subs) {
@@ -206,13 +208,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(22);
+    expect(ALL_PAGES).toHaveLength(23);
     expect(APPENDIX_PAGES).toHaveLength(8);
   });
 
-  it('sets every chrome counter against 22 pages', () => {
+  it('sets every chrome counter against 23 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 22;/);
+      expect(src, name).toMatch(/const TOTAL = 23;/);
     }
   });
 

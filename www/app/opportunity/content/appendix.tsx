@@ -6,7 +6,7 @@ import { Ledger, Split, Statement } from '../components/archetypes';
 import { orderedReferences } from './references';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 22;
+const TOTAL = 23;
 // Appendix pages continue the page ids past the core deck, but the footer
 // counter stays unnumbered so nobody reads them as pages 27 of 26.
 const FIRST = TOTAL + 1;
@@ -22,15 +22,15 @@ const movedUnitEconomics = (
   <DeckPage key={FIRST + 2} n={FIRST + 2} total={TOTAL}>
     <Ledger
       title="Unit economics"
-      sub="110,000 devices in five years, a $9/month attach, 40%+ blended margin."
+      sub="82,385 devices by Year 5, a $9/month attach, margins ramping 36% to 53%."
       rows={[
-        { label: 'Devices in five years', value: '110,000' },
+        { label: 'Cumulative devices by Year 5', value: '82,385' },
         {
           label: 'Share of the 200M+ English-speaking households',
-          value: '0.05%',
+          value: '0.06%',
         },
         { label: 'Cloud subscription, optional', value: '$9 / month' },
-        { label: 'Blended gross margin at scale', value: '40%+' },
+        { label: 'Blended gross margin ramp', value: '36% → 53%' },
       ]}
     />
     <p className="deck-body">

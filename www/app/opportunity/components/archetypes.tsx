@@ -262,6 +262,26 @@ export function PricingTiers({
   );
 }
 
+export function StatTiles({
+  tiles,
+}: {
+  tiles: Array<{ value: string; label: string }>;
+}) {
+  return (
+    <div
+      className="mt-6 grid gap-4"
+      style={{ gridTemplateColumns: `repeat(${tiles.length}, 1fr)` }}
+    >
+      {tiles.map(tile => (
+        <div key={tile.label} className="deck-stat-tile">
+          <div className="deck-stat-tile-value">{tile.value}</div>
+          <div className="deck-stat-tile-label">{tile.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function CardsPage({
   title,
   sub,
