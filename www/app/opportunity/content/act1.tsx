@@ -195,6 +195,7 @@ const page5 = (
       flip
       title="Local architecture wins consumer sentiment"
       sub="Two AI listening devices. friend.com was panned, while Family Intelligence was praised."
+      band="Our privacy-preserving architecture is what wins customers over."
       media={
         <div className="grid grid-cols-2 gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -220,11 +221,6 @@ const page5 = (
       Meanwhile... friend.com&rsquo;s always-listening pendant was vandalized on
       the NYC subway.
       <Ref k="friend-backlash" />
-      <br />
-      <br />
-      <strong>
-        Our privacy-preserving architecture is what wins customers over.
-      </strong>
     </Split>
   </DeckPage>
 );

@@ -106,12 +106,15 @@ export function Split({
   sub,
   media,
   flip,
+  band,
   children,
 }: {
   title: ReactNode;
   sub?: ReactNode;
   media: ReactNode;
   flip?: boolean;
+  /** Accent-box callout rendered beneath the body copy. */
+  band?: ReactNode;
   children?: ReactNode;
 }) {
   return (
@@ -123,6 +126,7 @@ export function Split({
         <Title>{title}</Title>
         <Sub>{sub}</Sub>
         <Body>{children}</Body>
+        {band && <Band>{band}</Band>}
       </div>
       <div className={flip ? 'md:order-1' : undefined}>{media}</div>
     </div>
