@@ -118,8 +118,35 @@ const page2 = (
   </DeckPage>
 );
 
-const problemPage = (
+const page4 = (
   <DeckPage key={4} n={4} total={TOTAL}>
+    <Statement
+      title="7 in 10 Americans don't trust big tech's AI"
+      sub="But today, there's no alternative."
+    >
+      Pew measured America&rsquo;s growing AI disdain in June 2026.
+      <Ref k="pew-distrust" /> Amazon went the other way, removing the
+      Echo&rsquo;s only local-processing option in March 2025.
+      <Ref k="echo-local-removed" /> Today, the data center backlash has arrived
+      at a fever pitch that won&rsquo;t subside, akin to climate dread. America
+      wants an alternative.
+    </Statement>
+    <Band narrow>
+      Demand for private AI is enormous. Our market is 70% of America.
+    </Band>
+    <div className="mt-10">
+      <FpoBox
+        note={
+          "Brand row: Signal · Mozilla · 1Password with an empty slot labeled 'the home'"
+        }
+        aspect="8/1"
+      />
+    </div>
+  </DeckPage>
+);
+
+const problemPage = (
+  <DeckPage key={5} n={5} total={TOTAL}>
     <CardsPage
       columns={2}
       title="The most valuable context is what you'll never upload"
@@ -159,33 +186,6 @@ const problemPage = (
       Today&rsquo;s most important data is the kind you&rsquo;d rather never
       send to the cloud.
     </Band>
-  </DeckPage>
-);
-
-const page4 = (
-  <DeckPage key={5} n={5} total={TOTAL}>
-    <Statement
-      title="7 in 10 Americans don't trust big tech's AI"
-      sub="But today, there's no alternative."
-    >
-      Pew measured America&rsquo;s growing AI disdain in June 2026.
-      <Ref k="pew-distrust" /> Amazon went the other way, removing the
-      Echo&rsquo;s only local-processing option in March 2025.
-      <Ref k="echo-local-removed" /> Today, the data center backlash has arrived
-      at a fever pitch that won&rsquo;t subside, akin to climate dread. America
-      wants an alternative.
-    </Statement>
-    <Band narrow>
-      Demand for private AI is enormous. Our market is 70% of America.
-    </Band>
-    <div className="mt-10">
-      <FpoBox
-        note={
-          "Brand row: Signal · Mozilla · 1Password with an empty slot labeled 'the home'"
-        }
-        aspect="8/1"
-      />
-    </div>
   </DeckPage>
 );
 
@@ -238,8 +238,8 @@ export const ACT1_PAGES: ReactNode[] = [
   coverPage(null),
   page3,
   page2,
-  problemPage,
   page4,
+  problemPage,
   page5,
   page7,
 ];

@@ -20,8 +20,8 @@ describe('opportunity deck copy contract', () => {
       'Family<span className="tracking-[-0.1em]"> </span>Intelligence',
       'Local AI (finally) runs on consumer hardware',
       'The GPU is coming home',
-      "The most valuable context is what you'll never upload",
       "7 in 10 Americans don't trust big tech's AI",
+      "The most valuable context is what you'll never upload",
       'Local architecture wins consumer sentiment',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
