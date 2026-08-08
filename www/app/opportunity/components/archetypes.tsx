@@ -257,7 +257,7 @@ export function PricingTiers({
           </div>
         ))}
       </div>
-      {closer && <p className="deck-band">{closer}</p>}
+      {closer && <p className="deck-band-outline">{closer}</p>}
     </div>
   );
 }

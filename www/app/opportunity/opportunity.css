@@ -588,8 +588,7 @@ section.deck-page[id] {
 }
 .deck-tier-price {
   padding: 8px 14px;
-  background: var(--fi-green-600);
-  color: var(--fi-green-100);
+  background: var(--fi-green-300);
   font-size: clamp(18px, 2.6dvh, 24px);
   font-variation-settings: 'MONO' 100;
   letter-spacing: 0;
@@ -609,18 +608,9 @@ section.deck-page[id] {
 }
 
 /* Full-width takeaway band, after the pptx closing strips. */
+/* Light-mode callout pair: consecutive callouts through the deck alternate
+   filled and outlined so neither reads as the dark-act treatment. */
 .deck-band {
-  margin-top: 22px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  background: var(--fi-green-600);
-  color: var(--fi-green-100);
-  font-weight: 500;
-}
-
-/* Light-mode callout pair: consecutive callouts alternate filled and
-   outlined so neither reads as the dark-act treatment. */
-.deck-band-light {
   margin-top: 22px;
   padding: 14px 18px;
   border-radius: 12px;
@@ -644,8 +634,7 @@ section.deck-page[id] {
 }
 .deck-stat-tile-value {
   padding: 10px 14px;
-  background: var(--fi-green-600);
-  color: var(--fi-green-100);
+  background: var(--fi-green-300);
   font-size: clamp(22px, 3.4dvh, 34px);
   font-variation-settings: 'MONO' 100;
   letter-spacing: 0;
