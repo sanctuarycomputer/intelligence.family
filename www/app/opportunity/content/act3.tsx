@@ -19,7 +19,7 @@ const page17 = (
   <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
-      title="But under the hood... we're building the software stack for private AI inference"
+      title="But under the hood... we're building the canonical stack for private AI inference"
     />
   </DeckPage>
 );
@@ -36,7 +36,7 @@ const page18 = (
       sub="The go-to SDK for private inference, built on Linux &amp; written in Rust."
       cards={[
         {
-          heading: 'Trusted execution environment',
+          heading: 'Trusted Execution Environment (TEE)',
           art: stackArt('TEE png'),
           body: (
             <>
@@ -65,22 +65,24 @@ const page18 = (
           ),
         },
         {
-          heading: 'p2p gossip via LAN',
-          art: stackArt('mesh png'),
+          heading: 'Model Over The Air (MOTA)',
+          art: stackArt('mota png'),
           body: (
             <>
-              Devices find and sync with each other over the local network, no
-              cloud in the loop.
+              Fleet management, firmware and seamless model upgrades provided
+              over the air: private AI devices that get smarter as newer open
+              source models are released.
             </>
           ),
         },
         {
-          heading: 'Generic ontology library',
-          art: stackArt('graph png'),
+          heading: 'Ontology, RAG & Application Runtime',
+          art: stackArt('ontology png'),
           body: (
             <>
-              Declare a schema and the model extracts it: people, places,
-              recipes, goals.
+              Declare a schema for your use case and the model extracts &amp;
+              references it: people, places, recipes, goals... or leads, deals,
+              contacts &amp; agreements. All ready for binding into UI.
             </>
           ),
         },

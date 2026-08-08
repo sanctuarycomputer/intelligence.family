@@ -82,7 +82,7 @@ describe('opportunity deck copy contract', () => {
   it('act 3 carries the six approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
-      "But under the hood... we're building the software stack for private AI inference",
+      "But under the hood... we're building the canonical stack for private AI inference",
       'Our stack',
       'The Android of Local AI',
       'The industry is moving compute to the data',
