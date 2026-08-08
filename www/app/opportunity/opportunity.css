@@ -643,24 +643,27 @@ section.deck-page[id] {
   background: rgba(215, 221, 212, 0.1);
 }
 
-/* Stat tiles, after the pptx footer rows: big mono number on dark, caption
-   beneath on the light tone. */
+/* Datapoint tiles, referencing the homepage QuoteBox style: big mono value
+   as the content area, label in the tinted footer bar. */
 .deck-stat-tile {
-  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(94, 123, 41, 0.5);
+  border-radius: 4px;
   overflow: hidden;
-  border: 1px solid var(--fi-green-300);
 }
 .deck-stat-tile-value {
-  padding: 10px 14px;
-  background: var(--fi-green-300);
+  padding: 14px 18px;
+  flex: 1 1 auto;
   font-size: clamp(22px, 3.4dvh, 34px);
   font-variation-settings: 'MONO' 100;
-  letter-spacing: 0;
 }
 .deck-stat-tile-label {
-  padding: 8px 14px;
-  background: var(--fi-green-100);
-  font-size: 12px;
+  padding: 10px 18px;
+  border-top: 1px solid rgba(94, 123, 41, 0.5);
+  background: rgba(94, 123, 41, 0.05);
+  font-size: 13px;
+  font-weight: 500;
 }
 
 /* Compact multi-year plan table, mono figures. */
