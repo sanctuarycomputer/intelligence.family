@@ -18,8 +18,61 @@ const page22 = (
   </DeckPage>
 );
 
-const page23 = (
+const page24 = (
   <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
+    <CardsPage
+      title="The team"
+      sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
+      cards={[
+        {
+          heading: 'Hugh Francis',
+          body: (
+            <>
+              <strong>
+                A computer scientist & patented inventor for architecting the
+                Light Phone II and III, named among TIME&rsquo;s Best Inventions
+                in 2019 and 2025.
+              </strong>
+              <Ref k="light-phone" /> Among other projects, Hugh architected
+              Mill&rsquo;s IoT infrastructure for the founders of Google&rsquo;s
+              Nest, runs IoT projects for AT&amp;T, and led garden3d, a 30+
+              person studio.
+            </>
+          ),
+        },
+        {
+          heading: 'Yatú Pelaez-Espinosa and Norm O’Hagan',
+          body: (
+            <>
+              They founded USB Club and started the Advanced Concepts hardware
+              team at Sam Altman&rsquo;s World. Earlier they designed at IBM and
+              early Plaid.
+            </>
+          ),
+        },
+        {
+          heading: 'Who this raise hires',
+          body: (
+            <>
+              The first hire is an ML-systems lead. Builders who care about
+              privacy join missions like this the way they join Signal and
+              Mozilla.
+            </>
+          ),
+        },
+      ]}
+    />
+    <div className="mt-10">
+      <FpoBox
+        note="Three founder columns with photos; logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME"
+        aspect="6/1"
+      />
+    </div>
+  </DeckPage>
+);
+
+const page23 = (
+  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="The hard questions"
@@ -126,59 +179,6 @@ const page23 = (
   </DeckPage>
 );
 
-const page24 = (
-  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
-    <CardsPage
-      title="The team"
-      sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
-      cards={[
-        {
-          heading: 'Hugh Francis',
-          body: (
-            <>
-              <strong>
-                A computer scientist & patented inventor for architecting the
-                Light Phone II and III, named among TIME&rsquo;s Best Inventions
-                in 2019 and 2025.
-              </strong>
-              <Ref k="light-phone" /> Among other projects, Hugh architected
-              Mill&rsquo;s IoT infrastructure for the founders of Google&rsquo;s
-              Nest, runs IoT projects for AT&amp;T, and led garden3d, a 30+
-              person studio.
-            </>
-          ),
-        },
-        {
-          heading: 'Yatú Pelaez-Espinosa and Norm O’Hagan',
-          body: (
-            <>
-              They founded USB Club and started the Advanced Concepts hardware
-              team at Sam Altman&rsquo;s World. Earlier they designed at IBM and
-              early Plaid.
-            </>
-          ),
-        },
-        {
-          heading: 'Who this raise hires',
-          body: (
-            <>
-              The first hire is an ML-systems lead. Builders who care about
-              privacy join missions like this the way they join Signal and
-              Mozilla.
-            </>
-          ),
-        },
-      ]}
-    />
-    <div className="mt-10">
-      <FpoBox
-        note="Three founder columns with photos; logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME"
-        aspect="6/1"
-      />
-    </div>
-  </DeckPage>
-);
-
 const page25 = (
   <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
@@ -218,4 +218,4 @@ const page26 = (
   </DeckPage>
 );
 
-export const ACT4_PAGES: ReactNode[] = [page22, page23, page24, page25, page26];
+export const ACT4_PAGES: ReactNode[] = [page22, page24, page23, page25, page26];

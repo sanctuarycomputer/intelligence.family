@@ -124,8 +124,8 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const titles = [
       "We've spent our careers deploying novel hardware and custom operating systems",
-      'The hard questions',
       'The team',
+      'The hard questions',
       'Timeline',
       "We're raising $15M",
     ];
