@@ -109,11 +109,6 @@ const page18 = (
         },
       ]}
     />
-    <p className="deck-body">
-      <strong>
-        A general purpose software suite for private inference hardware devices.
-      </strong>
-    </p>
   </DeckPage>
 );
 
