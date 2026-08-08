@@ -180,7 +180,7 @@ const page13 = (
     <Split
       flip
       title="A context window for smart homes"
-      sub="A local agent and inference server that every IoT device on the network can tap."
+      sub="Inference for every IoT device on the network."
       media={
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -194,9 +194,11 @@ const page13 = (
       <strong>
         One local agent holds that memory: an MCP server on the LAN, a
         chat-completions endpoint, and local RAG.
-      </strong>{' '}
-      US internet households already run 17 connected devices.
-      <Ref k="parks-17-devices" />
+      </strong>
+      <br />
+      <br />
+      &rarr; US internet households already run 17 connected devices.
+      <Ref k="parks-17-devices" /> Soon, they&rsquo;ll all need inference.
     </Split>
   </DeckPage>
 );
