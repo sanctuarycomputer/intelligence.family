@@ -172,12 +172,10 @@ const page4 = (
       <Ref k="echo-local-removed" /> Today, the data center backlash has arrived
       at a fever pitch that won&rsquo;t subside, akin to climate dread. America
       wants an alternative.
-      <br />
-      <br />
-      <strong>
-        Demand for private AI is enormous. Our market is 70% of America.
-      </strong>
     </Statement>
+    <Band narrow>
+      Demand for private AI is enormous. Our market is 70% of America.
+    </Band>
     <div className="mt-10">
       <FpoBox
         note={

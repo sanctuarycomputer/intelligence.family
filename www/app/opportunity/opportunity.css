@@ -621,6 +621,10 @@ section.deck-page[id] {
   font-size: clamp(16px, 2.4dvh, 21px);
   font-weight: 500;
 }
+/* Matches the .deck-body text measure. */
+.deck-band-narrow {
+  max-width: 500px;
+}
 .deck-band-icon {
   width: clamp(24px, 3.4dvh, 32px);
   aspect-ratio: 1;

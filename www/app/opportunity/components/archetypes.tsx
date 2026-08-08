@@ -265,9 +265,16 @@ export function PricingTiers({
 /** Accent-box callout. The act theme sets the background via .deck-band;
  * the icon comes from the --deck-band-icon CSS variable (heart by default,
  * swappable live from the ?debug=true bar). */
-export function Band({ children }: { children: ReactNode }) {
+export function Band({
+  children,
+  narrow,
+}: {
+  children: ReactNode;
+  /** Cap the box at the .deck-body text width instead of full-bleed. */
+  narrow?: boolean;
+}) {
   return (
-    <p className="deck-band">
+    <p className={narrow ? 'deck-band deck-band-narrow' : 'deck-band'}>
       <span className="deck-band-icon" aria-hidden="true" />
       <span>{children}</span>
     </p>
