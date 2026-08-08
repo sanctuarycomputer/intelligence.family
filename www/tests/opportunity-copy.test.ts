@@ -77,7 +77,7 @@ describe('opportunity deck copy contract', () => {
       "But under the hood... we're building the canonical stack for private AI inference",
       'Our stack',
       'The Android OS for Local AI',
-      'Private AI will be crucial for businesses',
+      'Private AI is becoming crucial for businesses',
       'Local AI side-steps future regulation',
       'The Android of Local AI',
     ];

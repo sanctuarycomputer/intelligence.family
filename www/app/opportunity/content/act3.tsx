@@ -244,7 +244,7 @@ const page19 = (
   <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={2}
-      title="Private AI will be crucial for businesses"
+      title="Private AI is becoming crucial for businesses"
       sub="But today, there's no general purpose software stack to support local deployments."
       cards={[
         {
@@ -271,9 +271,8 @@ const page19 = (
               modeled, the products being spec&rsquo;d, the people being
               evaluated. Even with &ldquo;we don&rsquo;t train on your
               data&rdquo; promises, you&rsquo;re trusting a counterparty&rsquo;s
-              policy rather than an architecture. Local AI means your query
-              stream (the metadata layer of your thinking) never exists outside
-              the building.
+              policy rather than an architecture. Local AI means the query
+              stream never leaves the office.
             </>
           ),
         },
