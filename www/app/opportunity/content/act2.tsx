@@ -35,8 +35,8 @@ const page8 = (
   <DeckPage key={8} n={8} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
-      title="Your family, preserved"
-      sub="Weekly check-ins, budgets, school, health, and family stories."
+      title="Your own family vault"
+      sub="Weekly check-ins, budgets, school, health, and stories."
       media={
         <FpoBox
           note={
@@ -62,7 +62,8 @@ const page10 = (
     >
       The AI gadget graveyard died trying inventing new ways to interact.{' '}
       <strong>
-        Instead, entering a proven category with a novel new architecture.
+        Instead, we&rsquo;re entering a proven category with a novel new
+        architecture.
       </strong>{' '}
       Alexa is at that number.
       <Ref k="alexa-600m" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
@@ -122,7 +123,7 @@ const page11 = (
               Blackstone bought Ancestry for $4.7B in 2020.
               <Ref k="ancestry-blackstone" /> StoryWorth reports over 1M printed
               books, bootstrapped.
-              <Ref k="storyworth" /> We unify the practice these products serve
+              <Ref k="storyworth" /> We unify the practice these products offer
               piecemeal.
             </>
           ),

@@ -47,7 +47,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
-      'Your family, preserved',
+      'Your own family vault',
       'Home hubs are a proven category.',
       'Families already pay for this',
       'Subscribe for peace of mind',
@@ -61,7 +61,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, sensitive data, and a GPU in the living room.',
-      'Weekly check-ins, budgets, school, health, and family stories.',
+      'Weekly check-ins, budgets, school, health, and stories.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       '$9/month, optional: zero-knowledge backup, sync, and remote access.',
