@@ -69,7 +69,7 @@ describe('opportunity deck copy contract', () => {
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       'Each flagship earns $418 of gross profit on an $899 price.',
-      'The flagship ships first. Every later tier runs the same stack.',
+      'The flagship device ships first, and every future SKU runs the same (evolving) stack.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
