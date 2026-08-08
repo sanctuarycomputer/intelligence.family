@@ -71,7 +71,7 @@ describe('opportunity deck copy contract', () => {
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       '$9/month, optional: zero-knowledge backup, sync, and remote access.',
-      'A local agent and inference server that every IoT device on the network can tap.',
+      'Inference for every IoT device on the network.',
       '110,000 devices in five years, a $9/month attach, 40%+ blended margin.',
     ];
     for (const sub of subs) {
