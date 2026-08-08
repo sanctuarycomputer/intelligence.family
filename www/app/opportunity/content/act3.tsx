@@ -28,8 +28,71 @@ const stackArt = (label: string) => (
   <span className="deck-card-art-fpo">{label}</span>
 );
 
-const page18 = (
+const page19 = (
   <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
+    <CardsPage
+      columns={2}
+      title="Private AI is becoming crucial for businesses"
+      sub="But today, there's no general purpose software stack to support local deployments."
+      cards={[
+        {
+          heading: 'Local AI sidesteps impending regulation',
+          body: (
+            <>
+              COPPA turns on gathering a child&rsquo;s information.
+              <Ref k="coppa-definition" /> GDPR exempts a family&rsquo;s own use
+              of its data.
+              <Ref k="gdpr-household" /> Data that never leaves the device
+              rarely triggers either. The wall keeps rising: COPPA compliance
+              April 2026,
+              <Ref k="coppa-amended" /> EU AI Act transparency August 2026,
+              <Ref k="eu-ai-act-enforcement" /> California age signals by 2027.
+              <Ref k="ab1043" />
+            </>
+          ),
+        },
+        {
+          heading: 'Enterprises can’t risk leaking their IP',
+          body: (
+            <>
+              What a company asks AI reveals its roadmap: the deals being
+              modeled, the products being spec&rsquo;d, the people being
+              evaluated. Even with &ldquo;we don&rsquo;t train on your
+              data&rdquo; promises, you&rsquo;re trusting a counterparty&rsquo;s
+              policy rather than an architecture. Local AI means the query
+              stream never leaves the office.
+            </>
+          ),
+        },
+        {
+          heading: 'Low connectivity scenarios will require inference',
+          body: (
+            <>
+              Agents acting in the physical world (home, car, robotics,
+              industrial) can&rsquo;t tolerate round trips or outages. When the
+              model is on-device, the product works in rural areas, on planes,
+              during provider incidents, and at millisecond speeds.
+            </>
+          ),
+        },
+        {
+          heading: 'Inference economics invert at scale',
+          body: (
+            <>
+              Cloud AI makes every query a billable event. Local inference flips
+              this: hardware is a one-time cost, and usage becomes free at the
+              margin. Any product with high-frequency, always-on AI (ambient
+              assistants, monitoring, agents) becomes untenable on cloud rails.
+            </>
+          ),
+        },
+      ]}
+    />
+  </DeckPage>
+);
+
+const page18 = (
+  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="Our stack"
@@ -113,7 +176,7 @@ const page18 = (
 );
 
 const page22 = (
-  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       wide
       title="The Android OS for Local AI"
@@ -235,69 +298,6 @@ const page22 = (
   </DeckPage>
 );
 
-const page19 = (
-  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
-    <CardsPage
-      columns={2}
-      title="Private AI is becoming crucial for businesses"
-      sub="But today, there's no general purpose software stack to support local deployments."
-      cards={[
-        {
-          heading: 'Local AI sidesteps impending regulation',
-          body: (
-            <>
-              COPPA turns on gathering a child&rsquo;s information.
-              <Ref k="coppa-definition" /> GDPR exempts a family&rsquo;s own use
-              of its data.
-              <Ref k="gdpr-household" /> Data that never leaves the device
-              rarely triggers either. The wall keeps rising: COPPA compliance
-              April 2026,
-              <Ref k="coppa-amended" /> EU AI Act transparency August 2026,
-              <Ref k="eu-ai-act-enforcement" /> California age signals by 2027.
-              <Ref k="ab1043" />
-            </>
-          ),
-        },
-        {
-          heading: 'Enterprises can’t risk leaking their IP',
-          body: (
-            <>
-              What a company asks AI reveals its roadmap: the deals being
-              modeled, the products being spec&rsquo;d, the people being
-              evaluated. Even with &ldquo;we don&rsquo;t train on your
-              data&rdquo; promises, you&rsquo;re trusting a counterparty&rsquo;s
-              policy rather than an architecture. Local AI means the query
-              stream never leaves the office.
-            </>
-          ),
-        },
-        {
-          heading: 'Low connectivity scenarios will require inference',
-          body: (
-            <>
-              Agents acting in the physical world (home, car, robotics,
-              industrial) can&rsquo;t tolerate round trips or outages. When the
-              model is on-device, the product works in rural areas, on planes,
-              during provider incidents, and at millisecond speeds.
-            </>
-          ),
-        },
-        {
-          heading: 'Inference economics invert at scale',
-          body: (
-            <>
-              Cloud AI makes every query a billable event. Local inference flips
-              this: hardware is a one-time cost, and usage becomes free at the
-              margin. Any product with high-frequency, always-on AI (ambient
-              assistants, monitoring, agents) becomes untenable on cloud rails.
-            </>
-          ),
-        },
-      ]}
-    />
-  </DeckPage>
-);
-
 const page21 = (
   <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <Split
@@ -318,4 +318,4 @@ const page21 = (
   </DeckPage>
 );
 
-export const ACT3_PAGES: ReactNode[] = [page17, page18, page22, page19, page21];
+export const ACT3_PAGES: ReactNode[] = [page17, page19, page18, page22, page21];

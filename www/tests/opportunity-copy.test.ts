@@ -75,9 +75,9 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
       "But under the hood... we're building the canonical stack for private AI inference",
+      'Private AI is becoming crucial for businesses',
       'Our stack',
       'The Android OS for Local AI',
-      'Private AI is becoming crucial for businesses',
       'The Android of Local AI',
     ];
     // The Android title deliberately repeats, so scan forward from the
