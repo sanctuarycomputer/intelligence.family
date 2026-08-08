@@ -32,6 +32,30 @@ function slideTitle(page: string): string {
   return heading?.textContent?.trim() ?? '(untitled)';
 }
 
+// The family-book UI kit icons in public/opportunity/icons/.
+const BAND_ICONS = [
+  'heart',
+  'tree',
+  'home',
+  'notebook',
+  'lightning',
+  'microphone',
+  'stacks',
+  'settings',
+  'battery',
+  'image',
+  'play',
+  'close',
+] as const;
+const DEFAULT_BAND_ICON = 'heart';
+
+function setBandIcon(name: string) {
+  document.documentElement.style.setProperty(
+    '--deck-band-icon',
+    `url('/opportunity/icons/${name}.png')`
+  );
+}
+
 const LAYOUT_VARIANTS = [
   'Statement',
   'Statement (splash)',
@@ -68,6 +92,12 @@ export default function DebugCopyEditor({
   const [currentPage, setCurrentPage] = useState('1');
   const [currentArchetype, setCurrentArchetype] = useState('');
   const [deleted, setDeleted] = useState<Map<string, string>>(() => new Map());
+  const [bandIcon, setBandIconState] = useState(DEFAULT_BAND_ICON);
+
+  const pickBandIcon = (name: string) => {
+    setBandIcon(name);
+    setBandIconState(name);
+  };
 
   useEffect(() => {
     // Wait a frame so the (un)locked page list has rendered before scanning.
@@ -154,7 +184,13 @@ export default function DebugCopyEditor({
     const edits = changed();
     const picks = [...layoutPicks.entries()];
     const removals = [...deleted.entries()];
-    if (edits.length === 0 && picks.length === 0 && removals.length === 0) {
+    const iconChanged = bandIcon !== DEFAULT_BAND_ICON;
+    if (
+      edits.length === 0 &&
+      picks.length === 0 &&
+      removals.length === 0 &&
+      !iconChanged
+    ) {
       setCopied('No edits yet');
       setTimeout(() => setCopied(null), 1500);
       return;
@@ -178,8 +214,15 @@ export default function DebugCopyEditor({
       lines.push(`DELETE SLIDE: ${title}`);
       lines.push('');
     }
+    if (iconChanged) {
+      lines.push('[accent box · icon]');
+      lines.push(`OLD ICON: ${DEFAULT_BAND_ICON}`);
+      lines.push(`NEW ICON: ${bandIcon}`);
+      lines.push('');
+    }
     await navigator.clipboard.writeText(lines.join('\n'));
-    const n = edits.length + picks.length + removals.length;
+    const n =
+      edits.length + picks.length + removals.length + (iconChanged ? 1 : 0);
     setCopied(`Copied ${n} edit${n === 1 ? '' : 's'}`);
     setTimeout(() => setCopied(null), 2000);
   };
@@ -189,6 +232,7 @@ export default function DebugCopyEditor({
     for (const page of deleted.keys()) setSlideHidden(page, false);
     setDeleted(new Map());
     setLayoutPicks(new Map());
+    pickBandIcon(DEFAULT_BAND_ICON);
     setCopied('Reset');
     setTimeout(() => setCopied(null), 1200);
   };
@@ -227,6 +271,16 @@ export default function DebugCopyEditor({
           {LAYOUT_VARIANTS.map(v => (
             <option key={v} value={v}>
               {v}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="debug-bar-hint">
+        icon{' '}
+        <select value={bandIcon} onChange={e => pickBandIcon(e.target.value)}>
+          {BAND_ICONS.map(name => (
+            <option key={name} value={name}>
+              {name}
             </option>
           ))}
         </select>

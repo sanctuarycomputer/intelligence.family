@@ -621,10 +621,12 @@ section.deck-page[id] {
   font-size: clamp(16px, 2.4dvh, 21px);
   font-weight: 500;
 }
-.deck-band-heart {
+.deck-band-icon {
   width: clamp(24px, 3.4dvh, 32px);
-  height: auto;
+  aspect-ratio: 1;
   flex: none;
+  background: var(--deck-band-icon, url('/opportunity/icons/heart.png'))
+    center / contain no-repeat;
 }
 .deck-act-3 .deck-band {
   background: rgba(215, 221, 212, 0.1);
