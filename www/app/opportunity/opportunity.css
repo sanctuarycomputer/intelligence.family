@@ -393,17 +393,27 @@ section.deck-page[id] {
   border-color: var(--fi-green-500);
 }
 
+/* Figure shrinks to its image; the caption is then forced to that width. */
+.deck-media-figure {
+  display: inline-block;
+  max-width: 100%;
+}
 .deck-media-caption {
   display: block;
+  width: 0;
+  min-width: 100%;
   margin-top: 10px;
   font-size: 12px;
   color: var(--fi-black-900);
   opacity: 0.65;
   font-variation-settings: 'MONO' 100;
   letter-spacing: 0;
-  text-decoration: underline;
 }
-.deck-media-caption:hover {
+.deck-media-caption a {
+  text-decoration: underline;
+  white-space: nowrap;
+}
+.deck-media-caption a:hover {
   text-decoration: none;
 }
 

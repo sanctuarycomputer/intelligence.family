@@ -71,22 +71,24 @@ const page3 = (
       title="Local AI (finally) runs on consumer hardware"
       sub="Open-weight models are closing the gap with the frontier."
       media={
-        <div>
+        <div className="deck-media-figure">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/opportunity/open-gap-thread.png"
             alt="A thread on X: analysts put open models seven months behind the frontier, Elon Musk replies 'Probably Q1', and Zhipu's Jie Tang replies 'won't take that long'"
             className="deck-screenshot"
           />
-          <a
-            className="deck-media-caption"
-            href="https://x.com/jietang/status/2067580270078030088"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <span className="deck-media-caption">
             Z.ai&rsquo;s founder predicts open weight models that rival
-            Anthropic&rsquo;s Fable before Q1 2027
-          </a>
+            Anthropic&rsquo;s Fable before Q1 2027{' '}
+            <a
+              href="https://x.com/jietang/status/2067580270078030088"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Link &#8599;
+            </a>
+          </span>
         </div>
       }
     >
