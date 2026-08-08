@@ -445,6 +445,7 @@ section.deck-page[id] {
   margin-top: 14px;
   font-size: 12px;
   opacity: 0.7;
+  text-align: right;
 }
 
 /* Interactive Gantt for the timeline slide */
