@@ -242,55 +242,67 @@ const page22 = (
 
 const page19 = (
   <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
-    <EvidenceGrid
+    <CardsPage
+      columns={2}
       title="Private AI will be crucial for businesses"
       sub="But today, there's no general purpose software stack to support local deployments."
       cards={[
         {
-          heading: 'NVIDIA and Palantir',
+          heading: 'Local AI sidesteps impending regulation',
           body: (
             <>
-              In October 2025 they partnered to run models where enterprise data
-              sits,
-              <Ref k="nvidia-palantir" /> then shipped an air-gapped
-              architecture so data never leaves the building.
-              <Ref k="palantir-sovereign-aios" />
+              COPPA turns on gathering a child&rsquo;s information.
+              <Ref k="coppa-definition" /> GDPR exempts a family&rsquo;s own use
+              of its data.
+              <Ref k="gdpr-household" /> Data that never leaves the device
+              rarely triggers either. The wall keeps rising: COPPA compliance
+              April 2026,
+              <Ref k="coppa-amended" /> EU AI Act transparency August 2026,
+              <Ref k="eu-ai-act-enforcement" /> California age signals by 2027.
+              <Ref k="ab1043" />
             </>
           ),
         },
         {
-          heading: '€10B for seven gigafactories',
+          heading: 'Enterprises can’t risk leaking their IP',
           body: (
             <>
-              The EU opened its call for seven sovereign AI gigafactories on
-              July 30, 2026.
-              <Ref k="eu-gigafactories" /> Cohere sells the same sovereignty to
-              governments.
-              <Ref k="cohere-sovereign" />
+              What a company asks AI reveals its roadmap: the deals being
+              modeled, the products being spec&rsquo;d, the people being
+              evaluated. Even with &ldquo;we don&rsquo;t train on your
+              data&rdquo; promises, you&rsquo;re trusting a counterparty&rsquo;s
+              policy rather than an architecture. Local AI means your query
+              stream (the metadata layer of your thinking) never exists outside
+              the building.
             </>
           ),
         },
         {
-          heading: '93% of enterprises',
+          heading: 'Low connectivity scenarios will require inference',
           body: (
             <>
-              Cloudian found them repatriating or evaluating on-prem AI
-              workloads in March 2026.
-              <Ref k="cloudian-onprem" />{' '}
-              <strong>
-                The household is the last sovereign unit nobody serves.
-              </strong>
+              Agents acting in the physical world (home, car, robotics,
+              industrial) can&rsquo;t tolerate round trips or outages. When the
+              model is on-device, the product works in rural areas, on planes,
+              during provider incidents, and at millisecond speeds. Reliability
+              becomes a property you own rather than an SLA you rent.
+            </>
+          ),
+        },
+        {
+          heading: 'Inference economics invert at scale',
+          body: (
+            <>
+              Cloud AI makes every query a billable event, so margins erode as
+              engagement grows. Local inference flips this: hardware is a
+              one-time cost, and usage becomes free at the margin. Any product
+              with high-frequency, always-on AI (ambient assistants, monitoring,
+              agents) is structurally unprofitable on cloud rails.
             </>
           ),
         },
       ]}
     />
-    <div className="mt-10">
-      <FpoBox
-        note="Deal timeline Oct 2025→Jul 2026 with NVIDIA/Palantir/Cohere/EU marks and dollar figures"
-        aspect="6/1"
-      />
-    </div>
   </DeckPage>
 );
 

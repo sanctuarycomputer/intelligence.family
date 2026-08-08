@@ -240,8 +240,8 @@ export function CardsPage({
     art?: ReactNode;
     photo?: ReactNode;
   }>;
-  /** 3 or 4 lays the cards out as an equal-height grid instead of a stack. */
-  columns?: 1 | 3 | 4;
+  /** 2, 3 or 4 lays the cards out as an equal-height grid instead of a stack. */
+  columns?: 1 | 2 | 3 | 4;
 }) {
   const tight = columns !== 1;
   const grid =
@@ -249,7 +249,9 @@ export function CardsPage({
       ? 'mt-10 grid md:grid-cols-4 auto-rows-fr gap-3'
       : columns === 3
         ? 'mt-10 grid md:grid-cols-3 auto-rows-fr gap-4'
-        : 'mt-10 flex flex-col gap-6';
+        : columns === 2
+          ? 'mt-10 grid md:grid-cols-2 auto-rows-fr gap-4'
+          : 'mt-10 flex flex-col gap-6';
   return (
     <div data-archetype={tight ? 'Cards (3-col)' : 'Cards'}>
       <Title>{title}</Title>
