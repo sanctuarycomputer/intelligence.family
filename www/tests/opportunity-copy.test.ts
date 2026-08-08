@@ -71,14 +71,13 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 3 carries the six approved titles in order', () => {
+  it('act 3 carries the five approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
       "But under the hood... we're building the canonical stack for private AI inference",
       'Our stack',
       'The Android OS for Local AI',
       'Private AI is becoming crucial for businesses',
-      'Local AI side-steps future regulation',
       'The Android of Local AI',
     ];
     // The Android title deliberately repeats, so scan forward from the
@@ -95,7 +94,6 @@ describe('opportunity deck copy contract', () => {
     const subs = [
       'The go-to SDK for private inference, built on Linux',
       "But today, there's no general purpose software stack to support local deployments.",
-      'The cloud providers will be regulated, but our architecture is immune.',
       'Every Snapdragon ships a tuned Android build. Partner devices ship a tuned Harness.',
       'Google bought Android in 2005 for ~$50 million.',
       'What will the canonical infrastructure for private AI be valued at',
@@ -205,13 +203,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(22);
+    expect(ALL_PAGES).toHaveLength(21);
     expect(APPENDIX_PAGES).toHaveLength(8);
   });
 
-  it('sets every chrome counter against 22 pages', () => {
+  it('sets every chrome counter against 21 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 22;/);
+      expect(src, name).toMatch(/const TOTAL = 21;/);
     }
   });
 

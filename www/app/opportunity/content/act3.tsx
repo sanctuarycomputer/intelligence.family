@@ -12,7 +12,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 22;
+const TOTAL = 21;
 const ACT_CLASS = 'deck-act-3';
 
 const page17 = (
@@ -298,30 +298,8 @@ const page19 = (
   </DeckPage>
 );
 
-const page20 = (
-  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
-    <DiagramPage
-      title="Local AI side-steps future regulation"
-      sub="The cloud providers will be regulated, but our architecture is immune."
-      media={
-        <FpoBox note="House with a drawn trust-boundary line; HIPAA/COPPA/GDPR arrows triggering only where data crosses it" />
-      }
-    >
-      COPPA turns on gathering a child&rsquo;s information.
-      <Ref k="coppa-definition" /> GDPR exempts a family&rsquo;s own use of its
-      data.
-      <Ref k="gdpr-household" />{' '}
-      <strong>Data that never leaves the device rarely triggers either.</strong>{' '}
-      The wall keeps rising: COPPA compliance April 2026,
-      <Ref k="coppa-amended" /> EU AI Act transparency August 2026,
-      <Ref k="eu-ai-act-enforcement" /> California age signals by 2027.
-      <Ref k="ab1043" />
-    </DiagramPage>
-  </DeckPage>
-);
-
 const page21 = (
-  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="The Android of Local AI"
@@ -340,11 +318,4 @@ const page21 = (
   </DeckPage>
 );
 
-export const ACT3_PAGES: ReactNode[] = [
-  page17,
-  page18,
-  page22,
-  page19,
-  page20,
-  page21,
-];
+export const ACT3_PAGES: ReactNode[] = [page17, page18, page22, page19, page21];

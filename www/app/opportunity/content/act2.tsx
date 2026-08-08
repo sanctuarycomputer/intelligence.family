@@ -12,7 +12,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 22;
+const TOTAL = 21;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
