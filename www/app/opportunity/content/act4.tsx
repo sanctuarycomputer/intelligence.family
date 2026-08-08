@@ -18,14 +18,20 @@ const page22 = (
   </DeckPage>
 );
 
+const teamPhoto = (label: string) => (
+  <span className="deck-card-photo-fpo">{label}</span>
+);
+
 const page24 = (
   <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
+      columns={3}
       title="The team"
       sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
       cards={[
         {
           heading: 'Hugh Francis',
+          photo: teamPhoto('Hugh photo'),
           body: (
             <>
               <strong>
@@ -41,22 +47,24 @@ const page24 = (
           ),
         },
         {
-          heading: 'Yatú Pelaez-Espinosa and Norm O’Hagan',
+          heading: 'Yatú Pelaez-Espinosa',
+          photo: teamPhoto('Yatú photo'),
           body: (
             <>
-              They founded USB Club and started the Advanced Concepts hardware
-              team at Sam Altman&rsquo;s World. Earlier they designed at IBM and
-              early Plaid.
+              Co-founded USB Club, a hardware-enabled social network, and
+              started the Advanced Concepts hardware team at Sam Altman&rsquo;s
+              World. In an earlier life, designed at IBM.
             </>
           ),
         },
         {
-          heading: 'Who this raise hires',
+          heading: 'Norm O’Hagan',
+          photo: teamPhoto('Norm photo'),
           body: (
             <>
-              The first hire is an ML-systems lead. Builders who care about
-              privacy join missions like this the way they join Signal and
-              Mozilla.
+              Co-founded USB Club and built new hardware product experiences at
+              World&rsquo;s Advanced Concepts team. Previously designed at early
+              Plaid.
             </>
           ),
         },
@@ -64,8 +72,8 @@ const page24 = (
     />
     <div className="mt-10">
       <FpoBox
-        note="Three founder columns with photos; logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME"
-        aspect="6/1"
+        note="Logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME"
+        aspect="8/1"
       />
     </div>
   </DeckPage>

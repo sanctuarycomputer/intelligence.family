@@ -234,7 +234,12 @@ export function CardsPage({
 }: {
   title: ReactNode;
   sub?: ReactNode;
-  cards: Array<{ heading: string; body: ReactNode; art?: ReactNode }>;
+  cards: Array<{
+    heading: string;
+    body: ReactNode;
+    art?: ReactNode;
+    photo?: ReactNode;
+  }>;
   /** 3 or 4 lays the cards out as an equal-height grid instead of a stack. */
   columns?: 1 | 3 | 4;
 }) {
@@ -256,6 +261,9 @@ export function CardsPage({
             className={`deck-card h-full rounded-[8px] bg-fi-green-200 ${columns === 4 ? 'p-4' : tight ? 'p-5' : 'p-6'}`}
           >
             {card.art && <span className="deck-card-art">{card.art}</span>}
+            {card.photo && (
+              <span className="deck-card-photo">{card.photo}</span>
+            )}
             <h4>{card.heading}</h4>
             <p className={tight ? 'deck-card-body-tight' : 'deck-card-body'}>
               {card.body}

@@ -78,6 +78,28 @@ section.deck-page[id] {
   width: 100%;
   height: auto;
 }
+.deck-card-photo {
+  display: block;
+  margin-bottom: 12px;
+}
+.deck-card-photo img {
+  width: clamp(72px, 10dvh, 112px);
+  height: clamp(72px, 10dvh, 112px);
+  object-fit: cover;
+  border-radius: 20px;
+}
+.deck-card-photo-fpo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(72px, 10dvh, 112px);
+  height: clamp(72px, 10dvh, 112px);
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 20px;
+  font-size: 11px;
+  text-align: center;
+  background: rgba(215, 221, 212, 0.12);
+}
 .deck-card-art-fpo {
   display: flex;
   align-items: center;
