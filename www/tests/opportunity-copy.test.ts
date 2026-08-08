@@ -126,7 +126,7 @@ describe('opportunity deck copy contract', () => {
       "We've spent our careers deploying novel hardware and custom operating systems",
       'The team',
       'The hard questions',
-      'Timeline',
+      'title="Timeline"',
       "We're raising $15M",
     ];
     const idx = titles.map(t => src.indexOf(t));
