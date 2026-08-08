@@ -71,7 +71,12 @@ const page3 = (
       title="Local AI (finally) runs on consumer hardware"
       sub="Open-weight models are closing the gap with the frontier."
       media={
-        <FpoBox note="Epoch open-vs-closed capability-gap chart; inset photo of the Orin prototype board" />
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/opportunity/open-gap-thread.png"
+          alt="A thread on X: analysts put open models seven months behind the frontier, Elon Musk replies 'Probably Q1', and Zhipu's Jie Tang replies 'won't take that long'"
+          className="deck-screenshot"
+        />
       }
     >
       Open weights keep closing on closed models.
