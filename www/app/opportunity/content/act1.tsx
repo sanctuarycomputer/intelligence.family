@@ -118,9 +118,13 @@ const page4 = (
       Pew measured that distrust in June 2026.
       <Ref k="pew-distrust" /> Amazon went the other way, removing the
       Echo&rsquo;s only local-processing option in March 2025.
-      <Ref k="echo-local-removed" />{' '}
+      <Ref k="echo-local-removed" />
+      <br />
+      <br />
       <strong>
-        Demand is enormous, trust is absent, and that gap is the market.
+        Demand is enormous &amp; trust is absent.
+        <br />
+        Our market is 70% of America.
       </strong>
     </Statement>
     <div className="mt-10">
@@ -138,16 +142,8 @@ const page5 = (
   <DeckPage key={5} n={5} total={TOTAL}>
     <Split
       flip
-      title="Local architecture makes all the difference"
-      sub={
-        <>
-          Two listening devices...
-          <br />
-          friend.com was panned
-          <br />
-          Family Intelligence was loved
-        </>
-      }
+      title="Local architecture wins consumer excitement"
+      sub="Two AI listening devices. friend.com was panned, while Family Intelligence was loved ❤︎"
       media={
         <div className="grid grid-cols-2 gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -167,8 +163,11 @@ const page5 = (
     >
       Our device research, in partnership with the Mozilla Foundation, drew an
       overwhelmingly positive response across 28k+ impressions.
-      <Ref k="mozilla-research" /> Meanwhile... friend.com&rsquo;s
-      always-listening pendant was vandalized on the NYC subway.
+      <Ref k="mozilla-research" />
+      <br />
+      <br />
+      Meanwhile... friend.com&rsquo;s always-listening pendant was vandalized on
+      the NYC subway.
       <Ref k="friend-backlash" />
       <br />
       <br />

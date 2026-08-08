@@ -13,7 +13,7 @@ const page22 = (
   <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
-      title="We're building this either way... this round sets the speed"
+      title="We've spent our careers deploying novel hardware and custom operating systems"
     />
   </DeckPage>
 );

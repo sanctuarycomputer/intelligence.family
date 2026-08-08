@@ -21,7 +21,7 @@ describe('opportunity deck copy contract', () => {
       'The GPU is coming home',
       'Local AI (finally) runs on consumer hardware',
       "7 in 10 Americans don't trust big tech's AI",
-      'Local architecture makes all the difference',
+      'Local architecture wins consumer excitement',
       'Intentional technology is a proven market',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
@@ -123,7 +123,7 @@ describe('opportunity deck copy contract', () => {
   it('act 4 carries the five approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const titles = [
-      "We're building this either way... this round sets the speed",
+      "We've spent our careers deploying novel hardware and custom operating systems",
       'The hard questions',
       'The team',
       'Timeline',
