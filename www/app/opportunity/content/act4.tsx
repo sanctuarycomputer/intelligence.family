@@ -99,10 +99,6 @@ const page24 = (
           label="Early prototype in use"
         />
       </div>
-      <span className="deck-media-caption">
-        We&rsquo;ve built and scaled domestic and international consumer
-        hardware businesses.
-      </span>
     </div>
   </DeckPage>
 );
