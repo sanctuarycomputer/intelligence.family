@@ -153,8 +153,8 @@ const page23 = (
           body: (
             <>
               The $9/month cloud backup is optional. Our family device works out
-              of the box with no connectivity. Our encrypted sync is opt-in,
-              for peace of mind.
+              of the box with no connectivity. Our encrypted sync is opt-in, for
+              peace of mind.
             </>
           ),
         },
@@ -193,8 +193,9 @@ const page23 = (
           heading: 'Manufacturing and tariff risk?',
           body: (
             <>
-              Our team holds direct relationships with Foxconn, Arima, and Coosea
-              in Taipei and Shenzhen, and a tariff-aware manufacturing plan.
+              Our team holds direct relationships with Foxconn, Arima, and
+              Coosea in Taipei and Shenzhen, and a tariff-aware manufacturing
+              plan.
             </>
           ),
         },

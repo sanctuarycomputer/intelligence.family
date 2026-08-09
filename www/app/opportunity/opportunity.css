@@ -147,10 +147,6 @@ section.deck-page[id] {
 .deck-act-3 .deck-ref {
   color: var(--fi-green-300);
 }
-.deck-act-3 .deck-fpo {
-  color: var(--fi-green-100);
-  background: rgba(215, 221, 212, 0.08);
-}
 .deck-chrome.deck-chrome-dark {
   color: var(--fi-green-100);
 }
@@ -212,10 +208,6 @@ section.deck-page[id] {
 }
 .deck-chrome-corner {
   position: absolute;
-}
-.deck-chrome-tl {
-  top: 20px;
-  left: var(--container-padding);
 }
 .deck-chrome-tr {
   top: 20px;
@@ -442,13 +434,6 @@ section.deck-page[id] {
   font-variation-settings: 'MONO' 100;
   letter-spacing: 0;
 }
-.deck-media-caption a {
-  text-decoration: underline;
-  white-space: nowrap;
-}
-.deck-media-caption a:hover {
-  text-decoration: none;
-}
 
 .deck-caption-note {
   margin-top: 14px;
@@ -666,16 +651,6 @@ section.deck-page[id] {
 }
 .deck-act-3 .deck-band-icon {
   filter: brightness(0) invert(0.92);
-}
-.deck-act-3 .deck-tier,
-.deck-act-3 .deck-tier-footer {
-  border-color: rgba(215, 221, 212, 0.25);
-}
-.deck-act-3 .deck-tier-footer {
-  background: rgba(215, 221, 212, 0.08);
-}
-.deck-act-3 .deck-tier-meta {
-  color: var(--fi-green-300);
 }
 
 /* Datapoint tiles, referencing the homepage QuoteBox style: big mono value

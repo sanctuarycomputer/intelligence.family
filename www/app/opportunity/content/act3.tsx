@@ -1,12 +1,7 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import Ref from '../components/Ref';
-import {
-  Band,
-  CardsPage,
-  Ledger,
-  Statement,
-} from '../components/archetypes';
+import { Band, CardsPage, Ledger, Statement } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
 const TOTAL = 24;

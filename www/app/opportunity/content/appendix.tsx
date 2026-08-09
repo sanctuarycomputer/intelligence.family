@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
-import Ref from '../components/Ref';
 import {
   Band,
   CardsPage,
@@ -231,11 +230,7 @@ const baseCasePage = (
 );
 
 const sourcesPage = (
-  <DeckPage
-    key={FIRST + 5}
-    n={FIRST + 5}
-    total={TOTAL}
-  >
+  <DeckPage key={FIRST + 5} n={FIRST + 5} total={TOTAL}>
     <Statement title="A5 · Sources" sub="Every figure in this deck, linked." />
     <ol className="deck-sources mt-10">
       {orderedReferences().map(([key, ref], i) => (

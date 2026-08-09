@@ -3,12 +3,7 @@ import LeafIcon from '@/components/LeafIcon';
 import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
-import {
-  Band,
-  CardsPage,
-  Split,
-  Statement,
-} from '../components/archetypes';
+import { Band, CardsPage, Split, Statement } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
 const TOTAL = 24;
@@ -36,7 +31,7 @@ export function coverPage(gate: ReactNode): ReactNode {
           Family<span className="tracking-[-0.1em]"> </span>Intelligence
           <LeafIcon className="absolute leaf-animate" style={coverLeafStyle} />
         </h1>
-        <p className="mt-4" style={coverSubStyle}>
+        <p style={coverSubStyle}>
           AI that runs in your home, your office, your hand.
           <br />
           <span className="relative inline-block">
