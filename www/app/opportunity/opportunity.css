@@ -240,6 +240,20 @@ section.deck-page[id] {
   object-fit: cover;
   border-radius: 28px;
 }
+/* Rounded clipping happens on this wrapper layer, not the video element:
+   Safari and Chrome both composite that far more cheaply. */
+.deck-video-frame {
+  overflow: hidden;
+  transform: translateZ(0);
+}
+.deck-video-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  display: block;
+}
+
 /* Landscape sibling of the portrait card: same height, wider frame. */
 .deck-video-landscape {
   display: block;

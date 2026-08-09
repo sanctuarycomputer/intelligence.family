@@ -26,11 +26,12 @@ const page7 = (
       <strong>One device, one market.</strong>
     </Statement>
     <div className="mt-10 flex gap-4 items-start">
-      <DeckVideo
-        src="/opportunity/device-playtest.mp4"
-        className="deck-video-portrait"
-        label="A family play-testing the device prototype"
-      />
+      <span className="deck-video-portrait deck-video-frame">
+        <DeckVideo
+          src="/opportunity/device-playtest.mp4"
+          label="A family play-testing the device prototype"
+        />
+      </span>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/opportunity/device-cad.jpg"
