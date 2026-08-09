@@ -191,22 +191,27 @@ const page5 = (
     <Split
       flip
       title="Local architecture changes the story"
-      sub="Two AI listening devices. friend.com was panned, while Family Intelligence was praised."
       band="Our privacy-preserving architecture is what wins customers over."
       media={
-        <div className="grid grid-cols-2 gap-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/opportunity/friend-comments.png"
-            alt="Instagram comments on friend.com's pendant: 'AI IS NOT YOUR FRIEND', 'Disgusting', 'This Black Mirror type product. Ew'"
-            className="deck-screenshot"
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/opportunity/fi-comments.png"
-            alt="Instagram comments on the Family Intelligence research: 'LOVE THIS!', 'Brilliant idea', 'Small local AI is the future!'"
-            className="deck-screenshot"
-          />
+        <div>
+          <div className="grid grid-cols-2 gap-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/opportunity/friend-comments.png"
+              alt="Instagram comments on friend.com's pendant: 'AI IS NOT YOUR FRIEND', 'Disgusting', 'This Black Mirror type product. Ew'"
+              className="deck-screenshot"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/opportunity/fi-comments.png"
+              alt="Instagram comments on the Family Intelligence research: 'LOVE THIS!', 'Brilliant idea', 'Small local AI is the future!'"
+              className="deck-screenshot"
+            />
+          </div>
+          <span className="deck-media-caption">
+            Two AI listening devices. friend.com was panned, while Family
+            Intelligence was praised.
+          </span>
         </div>
       }
     >
