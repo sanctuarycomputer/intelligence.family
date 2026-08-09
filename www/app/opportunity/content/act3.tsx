@@ -7,12 +7,11 @@ import {
   DiagramPage,
   EvidenceGrid,
   Ledger,
-  PricingTiers,
   Statement,
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 25;
+const TOTAL = 24;
 const ACT_CLASS = 'deck-act-3';
 
 const page17 = (
@@ -301,54 +300,8 @@ const page22 = (
   </DeckPage>
 );
 
-const trajectoryPage = (
-  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
-    <PricingTiers
-      columns={3}
-      title="One product. Then one stack. Then the platform."
-      sub="Each phase compounds the previous one. Phase 1's fleet is Phase 3's reference customer."
-      tiers={[
-        {
-          name: 'Phase 1 · One product, one market',
-          price: 'Years 1-2',
-          body: (
-            <>
-              The whole-home device earns trust in the hardest data context
-              there is, and hardens the stack in the field.
-            </>
-          ),
-          meta: 'Devices + subscription',
-        },
-        {
-          name: 'Phase 2 · One stack, many markets',
-          price: 'Years 3-4',
-          body: (
-            <>
-              Category-tuned SKUs: legal leads, then journalism, healthcare, and
-              family offices. Same runtime, new industrial design.
-            </>
-          ),
-          meta: 'Professional SKUs',
-        },
-        {
-          name: 'Phase 3 · One stack, every hardware company',
-          price: 'Years 3-5+',
-          body: (
-            <>
-              The SDK and fleet-management platform we dogfood from day one,
-              opened to outside hardware companies.
-            </>
-          ),
-          meta: 'Licensing + OEM royalty',
-        },
-      ]}
-      closer="The marginal cost of opening a new vertical falls every time we ship one. The infrastructure compounds; the trust architecture never does."
-    />
-  </DeckPage>
-);
-
 const platformPage = (
-  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       title="The platform is the business we are already building"
       sub="Three ways partners pay for a stack nobody else runs in production."
@@ -377,6 +330,5 @@ export const ACT3_PAGES: ReactNode[] = [
   page19,
   page18,
   page22,
-  trajectoryPage,
   platformPage,
 ];

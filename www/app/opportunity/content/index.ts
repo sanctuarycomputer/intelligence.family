@@ -5,12 +5,12 @@ import { ACT4_PAGES } from './act4';
 
 export { APPENDIX_PAGES } from './appendix';
 
-export const TOTAL = 25;
+export const TOTAL = 24;
 export const ACT_STARTS = [
   { page: 1 },
   { page: 8 },
   { page: 14 },
-  { page: 20 },
+  { page: 19 },
 ];
 export const ALL_PAGES = [
   ...ACT1_PAGES,
@@ -46,13 +46,13 @@ const APPENDIX_META: PageMeta[] = Array.from({ length: 10 }, () => ({
   counter: 'A',
 }));
 
-const LEAF_PAGES = [1, 7, 14, 20, TOTAL + 1]; // cover + act splashes + appendix splash
+const LEAF_PAGES = [1, 7, 14, 19, TOTAL + 1]; // cover + act splashes + appendix splash
 
 export const PAGE_META: PageMeta[] = [
   ...actRun(7, 'I · The Category', 1),
   ...actRun(6, 'II · Our First Device', 8),
-  ...actRun(6, 'III · Under the Hood', 14, true),
-  ...actRun(6, 'IV · The Ask', 20),
+  ...actRun(5, 'III · Under the Hood', 14, true),
+  ...actRun(6, 'IV · The Ask', 19),
   ...APPENDIX_META,
 ];
 
