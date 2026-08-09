@@ -257,6 +257,19 @@ section.deck-page[id] {
   max-width: 380px;
 }
 
+/* Team credential strip: fundraising media row at deck scale. */
+.deck-team-row {
+  display: flex;
+  gap: 14px;
+}
+.deck-team-row img,
+.deck-team-row video {
+  height: clamp(110px, 18dvh, 180px);
+  width: auto;
+  border-radius: 16px;
+  display: block;
+}
+
 /* Fixed chrome layer — one instance for the whole deck, values animate as
    the current page changes instead of remounting per page. */
 .deck-chrome {

@@ -8,10 +8,12 @@ export default function DeckVideo({
   src,
   className,
   label,
+  poster,
 }: {
   src: string;
   className?: string;
   label: string;
+  poster?: string;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
 
@@ -36,6 +38,7 @@ export default function DeckVideo({
     <video
       ref={ref}
       src={src}
+      poster={poster}
       className={className}
       muted
       loop

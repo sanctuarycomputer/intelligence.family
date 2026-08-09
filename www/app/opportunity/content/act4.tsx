@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
-import FpoBox from '../components/FpoBox';
+import DeckVideo from '../components/DeckVideo';
 import MailtoCta from '../components/MailtoCta';
 import TimelineGantt from '../components/TimelineGantt';
 import Ref from '../components/Ref';
@@ -82,10 +82,27 @@ const page24 = (
       ]}
     />
     <div className="mt-6">
-      <FpoBox
-        note="Logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME"
-        aspect="8/1"
-      />
+      <div className="deck-team-row">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/fundraising/signal-source.jpg"
+          alt="USB Club Transport product poster"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/fundraising/family-together.webp"
+          alt="On the factory floor with our contract manufacturing partners"
+        />
+        <DeckVideo
+          src="/fundraising/moment-video.mp4"
+          poster="/fundraising/moment-video-poster.jpg"
+          label="Early prototype in use"
+        />
+      </div>
+      <span className="deck-media-caption">
+        We&rsquo;ve built and scaled domestic and international consumer
+        hardware businesses.
+      </span>
     </div>
   </DeckPage>
 );
