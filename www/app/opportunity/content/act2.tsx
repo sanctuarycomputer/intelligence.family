@@ -256,12 +256,6 @@ const page11 = (
         },
       ]}
     />
-    <div className="mt-10">
-      <FpoBox
-        note="Comp cards: tonies €630M · Life360 $4.5B · Ancestry $4.7B · StoryWorth 1M books"
-        aspect="6/1"
-      />
-    </div>
   </DeckPage>
 );
 
