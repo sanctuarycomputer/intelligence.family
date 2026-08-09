@@ -191,7 +191,7 @@ const page5 = (
     <Split
       flip
       title="Local architecture changes the story"
-      band="Our privacy-preserving architecture is what wins customers over."
+      sub="Our privacy-preserving architecture is what wins customers over."
       media={
         <div>
           <div className="grid grid-cols-2 gap-4">

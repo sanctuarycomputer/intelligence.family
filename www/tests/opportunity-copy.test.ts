@@ -39,7 +39,7 @@ describe('opportunity deck copy contract', () => {
       'AI compute is moving into the house, the way the personal computer did.',
       'Open models are just months behind the best.',
       "But today, there's no alternative.",
-      'friend.com was panned',
+      'Our privacy-preserving architecture is what wins customers over.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
