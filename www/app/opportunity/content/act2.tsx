@@ -35,9 +35,14 @@ const page7 = (
       <img
         src="/opportunity/device-cad.jpg"
         alt="CAD render of the device enclosure: curved shell, tilted display, and the compute module with its cooler inside"
+        className="deck-video-landscape"
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/opportunity/device-photo.jpg"
+        alt="A child touching the prototype's screen on a kitchen counter"
         className="deck-video-portrait"
       />
-      <span className="deck-video-portrait deck-slot-fpo">image 3</span>
     </div>
   </DeckPage>
 );

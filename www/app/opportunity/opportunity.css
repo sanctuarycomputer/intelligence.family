@@ -230,14 +230,13 @@ section.deck-page[id] {
   object-fit: cover;
   border-radius: 28px;
 }
-/* Open slot in a portrait media row, awaiting its asset. */
-.deck-slot-fpo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed var(--fi-green-400);
-  font-size: 12px;
-  background: rgba(215, 221, 212, 0.12);
+/* Landscape sibling of the portrait card: same height, wider frame. */
+.deck-video-landscape {
+  display: block;
+  height: clamp(280px, 52dvh, 460px);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 28px;
 }
 
 /* Fixed chrome layer — one instance for the whole deck, values animate as
