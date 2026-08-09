@@ -823,14 +823,14 @@ section.deck-page[id] {
 
 /* White card frame for diagram art, brand radius. The inner image shrinks
    to keep the framed whole inside the media column's height budget. */
-/* "White" in this style guide is the warm off-white, not #fff. Shadow and
-   border from the Airgapt Figma primary container (Rectangle 294). */
+/* Airgapt primary container: the ragged hand-cut edge comes from the Figma
+   shape as a border-image (sliced so corners stay true), and the shadow is
+   a drop-shadow so it follows the torn silhouette instead of the box. */
 .deck-media-box {
-  background: #f7f9f6;
-  border: 2.5px solid #f7f9f6;
-  border-radius: 20px;
-  padding: clamp(28px, 4.4dvh, 48px);
-  box-shadow: 0px 4px 5px rgba(134, 160, 120, 0.45);
+  border: 32px solid transparent;
+  border-image: url('/opportunity/ragged-container.svg') 32 fill stretch;
+  padding: clamp(0px, 1.6dvh, 16px);
+  filter: drop-shadow(0px 4px 5px rgba(134, 160, 120, 0.45));
 }
 .deck-media-box .deck-slide-media {
   max-height: 56dvh;
