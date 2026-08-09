@@ -225,8 +225,7 @@ const baseCasePage = (
         { value: 'Year 4', label: 'EBITDA-positive on this round alone' },
         {
           value: '$0',
-          label:
-            'Follow-on equity in the plan. Raising again is a choice to accelerate, never a need',
+          label: 'Follow-on equity in the plan. Raising again is a choice.',
         },
       ]}
     />
