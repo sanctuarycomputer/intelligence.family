@@ -226,7 +226,7 @@ export function Ledger({
             }
           >
             <span>{row.label}</span>
-            <span>{row.value}</span>
+            <span className="deck-ledger-value">{row.value}</span>
           </div>
         ))}
       </div>

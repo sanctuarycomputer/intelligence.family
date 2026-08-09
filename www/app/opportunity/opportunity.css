@@ -379,6 +379,14 @@ section.deck-page[id] {
   opacity: 0.7;
   margin-top: 1px;
 }
+/* Data-table convention: sans labels on the left, mono figures on the
+   right. Ledger values pick the mono axis up here; deck-tam layers its
+   display sizing on top. */
+.deck-ledger-value {
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
 .deck-tam {
   font-size: clamp(16px, min(2.6vw, 3.2dvh), 30px);
   font-variation-settings: 'MONO' 100;
