@@ -13,7 +13,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 23;
+const TOTAL = 24;
 
 const coverLeafStyle = {
   width: '0.35em',

@@ -150,7 +150,9 @@ export function EvidenceGrid({
     <div data-archetype="EvidenceGrid">
       <Title>{title}</Title>
       <Sub>{sub}</Sub>
-      <div className="grid md:grid-cols-3 gap-6 mt-10">
+      <div
+        className={`grid ${cards.length === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'} gap-6 mt-10`}
+      >
         {cards.map(card => (
           <div
             key={card.heading}

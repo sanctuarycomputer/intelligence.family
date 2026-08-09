@@ -11,11 +11,11 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 23;
+const TOTAL = 24;
 const ACT_CLASS = 'deck-act-3';
 
 const page17 = (
-  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
       title="But under the hood... we're building the canonical stack for private AI inference"
@@ -28,7 +28,7 @@ const stackArt = (label: string) => (
 );
 
 const page19 = (
-  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={2}
       title="Private AI is becoming crucial for businesses"
@@ -92,7 +92,7 @@ const page19 = (
 );
 
 const page18 = (
-  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="Our stack"
@@ -176,7 +176,7 @@ const page18 = (
 );
 
 const page22 = (
-  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       wide
       title="The Android OS for Local AI"
@@ -302,7 +302,7 @@ const page22 = (
 );
 
 const platformPage = (
-  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       title="Our platform is a compounding business"
       sub="We expect three key ways partners will integrate our software."
@@ -324,8 +324,8 @@ const platformPage = (
       <br />
       <br />
       <strong>
-        Sonos, Dyson, and LG will never build this stack - but they will want
-        to license it.
+        Sonos, Dyson, and LG will never build this stack - but they will want to
+        license it.
       </strong>
     </p>
   </DeckPage>

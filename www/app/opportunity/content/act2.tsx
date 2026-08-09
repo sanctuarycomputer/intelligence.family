@@ -14,7 +14,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 23;
+const TOTAL = 24;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
@@ -55,8 +55,36 @@ const page8 = (
   </DeckPage>
 );
 
-const page12 = (
+const contextPage = (
   <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
+    <Split
+      flip
+      title="A context window for smart homes"
+      sub="Inference for every IoT device on the network."
+      media={
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/opportunity/context-window-home.png"
+          alt="A house cross-section: the Family Book hub on the coffee table, connected by glowing vines to the TV, thermostat, camera, laptop, phone, and speaker in every room"
+          className="deck-slide-media"
+        />
+      }
+    >
+      The house knows who the plumber is and what the family is saving for.{' '}
+      <strong>
+        One local agent holds that memory: an MCP server on the LAN, a
+        chat-completions endpoint, and local RAG.
+      </strong>
+      <br />
+      <br />
+      &rarr; US internet households already run 17 connected devices.
+      <Ref k="parks-17-devices" /> Soon, they&rsquo;ll all need inference.
+    </Split>
+  </DeckPage>
+);
+
+const page12 = (
+  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
     <PricingTiers
       title="One device becomes a family of them"
       sub="The flagship device ships first, and every future SKU runs the same (evolving) stack."
@@ -114,7 +142,7 @@ const page12 = (
 );
 
 const page10 = (
-  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
     <div className="grid md:grid-cols-2 gap-10 items-center">
       <FpoBox
         note={
@@ -153,7 +181,7 @@ const page10 = (
 );
 
 const page11 = (
-  <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
       title="Families already pay for this"
       sub="tonies did €630M in revenue last year. Life360 is a $4.5B public company."
@@ -183,6 +211,16 @@ const page11 = (
           ),
         },
         {
+          heading: 'Plaud reached ~$250M',
+          body: (
+            <>
+              Plaud reached about $250M in revenue at roughly 20% margin, on 1M+
+              devices and essentially no venture capital.
+              <Ref k="plaud" />
+            </>
+          ),
+        },
+        {
           heading: 'Ancestry and StoryWorth',
           body: (
             <>
@@ -206,7 +244,7 @@ const page11 = (
 );
 
 const unitEconomicsPage = (
-  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
     <div className="grid md:grid-cols-2 gap-10 items-center">
       <StatTiles
         stacked
@@ -245,6 +283,7 @@ const unitEconomicsPage = (
 export const ACT2_PAGES: ReactNode[] = [
   page7,
   page8,
+  contextPage,
   page12,
   page10,
   page11,
