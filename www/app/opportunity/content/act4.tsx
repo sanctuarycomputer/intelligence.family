@@ -111,6 +111,11 @@ const page24 = (
           src="/opportunity/transport-lit.png"
           alt="The USB Club Transport device, lit"
         />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/talk-intro.png"
+          alt="Speaking on stage about augmenting human thought"
+        />
       </div>
     </div>
   </DeckPage>
