@@ -222,21 +222,6 @@ section.deck-page[id] {
   background: rgba(215, 221, 212, 0.12);
 }
 
-/* Incumbent hub photos: square crops with a mono cloud tag beneath. */
-.deck-hub-figure img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 20px;
-  display: block;
-}
-.deck-hub-figure figcaption {
-  margin-top: 8px;
-  font-size: 12px;
-  font-variation-settings: 'MONO' 100;
-  opacity: 0.75;
-}
-
 /* Cute portrait video: cropped to a tall frame with generous corners. */
 .deck-video-portrait {
   display: block;
