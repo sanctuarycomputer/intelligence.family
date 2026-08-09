@@ -26,7 +26,7 @@ const splashPage = (
 const revenueModelPage = (
   <DeckPage key={FIRST + 3} n={FIRST + 3} total={TOTAL}>
     <Statement
-      title="Six revenue lines, one stack underneath"
+      title="A1 · Revenue model"
       sub="Devices carry the business through Year 3. Subscription and licensing carry the margin after it."
     />
     <table className="deck-plan-table">
@@ -80,7 +80,7 @@ const revenueModelPage = (
 const scenariosPage = (
   <DeckPage key={FIRST + 4} n={FIRST + 4} total={TOTAL}>
     <Statement
-      title="Scenarios"
+      title="A3 · Scenarios"
       sub="One switch rescales volume, subscription attach, licensing and the hiring plan together."
     />
     <table className="deck-plan-table">
@@ -125,7 +125,7 @@ const methodologyPage = (
   <DeckPage key={FIRST + 5} n={FIRST + 5} total={TOTAL}>
     <CardsPage
       columns={2}
-      title="What the model does and does not include"
+      title="A4 · Model methodology"
       sub="A 60-month, three-statement monthly build: 15 tabs, three scenarios, and a balance sheet that ties every month."
       cards={[
         {
@@ -182,7 +182,7 @@ const methodologyPage = (
 const baseCasePage = (
   <DeckPage key={FIRST + 6} n={FIRST + 6} total={TOTAL}>
     <Statement
-      title="The base case funds itself"
+      title="A2 · Base case"
       sub="EBITDA-positive in Year 4 on this round alone. The platform upside is what you're pricing."
     />
     <table className="deck-plan-table">
@@ -239,15 +239,15 @@ const baseCasePage = (
 
 const STUBS: Array<{ title: string; note: string }> = [
   {
-    title: 'A1 · Stack deep-dive',
+    title: 'A5 · Stack deep-dive',
     note: 'TEE, zero-knowledge backup, mirroring, P2P gossip diagrams; ontology library (declare a schema, the model extracts it); Harness API surfaces (MCP, completions, RAG, ontology lookup)',
   },
   {
-    title: 'A2 · Competition matrix',
+    title: 'A6 · Competition matrix',
     note: 'Cloud assistants, AI gadgets, DIY local stacks, genealogy platforms',
   },
   {
-    title: 'A3 · Go-to-market detail',
+    title: 'A7 · Go-to-market detail',
     note: "Waitlist → Founder's Edition → broader pre-order; DTC + curated heritage retail; US-led rollout",
   },
 ];
@@ -267,7 +267,7 @@ const sourcesPage = (
     n={FIRST + 7 + STUBS.length}
     total={TOTAL}
   >
-    <Statement title="Sources" sub="Every figure in this deck, linked." />
+    <Statement title="A8 · Sources" sub="Every figure in this deck, linked." />
     <ol className="deck-sources mt-10">
       {orderedReferences().map(([key, ref], i) => (
         <li key={key}>

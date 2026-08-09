@@ -176,13 +176,14 @@ describe('opportunity deck copy contract', () => {
     const index = readFileSync(path.join(dir, 'index.ts'), 'utf8');
     expect(index).toContain('A · Appendix');
     for (const title of [
-      'A1 · Stack deep-dive',
-      'A2 · Competition matrix',
-      'A3 · Go-to-market detail',
-      'Six revenue lines, one stack underneath',
-      'The base case funds itself',
-      'Scenarios',
-      'What the model does and does not include',
+      'A1 · Revenue model',
+      'A2 · Base case',
+      'A3 · Scenarios',
+      'A4 · Model methodology',
+      'A5 · Stack deep-dive',
+      'A6 · Competition matrix',
+      'A7 · Go-to-market detail',
+      'A8 · Sources',
     ]) {
       expect(src, title).toContain(title);
     }
