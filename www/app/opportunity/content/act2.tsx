@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
+import DeckVideo from '../components/DeckVideo';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
@@ -25,14 +26,10 @@ const page7 = (
       <strong>One device, one market.</strong>
     </Statement>
     <div className="mt-10">
-      <video
+      <DeckVideo
         src="/opportunity/device-playtest.mp4"
         className="deck-video-portrait"
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-label="A family play-testing the device prototype"
+        label="A family play-testing the device prototype"
       />
     </div>
   </DeckPage>
