@@ -225,7 +225,7 @@ export function Ledger({
                 : 'flex items-baseline justify-between py-4'
             }
           >
-            <span>{row.label}</span>
+            <span className="deck-ledger-label">{row.label}</span>
             <span className="deck-ledger-value">{row.value}</span>
           </div>
         ))}

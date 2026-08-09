@@ -114,7 +114,10 @@ export default function DebugCopyEditor({
       sections.forEach(section => {
         const page = section.id.replace('page-', '');
         const targets = section.querySelectorAll<HTMLElement>(
-          'h1, h2, h3, h4, p, figcaption, li'
+          'h1, h2, h3, h4, p, figcaption, li, td, th, ' +
+            '.deck-stat-tile-value, .deck-stat-tile-label, ' +
+            '.deck-tier-price, .deck-tier-meta, ' +
+            '.deck-ledger-label, .deck-ledger-value'
         );
         let i = 0;
         targets.forEach(target => {

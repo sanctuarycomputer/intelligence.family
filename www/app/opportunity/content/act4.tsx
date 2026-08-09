@@ -300,7 +300,7 @@ const page26 = (
           key={label}
           className="flex items-baseline justify-between py-2 text-[15px]"
         >
-          <span>{label}</span>
+          <span className="deck-ledger-label">{label}</span>
           <span className="deck-ledger-value">{value}</span>
         </div>
       ))}
