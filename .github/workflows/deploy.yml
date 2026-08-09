@@ -11,6 +11,11 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v2
+      - name: Update last commit git author
+        run: |
+          git config user.email "dev@sanctuary.computer"
+          git config user.name "Sanctu Computer"
+          git commit --amend --reset-author --no-edit
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
