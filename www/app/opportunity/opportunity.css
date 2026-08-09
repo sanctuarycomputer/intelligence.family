@@ -367,6 +367,10 @@ section.deck-page[id] {
 }
 .deck-leaves-hidden {
   opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 600ms ease-out,
+    visibility 0s 600ms;
 }
 .deck-leaves-dark .drift-leaf img {
   filter: brightness(0) invert(0.92);

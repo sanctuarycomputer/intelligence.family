@@ -1,10 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
-import {
-  CardsPage,
-  StatTiles,
-  Statement,
-} from '../components/archetypes';
+import { CardsPage, StatTiles, Statement } from '../components/archetypes';
 import { orderedReferences } from './references';
 
 // Kept local so this module never imports ./index (which imports this file).
