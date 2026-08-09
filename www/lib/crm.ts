@@ -2,10 +2,15 @@ export const ALLOWED_SOURCES = [
   'g3d:family_intelligence',
   'g3d:family_intelligence:fundraising',
   'g3d:family_intelligence:fundraising-viewed',
+  'g3d:family_intelligence:opportunity',
+  'g3d:family_intelligence:opportunity-viewed',
 ] as const;
 
 export const GATE_SOURCE = 'g3d:family_intelligence:fundraising';
 export const VIEWED_SOURCE = 'g3d:family_intelligence:fundraising-viewed';
+export const OPPORTUNITY_GATE_SOURCE = 'g3d:family_intelligence:opportunity';
+export const OPPORTUNITY_VIEWED_SOURCE =
+  'g3d:family_intelligence:opportunity-viewed';
 
 const DEFAULT_SOURCE = 'g3d:family_intelligence';
 const CRM_URL = 'https://stacks.garden3d.net/api/contacts';

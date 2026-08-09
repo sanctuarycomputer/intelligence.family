@@ -1,0 +1,897 @@
+/* Deck shell */
+.deck {
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+.deck-page {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(48px, 7dvh, 72px) var(--container-padding);
+}
+/* Tailwind v4 utilities live in @layer utilities; globals.css's unlayered
+   `p { margin: 0 }` (and friends) beat any layered mt-* utility on those
+   elements. Deck spacing therefore uses these unlayered classes. */
+.deck-body {
+  margin-top: 28px;
+  max-width: 500px;
+}
+.deck-card-body {
+  margin-top: 12px;
+}
+.deck-list {
+  margin-top: 12px;
+  padding-left: 20px;
+  list-style: disc;
+}
+.deck-list li {
+  margin-top: 6px;
+}
+.deck-body p + p {
+  margin-top: 16px;
+}
+.deck-card-body-tight {
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+/* globals.css sets `section[id] { scroll-margin-top: 80px }` for anchor
+   scrolling; scroll-snap uses scroll-margin to place snap positions, so each
+   page was snapping 80px shy of its top. The reset must out-specify the
+   type+attribute selector, hence section.deck-page[id]. */
+section.deck-page[id] {
+  scroll-margin-top: 0;
+}
+/* The centred content well must be allowed to shrink, or a tall child would
+   push the footer chrome out of the fixed-height page. It also carries all
+   of a page's rendered content, so lifting it above the fixed ambient
+   backdrop (z-index: 1) is enough to keep every page's content readable;
+   the section's tinted act background stays behind it at the default
+   stacking level. */
+.deck-page > .deck-well {
+  min-height: 0;
+  position: relative;
+  z-index: 2;
+}
+.deck-act-2 {
+  background: var(--fi-green-200);
+}
+/* Cards can carry a small transparent PNG floating off their top-right
+   corner; the card anchors it and lets it overflow. */
+.deck-card {
+  position: relative;
+}
+.deck-card-icon {
+  display: block;
+  margin-bottom: 10px;
+  height: clamp(44px, 7dvh, 68px);
+}
+.deck-card-icon img {
+  height: 100%;
+  width: auto;
+}
+.deck-card-photo {
+  display: block;
+  margin-bottom: 12px;
+}
+.deck-card-photo img {
+  width: clamp(72px, 10dvh, 112px);
+  height: clamp(72px, 10dvh, 112px);
+  object-fit: cover;
+  border-radius: 20px;
+}
+.deck-card-photo-fpo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(72px, 10dvh, 112px);
+  height: clamp(72px, 10dvh, 112px);
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 20px;
+  font-size: 11px;
+  text-align: center;
+  background: rgba(215, 221, 212, 0.12);
+}
+.deck-card-art-fpo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 999px;
+  font-size: 10px;
+  text-align: center;
+  background: rgba(215, 221, 212, 0.12);
+}
+
+/* On the darker act backgrounds the green-200 cards vanish; lift them to
+   the lighter tone. Unlayered, so it beats the Tailwind bg utility. */
+.deck-act-2 .deck-card,
+.deck-act-4 .deck-card {
+  background: var(--fi-green-100);
+}
+/* "Dark Mode" for the technical stack act: darkest palette green, light ink,
+   and mono display type on the H1s only. The warm serif returns after. */
+.deck-act-3 {
+  background: var(--fi-green-600);
+  color: var(--fi-green-100);
+}
+.deck-act-3 h2,
+.deck-act-3 p,
+.deck-act-3 li,
+.deck-act-3 h4 {
+  color: var(--fi-green-100);
+}
+/* Inline title styles need out-ranking, hence !important, scoped tightly.
+   The act splash keeps the warm serif; only the working slides go sans. */
+.deck-act-3 .deck-title {
+  color: var(--fi-green-100);
+}
+.deck-act-3 .deck-title:not(.deck-title-splash) {
+  font-family: var(--font-sans) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0;
+}
+/* Glass cards: fi-green-100 at low alpha lifts boxes off the dark act
+   background without introducing a clashing opaque tone. */
+.deck-act-3 .deck-card {
+  background: rgba(215, 221, 212, 0.1);
+  border: 1px solid rgba(215, 221, 212, 0.16);
+}
+.deck-act-3 .deck-ref {
+  color: var(--fi-green-300);
+}
+.deck-chrome.deck-chrome-dark {
+  color: var(--fi-green-100);
+}
+.deck-rail-dark a {
+  background: var(--fi-green-400);
+}
+.deck-rail-dark a.active {
+  background: var(--fi-green-100);
+}
+.deck-act-4 {
+  background: var(--fi-green-200);
+}
+
+/* Progress rail */
+.deck-rail {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 40;
+}
+.deck-rail a {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--fi-green-300);
+  display: block;
+}
+.deck-rail a.active {
+  background: var(--fi-green-500);
+}
+.deck-rail a.act-start {
+  height: 14px;
+}
+
+/* Fixed chrome layer — one instance for the whole deck, values animate as
+   the current page changes instead of remounting per page. */
+.deck-chrome {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  color: var(--fi-black-900);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: 0;
+  font-variation-settings: 'MONO' 100;
+  opacity: 1;
+  transition:
+    opacity 400ms ease-out,
+    color 400ms ease-out;
+}
+/* The cover carries no chrome; it fades in on the way to slide 2. */
+.deck-chrome-hidden {
+  opacity: 0;
+}
+.deck-chrome-corner {
+  position: absolute;
+}
+.deck-chrome-tr {
+  top: 20px;
+  right: var(--container-padding);
+  text-align: right;
+}
+.deck-chrome-bl {
+  bottom: 20px;
+  left: var(--container-padding);
+}
+.deck-chrome-br {
+  bottom: 20px;
+  right: var(--container-padding);
+  text-align: right;
+}
+
+/* Rolling value: the incoming value sits in flow (sizing the slot), the
+   outgoing value stacks on top of it while it fades away. */
+.deck-chrome-slot {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+.deck-chrome-value {
+  display: inline-block;
+}
+.deck-chrome-leaving {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.deck-chrome-in {
+  animation: chrome-in 240ms ease-out;
+}
+.deck-chrome-out {
+  animation: chrome-out 240ms ease-out forwards;
+}
+@keyframes chrome-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes chrome-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deck-chrome-in,
+  .deck-chrome-out {
+    animation: none;
+  }
+}
+
+/* Leaves show only on the cover and splash pages, fading out elsewhere;
+   on dark pages the sprites invert to read light-on-dark. */
+.deck-leaves {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 600ms ease-out;
+}
+.deck-leaves-hidden {
+  opacity: 0;
+}
+.deck-leaves-dark .drift-leaf img {
+  filter: brightness(0) invert(0.92);
+}
+
+/* Fixed ambient backdrop — drifting leaves and the cover tree, shared by
+   every slide. Sits above each act's tinted background (z-index: auto) but
+   below page content (.deck-well, z-index: 2). */
+.deck-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.deck-tree {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(70vw, 632px);
+  height: auto;
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
+/* The tree belongs to the cover; it hands off to the chrome at slide 2. */
+.deck-tree-hidden {
+  opacity: 0;
+}
+
+/* Debug copy editor (?debug=true) */
+.debug-editable {
+  cursor: text;
+}
+.debug-editable:hover {
+  outline: 1px dashed var(--fi-green-400);
+  outline-offset: 3px;
+}
+.debug-editable:focus {
+  outline: 2px solid var(--fi-green-500);
+  outline-offset: 3px;
+}
+.debug-bar {
+  position: fixed;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--fi-black-900);
+  color: var(--fi-green-100);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-variation-settings: 'MONO' 100;
+  box-shadow: 0 4px 24px rgba(49, 49, 49, 0.35);
+}
+.debug-bar button {
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--fi-green-400);
+  color: var(--fi-black-1000);
+  font: inherit;
+  cursor: pointer;
+}
+.debug-bar button:hover {
+  background: var(--fi-green-300);
+}
+.debug-bar-hint {
+  opacity: 0.75;
+}
+.debug-bar select {
+  font: inherit;
+  border-radius: 6px;
+  border: 0;
+  padding: 2px 6px;
+  background: var(--fi-green-100);
+  color: var(--fi-black-1000);
+}
+
+.deck-ledger-note {
+  display: block;
+  font-size: clamp(10px, 1.5dvh, 13px);
+  line-height: 1.3;
+  opacity: 0.7;
+  margin-top: 1px;
+}
+/* Data-table convention: sans labels on the left, mono figures on the
+   right. Ledger values pick the mono axis up here; deck-tam layers its
+   display sizing on top. */
+.deck-ledger-value {
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+/* Sized to match the ledger's sans labels so table type stays uniform. */
+.deck-tam {
+  font-size: clamp(13px, 1.9dvh, 16px);
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+/* The wide ledger always fits its page: the root shrinks inside the well,
+   the rows split whatever height remains evenly, and the type scales with
+   viewport height so short screens compress instead of clipping. */
+.deck-ledger-fill {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+.deck-ledger-rows {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.deck-ledger-row {
+  /* Grow into spare height, but never shrink below the content itself:
+     crushing rows into each other is worse than clipping the page edge. */
+  flex: 1 0 auto;
+  min-height: max-content;
+  align-items: flex-end;
+  padding-bottom: clamp(4px, 0.9dvh, 9px);
+}
+.deck-ledger-row strong {
+  font-size: clamp(13px, 1.9dvh, 16px);
+}
+/* v4 divide-y borders hang off each row's bottom, so the first child owns
+   the first divider: recolor every child, not just * + *. */
+.deck-act-3 .divide-fi-green-300 > * {
+  border-color: var(--fi-green-500);
+}
+
+/* Figure shrinks to its image; the caption is then forced to that width. */
+.deck-media-figure {
+  display: inline-block;
+  max-width: 100%;
+}
+.deck-media-caption {
+  display: block;
+  width: 0;
+  min-width: 100%;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--fi-black-900);
+  opacity: 0.65;
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+}
+
+.deck-caption-note {
+  margin-top: 14px;
+  font-size: 12px;
+  opacity: 0.7;
+  text-align: right;
+}
+
+/* Caption constrained to the plan table's measure, reading left-aligned
+   under the table's first column. */
+.deck-caption-note-table {
+  max-width: 760px;
+  text-align: left;
+}
+
+/* Interactive Gantt for the timeline slide */
+.gantt {
+  background: var(--fi-green-100);
+  border-radius: 20px;
+  padding: clamp(12px, 2dvh, 20px) clamp(14px, 1.6vw, 24px);
+  font-family: var(--font-sans);
+  font-size: clamp(11px, 1.5dvh, 14px);
+  max-height: 68dvh;
+  overflow: hidden;
+}
+.gantt-legend {
+  display: flex;
+  gap: 18px;
+  justify-content: flex-end;
+  margin-bottom: 6px;
+  font-size: clamp(10px, 1.3dvh, 12px);
+}
+.gantt-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.gantt-chip {
+  width: 14px;
+  height: 10px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.gantt-head,
+.gantt-row {
+  display: flex;
+  align-items: center;
+}
+.gantt-label {
+  flex: 0 0 clamp(140px, 16vw, 220px);
+  padding-right: 10px;
+}
+.gantt-track {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  height: 100%;
+}
+.gantt-head .gantt-track {
+  border-bottom: 1px solid var(--fi-green-300);
+  padding-bottom: 4px;
+}
+.gantt-quarter {
+  flex: 1 1 0;
+  text-align: left;
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  font-size: clamp(9px, 1.2dvh, 12px);
+  opacity: 0.7;
+}
+.gantt-phase {
+  border-top: 1px solid var(--fi-green-300);
+  padding: clamp(3px, 0.6dvh, 6px) 0;
+}
+.gantt-phase:first-of-type {
+  border-top: 0;
+}
+.gantt-phase-name {
+  font-weight: 600;
+  padding: 2px 0;
+}
+.gantt-row {
+  height: clamp(16px, 2.5dvh, 24px);
+}
+.gantt-row:hover {
+  background: rgba(184, 198, 176, 0.25);
+}
+.gantt-grid {
+  flex: 1 1 0;
+  border-left: 1px solid rgba(184, 198, 176, 0.55);
+}
+.gantt-grid.first {
+  border-left: 0;
+}
+.gantt-bar {
+  position: absolute;
+  top: 15%;
+  height: 70%;
+  border-radius: 999px;
+  min-width: 10px;
+}
+.gantt-done {
+  background: var(--fi-green-600);
+}
+.gantt-active {
+  background: var(--fi-green-400);
+}
+.gantt-next {
+  background: var(--fi-green-200);
+  border: 1px solid var(--fi-green-300);
+}
+.gantt-star {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(30%, -58%);
+  color: var(--fi-green-600);
+  font-size: clamp(14px, 2.2dvh, 20px);
+  line-height: 1;
+}
+.gantt-tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--fi-black-900);
+  color: var(--fi-green-100);
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.gantt-bar:hover .gantt-tip {
+  display: flex;
+}
+
+/* Pricing tier cards, after the pptx product slide: name row, accent price
+   band, description, footer meta strip. */
+/* Pricing tier cards, referencing the homepage QuoteBox style: thin
+   green-500 half-alpha border, small radius, transparent content area, and
+   a tinted footer bar carrying price + availability. */
+.deck-tier {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(94, 123, 41, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.deck-tier-content {
+  padding: 18px 18px 14px;
+  flex: 1 1 auto;
+}
+.deck-tier-name {
+  margin-bottom: 6px;
+}
+.deck-tier-body {
+  font-size: 14px;
+}
+.deck-tier-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 18px;
+  border-top: 1px solid rgba(94, 123, 41, 0.5);
+  background: rgba(94, 123, 41, 0.05);
+}
+.deck-tier-price {
+  font-size: clamp(17px, 2.4dvh, 22px);
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+}
+.deck-tier-meta {
+  font-size: 13px;
+  color: var(--fi-green-500);
+}
+
+/* Full-width takeaway band, after the pptx closing strips. */
+/* Accent-box callout: one component style, heart icon, larger type.
+   The act theme swaps the background. */
+.deck-band {
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--fi-green-200);
+  font-size: clamp(16px, 2.4dvh, 21px);
+  font-weight: 500;
+}
+/* Matches the .deck-body text measure. */
+.deck-band-narrow {
+  max-width: 500px;
+}
+.deck-band-icon {
+  width: clamp(24px, 3.4dvh, 32px);
+  aspect-ratio: 1;
+  flex: none;
+  background: var(--deck-band-icon, url('/opportunity/icons/heart.png'))
+    center / contain no-repeat;
+}
+/* On the darker green-200 act backgrounds the green-200 fill vanishes;
+   lift the accent boxes to the lighter tone. */
+.deck-act-2 .deck-band,
+.deck-act-4 .deck-band {
+  background: var(--fi-green-100);
+}
+.deck-act-3 .deck-band {
+  background: rgba(215, 221, 212, 0.1);
+}
+.deck-act-3 .deck-band-icon {
+  filter: brightness(0) invert(0.92);
+}
+
+/* Datapoint tiles, referencing the homepage QuoteBox style: big mono value
+   as the content area, label in the tinted footer bar. */
+.deck-stat-tile {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(94, 123, 41, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.deck-stat-tile-value {
+  padding: 14px 18px;
+  flex: 1 1 auto;
+  font-size: clamp(22px, 3.4dvh, 34px);
+  font-variation-settings: 'MONO' 100;
+}
+.deck-stat-tile-label {
+  padding: 10px 18px;
+  border-top: 1px solid rgba(94, 123, 41, 0.5);
+  background: rgba(94, 123, 41, 0.05);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Compact multi-year plan table, mono figures. */
+.deck-plan-table {
+  margin-top: 24px;
+  width: 100%;
+  max-width: 760px;
+  border-collapse: collapse;
+}
+.deck-plan-table th,
+.deck-plan-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--fi-green-300);
+  text-align: right;
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  font-size: clamp(13px, 1.8dvh, 16px);
+}
+.deck-plan-table th:first-child,
+.deck-plan-table td:first-child {
+  text-align: left;
+  font-variation-settings: normal;
+}
+.deck-plan-table thead th {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* References */
+.deck-ref {
+  font-size: 0.6em;
+  vertical-align: super;
+  text-decoration: none;
+  color: var(--fi-green-500);
+  margin-left: 1px;
+}
+.deck-ref:hover {
+  text-decoration: underline;
+}
+
+/* Sources list — three columns so the whole registry fits one viewport */
+.deck-sources {
+  column-count: 1;
+  column-gap: 32px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.deck-sources li {
+  break-inside: avoid;
+}
+@media (min-width: 768px) {
+  .deck-sources {
+    column-count: 3;
+  }
+}
+
+/* Standing rule: every raster image that is NOT a die-cut transparent PNG
+   gets this treatment (20px brand radius, height-capped). Die-cut art
+   (the tree, leaves, the house cross-section) uses .deck-slide-media and
+   stays unrounded and unframed. */
+.deck-screenshot {
+  /* The element must hug the painted image or the radius lands on invisible
+     letterbox edges: size by max constraints, never object-fit. */
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 58dvh;
+  border-radius: 20px;
+}
+
+/* Die-cut transparent art only: no radius, no frame, height-capped. */
+.deck-slide-media {
+  width: 100%;
+  height: auto;
+  max-height: 62dvh;
+  object-fit: contain;
+}
+
+/* White card frame for diagram art, brand radius. The inner image shrinks
+   to keep the framed whole inside the media column's height budget. */
+/* "White" in this style guide is the warm off-white, not #fff. Shadow and
+   border from the Airgapt Figma primary container (Rectangle 294). */
+.deck-media-box {
+  background: #f7f9f6;
+  border: 2.5px solid #f7f9f6;
+  border-radius: 20px;
+  padding: clamp(28px, 4.4dvh, 48px);
+  box-shadow: 0px 4px 5px rgba(134, 160, 120, 0.45);
+}
+.deck-media-box .deck-slide-media {
+  max-height: 56dvh;
+}
+
+/* FPO */
+.deck-fpo {
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--fi-black-900);
+  background: rgba(184, 198, 176, 0.15);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 24px;
+  width: 100%;
+  /* Every page is exactly one viewport now, so an FPO can never be taller
+     than the room left over for it. */
+  max-height: 32dvh;
+}
+
+/* Drifting leaves — port of family-book remote style.css:133-161.
+   Two elements per leaf: wrapper drifts + breathes, inner img wobbles. */
+.drifting-leaves {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.drift-leaf {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.drift-leaf:nth-child(1) {
+  animation:
+    drift-1 46s linear infinite,
+    leaf-breathe 46s ease-in-out infinite;
+}
+.drift-leaf:nth-child(2) {
+  animation:
+    drift-2 58.88s linear -19.44s infinite,
+    leaf-breathe 58.88s ease-in-out -19.44s infinite;
+}
+.drift-leaf:nth-child(3) {
+  animation:
+    drift-3 36.8s linear -24.28s infinite,
+    leaf-breathe 36.8s ease-in-out -24.28s infinite;
+}
+.drift-leaf:nth-child(1) img {
+  width: 40px;
+  height: 40px;
+  animation: wobble-5 8s ease-in-out infinite alternate;
+}
+.drift-leaf:nth-child(2) img {
+  width: 50px;
+  height: 40px;
+  animation: wobble-4 6.5s ease-in-out -4.2s infinite alternate;
+}
+.drift-leaf:nth-child(3) img {
+  width: 52px;
+  height: 32px;
+  animation: wobble-6 9.5s ease-in-out -12.6s infinite alternate;
+}
+@keyframes drift-1 {
+  from {
+    transform: translate(10vw, 70dvh);
+  }
+  to {
+    transform: translate(86vw, 4dvh);
+  }
+}
+@keyframes drift-2 {
+  from {
+    transform: translate(16vw, 86dvh);
+  }
+  to {
+    transform: translate(92vw, 16dvh);
+  }
+}
+@keyframes drift-3 {
+  from {
+    transform: translate(6vw, 54dvh);
+  }
+  to {
+    transform: translate(80vw, -4dvh);
+  }
+}
+@keyframes leaf-breathe {
+  0%,
+  50%,
+  100% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 0.65;
+  }
+}
+@keyframes wobble-5 {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+@keyframes wobble-4 {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(4deg);
+  }
+}
+@keyframes wobble-6 {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drifting-leaves {
+    display: none;
+  }
+}
