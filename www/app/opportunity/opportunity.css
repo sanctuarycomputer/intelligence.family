@@ -249,10 +249,10 @@ section.deck-page[id] {
   border-radius: 28px;
 }
 
-/* Email gate pinned to the cover's bottom-right corner. */
+/* Email gate pinned to the cover's bottom-left corner. */
 .deck-cover-gate {
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: 0;
   max-width: 380px;
 }
