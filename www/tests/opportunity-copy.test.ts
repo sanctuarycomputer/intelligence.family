@@ -101,7 +101,7 @@ describe('opportunity deck copy contract', () => {
     const subs = [
       'The go-to SDK for private inference, built on Linux',
       'Today, there is no purpose made privacy stack for running local models.',
-      'We expect three key ways partners will integrate our software.',
+      'We anticipate three key modes to help partners integrate our software.',
       'Google bought Android in 2005 for ~$50 million.',
       'What will the canonical infrastructure for private AI be valued at',
     ];

@@ -330,7 +330,7 @@ const platformPage = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       title="Our platform is a compounding business"
-      sub="We expect three key ways partners will integrate our software."
+      sub="We anticipate three key modes to help partners integrate our software."
       rows={[
         {
           label: 'Enterprise deployment & implementation',
