@@ -8,13 +8,11 @@ import {
   Band,
   CardsPage,
   DiagramPage,
-  Ledger,
-  StatTiles,
   Statement,
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 23;
 const ACT_CLASS = 'deck-act-4';
 
 const page22 = (
@@ -215,66 +213,8 @@ const page25 = (
   </DeckPage>
 );
 
-const baseCasePage = (
-  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
-    <Statement
-      title="The base case funds itself"
-      sub="EBITDA-positive in Year 4 on this round alone. The platform upside is what you're pricing."
-    />
-    <table className="deck-plan-table">
-      <thead>
-        <tr>
-          <th>$mm</th>
-          <th>Y2</th>
-          <th>Y3</th>
-          <th>Y4</th>
-          <th>Y5</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Revenue</td>
-          <td>4.1</td>
-          <td>14.7</td>
-          <td>38.0</td>
-          <td>74.7</td>
-        </tr>
-        <tr>
-          <td>Gross margin</td>
-          <td>36%</td>
-          <td>43%</td>
-          <td>46%</td>
-          <td>53%</td>
-        </tr>
-        <tr>
-          <td>EBITDA</td>
-          <td>(4.9)</td>
-          <td>(5.2)</td>
-          <td>1.4</td>
-          <td>18.8</td>
-        </tr>
-      </tbody>
-    </table>
-    <StatTiles
-      tiles={[
-        { value: '$74.7M', label: 'Year 5 revenue, base case' },
-        { value: 'Year 4', label: 'EBITDA-positive on this round alone' },
-        {
-          value: '$0',
-          label:
-            'Follow-on equity in the plan. Raising again is a choice to accelerate, never a need',
-        },
-      ]}
-    />
-    <p className="deck-caption-note">
-      A $5M working-capital line backstops the inventory swing. Source: Family
-      Intelligence model v3.1, base case.
-    </p>
-  </DeckPage>
-);
-
 const page26 = (
-  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="We're raising $15M"
       sub="Shipping out and ready to gift by Christmas 2027."
@@ -311,11 +251,4 @@ const page26 = (
   </DeckPage>
 );
 
-export const ACT4_PAGES: ReactNode[] = [
-  page22,
-  page24,
-  page23,
-  page25,
-  baseCasePage,
-  page26,
-];
+export const ACT4_PAGES: ReactNode[] = [page22, page24, page23, page25, page26];

@@ -115,14 +115,13 @@ describe('opportunity deck copy contract', () => {
     expect(src).not.toContain('What If It Works');
   });
 
-  it('act 4 carries the six approved titles in order', () => {
+  it('act 4 carries the five approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const titles = [
       "We've spent our careers deploying novel hardware, low level infrastructure and custom operating systems",
       'The team',
       'The hard questions',
       'title="Timeline"',
-      'The base case funds itself',
       "We're raising $15M",
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -136,7 +135,6 @@ describe('opportunity deck copy contract', () => {
       'Competition, model quality, hardware risk, consent, chips, and the raise.',
       "We shipped the Light Phone, Mill's IoT stack, and USB Club.",
       'Round closes, contract manufacturer in the room, shelves by Christmas 2027.',
-      "EBITDA-positive in Year 4 on this round alone. The platform upside is what you're pricing.",
       'Shipping out and ready to gift by Christmas 2027.',
     ];
     for (const sub of subs) {
@@ -180,6 +178,7 @@ describe('opportunity deck copy contract', () => {
       'A2 · Competition matrix',
       'A3 · Go-to-market detail',
       'Six revenue lines, one stack underneath',
+      'The base case funds itself',
       'Scenarios',
       'What the model does and does not include',
     ]) {
@@ -212,13 +211,13 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('exports 26 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(24);
-    expect(APPENDIX_PAGES).toHaveLength(10);
+    expect(ALL_PAGES).toHaveLength(23);
+    expect(APPENDIX_PAGES).toHaveLength(11);
   });
 
-  it('sets every chrome counter against 24 pages', () => {
+  it('sets every chrome counter against 23 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 24;/);
+      expect(src, name).toMatch(/const TOTAL = 23;/);
     }
   });
 

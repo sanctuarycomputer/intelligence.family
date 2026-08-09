@@ -11,7 +11,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 23;
 const ACT_CLASS = 'deck-act-3';
 
 const page17 = (
@@ -64,7 +64,8 @@ const page19 = (
           ),
         },
         {
-          heading: 'Low connectivity scenarios will require protected inference',
+          heading:
+            'Low connectivity scenarios will require protected inference',
           body: (
             <>
               Agents acting in the physical world (home, car, robotics,
@@ -323,8 +324,8 @@ const platformPage = (
       <br />
       <br />
       <strong>
-        Sonos, Dyson, and LG will never build this stack - but they will
-        license it.
+        Sonos, Dyson, and LG will never build this stack - but they will license
+        it.
       </strong>
     </p>
   </DeckPage>

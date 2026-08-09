@@ -13,7 +13,7 @@ import {
 import { orderedReferences } from './references';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 23;
 // Appendix pages continue the page ids past the core deck, but the footer
 // counter stays unnumbered so nobody reads them as pages 27 of 26.
 const FIRST = TOTAL + 1;
@@ -241,6 +241,64 @@ const methodologyPage = (
   </DeckPage>
 );
 
+const baseCasePage = (
+  <DeckPage key={FIRST + 6} n={FIRST + 6} total={TOTAL}>
+    <Statement
+      title="The base case funds itself"
+      sub="EBITDA-positive in Year 4 on this round alone. The platform upside is what you're pricing."
+    />
+    <table className="deck-plan-table">
+      <thead>
+        <tr>
+          <th>$mm</th>
+          <th>Y2</th>
+          <th>Y3</th>
+          <th>Y4</th>
+          <th>Y5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Revenue</td>
+          <td>4.1</td>
+          <td>14.7</td>
+          <td>38.0</td>
+          <td>74.7</td>
+        </tr>
+        <tr>
+          <td>Gross margin</td>
+          <td>36%</td>
+          <td>43%</td>
+          <td>46%</td>
+          <td>53%</td>
+        </tr>
+        <tr>
+          <td>EBITDA</td>
+          <td>(4.9)</td>
+          <td>(5.2)</td>
+          <td>1.4</td>
+          <td>18.8</td>
+        </tr>
+      </tbody>
+    </table>
+    <StatTiles
+      tiles={[
+        { value: '$74.7M', label: 'Year 5 revenue, base case' },
+        { value: 'Year 4', label: 'EBITDA-positive on this round alone' },
+        {
+          value: '$0',
+          label:
+            'Follow-on equity in the plan. Raising again is a choice to accelerate, never a need',
+        },
+      ]}
+    />
+    <p className="deck-caption-note">
+      A $5M working-capital line backstops the inventory swing. Source: Family
+      Intelligence model v3.1, base case.
+    </p>
+  </DeckPage>
+);
+
 const STUBS: Array<{ title: string; note: string }> = [
   {
     title: 'A1 · Stack deep-dive',
@@ -257,7 +315,7 @@ const STUBS: Array<{ title: string; note: string }> = [
 ];
 
 const stubPages: ReactNode[] = STUBS.map((stub, i) => (
-  <DeckPage key={FIRST + 6 + i} n={FIRST + 6 + i} total={TOTAL}>
+  <DeckPage key={FIRST + 7 + i} n={FIRST + 7 + i} total={TOTAL}>
     <Statement title={stub.title}>{STUB_BODY}</Statement>
     <div className="mt-10">
       <FpoBox note={stub.note} />
@@ -267,8 +325,8 @@ const stubPages: ReactNode[] = STUBS.map((stub, i) => (
 
 const sourcesPage = (
   <DeckPage
-    key={FIRST + 6 + STUBS.length}
-    n={FIRST + 6 + STUBS.length}
+    key={FIRST + 7 + STUBS.length}
+    n={FIRST + 7 + STUBS.length}
     total={TOTAL}
   >
     <Statement title="Sources" sub="Every figure in this deck, linked." />
@@ -295,6 +353,7 @@ export const APPENDIX_PAGES: ReactNode[] = [
   movedUnitEconomics,
   movedContext,
   revenueModelPage,
+  baseCasePage,
   scenariosPage,
   methodologyPage,
   ...stubPages,
