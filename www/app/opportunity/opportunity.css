@@ -713,6 +713,10 @@ section.deck-page[id] {
 .deck-act-3 .deck-band-icon {
   filter: brightness(0) invert(0.92);
 }
+/* Family-book icons flipped light for dark-act cards. */
+.deck-icon-dark {
+  filter: brightness(0) invert(0.92);
+}
 
 /* Datapoint tiles, referencing the homepage QuoteBox style: big mono value
    as the content area, label in the tinted footer bar. */

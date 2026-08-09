@@ -257,9 +257,9 @@ const unitEconomicsPage = (
       band="Most hardware startups recover their customer acquisition cost over years of subscription. We recover it the day the box sells."
     >
       The $250 blended cost of acquiring a customer is recovered 1.7 times over
-      at the register, from hardware gross profit alone. Plaud proved the
-      shape: about $250M of revenue on 1M+ devices, with essentially no
-      venture capital.
+      at the register, from hardware gross profit alone. Plaud proved the shape:
+      about $250M of revenue on 1M+ devices, with essentially no venture
+      capital.
       <Ref k="plaud" />
     </BigStat>
     <p className="deck-caption-note">

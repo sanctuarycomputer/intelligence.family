@@ -29,6 +29,14 @@ const page19 = (
       cards={[
         {
           heading: 'Local AI sidesteps impending regulation',
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/opportunity/icons/notebook.png"
+              alt=""
+              className="deck-icon-dark"
+            />
+          ),
           body: (
             <>
               COPPA turns on gathering a child&rsquo;s information.
@@ -45,6 +53,14 @@ const page19 = (
         },
         {
           heading: 'Enterprises won’t risk leaking their IP',
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/opportunity/icons/stacks.png"
+              alt=""
+              className="deck-icon-dark"
+            />
+          ),
           body: (
             <>
               What a company asks AI reveals its roadmap: the deals being
@@ -59,6 +75,14 @@ const page19 = (
         {
           heading:
             'Low connectivity scenarios will require protected inference',
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/opportunity/icons/battery.png"
+              alt=""
+              className="deck-icon-dark"
+            />
+          ),
           body: (
             <>
               Agents acting in the physical world (home, car, robotics,
@@ -70,6 +94,14 @@ const page19 = (
         },
         {
           heading: 'Inference economics invert at scale',
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/opportunity/icons/lightning.png"
+              alt=""
+              className="deck-icon-dark"
+            />
+          ),
           body: (
             <>
               Cloud AI makes every query a billable event. Local inference flips
