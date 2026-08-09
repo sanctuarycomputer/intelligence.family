@@ -98,6 +98,10 @@ const page24 = (
           poster="/fundraising/moment-video-poster.jpg"
           label="Early prototype in use"
         />
+        <DeckVideo
+          src="/opportunity/proof-portal-close.mp4"
+          label="The Proof portal device closing"
+        />
       </div>
     </div>
   </DeckPage>
