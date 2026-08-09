@@ -25,12 +25,19 @@ const page7 = (
       carries none of the risk a clinic or a payroll system does.{' '}
       <strong>One device, one market.</strong>
     </Statement>
-    <div className="mt-10">
+    <div className="mt-10 flex gap-4 items-start">
       <DeckVideo
         src="/opportunity/device-playtest.mp4"
         className="deck-video-portrait"
         label="A family play-testing the device prototype"
       />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/opportunity/device-cad.jpg"
+        alt="CAD render of the device enclosure: curved shell, tilted display, and the compute module with its cooler inside"
+        className="deck-video-portrait"
+      />
+      <span className="deck-video-portrait deck-slot-fpo">image 3</span>
     </div>
   </DeckPage>
 );
