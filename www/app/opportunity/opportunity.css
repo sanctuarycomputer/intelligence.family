@@ -213,12 +213,31 @@ section.deck-page[id] {
   object-fit: cover;
   display: block;
 }
+/* Every gallery image renders in the same fixed frame, cropped to fill. */
+.deck-gallery-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.deck-gallery-frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 56dvh;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.deck-gallery-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .deck-gallery-fpo {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(280px, 30vw, 460px);
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: 100%;
   border: 2px dashed var(--fi-green-400);
   border-radius: 20px;
   font-size: 12px;

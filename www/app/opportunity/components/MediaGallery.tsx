@@ -16,17 +16,15 @@ export default function MediaGallery({ slides }: { slides: Slide[] }) {
   const current = slides[active];
   return (
     <div className="deck-gallery">
-      <div className="deck-media-figure">
-        {current.src ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={current.src}
-            alt={current.alt}
-            className="deck-screenshot"
-          />
-        ) : (
-          <span className="deck-gallery-fpo">{current.alt}</span>
-        )}
+      <div className="deck-media-figure deck-gallery-main">
+        <span className="deck-gallery-frame">
+          {current.src ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={current.src} alt={current.alt} />
+          ) : (
+            <span className="deck-gallery-fpo">{current.alt}</span>
+          )}
+        </span>
         <span className="deck-media-caption">{current.caption}</span>
       </div>
       <div className="deck-gallery-thumbs" role="tablist" aria-label="Photos">
