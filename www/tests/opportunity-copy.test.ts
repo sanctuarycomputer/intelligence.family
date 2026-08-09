@@ -66,7 +66,7 @@ describe('opportunity deck copy contract', () => {
     const subs = [
       'High emotional value, sensitive data, and a GPU in the living room.',
       'Weekly check-ins, budgets, school, health, and stories.',
-      '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
+      '600M+ Alexa devices sold, all of them cloud-dependent.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       'Each flagship earns $418 of gross profit on an $899 price.',
       'The flagship device ships first, and every future SKU runs the same (evolving) stack.',
@@ -98,7 +98,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const subs = [
       'The go-to SDK for private inference, built on Linux',
-      "But today, there's no general purpose software stack to support local deployments.",
+      'Today, there is no purpose made privacy stack for running local models.',
       'We expect three key ways partners will integrate our software.',
       'Google bought Android in 2005 for ~$50 million.',
       'What will the canonical infrastructure for private AI be valued at',

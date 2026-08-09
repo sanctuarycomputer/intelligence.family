@@ -118,7 +118,13 @@ const page10 = (
     <BigStat
       stat="600M+"
       title="Home hubs are a proven category."
-      sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
+      sub={
+        <>
+          600M+ Alexa devices sold, all of them cloud-dependent.
+          <br />
+          Ours runs locally.
+        </>
+      }
       band="In 2026, you should be able to dim your lights without notifying Jeff Bezos. Home inference (finally) makes that possible."
     >
       The AI gadget graveyard is littered with attempts to find new ways to

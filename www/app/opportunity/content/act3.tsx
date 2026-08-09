@@ -32,7 +32,7 @@ const page19 = (
     <CardsPage
       columns={2}
       title="Private AI is becoming crucial for businesses"
-      sub="But today, there's no general purpose software stack to support local deployments."
+      sub="Today, there is no purpose made privacy stack for running local models."
       cards={[
         {
           heading: 'Local AI sidesteps impending regulation',
@@ -51,7 +51,7 @@ const page19 = (
           ),
         },
         {
-          heading: 'Enterprises can’t risk leaking their IP',
+          heading: 'Enterprises won’t risk leaking their IP',
           body: (
             <>
               What a company asks AI reveals its roadmap: the deals being
@@ -64,7 +64,7 @@ const page19 = (
           ),
         },
         {
-          heading: 'Low connectivity scenarios will require inference',
+          heading: 'Low connectivity scenarios will require protected inference',
           body: (
             <>
               Agents acting in the physical world (home, car, robotics,
