@@ -670,16 +670,17 @@ section.deck-page[id] {
 }
 
 /* Full-width takeaway band, after the pptx closing strips. */
-/* Accent-box callout: one component style, heart icon, larger type.
-   The act theme swaps the background. */
+/* Accent-box callout in the Airgapt ragged-edge treatment. The act theme
+   swaps the border-image source since the SVG fill is baked in. */
 .deck-band {
   margin-top: 22px;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 20px;
-  border-radius: 12px;
-  background: var(--fi-green-200);
+  padding: 0 6px;
+  border: 20px solid transparent;
+  border-image: url('/opportunity/ragged-band-green200.svg') 32 fill stretch;
+  filter: drop-shadow(0px 4px 5px rgba(134, 160, 120, 0.45));
   font-size: clamp(16px, 2.4dvh, 21px);
   font-weight: 500;
 }
@@ -698,10 +699,11 @@ section.deck-page[id] {
    lift the accent boxes to the lighter tone. */
 .deck-act-2 .deck-band,
 .deck-act-4 .deck-band {
-  background: var(--fi-green-100);
+  border-image-source: url('/opportunity/ragged-band-green100.svg');
 }
 .deck-act-3 .deck-band {
-  background: rgba(215, 221, 212, 0.1);
+  border-image-source: url('/opportunity/ragged-band-dark.svg');
+  filter: none;
 }
 .deck-act-3 .deck-band-icon {
   filter: brightness(0) invert(0.92);
