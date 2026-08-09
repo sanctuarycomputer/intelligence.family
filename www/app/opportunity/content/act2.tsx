@@ -152,11 +152,24 @@ const page12 = (
 const page10 = (
   <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
     <div className="grid md:grid-cols-2 gap-10 items-center">
-      <FpoBox
-        note={
-          "Install-base bars (600M Alexa / 800M Google Home); strip beneath: io $6.5B · Bee→Amazon · Limitless→Meta, all marked 'cloud'"
-        }
-      />
+      <div className="grid grid-cols-2 gap-4 items-start">
+        <figure className="deck-hub-figure">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/opportunity/hub-echo.jpg"
+            alt="An Amazon Echo Dot on a dark rug beside a coffee mug"
+          />
+          <figcaption>600M+ sold &middot; cloud</figcaption>
+        </figure>
+        <figure className="deck-hub-figure">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/opportunity/hub-nest.jpg"
+            alt="A Google Nest Hub standing on a desk"
+          />
+          <figcaption>800M+ shipped &middot; cloud</figcaption>
+        </figure>
+      </div>
       <BigStat
         stat="600M+"
         title="Home hubs are a proven category."
