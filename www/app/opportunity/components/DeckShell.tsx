@@ -71,48 +71,6 @@ export default function DeckShell({
     return () => observer.disconnect();
   }, [pages.length]);
 
-  return () => window.removeEventListener('keydown', handler);
-  }, [current, pages.length]);
-
-  useEffect(() => {
-    const container = document.querySelector('.deck');
-    if (!container) return;
-    const sections = container.querySelectorAll('section[id^="page-"]');
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      entries => {
-        let best: { page: number; ratio: number } | null = null;
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const id = entry.target.id;
-          const page = Number(id.replace('page-', ''));
-          if (Number.isNaN(page)) continue;
-          if (!best || entry.intersectionRatio > best.ratio) {
-            best = { page, ratio: entry.intersectionRatio };
-          }
-        }
-        if (best) setCurrent(best.page);
-      },
-      { threshold: 0.6 }
-    );
-
-    sections.forEach(section => observer.observe(section));
-    return () => observer.disconnect();
-  }, [pages.length]);
-
-  // One jump item per act: the first page whose act label differs from the
-  // previous page's.
-  const jumpItems: JumpItem[] = [];
-  pageMeta.forEach((meta, i) => {
-    if (i > 0 && meta.act === pageMeta[i - 1].act) return;
-    const [numeral, ...rest] = meta.act.split(' \u00b7 ');
-    jumpItems.push({
-      page: i + 1,
-      numeral: `${numeral}.`,
-      title: rest.join(' \u00b7 '),
-    });
-  });
   return (
     <div className="deck">
       <div className="deck-ambient" aria-hidden="true">
