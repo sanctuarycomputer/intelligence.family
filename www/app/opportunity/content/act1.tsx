@@ -46,8 +46,8 @@ export function coverPage(gate: ReactNode): ReactNode {
             />
           </span>
         </p>
-        {gate}
       </div>
+      {gate && <div className="deck-cover-gate">{gate}</div>}
     </DeckPage>
   );
 }

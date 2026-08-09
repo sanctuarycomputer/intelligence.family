@@ -249,6 +249,14 @@ section.deck-page[id] {
   border-radius: 28px;
 }
 
+/* Email gate pinned to the cover's bottom-right corner. */
+.deck-cover-gate {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  max-width: 380px;
+}
+
 /* Fixed chrome layer — one instance for the whole deck, values animate as
    the current page changes instead of remounting per page. */
 .deck-chrome {
