@@ -4,7 +4,7 @@ import InlineEmailGate from '@/components/InlineEmailGate';
 import { OPPORTUNITY_GATE_SOURCE } from '@/lib/crm';
 import DeckShell from './components/DeckShell';
 import DebugCopyEditor from './components/DebugCopyEditor';
-import { ALL_PAGES, APPENDIX_PAGES, ACT_STARTS, PAGE_META } from './content';
+import { ALL_PAGES, APPENDIX_PAGES, PAGE_META } from './content';
 import { coverPage } from './content/act1';
 import './opportunity.css';
 
@@ -47,11 +47,7 @@ export default function OpportunityClient() {
 
   return (
     <>
-      <DeckShell
-        pages={pages}
-        railActs={unlocked ? ACT_STARTS : []}
-        pageMeta={PAGE_META}
-      />
+      <DeckShell pages={pages} pageMeta={PAGE_META} />
       {debug && (
         <DebugCopyEditor refreshKey={unlocked ? 'unlocked' : 'locked'} />
       )}

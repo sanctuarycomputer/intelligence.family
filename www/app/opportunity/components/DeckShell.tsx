@@ -1,15 +1,14 @@
 'use client';
 import { useEffect, useState, type ReactNode } from 'react';
 import DeckChrome from './DeckChrome';
+import DeckJumpNav, { type JumpItem } from './DeckJumpNav';
 import DriftingLeaves from './DriftingLeaves';
 
 export default function DeckShell({
   pages,
-  railActs,
   pageMeta,
 }: {
   pages: ReactNode[];
-  railActs: Array<{ page: number }>;
   pageMeta: Array<{
     act: string;
     counter: string;
@@ -73,7 +72,18 @@ export default function DeckShell({
     return () => observer.disconnect();
   }, [pages.length]);
 
-  const actStarts = new Set(railActs.map(a => a.page));
+  // One jump item per act: the first page whose act label differs from the
+  // previous page's.
+  const jumpItems: JumpItem[] = [];
+  pageMeta.forEach((meta, i) => {
+    if (i > 0 && meta.act === pageMeta[i - 1].act) return;
+    const [numeral, ...rest] = meta.act.split(' \u00b7 ');
+    jumpItems.push({
+      page: i + 1,
+      numeral: `${numeral}.`,
+      title: rest.join(' \u00b7 '),
+    });
+  });
   return (
     <div className="deck">
       <div className="deck-ambient" aria-hidden="true">
@@ -95,20 +105,17 @@ export default function DeckShell({
         dark={pageMeta[current - 1]?.dark === true}
       />
       {pages}
-      <nav
-        className={`deck-rail${pageMeta[current - 1]?.dark ? ' deck-rail-dark' : ''}`}
-        aria-label="Deck pages"
-      >
-        {pages.map((_, i) => (
-          <a
-            key={i}
-            href={`#page-${i + 1}`}
-            aria-label={`Page ${i + 1}`}
-            className={`${i + 1 === current ? 'active ' : ''}${actStarts.has(i + 1) ? 'act-start' : ''}`}
-            onClick={() => setCurrent(i + 1)}
-          />
-        ))}
-      </nav>
+      <DeckJumpNav
+        items={jumpItems}
+        current={current}
+        dark={pageMeta[current - 1]?.dark === true}
+        onJump={page => {
+          document
+            .getElementById(`page-${page}`)
+            ?.scrollIntoView({ behavior: 'smooth' });
+          setCurrent(page);
+        }}
+      />
     </div>
   );
 }
