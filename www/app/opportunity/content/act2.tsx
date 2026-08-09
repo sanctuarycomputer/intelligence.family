@@ -35,6 +35,7 @@ const page7 = (
         playsInline
         aria-label="A family play-testing the device prototype"
       />
+    </div>
   </DeckPage>
 );
 
