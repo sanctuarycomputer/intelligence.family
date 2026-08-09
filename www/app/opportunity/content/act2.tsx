@@ -26,8 +26,15 @@ const page7 = (
       <strong>One device, one market.</strong>
     </Statement>
     <div className="mt-10">
-      <FpoBox note="Play-test photo (existing /research/moment-*.png assets)" />
-    </div>
+      <video
+        src="/opportunity/device-playtest.mp4"
+        className="deck-video-portrait"
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-label="A family play-testing the device prototype"
+      />
   </DeckPage>
 );
 

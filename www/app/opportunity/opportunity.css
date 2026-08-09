@@ -228,6 +228,15 @@ section.deck-page[id] {
   background: rgba(215, 221, 212, 0.12);
 }
 
+/* Cute portrait video: cropped to a tall frame with generous corners. */
+.deck-video-portrait {
+  display: block;
+  height: clamp(280px, 52dvh, 460px);
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 28px;
+}
+
 /* Progress rail */
 .deck-rail {
   position: fixed;
