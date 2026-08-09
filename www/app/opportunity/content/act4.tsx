@@ -222,12 +222,10 @@ const page26 = (
       Our research found no funded local-first home hub, in a year when AI took
       roughly half of global venture funding.
       <Ref k="crunchbase-ai-half" />
-      <br />
-      <br />
-      <strong>
-        No one owns this market today, and that window is closing fast.
-      </strong>
     </Statement>
+    <Band narrow>
+      No one owns this market today, and that window is closing fast.
+    </Band>
     <div className="mt-8 max-w-xl divide-y divide-fi-green-300">
       {[
         ['Target raise', '$15.0M'],
