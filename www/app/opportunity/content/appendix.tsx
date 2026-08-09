@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import {
-  Band,
   CardsPage,
   StatTiles,
   Statement,
@@ -165,10 +164,6 @@ const methodologyPage = (
         },
       ]}
     />
-    <Band>
-      Everything left out of the model is upside. Everything hard about hardware
-      is in it.
-    </Band>
   </DeckPage>
 );
 
