@@ -16,26 +16,25 @@ const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
   <DeckPage key={8} n={8} total={TOTAL} actClass={ACT_CLASS}>
-    <Split
-      flip
+    <Statement
       title="Our first device is for families"
       sub="High emotional value, sensitive data, and a GPU in the living room."
-      media={
-        <video
-          src="/opportunity/device-playtest.mp4"
-          className="deck-video-portrait"
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-label="A family play-testing the device prototype"
-        />
-      }
     >
       Families hold the memories worth keeping, and what a household records
       carries none of the risk a clinic or a payroll system does.{' '}
       <strong>One device, one market.</strong>
-    </Split>
+    </Statement>
+    <div className="mt-10">
+      <video
+        src="/opportunity/device-playtest.mp4"
+        className="deck-video-portrait"
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-label="A family play-testing the device prototype"
+      />
+    </div>
   </DeckPage>
 );
 
