@@ -6,8 +6,6 @@ import Ref from '../components/Ref';
 import {
   Band,
   CardsPage,
-  DiagramPage,
-  EvidenceGrid,
   Split,
   Statement,
 } from '../components/archetypes';

@@ -22,7 +22,7 @@ const splashPage = (
 );
 
 const revenueModelPage = (
-  <DeckPage key={FIRST + 3} n={FIRST + 3} total={TOTAL}>
+  <DeckPage key={FIRST + 1} n={FIRST + 1} total={TOTAL}>
     <Statement
       title="A1 · Revenue model"
       sub="Devices carry the business through Year 3. Subscription and licensing carry the margin after it."
@@ -76,7 +76,7 @@ const revenueModelPage = (
 );
 
 const scenariosPage = (
-  <DeckPage key={FIRST + 4} n={FIRST + 4} total={TOTAL}>
+  <DeckPage key={FIRST + 3} n={FIRST + 3} total={TOTAL}>
     <Statement
       title="A3 · Scenarios"
       sub="One switch rescales volume, subscription attach, licensing and the hiring plan together."
@@ -116,7 +116,7 @@ const scenariosPage = (
 );
 
 const methodologyPage = (
-  <DeckPage key={FIRST + 5} n={FIRST + 5} total={TOTAL}>
+  <DeckPage key={FIRST + 4} n={FIRST + 4} total={TOTAL}>
     <CardsPage
       columns={2}
       title="A4 · Model methodology"
@@ -174,7 +174,7 @@ const methodologyPage = (
 );
 
 const baseCasePage = (
-  <DeckPage key={FIRST + 6} n={FIRST + 6} total={TOTAL}>
+  <DeckPage key={FIRST + 2} n={FIRST + 2} total={TOTAL}>
     <Statement
       title="A2 · Base case"
       sub="EBITDA-positive in Year 4 on this round alone. The platform upside is what you're pricing."
@@ -232,8 +232,8 @@ const baseCasePage = (
 
 const sourcesPage = (
   <DeckPage
-    key={FIRST + 7}
-    n={FIRST + 7}
+    key={FIRST + 5}
+    n={FIRST + 5}
     total={TOTAL}
   >
     <Statement title="A5 · Sources" sub="Every figure in this deck, linked." />

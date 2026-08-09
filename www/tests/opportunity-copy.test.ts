@@ -120,7 +120,7 @@ describe('opportunity deck copy contract', () => {
   it('act 4 carries the five approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const titles = [
-      "We've spent our careers deploying novel hardware, low level infrastructure and custom operating systems",
+      "We've spent our careers deploying novel hardware, low-level infrastructure and custom operating systems",
       'The team',
       'The hard questions',
       'title="Timeline"',
@@ -163,6 +163,27 @@ describe('opportunity deck copy contract', () => {
     expect(all.match(/\$15M/g)).toHaveLength(1);
     const act4 = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     expect(act4).toContain("We're raising $15M");
+  });
+
+  it('numbers core pages 1..24 contiguously in export order', () => {
+    const acts = ['act1.tsx', 'act2.tsx', 'act3.tsx', 'act4.tsx'];
+    const ns = acts.flatMap(f => {
+      const src = readFileSync(path.join(dir, f), 'utf8');
+      return [...src.matchAll(/key=\{(\d+)\} n=\{\1\}/g)].map(m =>
+        Number(m[1])
+      );
+    });
+    expect([...ns].sort((a, b) => a - b)).toEqual(
+      Array.from({ length: 24 }, (_, i) => i + 1)
+    );
+  });
+
+  it('numbers appendix pages FIRST..FIRST+5 in export order', () => {
+    const src = readFileSync(path.join(dir, 'appendix.tsx'), 'utf8');
+    const offsets = [...src.matchAll(/n=\{FIRST(?: \+ (\d+))?\}/g)].map(m =>
+      m[1] ? Number(m[1]) : 0
+    );
+    expect([...offsets].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5]);
   });
 
   it('renders a sources page from the registry', () => {
@@ -210,7 +231,7 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('exports 26 core pages and 6 appendix pages', () => {
+  it('exports 24 core pages and 6 appendix pages', () => {
     expect(ALL_PAGES).toHaveLength(24);
     expect(APPENDIX_PAGES).toHaveLength(6);
   });

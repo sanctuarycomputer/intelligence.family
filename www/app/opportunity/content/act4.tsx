@@ -19,7 +19,7 @@ const page22 = (
   <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
-      title="We've spent our careers deploying novel hardware, low level infrastructure and custom operating systems"
+      title="We've spent our careers deploying novel hardware, low-level infrastructure and custom operating systems"
     />
   </DeckPage>
 );
@@ -50,8 +50,8 @@ const page24 = (
               <br />
               Among other projects, Hugh architected Mill&rsquo;s IoT
               infrastructure (for the founders of Google&rsquo;s Nest), runs IoT
-              projects for AT&amp;T, and led Sanctuary Computer, a 30+ hard
-              technology studio.
+              projects for AT&amp;T, and led Sanctuary Computer, a 30+ person
+              hard technology studio.
             </>
           ),
         },
@@ -142,7 +142,7 @@ const page23 = (
           body: (
             <>
               No brand owns safe local AI yet, but that window is closing fast.
-              We&rsquo;re building a full privacy preserving software SDK and a
+              We&rsquo;re building a full privacy-preserving software SDK and a
               hardware device by Christmas 2027. The capital goes to hiring fast
               and securing a blue chip contract manufacturer.
             </>
@@ -153,8 +153,8 @@ const page23 = (
           body: (
             <>
               The $9/month cloud backup is optional. Our family device works out
-              of the box with no connectivity. Our encrypted sync opt-in for
-              peace of mind.
+              of the box with no connectivity. Our encrypted sync is opt-in,
+              for peace of mind.
             </>
           ),
         },
@@ -193,7 +193,7 @@ const page23 = (
           heading: 'Manufacturing and tariff risk?',
           body: (
             <>
-              Our team hold direct relationships with Foxconn, Arima, and Coosea
+              Our team holds direct relationships with Foxconn, Arima, and Coosea
               in Taipei and Shenzhen, and a tariff-aware manufacturing plan.
             </>
           ),

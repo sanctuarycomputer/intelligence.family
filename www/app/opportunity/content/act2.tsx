@@ -4,7 +4,6 @@ import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
   BigStat,
-  DiagramPage,
   EvidenceGrid,
   PricingTiers,
   Split,
@@ -172,8 +171,9 @@ const page10 = (
         <Ref k="alexa-600m" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
         <Ref k="openai-io" /> Amazon bought Bee,
         <Ref k="bee-amazon" /> Meta bought Limitless.
-        <Ref k="limitless-meta" /> 800M+ Google Home units shipped. All of them
-        a soft-surveillance device running in someone else&rsquo;s cloud.
+        <Ref k="limitless-meta" /> 800M+ Google Home units shipped.
+        <Ref k="google-home-800m" /> All of them a soft-surveillance device
+        running in someone else&rsquo;s cloud.
       </BigStat>
     </div>
   </DeckPage>

@@ -1,12 +1,9 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
-import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
   Band,
   CardsPage,
-  DiagramPage,
-  EvidenceGrid,
   Ledger,
   Statement,
 } from '../components/archetypes';
@@ -295,7 +292,7 @@ const page22 = (
     />
     <p className="deck-caption-note">
       Anchors: ~438,000 US law firms (ABA); ~500 infrastructure-scale
-      deployments would be ~$75M licence ARR; 0.5% of ~1B annual smart-home
+      deployments would be ~$75M license ARR; 0.5% of ~1B annual smart-home
       shipments at a $5 royalty is ~$25M a year (IDC). Detail in the appendix
       pro-forma.
     </p>
@@ -308,10 +305,9 @@ const platformPage = (
       title="Our platform is a compounding business"
       sub="We expect three key ways partners will integrate our software."
       rows={[
-        { label: 'Enterprise deployment', value: '$150K ACV' },
         {
-          label: 'Implementation, delivered through Sanctuary Computer',
-          value: '$175K',
+          label: 'Enterprise deployment, implemented via Sanctuary Computer',
+          value: '$150K ACV + $175K',
         },
         { label: 'OEM embedded royalty', value: '$5 / device' },
         { label: 'Forward-deployed engineering', value: 'Time & materials' },
