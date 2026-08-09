@@ -67,9 +67,10 @@ const page3 = (
                 'Mid 2025, running Qwen 2.5 on CPU. Holding a squishy representation of all of recorded human thought in the palm of my hand.',
             },
             {
-              src: null,
-              alt: 'FPO: photo 2',
-              caption: 'FPO caption 2',
+              src: '/opportunity/snapdragon-x-elite.jpg',
+              alt: 'A Snapdragon X Elite chip mounted in a clear acrylic block, lying on grass',
+              caption:
+                'Snapdragon X Elite: NPU-equipped consumer silicon like this now ships in most new PCs.',
             },
             {
               src: null,
