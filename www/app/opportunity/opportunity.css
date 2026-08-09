@@ -513,6 +513,10 @@ section.deck-page[id] {
   text-align: left;
 }
 
+.deck-caption-note-left {
+  text-align: left;
+}
+
 /* Interactive Gantt for the timeline slide */
 .gantt {
   background: var(--fi-green-100);

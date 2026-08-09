@@ -253,7 +253,7 @@ const unitEconomicsPage = (
       capital.
       <Ref k="plaud" />
     </BigStat>
-    <p className="deck-caption-note">
+    <p className="deck-caption-note deck-caption-note-left">
       The plan assumes 82,385 cumulative devices by Year 5, 0.06% of US
       households. Source: Family Intelligence model v3.1, base case.
     </p>
