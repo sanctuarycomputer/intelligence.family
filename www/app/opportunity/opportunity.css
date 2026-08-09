@@ -62,9 +62,16 @@ section.deck-page[id] {
   background: var(--fi-green-200);
 }
 /* Cards can carry a small transparent PNG floating off their top-right
-   corner; the card anchors it and lets it overflow. */
+   corner; the card anchors it and lets it overflow. Solid card fills come
+   from the ragged-edge border-image (theme variants below), overriding the
+   layered Tailwind bg/rounded/padding utilities. */
 .deck-card {
   position: relative;
+  border: 20px solid transparent;
+  border-image: url('/opportunity/ragged-band-green200.svg') 32 fill stretch;
+  background: none;
+  padding: 4px 6px;
+  filter: drop-shadow(0px 4px 5px rgba(134, 160, 120, 0.45));
 }
 .deck-card-icon {
   display: block;
@@ -110,11 +117,11 @@ section.deck-page[id] {
   background: rgba(215, 221, 212, 0.12);
 }
 
-/* On the darker act backgrounds the green-200 cards vanish; lift them to
-   the lighter tone. Unlayered, so it beats the Tailwind bg utility. */
+/* On the darker green-200 act backgrounds the green-200 fill vanishes;
+   lift the cards to the lighter tone. */
 .deck-act-2 .deck-card,
 .deck-act-4 .deck-card {
-  background: var(--fi-green-100);
+  border-image-source: url('/opportunity/ragged-band-green100.svg');
 }
 /* "Dark Mode" for the technical stack act: darkest palette green, light ink,
    and mono display type on the H1s only. The warm serif returns after. */
@@ -138,11 +145,10 @@ section.deck-page[id] {
   font-weight: 500 !important;
   letter-spacing: 0;
 }
-/* Glass cards: fi-green-100 at low alpha lifts boxes off the dark act
-   background without introducing a clashing opaque tone. */
+/* Dark act: the glass variant of the ragged shape, no shadow. */
 .deck-act-3 .deck-card {
-  background: rgba(215, 221, 212, 0.1);
-  border: 1px solid rgba(215, 221, 212, 0.16);
+  border-image-source: url('/opportunity/ragged-band-dark.svg');
+  filter: none;
 }
 .deck-act-3 .deck-ref {
   color: var(--fi-green-300);
