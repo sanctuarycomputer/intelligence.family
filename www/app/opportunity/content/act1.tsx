@@ -136,15 +136,6 @@ const page4 = (
     <Band narrow>
       Demand for private AI is enormous. Our market is 70% of America.
     </Band>
-    <div className="deck-brand-row">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/opportunity/logos/signal.svg" alt="Signal" />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/opportunity/logos/mozilla.svg" alt="Mozilla" />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/opportunity/logos/1password.svg" alt="1Password" />
-      <span className="deck-brand-slot">the home</span>
-    </div>
   </DeckPage>
 );
 
