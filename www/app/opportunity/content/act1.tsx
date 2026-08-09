@@ -129,12 +129,16 @@ const page4 = (
       Pew measured America&rsquo;s growing AI disdain in June 2026.
       <Ref k="pew-distrust" /> Amazon went the other way, removing the
       Echo&rsquo;s only local-processing option in March 2025.
-      <Ref k="echo-local-removed" /> Today, the data center backlash has arrived
-      at a fever pitch that won&rsquo;t subside, akin to climate dread. America
-      wants an alternative.
+      <Ref k="echo-local-removed" />
+      <br />
+      <br />
+      Today, the data center backlash has arrived at a fever pitch that
+      won&rsquo;t subside, akin to climate dread. America wants an alternative.
     </Statement>
     <Band narrow>
-      Demand for private AI is enormous. Our market is 70% of America.
+      Demand for private AI is enormous.
+      <br />
+      Our market is 70% of America.
     </Band>
   </DeckPage>
 );
@@ -158,19 +162,22 @@ const problemPage = (
           ),
         },
         {
-          heading: 'What they will never do',
+          heading: 'But families will resist',
           body: (
             <ul className="deck-list">
               <li>
-                Send raw household audio &amp; intimate stories to a third-party
+                Sending intimate stories &amp; household audio to a third-party
                 cloud
               </li>
-              <li>Trust a business that monetizes their data</li>
               <li>
-                Accept a privacy policy they&rsquo;ll never read and hope for
+                Trusting a business who intends to monetize or train on their
+                data
+              </li>
+              <li>
+                Accepting a privacy policy they&rsquo;ll never read and hope for
                 the best
               </li>
-              <li>Depend on connectivity for a device in their kitchen</li>
+              <li>Needing connectivity for a device in their kitchen</li>
             </ul>
           ),
         },

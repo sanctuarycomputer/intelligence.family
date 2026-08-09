@@ -301,7 +301,7 @@ const platformPage = (
       sub="We expect three key ways partners will integrate our software."
       rows={[
         {
-          label: 'Enterprise deployment, implemented via Sanctuary Computer',
+          label: 'Enterprise deployment & implementation',
           value: '$150K ACV + $175K',
         },
         { label: 'OEM embedded royalty', value: '$5 / device' },

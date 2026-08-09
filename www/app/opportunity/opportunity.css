@@ -705,8 +705,8 @@ section.deck-page[id] {
   width: clamp(24px, 3.4dvh, 32px);
   aspect-ratio: 1;
   flex: none;
-  background: var(--deck-band-icon, url('/opportunity/icons/heart.png'))
-    center / contain no-repeat;
+  background: var(--deck-band-icon, url('/opportunity/icons/tree.png')) center /
+    contain no-repeat;
 }
 /* On the darker green-200 act backgrounds the green-200 fill vanishes;
    lift the accent boxes to the lighter tone. */

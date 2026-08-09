@@ -47,7 +47,7 @@ const BAND_ICONS = [
   'play',
   'close',
 ] as const;
-const DEFAULT_BAND_ICON = 'heart';
+const DEFAULT_BAND_ICON = 'tree';
 
 function setBandIcon(name: string) {
   document.documentElement.style.setProperty(
