@@ -303,8 +303,8 @@ const page22 = (
 const platformPage = (
   <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
-      title="The platform is the business we are already building"
-      sub="Three ways partners pay for a stack nobody else runs in production."
+      title="Our platform is a compounding business"
+      sub="We expect three key ways partners will integrate our software."
       rows={[
         { label: 'Enterprise deployment', value: '$150K ACV' },
         {
@@ -319,8 +319,13 @@ const platformPage = (
       Android proves the shape at 3B+ active devices.
       <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B at a 72%
       pre-tax margin.
-      <Ref k="qualcomm-qtl" />{' '}
-      <strong>Sonos, Dyson, and LG will never build this stack.</strong>
+      <Ref k="qualcomm-qtl" />
+      <br />
+      <br />
+      <strong>
+        Sonos, Dyson, and LG will never build this stack - but they will
+        license it.
+      </strong>
     </p>
   </DeckPage>
 );

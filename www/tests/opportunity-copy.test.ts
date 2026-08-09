@@ -83,7 +83,7 @@ describe('opportunity deck copy contract', () => {
       'Private AI is becoming crucial for businesses',
       'Our stack',
       'The Android OS for Local AI',
-      'The platform is the business we are already building',
+      'Our platform is a compounding business',
     ];
     // The Android title deliberately repeats, so scan forward from the
     // previous match instead of using absolute indexOf positions.
@@ -99,7 +99,7 @@ describe('opportunity deck copy contract', () => {
     const subs = [
       'The go-to SDK for private inference, built on Linux',
       "But today, there's no general purpose software stack to support local deployments.",
-      'Three ways partners pay for a stack nobody else runs in production.',
+      'We expect three key ways partners will integrate our software.',
       'Google bought Android in 2005 for ~$50 million.',
       'What will the canonical infrastructure for private AI be valued at',
     ];
