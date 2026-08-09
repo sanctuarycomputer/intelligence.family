@@ -324,8 +324,8 @@ const platformPage = (
       <br />
       <br />
       <strong>
-        Sonos, Dyson, and LG will never build this stack - but they will license
-        it.
+        Sonos, Dyson, and LG will never build this stack - but they will want
+        to license it.
       </strong>
     </p>
   </DeckPage>
