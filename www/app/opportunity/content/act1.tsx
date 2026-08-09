@@ -182,10 +182,6 @@ const problemPage = (
         },
       ]}
     />
-    <Band>
-      Today&rsquo;s most important data is the kind you&rsquo;d rather never
-      send to the cloud.
-    </Band>
   </DeckPage>
 );
 
