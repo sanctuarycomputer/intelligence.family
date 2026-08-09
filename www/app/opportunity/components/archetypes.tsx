@@ -300,13 +300,18 @@ export function Band({
 
 export function StatTiles({
   tiles,
+  stacked,
 }: {
   tiles: Array<{ value: string; label: string }>;
+  /** One tile per row instead of a horizontal strip. */
+  stacked?: boolean;
 }) {
   return (
     <div
       className="mt-6 grid gap-4"
-      style={{ gridTemplateColumns: `repeat(${tiles.length}, 1fr)` }}
+      style={{
+        gridTemplateColumns: stacked ? '1fr' : `repeat(${tiles.length}, 1fr)`,
+      }}
     >
       {tiles.map(tile => (
         <div key={tile.label} className="deck-stat-tile">
