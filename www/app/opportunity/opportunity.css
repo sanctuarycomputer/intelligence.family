@@ -457,10 +457,11 @@ section.deck-page[id] {
   text-align: right;
 }
 
-/* Caption constrained to the plan table's measure so its right edge lines
-   up with the table's right edge. */
+/* Caption constrained to the plan table's measure, reading left-aligned
+   under the table's first column. */
 .deck-caption-note-table {
   max-width: 760px;
+  text-align: left;
 }
 
 /* Interactive Gantt for the timeline slide */
