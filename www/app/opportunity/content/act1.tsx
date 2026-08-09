@@ -213,7 +213,7 @@ const page5 = (
         </div>
       }
     >
-      Our device research, in partnership with the Mozilla Foundation, drew an
+      Our research, in partnership with the Mozilla Foundation, drew an
       overwhelmingly positive response across 28k+ impressions.
       <Ref k="mozilla-research" />
       <br />
