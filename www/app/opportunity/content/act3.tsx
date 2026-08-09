@@ -3,6 +3,7 @@ import DeckPage from '../components/DeckPage';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
+  Band,
   CardsPage,
   DiagramPage,
   EvidenceGrid,
@@ -321,13 +322,11 @@ const platformPage = (
       <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B at a 72%
       pre-tax margin.
       <Ref k="qualcomm-qtl" />
-      <br />
-      <br />
-      <strong>
-        Sonos, Dyson, and LG will never build this stack - but they will want to
-        license it.
-      </strong>
     </p>
+    <Band narrow>
+      Sonos, Dyson, and LG will never build this stack - but they will want to
+      license it.
+    </Band>
   </DeckPage>
 );
 
