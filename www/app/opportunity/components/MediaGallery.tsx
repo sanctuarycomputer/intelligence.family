@@ -27,13 +27,12 @@ export default function MediaGallery({ slides }: { slides: Slide[] }) {
         </span>
         <span className="deck-media-caption">{current.caption}</span>
       </div>
-      <div className="deck-gallery-thumbs" role="tablist" aria-label="Photos">
+      <div className="deck-gallery-thumbs" aria-label="Photos">
         {slides.map((slide, i) => (
           <button
             key={i}
             type="button"
-            role="tab"
-            aria-selected={i === active}
+            aria-pressed={i === active}
             aria-label={slide.alt}
             className={i === active ? 'active' : undefined}
             onClick={() => setActive(i)}

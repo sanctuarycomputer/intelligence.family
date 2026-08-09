@@ -22,7 +22,8 @@ export default function DeckVideo({
     if (!el) return;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      entries => {
+        const entry = entries[entries.length - 1];
         clearTimeout(timer);
         if (entry.isIntersecting) {
           // Let the scroll snap settle before decode starts.

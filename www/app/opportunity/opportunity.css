@@ -274,6 +274,7 @@ section.deck-page[id] {
 /* Team credential strip: fundraising media row at deck scale. */
 .deck-team-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 14px;
 }
 .deck-team-row img,

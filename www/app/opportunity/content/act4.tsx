@@ -94,7 +94,7 @@ const page24 = (
           alt="On the factory floor with our contract manufacturing partners"
         />
         <DeckVideo
-          src="/fundraising/moment-video.mp4"
+          src="/opportunity/moment-video-small.mp4"
           poster="/fundraising/moment-video-poster.jpg"
           label="Early prototype in use"
         />
@@ -108,12 +108,12 @@ const page24 = (
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/opportunity/transport-lit.png"
+          src="/opportunity/transport-lit.jpg"
           alt="The USB Club Transport device, lit"
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/opportunity/talk-intro.png"
+          src="/opportunity/talk-intro.jpg"
           alt="Speaking on stage about augmenting human thought"
         />
       </div>
