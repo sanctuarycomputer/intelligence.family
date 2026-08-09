@@ -109,7 +109,6 @@ const page12 = (
           meta: 'Attach ~40%',
         },
       ]}
-      closer="Family memory is the first thing this device is extraordinary at, and the reason a household lets it into the room."
     />
   </DeckPage>
 );
