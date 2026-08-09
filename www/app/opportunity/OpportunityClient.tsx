@@ -1,35 +1,50 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import InlineEmailGate from '@/components/InlineEmailGate';
 import { OPPORTUNITY_GATE_SOURCE } from '@/lib/crm';
 import DeckShell from './components/DeckShell';
 import DebugCopyEditor from './components/DebugCopyEditor';
-import { ALL_PAGES, APPENDIX_PAGES, ACT_STARTS, PAGE_META } from './content';
+import { ALL_PAGES, APPENDIX_PAGES, PAGE_META } from './content';
 import { coverPage } from './content/act1';
 import './opportunity.css';
 
 const UNLOCK_KEY = 'fi_opportunity_unlocked_v1';
 
-export default function OpportunityClient() {
-  const [unlocked, setUnlocked] = useState(false);
-  const [debug, setDebug] = useState(false);
+// Client-only reads, expressed as external stores so hydration stays clean
+// (server snapshot false) without a setState-in-effect cascade. Reading
+// window.location instead of useSearchParams keeps the page statically
+// prerenderable (no Suspense boundary required).
+const emptySubscribe = () => () => {};
+const readStoredUnlock = () => {
+  try {
+    return localStorage.getItem(UNLOCK_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+const readDebugFlag = () =>
+  new URLSearchParams(window.location.search).get('debug') === 'true';
+const serverSnapshot = () => false;
 
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(UNLOCK_KEY) === '1') setUnlocked(true);
-    } catch {}
-    // window.location instead of useSearchParams keeps the page statically
-    // prerenderable (no Suspense boundary required).
-    setDebug(
-      new URLSearchParams(window.location.search).get('debug') === 'true'
-    );
-  }, []);
+export default function OpportunityClient() {
+  const storedUnlock = useSyncExternalStore(
+    emptySubscribe,
+    readStoredUnlock,
+    serverSnapshot
+  );
+  const debug = useSyncExternalStore(
+    emptySubscribe,
+    readDebugFlag,
+    serverSnapshot
+  );
+  const [unlockedNow, setUnlockedNow] = useState(false);
+  const unlocked = unlockedNow || storedUnlock;
 
   const handleUnlock = () => {
     try {
       localStorage.setItem(UNLOCK_KEY, '1');
     } catch {}
-    setUnlocked(true);
+    setUnlockedNow(true);
   };
 
   const gate = unlocked ? null : (
@@ -47,11 +62,7 @@ export default function OpportunityClient() {
 
   return (
     <>
-      <DeckShell
-        pages={pages}
-        railActs={unlocked ? ACT_STARTS : []}
-        pageMeta={PAGE_META}
-      />
+      <DeckShell pages={pages} pageMeta={PAGE_META} />
       {debug && (
         <DebugCopyEditor refreshKey={unlocked ? 'unlocked' : 'locked'} />
       )}

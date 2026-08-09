@@ -47,7 +47,7 @@ const BAND_ICONS = [
   'play',
   'close',
 ] as const;
-const DEFAULT_BAND_ICON = 'heart';
+const DEFAULT_BAND_ICON = 'tree';
 
 function setBandIcon(name: string) {
   document.documentElement.style.setProperty(
@@ -117,7 +117,7 @@ export default function DebugCopyEditor({
           'h1, h2, h3, h4, p, figcaption, li, td, th, ' +
             '.deck-stat-tile-value, .deck-stat-tile-label, ' +
             '.deck-tier-price, .deck-tier-meta, ' +
-            '.deck-ledger-label, .deck-ledger-value'
+            '.deck-ledger-label, .deck-ledger-value, .deck-media-caption'
         );
         let i = 0;
         targets.forEach(target => {

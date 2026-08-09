@@ -39,7 +39,7 @@ describe('opportunity deck copy contract', () => {
       'AI compute is moving into the house, the way the personal computer did.',
       'Open models are just months behind the best.',
       "But today, there's no alternative.",
-      'friend.com was panned',
+      'Our privacy-preserving architecture is what wins customers over.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
@@ -68,9 +68,9 @@ describe('opportunity deck copy contract', () => {
       'High emotional value, sensitive data, and a GPU in the living room.',
       'Weekly check-ins, budgets, school, health, and stories.',
       'Inference for every IoT device on the network.',
-      '600M+ Alexa devices sold, all of them cloud-dependent.',
+      '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
-      'Each sale covers its own customer acquisition before any subscription starts.',
+      'Each sale covers its own customer acquisition before subscription starts.',
       'The flagship device ships first, and every future SKU runs the same (evolving) stack.',
     ];
     for (const sub of subs) {
@@ -101,7 +101,7 @@ describe('opportunity deck copy contract', () => {
     const subs = [
       'The go-to SDK for private inference, built on Linux',
       'Today, there is no purpose made privacy stack for running local models.',
-      'We expect three key ways partners will integrate our software.',
+      'We anticipate three key modes to help partners integrate our software.',
       'Google bought Android in 2005 for ~$50 million.',
       'What will the canonical infrastructure for private AI be valued at',
     ];
@@ -122,7 +122,7 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       "We've spent our careers deploying novel hardware, low-level infrastructure and custom operating systems",
       'The team',
-      'The hard questions',
+      'Hard questions',
       'title="Timeline"',
       "We're raising $15M",
     ];

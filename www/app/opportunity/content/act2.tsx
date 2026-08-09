@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
+import DeckVideo from '../components/DeckVideo';
 import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
@@ -7,7 +8,6 @@ import {
   EvidenceGrid,
   PricingTiers,
   Split,
-  StatTiles,
   Statement,
 } from '../components/archetypes';
 
@@ -25,8 +25,25 @@ const page7 = (
       carries none of the risk a clinic or a payroll system does.{' '}
       <strong>One device, one market.</strong>
     </Statement>
-    <div className="mt-10">
-      <FpoBox note="Play-test photo (existing /research/moment-*.png assets)" />
+    <div className="mt-10 flex gap-4 items-start">
+      <span className="deck-video-portrait deck-video-frame">
+        <DeckVideo
+          src="/opportunity/device-playtest.mp4"
+          label="A family play-testing the device prototype"
+        />
+      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/opportunity/device-cad.jpg"
+        alt="CAD render of the device enclosure: curved shell, tilted display, and the compute module with its cooler inside"
+        className="deck-video-landscape"
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/opportunity/device-photo.jpg"
+        alt="A child touching the prototype's screen on a kitchen counter"
+        className="deck-video-portrait"
+      />
     </div>
   </DeckPage>
 );
@@ -59,6 +76,12 @@ const contextPage = (
       flip
       title="A context window for smart homes"
       sub="Inference for every IoT device on the network."
+      band={
+        <>
+          US internet households already run 17 connected devices.
+          <Ref k="parks-17-devices" /> Soon, they&rsquo;ll all need inference.
+        </>
+      }
       media={
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -73,10 +96,6 @@ const contextPage = (
         One local agent holds that memory: an MCP server on the LAN, a
         chat-completions endpoint, and local RAG.
       </strong>
-      <br />
-      <br />
-      &rarr; US internet households already run 17 connected devices.
-      <Ref k="parks-17-devices" /> Soon, they&rsquo;ll all need inference.
     </Split>
   </DeckPage>
 );
@@ -142,21 +161,16 @@ const page12 = (
 const page10 = (
   <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
     <div className="grid md:grid-cols-2 gap-10 items-center">
-      <FpoBox
-        note={
-          "Install-base bars (600M Alexa / 800M Google Home); strip beneath: io $6.5B · Bee→Amazon · Limitless→Meta, all marked 'cloud'"
-        }
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/opportunity/hub-photo.jpg"
+        alt="A Google Nest Hub on a side table showing the weather, beside a potted plant"
+        className="deck-screenshot"
       />
       <BigStat
         stat="600M+"
         title="Home hubs are a proven category."
-        sub={
-          <>
-            600M+ Alexa devices sold, all of them cloud-dependent.
-            <br />
-            Ours runs locally.
-          </>
-        }
+        sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
         band="In 2026, you should be able to dim your lights without notifying Jeff Bezos. Home inference (finally) makes that possible."
       >
         The AI gadget graveyard is littered with attempts to find new ways to
@@ -210,16 +224,6 @@ const page11 = (
           ),
         },
         {
-          heading: 'Plaud reached ~$250M',
-          body: (
-            <>
-              Plaud reached about $250M in revenue at roughly 20% margin, on 1M+
-              devices and essentially no venture capital.
-              <Ref k="plaud" />
-            </>
-          ),
-        },
-        {
           heading: 'Ancestry and StoryWorth',
           body: (
             <>
@@ -233,12 +237,6 @@ const page11 = (
         },
       ]}
     />
-    <div className="mt-10">
-      <FpoBox
-        note="Comp cards: tonies €630M · Life360 $4.5B · Ancestry $4.7B · StoryWorth 1M books"
-        aspect="6/1"
-      />
-    </div>
   </DeckPage>
 );
 
@@ -247,22 +245,18 @@ const unitEconomicsPage = (
     <BigStat
       stat="1.7x"
       title="Paid back at point of sale"
-      sub="Each sale covers its own customer acquisition before any subscription starts."
-      band="Most hardware startups recover their customer acquisition cost over years of subscription. We recover it the day the box sells."
+      sub="Each sale covers its own customer acquisition before subscription starts."
+      band="We don't rely on years of subscription to recover costs. We recover cost when the box sells."
     >
       The $250 blended cost of acquiring a customer is recovered 1.7 times over
-      at the register, from hardware gross profit alone.
+      at the register from hardware gross profit.
+      <br />
+      <br />
+      Plaud proved it first: ~$250M of revenue on 1M+ devices, with essentially
+      no venture capital.
+      <Ref k="plaud" />
     </BigStat>
-    <StatTiles
-      tiles={[
-        {
-          value: '$418 · 46%',
-          label: 'Gross profit per unit on an $899 price',
-        },
-        { value: '2.2x', label: 'LTV to CAC with the subscription on top' },
-      ]}
-    />
-    <p className="deck-caption-note">
+    <p className="deck-caption-note deck-caption-note-left">
       The plan assumes 82,385 cumulative devices by Year 5, 0.06% of US
       households. Source: Family Intelligence model v3.1, base case.
     </p>

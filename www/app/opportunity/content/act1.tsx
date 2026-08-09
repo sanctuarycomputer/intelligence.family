@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import DeckPage from '../components/DeckPage';
-import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
+import MediaGallery from '../components/MediaGallery';
 import { Band, CardsPage, Split, Statement } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
@@ -46,8 +46,8 @@ export function coverPage(gate: ReactNode): ReactNode {
             />
           </span>
         </p>
-        {gate}
       </div>
+      {gate && <div className="deck-cover-gate">{gate}</div>}
     </DeckPage>
   );
 }
@@ -58,18 +58,27 @@ const page3 = (
       title="Local AI (finally) runs on consumer hardware"
       sub="Open models are just months behind the best."
       media={
-        <div className="deck-media-figure">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/opportunity/prototype-photo.jpg"
-            alt="Our prototype's compute board, held in one hand above a keyboard"
-            className="deck-screenshot"
-          />
-          <span className="deck-media-caption">
-            Mid 2025, running Qwen 2.5 on CPU. Holding a squishy representation
-            of all of recorded human thought in the palm of my hand.
-          </span>
-        </div>
+        <MediaGallery
+          slides={[
+            {
+              src: '/opportunity/prototype-photo.jpg',
+              alt: "Our prototype's compute board, held in one hand above a keyboard",
+              caption:
+                'Mid 2025, running Qwen 2.5 on CPU. Holding a squishy representation of all of recorded human thought in the palm of my hand.',
+            },
+            {
+              src: '/opportunity/snapdragon-x-elite.jpg',
+              alt: 'A Snapdragon X Elite chip mounted in a clear acrylic block, lying on grass',
+              caption:
+                'Snapdragon X Elite: NPU-equipped consumer silicon like this now ships in most new PCs.',
+            },
+            {
+              src: null,
+              alt: 'FPO: photo 3',
+              caption: 'FPO caption 3',
+            },
+          ]}
+        />
       }
     >
       Open weights keep closing on closed models.
@@ -120,21 +129,17 @@ const page4 = (
       Pew measured America&rsquo;s growing AI disdain in June 2026.
       <Ref k="pew-distrust" /> Amazon went the other way, removing the
       Echo&rsquo;s only local-processing option in March 2025.
-      <Ref k="echo-local-removed" /> Today, the data center backlash has arrived
-      at a fever pitch that won&rsquo;t subside, akin to climate dread. America
-      wants an alternative.
+      <Ref k="echo-local-removed" />
+      <br />
+      <br />
+      Today, the data center backlash has arrived at a fever pitch that
+      won&rsquo;t subside, akin to climate dread. America wants an alternative.
     </Statement>
     <Band narrow>
-      Demand for private AI is enormous. Our market is 70% of America.
+      Demand for private AI is enormous.
+      <br />
+      Our market is 70% of America.
     </Band>
-    <div className="mt-10">
-      <FpoBox
-        note={
-          "Brand row: Signal · Mozilla · 1Password with an empty slot labeled 'the home'"
-        }
-        aspect="8/1"
-      />
-    </div>
   </DeckPage>
 );
 
@@ -147,6 +152,14 @@ const problemPage = (
       cards={[
         {
           heading: 'What households want',
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/opportunity/icons/heart.png"
+              alt=""
+              className="deck-icon-small"
+            />
+          ),
           body: (
             <ul className="deck-list">
               <li>A system that actually knows the household</li>
@@ -157,19 +170,30 @@ const problemPage = (
           ),
         },
         {
-          heading: 'What they will never do',
+          heading: 'But families will resist',
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/opportunity/icons/close.png"
+              alt=""
+              className="deck-icon-small"
+            />
+          ),
           body: (
             <ul className="deck-list">
               <li>
-                Send raw household audio &amp; intimate stories to a third-party
+                Sending intimate stories &amp; household audio to a third-party
                 cloud
               </li>
-              <li>Trust a business that monetizes their data</li>
               <li>
-                Accept a privacy policy they&rsquo;ll never read and hope for
+                Trusting a business who intends to monetize or train on their
+                data
+              </li>
+              <li>
+                Accepting a privacy policy they&rsquo;ll never read and hope for
                 the best
               </li>
-              <li>Depend on connectivity for a device in their kitchen</li>
+              <li>Needing connectivity for a device in their kitchen</li>
             </ul>
           ),
         },
@@ -183,22 +207,27 @@ const page5 = (
     <Split
       flip
       title="Local architecture changes the story"
-      sub="Two AI listening devices. friend.com was panned, while Family Intelligence was praised."
-      band="Our privacy-preserving architecture is what wins customers over."
+      sub="Our privacy-preserving architecture is what wins customers over."
       media={
-        <div className="grid grid-cols-2 gap-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/opportunity/friend-comments.png"
-            alt="Instagram comments on friend.com's pendant: 'AI IS NOT YOUR FRIEND', 'Disgusting', 'This Black Mirror type product. Ew'"
-            className="deck-screenshot"
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/opportunity/fi-comments.png"
-            alt="Instagram comments on the Family Intelligence research: 'LOVE THIS!', 'Brilliant idea', 'Small local AI is the future!'"
-            className="deck-screenshot"
-          />
+        <div>
+          <div className="grid grid-cols-2 gap-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/opportunity/friend-comments.png"
+              alt="Instagram comments on friend.com's pendant: 'AI IS NOT YOUR FRIEND', 'Disgusting', 'This Black Mirror type product. Ew'"
+              className="deck-screenshot"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/opportunity/fi-comments.png"
+              alt="Instagram comments on the Family Intelligence research: 'LOVE THIS!', 'Brilliant idea', 'Small local AI is the future!'"
+              className="deck-screenshot"
+            />
+          </div>
+          <span className="deck-media-caption">
+            Two AI listening devices. friend.com was panned, while Family
+            Intelligence was praised.
+          </span>
         </div>
       }
     >

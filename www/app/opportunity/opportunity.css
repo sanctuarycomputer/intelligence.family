@@ -62,9 +62,16 @@ section.deck-page[id] {
   background: var(--fi-green-200);
 }
 /* Cards can carry a small transparent PNG floating off their top-right
-   corner; the card anchors it and lets it overflow. */
+   corner; the card anchors it and lets it overflow. Solid card fills come
+   from the ragged-edge border-image (theme variants below), overriding the
+   layered Tailwind bg/rounded/padding utilities. */
 .deck-card {
   position: relative;
+  border: 20px solid transparent;
+  border-image: url('/opportunity/ragged-band-green200.svg') 32 fill stretch;
+  background: none;
+  padding: 4px 6px;
+  filter: drop-shadow(0px 4px 5px rgba(134, 160, 120, 0.45));
 }
 .deck-card-icon {
   display: block;
@@ -74,6 +81,10 @@ section.deck-page[id] {
 .deck-card-icon img {
   height: 100%;
   width: auto;
+}
+/* Half-size icon slot for quieter card marks. */
+.deck-card-icon:has(.deck-icon-small) {
+  height: clamp(22px, 3.5dvh, 34px);
 }
 .deck-card-photo {
   display: block;
@@ -110,11 +121,11 @@ section.deck-page[id] {
   background: rgba(215, 221, 212, 0.12);
 }
 
-/* On the darker act backgrounds the green-200 cards vanish; lift them to
-   the lighter tone. Unlayered, so it beats the Tailwind bg utility. */
+/* On the darker green-200 act backgrounds the green-200 fill vanishes;
+   lift the cards to the lighter tone. */
 .deck-act-2 .deck-card,
 .deck-act-4 .deck-card {
-  background: var(--fi-green-100);
+  border-image-source: url('/opportunity/ragged-band-green100.svg');
 }
 /* "Dark Mode" for the technical stack act: darkest palette green, light ink,
    and mono display type on the H1s only. The warm serif returns after. */
@@ -138,11 +149,10 @@ section.deck-page[id] {
   font-weight: 500 !important;
   letter-spacing: 0;
 }
-/* Glass cards: fi-green-100 at low alpha lifts boxes off the dark act
-   background without introducing a clashing opaque tone. */
+/* Dark act: the glass variant of the ragged shape, no shadow. */
 .deck-act-3 .deck-card {
-  background: rgba(215, 221, 212, 0.1);
-  border: 1px solid rgba(215, 221, 212, 0.16);
+  border-image-source: url('/opportunity/ragged-band-dark.svg');
+  filter: none;
 }
 .deck-act-3 .deck-ref {
   color: var(--fi-green-300);
@@ -150,39 +160,129 @@ section.deck-page[id] {
 .deck-chrome.deck-chrome-dark {
   color: var(--fi-green-100);
 }
-.deck-rail-dark a {
-  background: var(--fi-green-400);
-}
-.deck-rail-dark a.active {
-  background: var(--fi-green-100);
-}
 .deck-act-4 {
   background: var(--fi-green-200);
 }
 
-/* Progress rail */
-.deck-rail {
-  position: fixed;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+/* Photo gallery: framed image left, thumbnail toggles on the right. */
+.deck-gallery {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.deck-gallery-thumbs {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  z-index: 40;
+  gap: 10px;
 }
-.deck-rail a {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--fi-green-300);
+.deck-gallery-thumbs button {
+  width: clamp(44px, 6dvh, 64px);
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 1px solid var(--fi-green-300);
+  overflow: hidden;
+  background: var(--fi-green-200);
+  padding: 0;
+  cursor: pointer;
+  font-variation-settings: 'MONO' 100;
+  font-size: 13px;
+}
+.deck-gallery-thumbs button.active {
+  border: 2px solid var(--fi-green-500);
+}
+.deck-gallery-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
-.deck-rail a.active {
-  background: var(--fi-green-500);
+/* Every gallery image renders in the same fixed frame, cropped to fill. */
+.deck-gallery-main {
+  flex: 1 1 auto;
+  min-width: 0;
 }
-.deck-rail a.act-start {
-  height: 14px;
+/* Reserve three caption lines so swapping to a shorter caption doesn't
+   change the figure height and re-center the slide. */
+.deck-gallery-main .deck-media-caption {
+  min-height: 4.5em;
+}
+.deck-gallery-frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 56dvh;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.deck-gallery-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.deck-gallery-fpo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 20px;
+  font-size: 12px;
+  background: rgba(215, 221, 212, 0.12);
+}
+
+/* Cute portrait video: cropped to a tall frame with generous corners. */
+.deck-video-portrait {
+  display: block;
+  height: clamp(280px, 52dvh, 460px);
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 28px;
+}
+/* Rounded clipping happens on this wrapper layer, not the video element:
+   Safari and Chrome both composite that far more cheaply. */
+.deck-video-frame {
+  overflow: hidden;
+  transform: translateZ(0);
+}
+.deck-video-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  display: block;
+}
+
+/* Landscape sibling of the portrait card: same height, wider frame. */
+.deck-video-landscape {
+  display: block;
+  height: clamp(280px, 52dvh, 460px);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 28px;
+}
+
+/* Email gate pinned to the cover's bottom-left corner. */
+.deck-cover-gate {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-width: 380px;
+}
+
+/* Team credential strip: fundraising media row at deck scale. */
+.deck-team-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.deck-team-row img,
+.deck-team-row video {
+  height: clamp(110px, 18dvh, 180px);
+  width: auto;
+  border-radius: 16px;
+  display: block;
 }
 
 /* Fixed chrome layer — one instance for the whole deck, values animate as
@@ -282,6 +382,10 @@ section.deck-page[id] {
 }
 .deck-leaves-hidden {
   opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 600ms ease-out,
+    visibility 0s 600ms;
 }
 .deck-leaves-dark .drift-leaf img {
   filter: brightness(0) invert(0.92);
@@ -446,6 +550,10 @@ section.deck-page[id] {
    under the table's first column. */
 .deck-caption-note-table {
   max-width: 760px;
+  text-align: left;
+}
+
+.deck-caption-note-left {
   text-align: left;
 }
 
@@ -616,16 +724,17 @@ section.deck-page[id] {
 }
 
 /* Full-width takeaway band, after the pptx closing strips. */
-/* Accent-box callout: one component style, heart icon, larger type.
-   The act theme swaps the background. */
+/* Accent-box callout in the Airgapt ragged-edge treatment. The act theme
+   swaps the border-image source since the SVG fill is baked in. */
 .deck-band {
   margin-top: 22px;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 20px;
-  border-radius: 12px;
-  background: var(--fi-green-200);
+  padding: 0 6px;
+  border: 20px solid transparent;
+  border-image: url('/opportunity/ragged-band-green200.svg') 32 fill stretch;
+  filter: drop-shadow(0px 4px 5px rgba(134, 160, 120, 0.45));
   font-size: clamp(16px, 2.4dvh, 21px);
   font-weight: 500;
 }
@@ -637,19 +746,24 @@ section.deck-page[id] {
   width: clamp(24px, 3.4dvh, 32px);
   aspect-ratio: 1;
   flex: none;
-  background: var(--deck-band-icon, url('/opportunity/icons/heart.png'))
-    center / contain no-repeat;
+  background: var(--deck-band-icon, url('/opportunity/icons/tree.png')) center /
+    contain no-repeat;
 }
 /* On the darker green-200 act backgrounds the green-200 fill vanishes;
    lift the accent boxes to the lighter tone. */
 .deck-act-2 .deck-band,
 .deck-act-4 .deck-band {
-  background: var(--fi-green-100);
+  border-image-source: url('/opportunity/ragged-band-green100.svg');
 }
 .deck-act-3 .deck-band {
-  background: rgba(215, 221, 212, 0.1);
+  border-image-source: url('/opportunity/ragged-band-dark.svg');
+  filter: none;
 }
 .deck-act-3 .deck-band-icon {
+  filter: brightness(0) invert(0.92);
+}
+/* Family-book icons flipped light for dark-act cards. */
+.deck-icon-dark {
   filter: brightness(0) invert(0.92);
 }
 
@@ -755,14 +869,14 @@ section.deck-page[id] {
 
 /* White card frame for diagram art, brand radius. The inner image shrinks
    to keep the framed whole inside the media column's height budget. */
-/* "White" in this style guide is the warm off-white, not #fff. Shadow and
-   border from the Airgapt Figma primary container (Rectangle 294). */
+/* Airgapt primary container: the ragged hand-cut edge comes from the Figma
+   shape as a border-image (sliced so corners stay true), and the shadow is
+   a drop-shadow so it follows the torn silhouette instead of the box. */
 .deck-media-box {
-  background: #f7f9f6;
-  border: 2.5px solid #f7f9f6;
-  border-radius: 20px;
-  padding: clamp(28px, 4.4dvh, 48px);
-  box-shadow: 0px 4px 5px rgba(134, 160, 120, 0.45);
+  border: 32px solid transparent;
+  border-image: url('/opportunity/ragged-container.svg') 32 fill stretch;
+  padding: clamp(0px, 1.6dvh, 16px);
+  filter: drop-shadow(0px 4px 5px rgba(134, 160, 120, 0.45));
 }
 .deck-media-box .deck-slide-media {
   max-height: 56dvh;

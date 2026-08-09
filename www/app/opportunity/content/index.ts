@@ -6,12 +6,6 @@ import { ACT4_PAGES } from './act4';
 export { APPENDIX_PAGES } from './appendix';
 
 export const TOTAL = 24;
-export const ACT_STARTS = [
-  { page: 1 },
-  { page: 8 },
-  { page: 15 },
-  { page: 20 },
-];
 export const ALL_PAGES = [
   ...ACT1_PAGES,
   ...ACT2_PAGES,

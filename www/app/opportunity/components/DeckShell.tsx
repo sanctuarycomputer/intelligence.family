@@ -5,11 +5,9 @@ import DriftingLeaves from './DriftingLeaves';
 
 export default function DeckShell({
   pages,
-  railActs,
   pageMeta,
 }: {
   pages: ReactNode[];
-  railActs: Array<{ page: number }>;
   pageMeta: Array<{
     act: string;
     counter: string;
@@ -73,7 +71,6 @@ export default function DeckShell({
     return () => observer.disconnect();
   }, [pages.length]);
 
-  const actStarts = new Set(railActs.map(a => a.page));
   return (
     <div className="deck">
       <div className="deck-ambient" aria-hidden="true">
@@ -95,20 +92,6 @@ export default function DeckShell({
         dark={pageMeta[current - 1]?.dark === true}
       />
       {pages}
-      <nav
-        className={`deck-rail${pageMeta[current - 1]?.dark ? ' deck-rail-dark' : ''}`}
-        aria-label="Deck pages"
-      >
-        {pages.map((_, i) => (
-          <a
-            key={i}
-            href={`#page-${i + 1}`}
-            aria-label={`Page ${i + 1}`}
-            className={`${i + 1 === current ? 'active ' : ''}${actStarts.has(i + 1) ? 'act-start' : ''}`}
-            onClick={() => setCurrent(i + 1)}
-          />
-        ))}
-      </nav>
     </div>
   );
 }

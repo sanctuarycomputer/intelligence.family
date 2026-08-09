@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
-import FpoBox from '../components/FpoBox';
+import DeckVideo from '../components/DeckVideo';
 import MailtoCta from '../components/MailtoCta';
 import TimelineGantt from '../components/TimelineGantt';
 import Ref from '../components/Ref';
@@ -81,16 +81,42 @@ const page24 = (
         },
       ]}
     />
-    <Band>
-      Before launch, roughly 90% of engineering runs through Sanctuary Computer
-      at arm&rsquo;s length: a shipped-hardware team of 6 to 8 from day one,
-      with no hiring cycle. The handoff completes by Year 4.
-    </Band>
     <div className="mt-6">
-      <FpoBox
-        note="Logo strip: Light Phone · Mill · USB Club · World · Mozilla · TIME"
-        aspect="8/1"
-      />
+      <div className="deck-team-row">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/fundraising/signal-source.jpg"
+          alt="USB Club Transport product poster"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/fundraising/family-together.webp"
+          alt="On the factory floor with our contract manufacturing partners"
+        />
+        <DeckVideo
+          src="/opportunity/moment-video-small.mp4"
+          poster="/fundraising/moment-video-poster.jpg"
+          label="Early prototype in use"
+        />
+        <DeckVideo
+          src="/opportunity/proof-portal-close.mp4"
+          label="The Proof portal device closing"
+        />
+        <DeckVideo
+          src="/opportunity/sanctuary-work.mp4"
+          label="Sanctuary Computer hardware work"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/transport-lit.jpg"
+          alt="The USB Club Transport device, lit"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/talk-intro.jpg"
+          alt="Speaking on stage about augmenting human thought"
+        />
+      </div>
     </div>
   </DeckPage>
 );
@@ -99,7 +125,7 @@ const page23 = (
   <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
-      title="The hard questions"
+      title="Hard questions"
       sub="Competition, model quality, hardware risk, consent, chips, and the raise."
       cards={[
         {

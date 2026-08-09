@@ -1,11 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
-import {
-  Band,
-  CardsPage,
-  StatTiles,
-  Statement,
-} from '../components/archetypes';
+import { CardsPage, StatTiles, Statement } from '../components/archetypes';
 import { orderedReferences } from './references';
 
 // Kept local so this module never imports ./index (which imports this file).
@@ -165,10 +160,6 @@ const methodologyPage = (
         },
       ]}
     />
-    <Band>
-      Everything left out of the model is upside. Everything hard about hardware
-      is in it.
-    </Band>
   </DeckPage>
 );
 

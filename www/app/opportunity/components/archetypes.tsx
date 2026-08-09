@@ -282,7 +282,7 @@ export function PricingTiers({
 }
 
 /** Accent-box callout. The act theme sets the background via .deck-band;
- * the icon comes from the --deck-band-icon CSS variable (heart by default,
+ * the icon comes from the --deck-band-icon CSS variable (tree by default,
  * swappable live from the ?debug=true bar). */
 export function Band({
   children,
