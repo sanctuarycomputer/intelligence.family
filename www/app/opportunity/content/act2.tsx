@@ -244,13 +244,15 @@ const unitEconomicsPage = (
     <BigStat
       stat="1.7x"
       title="Paid back at point of sale"
-      sub="Each sale covers its own customer acquisition before any subscription starts."
-      band="Most hardware startups recover their customer acquisition cost over years of subscription. We recover it the day the box sells."
+      sub="Each sale covers its own customer acquisition before subscription starts."
+      band="We don't rely on years of subscription to recover costs. We recover cost when the box sells."
     >
       The $250 blended cost of acquiring a customer is recovered 1.7 times over
-      at the register, from hardware gross profit alone. Plaud proved the shape:
-      about $250M of revenue on 1M+ devices, with essentially no venture
-      capital.
+      at the register from hardware gross profit.
+      <br />
+      <br />
+      Plaud proved it first: ~$250M of revenue on 1M+ devices, with essentially
+      no venture capital.
       <Ref k="plaud" />
     </BigStat>
     <p className="deck-caption-note deck-caption-note-left">

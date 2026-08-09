@@ -70,7 +70,7 @@ describe('opportunity deck copy contract', () => {
       'Inference for every IoT device on the network.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
-      'Each sale covers its own customer acquisition before any subscription starts.',
+      'Each sale covers its own customer acquisition before subscription starts.',
       'The flagship device ships first, and every future SKU runs the same (evolving) stack.',
     ];
     for (const sub of subs) {
@@ -122,7 +122,7 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       "We've spent our careers deploying novel hardware, low-level infrastructure and custom operating systems",
       'The team',
-      'The hard questions',
+      'Hard questions',
       'title="Timeline"',
       "We're raising $15M",
     ];

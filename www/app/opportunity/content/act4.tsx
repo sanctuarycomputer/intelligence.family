@@ -94,7 +94,7 @@ const page23 = (
   <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
-      title="The hard questions"
+      title="Hard questions"
       sub="Competition, model quality, hardware risk, consent, chips, and the raise."
       cards={[
         {
