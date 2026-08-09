@@ -106,6 +106,11 @@ const page24 = (
           src="/opportunity/sanctuary-work.mp4"
           label="Sanctuary Computer hardware work"
         />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/transport-lit.png"
+          alt="The USB Club Transport device, lit"
+        />
       </div>
     </div>
   </DeckPage>
