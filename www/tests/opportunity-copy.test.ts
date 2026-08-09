@@ -22,7 +22,7 @@ describe('opportunity deck copy contract', () => {
       'The GPU is coming home',
       "7 in 10 Americans don't trust big tech's AI",
       "The most valuable context is what you'll never upload",
-      'Local architecture wins consumer sentiment',
+      'Local architecture changes the story',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -54,7 +54,7 @@ describe('opportunity deck copy contract', () => {
       'One device becomes a family of them',
       'Home hubs are a proven category.',
       'Families already pay for this',
-      'Paid back at the register',
+      'Paid back at point of sale',
     ];
     const idx = titles.map(t => src.indexOf(t));
     expect(idx.every(i => i >= 0)).toBe(true);

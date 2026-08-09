@@ -208,7 +208,7 @@ const page11 = (
 const unitEconomicsPage = (
   <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
-      title="Paid back at the register"
+      title="Paid back at point of sale"
       sub="Each flagship earns $418 of gross profit on an $899 price."
       rows={[
         { label: 'Flagship price', value: '$899' },

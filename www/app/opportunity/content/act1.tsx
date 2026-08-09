@@ -193,7 +193,7 @@ const page5 = (
   <DeckPage key={6} n={6} total={TOTAL}>
     <Split
       flip
-      title="Local architecture wins consumer sentiment"
+      title="Local architecture changes the story"
       sub="Two AI listening devices. friend.com was panned, while Family Intelligence was praised."
       band="Our privacy-preserving architecture is what wins customers over."
       media={
