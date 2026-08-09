@@ -108,11 +108,7 @@ const scenariosPage = (
         ))}
       </tbody>
     </table>
-    <Band>
-      Because staffing and licensing spend flex with the case, the downside is a
-      smaller, later company, not a broken one.
-    </Band>
-    <p className="deck-caption-note">
+    <p className="deck-caption-note deck-caption-note-table">
       The switch moves volume 0.6x / 1.0x / 1.7x, subscription attach 30% / 40%
       / 55%, licensing 0.3x / 1.0x / 1.5x, and the hiring plan with them. The
       flagship price holds at $899 in every case. Source: model v3.1, Scenario

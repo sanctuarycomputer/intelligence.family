@@ -457,6 +457,12 @@ section.deck-page[id] {
   text-align: right;
 }
 
+/* Caption constrained to the plan table's measure so its right edge lines
+   up with the table's right edge. */
+.deck-caption-note-table {
+  max-width: 760px;
+}
+
 /* Interactive Gantt for the timeline slide */
 .gantt {
   background: var(--fi-green-100);
