@@ -115,40 +115,39 @@ const page12 = (
 
 const page10 = (
   <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
-    <BigStat
-      stat="600M+"
-      title="Home hubs are a proven category."
-      sub={
-        <>
-          600M+ Alexa devices sold, all of them cloud-dependent.
-          <br />
-          Ours runs locally.
-        </>
-      }
-      band="In 2026, you should be able to dim your lights without notifying Jeff Bezos. Home inference (finally) makes that possible."
-    >
-      The AI gadget graveyard is littered with attempts to find new ways to
-      interact.{' '}
-      <strong>
-        Instead, we&rsquo;re entering a proven category with a novel new
-        architecture - already proven compelling to consumers.
-      </strong>
-      <br />
-      <br />
-      Alexa have sold 600M+ units.
-      <Ref k="alexa-600m" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
-      <Ref k="openai-io" /> Amazon bought Bee,
-      <Ref k="bee-amazon" /> Meta bought Limitless.
-      <Ref k="limitless-meta" /> 800M+ Google Home units shipped. All of them a
-      soft-surveillance device running in someone else&rsquo;s cloud.
-    </BigStat>
-    <div className="mt-10">
+    <div className="grid md:grid-cols-2 gap-10 items-center">
       <FpoBox
         note={
           "Install-base bars (600M Alexa / 800M Google Home); strip beneath: io $6.5B · Bee→Amazon · Limitless→Meta, all marked 'cloud'"
         }
-        aspect="6/1"
       />
+      <BigStat
+        stat="600M+"
+        title="Home hubs are a proven category."
+        sub={
+          <>
+            600M+ Alexa devices sold, all of them cloud-dependent.
+            <br />
+            Ours runs locally.
+          </>
+        }
+        band="In 2026, you should be able to dim your lights without notifying Jeff Bezos. Home inference (finally) makes that possible."
+      >
+        The AI gadget graveyard is littered with attempts to find new ways to
+        interact.{' '}
+        <strong>
+          Instead, we&rsquo;re entering a proven category with a novel new
+          architecture - already proven compelling to consumers.
+        </strong>
+        <br />
+        <br />
+        Alexa have sold 600M+ units.
+        <Ref k="alexa-600m" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
+        <Ref k="openai-io" /> Amazon bought Bee,
+        <Ref k="bee-amazon" /> Meta bought Limitless.
+        <Ref k="limitless-meta" /> 800M+ Google Home units shipped. All of them
+        a soft-surveillance device running in someone else&rsquo;s cloud.
+      </BigStat>
     </div>
   </DeckPage>
 );
