@@ -102,6 +102,10 @@ const page24 = (
           src="/opportunity/proof-portal-close.mp4"
           label="The Proof portal device closing"
         />
+        <DeckVideo
+          src="/opportunity/sanctuary-work.mp4"
+          label="Sanctuary Computer hardware work"
+        />
       </div>
     </div>
   </DeckPage>
