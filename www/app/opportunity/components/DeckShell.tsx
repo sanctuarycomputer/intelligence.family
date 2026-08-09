@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState, type ReactNode } from 'react';
 import DeckChrome from './DeckChrome';
-import DeckJumpNav, { type JumpItem } from './DeckJumpNav';
 import DriftingLeaves from './DriftingLeaves';
 
 export default function DeckShell({
@@ -72,6 +71,36 @@ export default function DeckShell({
     return () => observer.disconnect();
   }, [pages.length]);
 
+  return () => window.removeEventListener('keydown', handler);
+  }, [current, pages.length]);
+
+  useEffect(() => {
+    const container = document.querySelector('.deck');
+    if (!container) return;
+    const sections = container.querySelectorAll('section[id^="page-"]');
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        let best: { page: number; ratio: number } | null = null;
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const id = entry.target.id;
+          const page = Number(id.replace('page-', ''));
+          if (Number.isNaN(page)) continue;
+          if (!best || entry.intersectionRatio > best.ratio) {
+            best = { page, ratio: entry.intersectionRatio };
+          }
+        }
+        if (best) setCurrent(best.page);
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach(section => observer.observe(section));
+    return () => observer.disconnect();
+  }, [pages.length]);
+
   // One jump item per act: the first page whose act label differs from the
   // previous page's.
   const jumpItems: JumpItem[] = [];
@@ -105,17 +134,6 @@ export default function DeckShell({
         dark={pageMeta[current - 1]?.dark === true}
       />
       {pages}
-      <DeckJumpNav
-        items={jumpItems}
-        current={current}
-        dark={pageMeta[current - 1]?.dark === true}
-        onJump={page => {
-          document
-            .getElementById(`page-${page}`)
-            ?.scrollIntoView({ behavior: 'smooth' });
-          setCurrent(page);
-        }}
-      />
     </div>
   );
 }
