@@ -7,7 +7,6 @@ import {
   EvidenceGrid,
   PricingTiers,
   Split,
-  StatTiles,
   Statement,
 } from '../components/archetypes';
 
@@ -263,15 +262,6 @@ const unitEconomicsPage = (
       venture capital.
       <Ref k="plaud" />
     </BigStat>
-    <StatTiles
-      tiles={[
-        {
-          value: '$418 · 46%',
-          label: 'Gross profit per unit on an $899 price',
-        },
-        { value: '2.2x', label: 'LTV to CAC with the subscription on top' },
-      ]}
-    />
     <p className="deck-caption-note">
       The plan assumes 82,385 cumulative devices by Year 5, 0.06% of US
       households. Source: Family Intelligence model v3.1, base case.
