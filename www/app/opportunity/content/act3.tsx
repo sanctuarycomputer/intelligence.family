@@ -56,7 +56,7 @@ const page19 = (
           art: (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src="/opportunity/icons/stacks.png"
+              src="/opportunity/icons/settings.png"
               alt=""
               className="deck-icon-dark"
             />
