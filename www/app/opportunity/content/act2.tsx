@@ -245,34 +245,24 @@ const page11 = (
 
 const unitEconomicsPage = (
   <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
-    <div className="grid md:grid-cols-2 gap-10 items-center">
-      <StatTiles
-        stacked
-        tiles={[
-          { value: '$250', label: 'Blended cost to acquire a customer' },
-          {
-            value: '1.7x',
-            label: 'CAC covered by hardware gross profit at the point of sale',
-          },
-          { value: '2.2x', label: 'LTV to CAC with the subscription on top' },
-          {
-            value: '36% → 53%',
-            label: 'Blended margin ramp, Year 2 to Year 5',
-          },
-        ]}
-      />
-      <Ledger
-        title="Paid back at point of sale"
-        sub="Each flagship earns $418 of gross profit on an $899 price."
-        rows={[
-          { label: 'Flagship price', value: '$899' },
-          { label: 'Product COGS, freight in', value: '$405' },
-          { label: 'Returns, warranty, processing', value: '$58' },
-          { label: 'Outbound shipping', value: '$18' },
-          { label: 'Gross profit per unit', value: '$418 · 46%' },
-        ]}
-      />
-    </div>
+    <BigStat
+      stat="1.7x"
+      title="Paid back at point of sale"
+      sub="Each sale covers its own customer acquisition before any subscription starts."
+      band="Most hardware startups recover their customer acquisition cost over years of subscription. We recover it the day the box sells."
+    >
+      The $250 blended cost of acquiring a customer is recovered 1.7 times over
+      at the register, from hardware gross profit alone.
+    </BigStat>
+    <StatTiles
+      tiles={[
+        {
+          value: '$418 · 46%',
+          label: 'Gross profit per unit on an $899 price',
+        },
+        { value: '2.2x', label: 'LTV to CAC with the subscription on top' },
+      ]}
+    />
     <p className="deck-caption-note">
       The plan assumes 82,385 cumulative devices by Year 5, 0.06% of US
       households. Source: Family Intelligence model v3.1, base case.
