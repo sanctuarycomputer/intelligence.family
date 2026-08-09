@@ -301,9 +301,7 @@ const page26 = (
           className="flex items-baseline justify-between py-2 text-[15px]"
         >
           <span>{label}</span>
-          <span className="deck-tam" style={{ fontSize: '17px' }}>
-            {value}
-          </span>
+          <span className="deck-ledger-value">{value}</span>
         </div>
       ))}
     </div>

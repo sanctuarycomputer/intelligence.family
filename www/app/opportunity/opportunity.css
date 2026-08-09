@@ -387,8 +387,9 @@ section.deck-page[id] {
   letter-spacing: 0;
   white-space: nowrap;
 }
+/* Sized to match the ledger's sans labels so table type stays uniform. */
 .deck-tam {
-  font-size: clamp(16px, min(2.6vw, 3.2dvh), 30px);
+  font-size: clamp(13px, 1.9dvh, 16px);
   font-variation-settings: 'MONO' 100;
   letter-spacing: 0;
   white-space: nowrap;
