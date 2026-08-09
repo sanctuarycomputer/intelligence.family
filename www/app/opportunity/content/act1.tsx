@@ -154,7 +154,11 @@ const problemPage = (
           heading: 'What households want',
           art: (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src="/opportunity/icons/heart.png" alt="" />
+            <img
+              src="/opportunity/icons/heart.png"
+              alt=""
+              className="deck-icon-small"
+            />
           ),
           body: (
             <ul className="deck-list">
@@ -169,7 +173,11 @@ const problemPage = (
           heading: 'But families will resist',
           art: (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src="/opportunity/icons/close.png" alt="" />
+            <img
+              src="/opportunity/icons/close.png"
+              alt=""
+              className="deck-icon-small"
+            />
           ),
           body: (
             <ul className="deck-list">

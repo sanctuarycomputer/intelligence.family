@@ -82,6 +82,10 @@ section.deck-page[id] {
   height: 100%;
   width: auto;
 }
+/* Half-size icon slot for quieter card marks. */
+.deck-card-icon:has(.deck-icon-small) {
+  height: clamp(22px, 3.5dvh, 34px);
+}
 .deck-card-photo {
   display: block;
   margin-bottom: 12px;
