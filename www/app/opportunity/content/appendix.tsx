@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
-import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
   Band,
@@ -15,7 +14,6 @@ const TOTAL = 24;
 // Appendix pages continue the page ids past the core deck, but the footer
 // counter stays unnumbered so nobody reads them as pages 27 of 26.
 const FIRST = TOTAL + 1;
-const STUB_BODY = 'Detail follows in the investor-ready revision.';
 
 const splashPage = (
   <DeckPage key={FIRST} n={FIRST} total={TOTAL}>
@@ -232,37 +230,13 @@ const baseCasePage = (
   </DeckPage>
 );
 
-const STUBS: Array<{ title: string; note: string }> = [
-  {
-    title: 'A5 · Stack deep-dive',
-    note: 'TEE, zero-knowledge backup, mirroring, P2P gossip diagrams; ontology library (declare a schema, the model extracts it); Harness API surfaces (MCP, completions, RAG, ontology lookup)',
-  },
-  {
-    title: 'A6 · Competition matrix',
-    note: 'Cloud assistants, AI gadgets, DIY local stacks, genealogy platforms',
-  },
-  {
-    title: 'A7 · Go-to-market detail',
-    note: "Waitlist → Founder's Edition → broader pre-order; DTC + curated heritage retail; US-led rollout",
-  },
-];
-
-const stubPages: ReactNode[] = STUBS.map((stub, i) => (
-  <DeckPage key={FIRST + 7 + i} n={FIRST + 7 + i} total={TOTAL}>
-    <Statement title={stub.title}>{STUB_BODY}</Statement>
-    <div className="mt-10">
-      <FpoBox note={stub.note} />
-    </div>
-  </DeckPage>
-));
-
 const sourcesPage = (
   <DeckPage
-    key={FIRST + 7 + STUBS.length}
-    n={FIRST + 7 + STUBS.length}
+    key={FIRST + 7}
+    n={FIRST + 7}
     total={TOTAL}
   >
-    <Statement title="A8 · Sources" sub="Every figure in this deck, linked." />
+    <Statement title="A5 · Sources" sub="Every figure in this deck, linked." />
     <ol className="deck-sources mt-10">
       {orderedReferences().map(([key, ref], i) => (
         <li key={key}>
@@ -287,6 +261,5 @@ export const APPENDIX_PAGES: ReactNode[] = [
   baseCasePage,
   scenariosPage,
   methodologyPage,
-  ...stubPages,
   sourcesPage,
 ];

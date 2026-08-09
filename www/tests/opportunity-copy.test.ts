@@ -180,10 +180,7 @@ describe('opportunity deck copy contract', () => {
       'A2 · Base case',
       'A3 · Scenarios',
       'A4 · Model methodology',
-      'A5 · Stack deep-dive',
-      'A6 · Competition matrix',
-      'A7 · Go-to-market detail',
-      'A8 · Sources',
+      'A5 · Sources',
     ]) {
       expect(src, title).toContain(title);
     }
@@ -215,7 +212,7 @@ describe('opportunity deck copy contract', () => {
 
   it('exports 26 core pages and 6 appendix pages', () => {
     expect(ALL_PAGES).toHaveLength(24);
-    expect(APPENDIX_PAGES).toHaveLength(9);
+    expect(APPENDIX_PAGES).toHaveLength(6);
   });
 
   it('sets every chrome counter against 24 pages', () => {

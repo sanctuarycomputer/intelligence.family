@@ -41,7 +41,7 @@ function actRun(
   }));
 }
 
-const APPENDIX_META: PageMeta[] = Array.from({ length: 9 }, () => ({
+const APPENDIX_META: PageMeta[] = Array.from({ length: 6 }, () => ({
   act: 'A · Appendix',
   counter: 'A',
 }));
