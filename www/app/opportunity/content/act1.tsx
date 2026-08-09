@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import DeckPage from '../components/DeckPage';
 import Ref from '../components/Ref';
+import MediaGallery from '../components/MediaGallery';
 import { Band, CardsPage, Split, Statement } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
@@ -57,18 +58,26 @@ const page3 = (
       title="Local AI (finally) runs on consumer hardware"
       sub="Open models are just months behind the best."
       media={
-        <div className="deck-media-figure">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/opportunity/prototype-photo.jpg"
-            alt="Our prototype's compute board, held in one hand above a keyboard"
-            className="deck-screenshot"
-          />
-          <span className="deck-media-caption">
-            Mid 2025, running Qwen 2.5 on CPU. Holding a squishy representation
-            of all of recorded human thought in the palm of my hand.
-          </span>
-        </div>
+        <MediaGallery
+          slides={[
+            {
+              src: '/opportunity/prototype-photo.jpg',
+              alt: "Our prototype's compute board, held in one hand above a keyboard",
+              caption:
+                'Mid 2025, running Qwen 2.5 on CPU. Holding a squishy representation of all of recorded human thought in the palm of my hand.',
+            },
+            {
+              src: null,
+              alt: 'FPO: photo 2',
+              caption: 'FPO caption 2',
+            },
+            {
+              src: null,
+              alt: 'FPO: photo 3',
+              caption: 'FPO caption 3',
+            },
+          ]}
+        />
       }
     >
       Open weights keep closing on closed models.

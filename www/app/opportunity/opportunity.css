@@ -181,6 +181,50 @@ section.deck-page[id] {
   font-variation-settings: 'MONO' 100;
 }
 
+/* Photo gallery: framed image left, thumbnail toggles on the right. */
+.deck-gallery {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.deck-gallery-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.deck-gallery-thumbs button {
+  width: clamp(44px, 6dvh, 64px);
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 1px solid var(--fi-green-300);
+  overflow: hidden;
+  background: var(--fi-green-200);
+  padding: 0;
+  cursor: pointer;
+  font-variation-settings: 'MONO' 100;
+  font-size: 13px;
+}
+.deck-gallery-thumbs button.active {
+  border: 2px solid var(--fi-green-500);
+}
+.deck-gallery-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.deck-gallery-fpo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(280px, 30vw, 460px);
+  aspect-ratio: 4 / 3;
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 20px;
+  font-size: 12px;
+  background: rgba(215, 221, 212, 0.12);
+}
+
 /* Progress rail */
 .deck-rail {
   position: fixed;
