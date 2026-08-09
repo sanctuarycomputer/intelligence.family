@@ -152,6 +152,10 @@ const problemPage = (
       cards={[
         {
           heading: 'What households want',
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/icons/heart.png" alt="" />
+          ),
           body: (
             <ul className="deck-list">
               <li>A system that actually knows the household</li>
@@ -163,6 +167,10 @@ const problemPage = (
         },
         {
           heading: 'But families will resist',
+          art: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/icons/close.png" alt="" />
+          ),
           body: (
             <ul className="deck-list">
               <li>
