@@ -160,6 +160,27 @@ section.deck-page[id] {
   background: var(--fi-green-200);
 }
 
+/* Brand row: real wordmarks tinted to the ink, plus the open slot. */
+.deck-brand-row {
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 4vw, 56px);
+}
+.deck-brand-row img {
+  height: clamp(22px, 3.4dvh, 34px);
+  width: auto;
+  filter: brightness(0);
+  opacity: 0.75;
+}
+.deck-brand-slot {
+  padding: 8px 18px;
+  border: 2px dashed var(--fi-green-400);
+  border-radius: 12px;
+  font-size: 14px;
+  font-variation-settings: 'MONO' 100;
+}
+
 /* Progress rail */
 .deck-rail {
   position: fixed;

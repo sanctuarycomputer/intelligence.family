@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import DeckPage from '../components/DeckPage';
-import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import { Band, CardsPage, Split, Statement } from '../components/archetypes';
 
@@ -127,13 +126,14 @@ const page4 = (
     <Band narrow>
       Demand for private AI is enormous. Our market is 70% of America.
     </Band>
-    <div className="mt-10">
-      <FpoBox
-        note={
-          "Brand row: Signal · Mozilla · 1Password with an empty slot labeled 'the home'"
-        }
-        aspect="8/1"
-      />
+    <div className="deck-brand-row">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/opportunity/logos/signal.svg" alt="Signal" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/opportunity/logos/mozilla.svg" alt="Mozilla" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/opportunity/logos/1password.svg" alt="1Password" />
+      <span className="deck-brand-slot">the home</span>
     </div>
   </DeckPage>
 );

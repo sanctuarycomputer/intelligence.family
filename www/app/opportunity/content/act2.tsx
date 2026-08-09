@@ -59,6 +59,12 @@ const contextPage = (
       flip
       title="A context window for smart homes"
       sub="Inference for every IoT device on the network."
+      band={
+        <>
+          US internet households already run 17 connected devices.
+          <Ref k="parks-17-devices" /> Soon, they&rsquo;ll all need inference.
+        </>
+      }
       media={
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -73,10 +79,6 @@ const contextPage = (
         One local agent holds that memory: an MCP server on the LAN, a
         chat-completions endpoint, and local RAG.
       </strong>
-      <br />
-      <br />
-      &rarr; US internet households already run 17 connected devices.
-      <Ref k="parks-17-devices" /> Soon, they&rsquo;ll all need inference.
     </Split>
   </DeckPage>
 );
