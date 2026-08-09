@@ -233,16 +233,6 @@ const page11 = (
           ),
         },
         {
-          heading: 'Plaud reached ~$250M',
-          body: (
-            <>
-              Plaud reached about $250M in revenue at roughly 20% margin, on 1M+
-              devices and essentially no venture capital.
-              <Ref k="plaud" />
-            </>
-          ),
-        },
-        {
           heading: 'Ancestry and StoryWorth',
           body: (
             <>
@@ -268,7 +258,10 @@ const unitEconomicsPage = (
       band="Most hardware startups recover their customer acquisition cost over years of subscription. We recover it the day the box sells."
     >
       The $250 blended cost of acquiring a customer is recovered 1.7 times over
-      at the register, from hardware gross profit alone.
+      at the register, from hardware gross profit alone. Plaud proved the
+      shape: about $250M of revenue on 1M+ devices, with essentially no
+      venture capital.
+      <Ref k="plaud" />
     </BigStat>
     <StatTiles
       tiles={[
