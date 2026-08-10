@@ -304,14 +304,6 @@ section.deck-page[id] {
   border-radius: 28px;
 }
 
-/* Email gate pinned to the cover's bottom-left corner. */
-.deck-cover-gate {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  max-width: 380px;
-}
-
 /* Team credential strip: uniform 4:3 tiles that always fill the width. */
 .deck-team-row {
   display: grid;
