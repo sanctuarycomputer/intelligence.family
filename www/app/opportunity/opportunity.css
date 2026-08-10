@@ -19,6 +19,10 @@
     scroll-snap-type: y proximity;
   }
 }
+/* Set from DeckShell whenever any slide exceeds the viewport height. */
+.deck.deck-no-snap {
+  scroll-snap-type: none;
+}
 @media (min-width: 768px) {
   .deck-page {
     height: 100dvh;

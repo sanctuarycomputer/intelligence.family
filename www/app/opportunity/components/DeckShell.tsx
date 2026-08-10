@@ -16,6 +16,26 @@ export default function DeckShell({
   }>;
 }) {
   const [current, setCurrent] = useState(1);
+  const [noSnap, setNoSnap] = useState(false);
+
+  // Snapping only works when every slide fits the viewport; the moment any
+  // slide runs taller (small screens), snap turns off entirely.
+  useEffect(() => {
+    const measure = () => {
+      const sections = document.querySelectorAll<HTMLElement>(
+        'section[id^="page-"]'
+      );
+      const vh = window.innerHeight;
+      let tall = false;
+      sections.forEach(section => {
+        if (section.offsetHeight > vh + 1) tall = true;
+      });
+      setNoSnap(tall);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [pages.length]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -72,7 +92,7 @@ export default function DeckShell({
   }, [pages.length]);
 
   return (
-    <div className="deck">
+    <div className={`deck${noSnap ? ' deck-no-snap' : ''}`}>
       <div className="deck-ambient" aria-hidden="true">
         <div
           className={`deck-leaves${pageMeta[current - 1]?.leaves ? '' : ' deck-leaves-hidden'}${pageMeta[current - 1]?.dark ? ' deck-leaves-dark' : ''}`}
