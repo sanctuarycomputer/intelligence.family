@@ -62,9 +62,15 @@ const page24 = (
           ),
           body: (
             <>
-              Co-founded USB Club, a hardware-enabled social network, and
-              started the Advanced Concepts hardware team at Sam Altman&rsquo;s
-              World. In an earlier life, designed at IBM.
+              Previously CEO &amp; Co-Founder of USB Club, acquired in 2026.
+              Started their career in product management and design at IBM iX,
+              developing new products for institutions including Morgan
+              Stanley, JPMorgan Chase, Citigroup, and Bank of America.
+              <br />
+              <br />
+              More recently, founded and led the Advanced Concepts team at
+              World (formerly Worldcoin), creating new devices and product
+              categories for World ID.
             </>
           ),
         },
