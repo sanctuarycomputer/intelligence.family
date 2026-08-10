@@ -25,7 +25,7 @@ const page7 = (
       carries none of the risk a clinic or a payroll system does.{' '}
       <strong>One device, one market.</strong>
     </Statement>
-    <div className="mt-10 flex gap-4 items-start">
+    <div className="mt-10 deck-media-row">
       <span className="deck-video-portrait deck-video-frame">
         <DeckVideo
           src="/opportunity/device-playtest.mp4"

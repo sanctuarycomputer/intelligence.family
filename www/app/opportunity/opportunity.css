@@ -256,6 +256,31 @@ section.deck-page[id] {
   object-fit: cover;
   border-radius: 28px;
 }
+/* Media row: a flex strip on desktop; on small screens it reflows into a
+   two-column mosaic where landscape items span the full width, portraits
+   pair up, and dense flow backfills the gaps. */
+.deck-media-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+@media (max-width: 767px) {
+  .deck-media-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: dense;
+    gap: 12px;
+  }
+  .deck-media-row .deck-video-portrait,
+  .deck-media-row .deck-video-landscape {
+    width: 100%;
+    height: auto;
+  }
+  .deck-media-row .deck-video-landscape {
+    grid-column: 1 / -1;
+  }
+}
+
 /* Rounded clipping happens on this wrapper layer, not the video element:
    Safari and Chrome both composite that far more cheaply. */
 .deck-video-frame {
