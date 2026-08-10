@@ -63,6 +63,7 @@ const page3 = (
     <Split
       title="Local AI (finally) runs on consumer hardware"
       sub="Open models are trailing just months behind the best."
+      band="Open models already rival the frontier. Soon they'll be indistinguishable."
       media={
         <MediaGallery
           slides={[
@@ -93,12 +94,6 @@ const page3 = (
       <Ref k="inkling" /> Z.ai&rsquo;s founder predicts a Fable quality open
       model before Q1 2027.
       <Ref k="zai-fable-prediction" />
-      <br />
-      <br />
-      <strong>
-        Open models already rival the frontier. Soon they&rsquo;ll be
-        indistinguishable.
-      </strong>
     </Split>
   </DeckPage>
 );
