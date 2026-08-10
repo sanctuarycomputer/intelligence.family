@@ -24,10 +24,6 @@ const page22 = (
   </DeckPage>
 );
 
-const teamPhoto = (label: string) => (
-  <span className="deck-card-photo-fpo">{label}</span>
-);
-
 const page24 = (
   <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
@@ -37,7 +33,10 @@ const page24 = (
       cards={[
         {
           heading: 'Hugh Francis',
-          photo: teamPhoto('Hugh photo'),
+          photo: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/team-hugh.jpg" alt="Hugh Francis" />
+          ),
           body: (
             <>
               <strong>
