@@ -64,7 +64,7 @@ const page8 = (
       media={
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src="/opportunity/family-vault.png"
+          src="/opportunity/family-vault.webp"
           alt="The Family Book device surrounded by illustrated vault contents: a storybook, cookbook, document box, photo pile, calendar, piggy bank, and health folder"
           className="deck-slide-media"
         />
