@@ -79,7 +79,7 @@ const page3 = (
               src: '/opportunity/snapdragon-x-elite.jpg',
               alt: 'A Snapdragon X Elite chip mounted in a clear acrylic block, lying on grass',
               caption:
-                'Snapdragon X Elite: NPU-equipped consumer silicon like this now ships in most new PCs.',
+                'Snapdragon X Elite: newly released consumer silicon capable of running local models',
             },
             {
               src: '/research/family-together.png',

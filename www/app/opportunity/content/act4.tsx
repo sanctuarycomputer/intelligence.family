@@ -76,11 +76,15 @@ const page24 = (
           ),
           body: (
             <>
-              Co-founded USB Club and built new hardware product experiences at
-              World&rsquo;s Advanced Concepts team.
+              Previously CTO &amp; Co-Founder of USB Club (Acquired, 2026).
+              Built their career in early startups after engineering at MongoDB
+              and becoming the third Designer at Plaid.
               <br />
               <br />
-              Previously Norm was the 3rd design hire at Plaid.
+              Led Developer Experience at Plaid before starting the Concepting
+              team to accelerate product development across the org. Recently
+              started the Advanced Concepts team at World (prev. Worldcoin) to
+              design devices for World ID.
             </>
           ),
         },
