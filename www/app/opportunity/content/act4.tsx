@@ -71,7 +71,10 @@ const page24 = (
         },
         {
           heading: 'Norm O’Hagan',
-          photo: teamPhoto('Norm photo'),
+          photo: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/team-norm.jpg" alt="Norm O'Hagan" />
+          ),
           body: (
             <>
               Co-founded USB Club and built new hardware product experiences at
