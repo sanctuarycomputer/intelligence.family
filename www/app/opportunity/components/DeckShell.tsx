@@ -64,7 +64,7 @@ export default function DeckShell({
         }
         if (best) setCurrent(best.page);
       },
-      { threshold: 0.6 }
+      { threshold: [0.2, 0.4, 0.6] }
     );
 
     sections.forEach(section => observer.observe(section));

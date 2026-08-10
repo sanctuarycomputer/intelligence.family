@@ -4,15 +4,27 @@
   overflow-y: auto;
   scroll-snap-type: y mandatory;
 }
+/* Mobile-first: slides grow with their content and snapping is a
+   suggestion. Desktop restores the fixed-viewport deck. */
 .deck-page {
-  height: 100dvh;
-  max-height: 100dvh;
-  overflow: hidden;
+  min-height: 100dvh;
   scroll-snap-align: start;
   position: relative;
   display: flex;
   flex-direction: column;
   padding: clamp(48px, 7dvh, 72px) var(--container-padding);
+}
+@media (max-width: 767px) {
+  .deck {
+    scroll-snap-type: y proximity;
+  }
+}
+@media (min-width: 768px) {
+  .deck-page {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
 }
 /* Tailwind v4 utilities live in @layer utilities; globals.css's unlayered
    `p { margin: 0 }` (and friends) beat any layered mt-* utility on those
