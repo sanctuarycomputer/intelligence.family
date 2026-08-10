@@ -57,7 +57,10 @@ const page24 = (
         },
         {
           heading: 'Yatú Pelaez-Espinosa',
-          photo: teamPhoto('Yatú photo'),
+          photo: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/team-yatu.jpg" alt="Yatú Pelaez-Espinosa" />
+          ),
           body: (
             <>
               Co-founded USB Club, a hardware-enabled social network, and
