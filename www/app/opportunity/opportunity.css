@@ -811,6 +811,11 @@ section.deck-page[id] {
   text-align: left;
   font-variation-settings: normal;
 }
+.deck-act-3 .deck-plan-table th,
+.deck-act-3 .deck-plan-table td {
+  color: var(--fi-green-100);
+  border-color: var(--fi-green-500);
+}
 .deck-plan-table thead th {
   font-size: 12px;
   opacity: 0.7;

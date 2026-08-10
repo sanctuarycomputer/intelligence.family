@@ -248,7 +248,9 @@ const page26 = (
     >
       Our research found no funded local-first home hub, in a year when AI took
       roughly half of global venture funding.
-      <Ref k="crunchbase-ai-half" />
+      <Ref k="crunchbase-ai-half" /> This round takes us from design to a
+      certified, manufactured, shipped product, and reaches operating
+      profitability without a second equity round.
     </Statement>
     <Band narrow>
       No one owns this market today, and that window is closing fast.
@@ -258,8 +260,8 @@ const page26 = (
         ['Target raise', '$15.0M'],
         ['Capacity to', '$25.0M'],
         ['Instrument', 'Priced equity'],
-        ['Working-capital line', '$5.0M, non-dilutive'],
         ['First shipment', 'Oct 2027'],
+        ['Follow-on equity modelled', 'None'],
       ].map(([label, value]) => (
         <div
           key={label}

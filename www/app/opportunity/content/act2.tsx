@@ -243,22 +243,24 @@ const page11 = (
 const unitEconomicsPage = (
   <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
     <BigStat
-      stat="1.7x"
+      stat="2.1x"
       title="Paid back at point of sale"
       sub="Each sale covers its own customer acquisition before subscription starts."
       band="We don't rely on years of subscription to recover costs. We recover cost when the box sells."
     >
-      The $250 blended cost of acquiring a customer is recovered 1.7 times over
-      at the register from hardware gross profit.
+      The $200 blended cost of acquiring a customer is recovered 2.1 times over
+      at the register from hardware gross profit alone. Our own plan spends less
+      than that: implied acquisition cost falls from $183 in Year 2 to $137 in
+      Year 5 as the installed base compounds.
       <br />
       <br />
-      Plaud proved it first: ~$250M of revenue on 1M+ devices, with essentially
-      no venture capital.
+      Plaud proved it first: ~$250M of ARR on 2M+ devices, with essentially no
+      venture capital.
       <Ref k="plaud" />
     </BigStat>
     <p className="deck-caption-note deck-caption-note-left">
-      The plan assumes 82,385 cumulative devices by Year 5, 0.06% of US
-      households. Source: Family Intelligence model v3.1, base case.
+      The plan assumes 90,981 cumulative flagship devices by Year 5, 0.07% of US
+      households. Source: Family Intelligence financial model, base case.
     </p>
   </DeckPage>
 );
