@@ -116,11 +116,13 @@ const page18 = (
   <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
+      variant="quote"
       title="Our stack"
       sub="The go-to SDK for private inference, built on Linux &amp; written in Rust."
       cards={[
         {
           heading: 'Trusted Execution Environment (TEE)',
+          meta: 'Silicon',
           body: (
             <>
               Keys and models run in hardware-isolated memory. Even a
@@ -130,6 +132,7 @@ const page18 = (
         },
         {
           heading: 'Hardware Root Certificate Authority',
+          meta: 'Trust',
           body: (
             <>
               The leader device bootstraps the network as the root certificate.
@@ -139,6 +142,7 @@ const page18 = (
         },
         {
           heading: 'Zero-knowledge Sync Server',
+          meta: 'Cloud',
           body: (
             <>
               Encrypted archives we cannot open. The keys never leave the device
@@ -148,6 +152,7 @@ const page18 = (
         },
         {
           heading: 'Model Over The Air (MOTA)',
+          meta: 'Fleet',
           body: (
             <>
               Fleet management, firmware and seamless model upgrades provided
@@ -158,6 +163,7 @@ const page18 = (
         },
         {
           heading: 'Generic Ontology, RAG & App Runtime',
+          meta: 'Apps',
           body: (
             <>
               Declare a schema for your use case and the model extracts &amp;
@@ -168,6 +174,7 @@ const page18 = (
         },
         {
           heading: 'Customizable Agentic Harness',
+          meta: 'Agents',
           body: (
             <>
               Tool calling, job scheduling, context isolation and session
@@ -308,18 +315,31 @@ const page22 = (
 
 const platformPage = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
-    <Ledger
+    <Statement
       title="Our platform is a compounding business"
       sub="We anticipate three key modes to help partners integrate our software."
-      rows={[
-        {
-          label: 'Enterprise deployment & implementation',
-          value: '$150K ACV + $175K',
-        },
-        { label: 'OEM embedded royalty', value: '$5 / device' },
-        { label: 'Forward-deployed engineering', value: 'Time & materials' },
-      ]}
     />
+    <table className="deck-plan-table">
+      <thead>
+        <tr>
+          <th>Mode</th>
+          <th>Pricing</th>
+        </tr>
+      </thead>
+      <tbody>
+        {[
+          ['Enterprise deployment & implementation', '$150K ACV + $175K'],
+          ['OEM embedded royalty', '$5 / device'],
+          ['Forward-deployed engineering', 'Time & materials'],
+        ].map(row => (
+          <tr key={row[0]}>
+            {row.map((cell, i) => (
+              <td key={i}>{cell}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
     <table className="deck-plan-table">
       <thead>
         <tr>

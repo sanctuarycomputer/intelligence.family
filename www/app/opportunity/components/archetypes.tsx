@@ -330,6 +330,7 @@ export function CardsPage({
   sub,
   cards,
   columns = 1,
+  variant,
 }: {
   title: ReactNode;
   sub?: ReactNode;
@@ -338,9 +339,13 @@ export function CardsPage({
     body: ReactNode;
     art?: ReactNode;
     photo?: ReactNode;
+    /** Footer tag rendered in the QuoteBox-style strip (quote variant). */
+    meta?: string;
   }>;
   /** 2, 3 or 4 lays the cards out as an equal-height grid instead of a stack. */
   columns?: 1 | 2 | 3 | 4;
+  /** 'quote' swaps the ragged fill for the homepage QuoteBox card shell. */
+  variant?: 'quote';
 }) {
   const tight = columns !== 1;
   const grid =
@@ -359,16 +364,29 @@ export function CardsPage({
         {cards.map(card => (
           <div
             key={card.heading}
-            className={`deck-card h-full rounded-[8px] bg-fi-green-200 ${columns === 4 ? 'p-4' : tight ? 'p-5' : 'p-6'}`}
+            className={`deck-card h-full rounded-[8px] bg-fi-green-200 ${
+              variant === 'quote' ? 'deck-card-quote ' : ''
+            }${columns === 4 ? 'p-4' : tight ? 'p-5' : 'p-6'}`}
           >
-            {card.art && <span className="deck-card-icon">{card.art}</span>}
-            {card.photo && (
-              <span className="deck-card-photo">{card.photo}</span>
+            <div
+              className={
+                variant === 'quote' ? 'deck-card-quote-main' : undefined
+              }
+            >
+              {card.art && <span className="deck-card-icon">{card.art}</span>}
+              {card.photo && (
+                <span className="deck-card-photo">{card.photo}</span>
+              )}
+              <h4>{card.heading}</h4>
+              <p className={tight ? 'deck-card-body-tight' : 'deck-card-body'}>
+                {card.body}
+              </p>
+            </div>
+            {variant === 'quote' && card.meta && (
+              <div className="deck-tier-footer">
+                <span className="deck-tier-meta">{card.meta}</span>
+              </div>
             )}
-            <h4>{card.heading}</h4>
-            <p className={tight ? 'deck-card-body-tight' : 'deck-card-body'}>
-              {card.body}
-            </p>
           </div>
         ))}
       </div>

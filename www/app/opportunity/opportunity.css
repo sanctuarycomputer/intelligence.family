@@ -749,6 +749,34 @@ section.deck-page[id] {
 
 /* Pricing tier cards, after the pptx product slide: name row, accent price
    band, description, footer meta strip. */
+/* Quote-variant cards: the tier-card shell for plain card grids. Beats the
+   ragged border-image and the layered Tailwind bg/padding. */
+.deck-card.deck-card-quote {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(94, 123, 41, 0.5);
+  border-image: none;
+  border-radius: 4px;
+  background: none;
+  padding: 0;
+  filter: none;
+  overflow: hidden;
+}
+.deck-card-quote-main {
+  padding: 14px 16px;
+  flex: 1 1 auto;
+}
+.deck-act-3 .deck-card.deck-card-quote {
+  border-color: rgba(215, 221, 212, 0.3);
+}
+.deck-act-3 .deck-tier-footer {
+  border-color: rgba(215, 221, 212, 0.3);
+  background: rgba(215, 221, 212, 0.08);
+}
+.deck-act-3 .deck-tier-meta {
+  color: var(--fi-green-300);
+}
+
 /* Pricing tier cards, referencing the homepage QuoteBox style: thin
    green-500 half-alpha border, small radius, transparent content area, and
    a tinted footer bar carrying price + availability. */
