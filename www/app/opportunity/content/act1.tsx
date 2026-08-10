@@ -82,9 +82,10 @@ const page3 = (
                 'Snapdragon X Elite: NPU-equipped consumer silicon like this now ships in most new PCs.',
             },
             {
-              src: null,
-              alt: 'FPO: photo 3',
-              caption: 'FPO caption 3',
+              src: '/research/family-together.png',
+              alt: 'Illustration of a family gathered together around the Family Book device',
+              caption:
+                'We partnered with Mozilla Foundation to publish our research in February 2026. It was received with overwhelmingly positive reception on social media - at a time when AI devices were a focus of vitriol online.',
             },
           ]}
         />
