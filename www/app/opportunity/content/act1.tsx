@@ -52,7 +52,7 @@ export function coverPage(gate: ReactNode): ReactNode {
             />
           </span>
         </p>
-        {gate && <div className="mx-auto mt-10 w-full max-w-md">{gate}</div>}
+        {gate && <div className="mx-auto mt-20 w-full max-w-md">{gate}</div>}
       </div>
     </DeckPage>
   );
