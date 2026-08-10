@@ -26,13 +26,7 @@ const coverSubStyle = {
 export function coverPage(gate: ReactNode): ReactNode {
   return (
     <DeckPage key={1} n={1} total={TOTAL}>
-      <div
-        className={
-          gate
-            ? 'relative mx-auto max-w-3xl text-center'
-            : 'relative mb-auto max-w-3xl'
-        }
-      >
+      <div className="relative mx-auto max-w-3xl text-center">
         <h1 className="relative inline-block">
           Family<span className="tracking-[-0.1em]"> </span>Intelligence
           <LeafIcon className="absolute leaf-animate" style={coverLeafStyle} />
