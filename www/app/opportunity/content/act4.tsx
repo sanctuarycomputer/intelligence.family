@@ -39,11 +39,9 @@ const page24 = (
           ),
           body: (
             <>
-              <strong>
-                A computer scientist & patented inventor for architecting the
-                operating system for Light Phone II and III, named among
-                TIME&rsquo;s Best Inventions in 2019 and 2025.
-              </strong>
+              A computer scientist & patented inventor for architecting the
+              operating system for Light Phone II and III, named among
+              TIME&rsquo;s Best Inventions in 2019 and 2025.
               <Ref k="light-phone" />
               <br />
               <br />
@@ -89,8 +87,8 @@ const page24 = (
               <br />
               Led Developer Experience at Plaid before starting the Concepting
               team to accelerate product development across the org. Recently
-              started the Advanced Concepts team at World (prev. Worldcoin) to
-              design devices for World ID.
+              helped found the Advanced Concepts team at World (formerly
+              Worldcoin) to design devices for World ID.
             </>
           ),
         },
