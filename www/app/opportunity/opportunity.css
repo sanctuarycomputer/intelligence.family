@@ -312,18 +312,36 @@ section.deck-page[id] {
   max-width: 380px;
 }
 
-/* Team credential strip: fundraising media row at deck scale. */
+/* Team credential strip: uniform 4:3 tiles that always fill the width. */
 .deck-team-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
 }
 .deck-team-row img,
 .deck-team-row video {
-  height: clamp(110px, 18dvh, 180px);
-  width: auto;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
   border-radius: 16px;
   display: block;
+}
+
+/* Mobile: datapoint chips stack full width; table cells tighten. */
+@media (max-width: 767px) {
+  .deck-stat-tiles {
+    grid-template-columns: 1fr !important;
+  }
+  .deck-plan-table th,
+  .deck-plan-table td {
+    padding: 6px 6px;
+    font-size: 12px;
+  }
+  .deck-media-box {
+    padding: 4px;
+    border-width: 22px;
+  }
 }
 
 /* Fixed chrome layer — one instance for the whole deck, values animate as
@@ -722,6 +740,12 @@ section.deck-page[id] {
 .gantt-bar:hover .gantt-tip {
   display: flex;
 }
+/* Bars ending in the right stretch anchor their tooltip to the right edge
+   so it never pushes off screen. */
+.gantt-bar-late .gantt-tip {
+  left: auto;
+  right: 0;
+}
 
 /* Pricing tier cards, after the pptx product slide: name row, accent price
    band, description, footer meta strip. */
@@ -852,10 +876,20 @@ section.deck-page[id] {
   text-align: left;
   font-variation-settings: normal;
 }
+.deck-act-3 .deck-plan-table {
+  margin-top: 30px;
+}
 .deck-act-3 .deck-plan-table th,
 .deck-act-3 .deck-plan-table td {
   color: var(--fi-green-100);
   border-color: var(--fi-green-500);
+}
+.deck-act-3 .deck-plan-table thead th {
+  color: var(--fi-green-300);
+  opacity: 1;
+}
+.deck-act-3 .deck-plan-table tr:last-child td {
+  border-bottom: none;
 }
 .deck-plan-table thead th {
   font-size: 12px;

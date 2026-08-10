@@ -310,7 +310,7 @@ export function StatTiles({
 }) {
   return (
     <div
-      className="mt-6 grid gap-4"
+      className="deck-stat-tiles mt-6 grid gap-4"
       style={{
         gridTemplateColumns: stacked ? '1fr' : `repeat(${tiles.length}, 1fr)`,
       }}

@@ -16,10 +16,6 @@ const page17 = (
   </DeckPage>
 );
 
-const stackArt = (label: string) => (
-  <span className="deck-card-art-fpo">{label}</span>
-);
-
 const page19 = (
   <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
@@ -125,10 +121,6 @@ const page18 = (
       cards={[
         {
           heading: 'Trusted Execution Environment (TEE)',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src="/opportunity/stack-tee.png" alt="" />
-          ),
           body: (
             <>
               Keys and models run in hardware-isolated memory. Even a
@@ -138,10 +130,6 @@ const page18 = (
         },
         {
           heading: 'Hardware Root Certificate Authority',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src="/opportunity/stack-cert.png" alt="" />
-          ),
           body: (
             <>
               The leader device bootstraps the network as the root certificate.
@@ -151,10 +139,6 @@ const page18 = (
         },
         {
           heading: 'Zero-knowledge Sync Server',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src="/opportunity/stack-cloud.png" alt="" />
-          ),
           body: (
             <>
               Encrypted archives we cannot open. The keys never leave the device
@@ -164,7 +148,6 @@ const page18 = (
         },
         {
           heading: 'Model Over The Air (MOTA)',
-          art: stackArt('mota png'),
           body: (
             <>
               Fleet management, firmware and seamless model upgrades provided
@@ -175,7 +158,6 @@ const page18 = (
         },
         {
           heading: 'Generic Ontology, RAG & App Runtime',
-          art: stackArt('ontology png'),
           body: (
             <>
               Declare a schema for your use case and the model extracts &amp;
@@ -186,7 +168,6 @@ const page18 = (
         },
         {
           heading: 'Customizable Agentic Harness',
-          art: stackArt('harness png'),
           body: (
             <>
               Tool calling, job scheduling, context isolation and session
