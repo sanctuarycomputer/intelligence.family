@@ -42,7 +42,9 @@ const page24 = (
               A computer scientist & patented inventor for architecting the
               operating system for Light Phone II and III, named among
               TIME&rsquo;s Best Inventions in 2019 and 2025.
-              <Ref k="light-phone" />
+              <Ref k="light-phone" /> In 2017, Hugh received the US Green Card
+              of Extraordinary Ability based on the value of his open source
+              contributions.
               <br />
               <br />
               Among other projects, Hugh architected Mill&rsquo;s IoT
