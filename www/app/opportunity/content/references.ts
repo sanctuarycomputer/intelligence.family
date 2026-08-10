@@ -332,6 +332,11 @@ export const REFERENCES: Record<string, Reference> = {
     date: '2024',
     url: 'https://www.instagram.com/p/C-DJdMTpbeQ/',
   },
+  'zai-fable-prediction': {
+    source: 'Jie Tang, Z.ai founder, on X',
+    date: '2026-06',
+    url: 'https://x.com/jietang/status/2067580270078030088',
+  },
 };
 
 const ORDER = Object.keys(REFERENCES);

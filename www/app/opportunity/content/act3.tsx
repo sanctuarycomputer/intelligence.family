@@ -16,10 +16,6 @@ const page17 = (
   </DeckPage>
 );
 
-const stackArt = (label: string) => (
-  <span className="deck-card-art-fpo">{label}</span>
-);
-
 const page19 = (
   <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
@@ -120,15 +116,13 @@ const page18 = (
   <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
+      variant="quote"
       title="Our stack"
       sub="The go-to SDK for private inference, built on Linux &amp; written in Rust."
       cards={[
         {
           heading: 'Trusted Execution Environment (TEE)',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src="/opportunity/stack-tee.png" alt="" />
-          ),
+          meta: 'Silicon',
           body: (
             <>
               Keys and models run in hardware-isolated memory. Even a
@@ -138,10 +132,7 @@ const page18 = (
         },
         {
           heading: 'Hardware Root Certificate Authority',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src="/opportunity/stack-cert.png" alt="" />
-          ),
+          meta: 'Trust',
           body: (
             <>
               The leader device bootstraps the network as the root certificate.
@@ -151,10 +142,7 @@ const page18 = (
         },
         {
           heading: 'Zero-knowledge Sync Server',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src="/opportunity/stack-cloud.png" alt="" />
-          ),
+          meta: 'Cloud',
           body: (
             <>
               Encrypted archives we cannot open. The keys never leave the device
@@ -164,7 +152,7 @@ const page18 = (
         },
         {
           heading: 'Model Over The Air (MOTA)',
-          art: stackArt('mota png'),
+          meta: 'Fleet',
           body: (
             <>
               Fleet management, firmware and seamless model upgrades provided
@@ -175,7 +163,7 @@ const page18 = (
         },
         {
           heading: 'Generic Ontology, RAG & App Runtime',
-          art: stackArt('ontology png'),
+          meta: 'Apps',
           body: (
             <>
               Declare a schema for your use case and the model extracts &amp;
@@ -186,7 +174,7 @@ const page18 = (
         },
         {
           heading: 'Customizable Agentic Harness',
-          art: stackArt('harness png'),
+          meta: 'Agents',
           body: (
             <>
               Tool calling, job scheduling, context isolation and session
@@ -327,53 +315,68 @@ const page22 = (
 
 const platformPage = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
-    <Ledger
+    <Statement
       title="Our platform is a compounding business"
       sub="We anticipate three key modes to help partners integrate our software."
-      rows={[
-        {
-          label: 'Enterprise deployment & implementation',
-          value: '$150K ACV + $175K',
-        },
-        { label: 'OEM embedded royalty', value: '$5 / device' },
-        { label: 'Forward-deployed engineering', value: 'Time & materials' },
-      ]}
     />
-    <table className="deck-plan-table">
-      <thead>
-        <tr>
-          <th>Modelled licensing build, $mm</th>
-          <th>Y3</th>
-          <th>Y4</th>
-          <th>Y5</th>
-        </tr>
-      </thead>
-      <tbody>
-        {[
-          ['Platform license', '0.4', '2.2', '6.5'],
-          ['Implementation services', '0.9', '3.5', '7.0'],
-          ['OEM royalty', '-', '0.6', '5.6'],
-          ['Total licensing', '1.3', '6.3', '19.2'],
-          ['% of total revenue', '8%', '16%', '24%'],
-        ].map(row => (
-          <tr key={row[0]}>
-            {row.map((cell, i) => (
-              <td key={i}>{cell}</td>
-            ))}
+    <div className="grid md:grid-cols-2 gap-10 items-start">
+      <table className="deck-plan-table">
+        <thead>
+          <tr>
+            <th>Mode</th>
+            <th>Pricing</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {[
+            ['Enterprise deployment & implementation', '$150K ACV + $175K'],
+            ['OEM embedded royalty', '$5 / device'],
+            ['Forward-deployed engineering', 'Time & materials'],
+          ].map(row => (
+            <tr key={row[0]}>
+              {row.map((cell, i) => (
+                <td key={i}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <table className="deck-plan-table">
+        <thead>
+          <tr>
+            <th>Modelled licensing build, $mm</th>
+            <th>Y3</th>
+            <th>Y4</th>
+            <th>Y5</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            ['Platform license', '0.4', '2.2', '6.5'],
+            ['Implementation services', '0.9', '3.5', '7.0'],
+            ['OEM royalty', '-', '0.6', '5.6'],
+            ['Total licensing', '1.3', '6.3', '19.2'],
+            ['% of total revenue', '8%', '16%', '24%'],
+          ].map(row => (
+            <tr key={row[0]}>
+              {row.map((cell, i) => (
+                <td key={i}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
     <p className="deck-body">
       Licenses bill annually in advance, at a 90% margin; implementation
-      services run through our agency partner at 20%. Android proves the shape
+      services run through our agency partner at 20%. Android proves this thesis
       at 3B+ active devices.
       <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B last year
       at a 72% pre-tax margin.
       <Ref k="qualcomm-qtl" />
     </p>
     <Band narrow>
-      Sonos, Dyson, and LG will never build this stack - but they will want to
+      Sonos, Dyson, and LG would never build this stack... but they will need to
       license it.
     </Band>
   </DeckPage>

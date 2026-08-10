@@ -199,7 +199,7 @@ export default function TimelineGantt() {
                   />
                 ))}
                 <span
-                  className={`gantt-bar gantt-${task.status}`}
+                  className={`gantt-bar gantt-${task.status}${task.end / LAST_MONTH > 0.6 ? ' gantt-bar-late' : ''}`}
                   style={{
                     left: pct(task.start),
                     width: `calc(${pct(task.end)} - ${pct(task.start)})`,

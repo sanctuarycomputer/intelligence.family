@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import DeckVideo from '../components/DeckVideo';
-import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
   BigStat,
@@ -21,11 +20,19 @@ const page7 = (
       title="Our first device is for families"
       sub="High emotional value, sensitive data, and a GPU in the living room."
     >
-      Families hold the memories worth keeping, and what a household records
-      carries none of the risk a clinic or a payroll system does.{' '}
-      <strong>One device, one market.</strong>
+      Rich in stories, goals, birth certificates, wills, recipes and genetic
+      histories - families hold rich and precious records worth holding
+      carefully.
+      <br />
+      <br />
+      Today, LLMs can greatly reduce the massive friction to maintaining an
+      accurate family archive.{' '}
+      <strong>
+        But only if families feel safe sharing their most intimate data with the
+        system.
+      </strong>
     </Statement>
-    <div className="mt-10 flex gap-4 items-start">
+    <div className="mt-10 deck-media-row">
       <span className="deck-video-portrait deck-video-frame">
         <DeckVideo
           src="/opportunity/device-playtest.mp4"
@@ -55,17 +62,21 @@ const page8 = (
       title="Your own family vault"
       sub="Weekly check-ins, budgets, school, health, and stories."
       media={
-        <FpoBox
-          note={
-            "Week-strip vignette: Sunday check-in → school log → vacation fund → grandmother's story at dinner"
-          }
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/opportunity/family-vault.webp"
+          alt="The Family Book device surrounded by illustrated vault contents: a storybook, cookbook, document box, photo pile, calendar, piggy bank, and health folder"
+          className="deck-slide-media"
         />
       }
     >
-      <strong>The device earns its place by being useful every week.</strong>{' '}
-      Then at dinner a grandmother tells the story again, and the house keeps
-      her voice and her accent. The archive is one beloved feature, never the
-      whole premise.
+      <strong>
+        The device solves age old family archive problems overnight.
+      </strong>{' '}
+      The trustworthy filing cabinet for documents often lost, the scribe (and
+      fact checker) for Grandpa&rsquo;s bewildering tall stories (and history of
+      glaucoma), the family cookbook, the home media server for photos and
+      recordings often scattered across devices.
     </Split>
   </DeckPage>
 );
@@ -91,7 +102,11 @@ const contextPage = (
         />
       }
     >
-      The house knows who the plumber is and what the family is saving for.{' '}
+      The house knows who the plumber is and what the family is saving for. As
+      homes become smarter, single purpose devices will need access to global
+      inference that understands the home, and who lives there.
+      <br />
+      <br />
       <strong>
         One local agent holds that memory: an MCP server on the LAN, a
         chat-completions endpoint, and local RAG.
@@ -160,36 +175,28 @@ const page12 = (
 
 const page10 = (
   <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
-    <div className="grid md:grid-cols-2 gap-10 items-center">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/opportunity/hub-photo.jpg"
-        alt="A Google Nest Hub on a side table showing the weather, beside a potted plant"
-        className="deck-screenshot"
-      />
-      <BigStat
-        stat="600M+"
-        title="Home hubs are a proven category."
-        sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
-        band="In 2026, you should be able to dim your lights without notifying Jeff Bezos. Home inference (finally) makes that possible."
-      >
-        The AI gadget graveyard is littered with attempts to find new ways to
-        interact.{' '}
-        <strong>
-          Instead, we&rsquo;re entering a proven category with a novel new
-          architecture - already proven compelling to consumers.
-        </strong>
-        <br />
-        <br />
-        Alexa have sold 600M+ units.
-        <Ref k="alexa-600m" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
-        <Ref k="openai-io" /> Amazon bought Bee,
-        <Ref k="bee-amazon" /> Meta bought Limitless.
-        <Ref k="limitless-meta" /> 800M+ Google Home units shipped.
-        <Ref k="google-home-800m" /> All of them a soft-surveillance device
-        running in someone else&rsquo;s cloud.
-      </BigStat>
-    </div>
+    <BigStat
+      stat="600M+"
+      title="Home hubs are a proven category."
+      sub="600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally."
+      band="In 2026, you should be able to dim your lights without notifying Jeff Bezos. Home inference (finally) makes that possible."
+    >
+      The AI gadget graveyard is littered with attempts to find new ways to
+      interact.{' '}
+      <strong>
+        Instead, we&rsquo;re entering a proven category with a novel new
+        architecture - already proven compelling to consumers.
+      </strong>
+      <br />
+      <br />
+      Alexa have sold 600M+ units.
+      <Ref k="alexa-600m" /> OpenAI paid $6.5B for Jony Ive&rsquo;s startup,
+      <Ref k="openai-io" /> Amazon bought Bee,
+      <Ref k="bee-amazon" /> Meta bought Limitless.
+      <Ref k="limitless-meta" /> 800M+ Google Home units shipped.
+      <Ref k="google-home-800m" /> All of them a soft-surveillance device
+      running in someone else&rsquo;s cloud.
+    </BigStat>
   </DeckPage>
 );
 

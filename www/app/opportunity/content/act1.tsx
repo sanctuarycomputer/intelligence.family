@@ -16,7 +16,9 @@ const coverLeafStyle = {
 } as const;
 
 const coverSubStyle = {
-  fontSize: 'clamp(20px, 3.2vw, 34px)',
+  // The floor tracks viewport width so the first line never wraps on phones.
+  fontSize: 'clamp(12px, 3.2vw, 34px)',
+  whiteSpace: 'nowrap',
 } as const;
 
 /**
@@ -26,7 +28,7 @@ const coverSubStyle = {
 export function coverPage(gate: ReactNode): ReactNode {
   return (
     <DeckPage key={1} n={1} total={TOTAL}>
-      <div className="relative mb-auto max-w-3xl">
+      <div className="relative mx-auto max-w-3xl text-center">
         <h1 className="relative inline-block">
           Family<span className="tracking-[-0.1em]"> </span>Intelligence
           <LeafIcon className="absolute leaf-animate" style={coverLeafStyle} />
@@ -46,8 +48,14 @@ export function coverPage(gate: ReactNode): ReactNode {
             />
           </span>
         </p>
+        {gate && <div className="mx-auto mt-20 w-full max-w-md">{gate}</div>}
       </div>
-      {gate && <div className="deck-cover-gate">{gate}</div>}
+      {!gate && (
+        <div className="deck-scroll-hint" aria-hidden="true">
+          Scroll down
+          <span className="deck-scroll-hint-arrow">&darr;</span>
+        </div>
+      )}
     </DeckPage>
   );
 }
@@ -56,7 +64,8 @@ const page3 = (
   <DeckPage key={2} n={2} total={TOTAL}>
     <Split
       title="Local AI (finally) runs on consumer hardware"
-      sub="Open models are just months behind the best."
+      sub="Open models are trailing just months behind the best."
+      band="Open models already rival the frontier. Soon they'll be indistinguishable."
       media={
         <MediaGallery
           slides={[
@@ -70,12 +79,13 @@ const page3 = (
               src: '/opportunity/snapdragon-x-elite.jpg',
               alt: 'A Snapdragon X Elite chip mounted in a clear acrylic block, lying on grass',
               caption:
-                'Snapdragon X Elite: NPU-equipped consumer silicon like this now ships in most new PCs.',
+                'Snapdragon X Elite: newly released consumer silicon capable of running local models',
             },
             {
-              src: null,
-              alt: 'FPO: photo 3',
-              caption: 'FPO caption 3',
+              src: '/research/family-together.png',
+              alt: 'Illustration of a family gathered together around the Family Book device',
+              caption:
+                'We partnered with Mozilla Foundation to publish our research in February 2026. It was received with overwhelmingly positive reception on social media - at a time when AI devices were a focus of vitriol online.',
             },
           ]}
         />
@@ -84,10 +94,9 @@ const page3 = (
       Open weights keep closing on closed models.
       <Ref k="epoch-open-weights" /> Thinking Machines Lab released Inkling,
       975B parameters, Apache 2.0.
-      <Ref k="inkling" />{' '}
-      <strong>Every upstream advance lands in our stack for free.</strong>{' '}
-      NPU-equipped AI PCs are roughly 59% of 2026 shipments.
-      <Ref k="ai-pc-shipments" />
+      <Ref k="inkling" /> Z.ai&rsquo;s founder predicts a Fable quality open
+      model before Q1 2027.
+      <Ref k="zai-fable-prediction" />
     </Split>
   </DeckPage>
 );
@@ -109,13 +118,12 @@ const page2 = (
         </div>
       }
     >
-      Compute has made this trip before. The mainframe sat in a room you had to
-      book.{' '}
+      Compute has made this trip before.{' '}
       <strong>
         8% of US households owned a computer in 1984, and 89% did by 2016.
       </strong>
-      <Ref k="census-computer-ownership" /> The datacenter is making the same
-      move.
+      <Ref k="census-computer-ownership" /> As the home gets smarter and
+      smarter, the datacenter will make the same move.
     </Split>
   </DeckPage>
 );
@@ -126,14 +134,16 @@ const page4 = (
       title="7 in 10 Americans don't trust big tech's AI"
       sub="But today, there's no alternative."
     >
-      Pew measured America&rsquo;s growing AI disdain in June 2026.
+      Pew measured America&rsquo;s growing disdain for big tech&rsquo;s AI in
+      June 2026.
       <Ref k="pew-distrust" /> Amazon went the other way, removing the
       Echo&rsquo;s only local-processing option in March 2025.
       <Ref k="echo-local-removed" />
       <br />
       <br />
-      Today, the data center backlash has arrived at a fever pitch that
-      won&rsquo;t subside, akin to climate dread. America wants an alternative.
+      Today, the datacenter backlash has arrived at a tenor that won&rsquo;t
+      subside, solidifying as a cultural phenomenon like climate dread. America
+      wants an alternative.
     </Statement>
     <Band narrow>
       Demand for private AI is enormous.
@@ -206,8 +216,8 @@ const page5 = (
   <DeckPage key={6} n={6} total={TOTAL}>
     <Split
       flip
-      title="Local architecture changes the story"
-      sub="Our privacy-preserving architecture is what wins customers over."
+      title="Local architecture wins consumer sentiment"
+      sub="Privacy-preserving architecture wins customers over."
       media={
         <div>
           <div className="grid grid-cols-2 gap-4">

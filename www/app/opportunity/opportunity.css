@@ -4,15 +4,31 @@
   overflow-y: auto;
   scroll-snap-type: y mandatory;
 }
+/* Mobile-first: slides grow with their content and snapping is a
+   suggestion. Desktop restores the fixed-viewport deck. */
 .deck-page {
-  height: 100dvh;
-  max-height: 100dvh;
-  overflow: hidden;
+  min-height: 100dvh;
   scroll-snap-align: start;
   position: relative;
   display: flex;
   flex-direction: column;
   padding: clamp(48px, 7dvh, 72px) var(--container-padding);
+}
+@media (max-width: 767px) {
+  .deck {
+    scroll-snap-type: y proximity;
+  }
+}
+/* Set from DeckShell whenever any slide exceeds the viewport height. */
+.deck.deck-no-snap {
+  scroll-snap-type: none;
+}
+@media (min-width: 768px) {
+  .deck-page {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
 }
 /* Tailwind v4 utilities live in @layer utilities; globals.css's unlayered
    `p { margin: 0 }` (and friends) beat any layered mt-* utility on those
@@ -204,7 +220,7 @@ section.deck-page[id] {
 /* Reserve three caption lines so swapping to a shorter caption doesn't
    change the figure height and re-center the slide. */
 .deck-gallery-main .deck-media-caption {
-  min-height: 4.5em;
+  min-height: 6em;
 }
 .deck-gallery-frame {
   display: block;
@@ -240,6 +256,31 @@ section.deck-page[id] {
   object-fit: cover;
   border-radius: 28px;
 }
+/* Media row: a flex strip on desktop; on small screens it reflows into a
+   two-column mosaic where landscape items span the full width, portraits
+   pair up, and dense flow backfills the gaps. */
+.deck-media-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+@media (max-width: 767px) {
+  .deck-media-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: dense;
+    gap: 12px;
+  }
+  .deck-media-row .deck-video-portrait,
+  .deck-media-row .deck-video-landscape {
+    width: 100%;
+    height: auto;
+  }
+  .deck-media-row .deck-video-landscape {
+    grid-column: 1 / -1;
+  }
+}
+
 /* Rounded clipping happens on this wrapper layer, not the video element:
    Safari and Chrome both composite that far more cheaply. */
 .deck-video-frame {
@@ -263,26 +304,70 @@ section.deck-page[id] {
   border-radius: 28px;
 }
 
-/* Email gate pinned to the cover's bottom-left corner. */
-.deck-cover-gate {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  max-width: 380px;
-}
-
-/* Team credential strip: fundraising media row at deck scale. */
+/* Team credential strip: uniform 4:3 tiles that always fill the width. */
 .deck-team-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
 }
 .deck-team-row img,
 .deck-team-row video {
-  height: clamp(110px, 18dvh, 180px);
-  width: auto;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
   border-radius: 16px;
   display: block;
+}
+
+/* Mobile: datapoint chips stack full width; table cells tighten. */
+@media (max-width: 767px) {
+  .deck-stat-tiles {
+    grid-template-columns: 1fr !important;
+  }
+  .deck-plan-table th,
+  .deck-plan-table td {
+    padding: 6px 6px;
+    font-size: 12px;
+  }
+  .deck-media-box {
+    padding: 4px;
+    border-width: 22px;
+  }
+}
+
+/* Scroll cue on the unlocked cover, in the chrome's mono register. */
+.deck-scroll-hint {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+.deck-scroll-hint-arrow {
+  display: inline-block;
+  animation: scroll-hint-bob 1.6s ease-in-out infinite;
+}
+@keyframes scroll-hint-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deck-scroll-hint-arrow {
+    animation: none;
+  }
 }
 
 /* Fixed chrome layer — one instance for the whole deck, values animate as
@@ -681,9 +766,43 @@ section.deck-page[id] {
 .gantt-bar:hover .gantt-tip {
   display: flex;
 }
+/* Bars ending in the right stretch anchor their tooltip to the right edge
+   so it never pushes off screen. */
+.gantt-bar-late .gantt-tip {
+  left: auto;
+  right: 0;
+}
 
 /* Pricing tier cards, after the pptx product slide: name row, accent price
    band, description, footer meta strip. */
+/* Quote-variant cards: the tier-card shell for plain card grids. Beats the
+   ragged border-image and the layered Tailwind bg/padding. */
+.deck-card.deck-card-quote {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(94, 123, 41, 0.5);
+  border-image: none;
+  border-radius: 4px;
+  background: none;
+  padding: 0;
+  filter: none;
+  overflow: hidden;
+}
+.deck-card-quote-main {
+  padding: 14px 16px;
+  flex: 1 1 auto;
+}
+.deck-act-3 .deck-card.deck-card-quote {
+  border-color: rgba(215, 221, 212, 0.3);
+}
+.deck-act-3 .deck-tier-footer {
+  border-color: rgba(215, 221, 212, 0.3);
+  background: rgba(215, 221, 212, 0.08);
+}
+.deck-act-3 .deck-tier-meta {
+  color: var(--fi-green-300);
+}
+
 /* Pricing tier cards, referencing the homepage QuoteBox style: thin
    green-500 half-alpha border, small radius, transparent content area, and
    a tinted footer bar carrying price + availability. */
@@ -811,10 +930,20 @@ section.deck-page[id] {
   text-align: left;
   font-variation-settings: normal;
 }
+.deck-act-3 .deck-plan-table {
+  margin-top: 30px;
+}
 .deck-act-3 .deck-plan-table th,
 .deck-act-3 .deck-plan-table td {
   color: var(--fi-green-100);
   border-color: var(--fi-green-500);
+}
+.deck-act-3 .deck-plan-table thead th {
+  color: var(--fi-green-300);
+  opacity: 1;
+}
+.deck-act-3 .deck-plan-table tr:last-child td {
+  border-bottom: none;
 }
 .deck-plan-table thead th {
   font-size: 12px;

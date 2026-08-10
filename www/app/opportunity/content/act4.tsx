@@ -24,20 +24,19 @@ const page22 = (
   </DeckPage>
 );
 
-const teamPhoto = (label: string) => (
-  <span className="deck-card-photo-fpo">{label}</span>
-);
-
 const page24 = (
   <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="The team"
-      sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
+      sub="We shipped the Light Phone II & III, Mill's IoT stack, built IoT for AT&T, stood up Advanced Concepts at Sam Altman's World Protocol, and founded USB Club."
       cards={[
         {
           heading: 'Hugh Francis',
-          photo: teamPhoto('Hugh photo'),
+          photo: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/team-hugh.jpg" alt="Hugh Francis" />
+          ),
           body: (
             <>
               <strong>
@@ -57,7 +56,10 @@ const page24 = (
         },
         {
           heading: 'Yatú Pelaez-Espinosa',
-          photo: teamPhoto('Yatú photo'),
+          photo: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/team-yatu.jpg" alt="Yatú Pelaez-Espinosa" />
+          ),
           body: (
             <>
               Co-founded USB Club, a hardware-enabled social network, and
@@ -68,14 +70,21 @@ const page24 = (
         },
         {
           heading: 'Norm O’Hagan',
-          photo: teamPhoto('Norm photo'),
+          photo: (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/opportunity/team-norm.jpg" alt="Norm O'Hagan" />
+          ),
           body: (
             <>
-              Co-founded USB Club and built new hardware product experiences at
-              World&rsquo;s Advanced Concepts team.
+              Previously CTO &amp; Co-Founder of USB Club (Acquired, 2026).
+              Built their career in early startups after engineering at MongoDB
+              and becoming the third Designer at Plaid.
               <br />
               <br />
-              Previously Norm was the 3rd design hire at Plaid.
+              Led Developer Experience at Plaid before starting the Concepting
+              team to accelerate product development across the org. Recently
+              started the Advanced Concepts team at World (prev. Worldcoin) to
+              design devices for World ID.
             </>
           ),
         },
@@ -260,7 +269,7 @@ const page26 = (
         ['Target raise', '$15.0M'],
         ['Capacity to', '$25.0M'],
         ['Instrument', 'Priced equity'],
-        ['First shipment', 'Oct 2027'],
+        ['First shipment', 'Christmas 2027'],
         ['Follow-on equity modelled', 'None'],
       ].map(([label, value]) => (
         <div
