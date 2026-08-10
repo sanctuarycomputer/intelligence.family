@@ -48,6 +48,12 @@ export function coverPage(gate: ReactNode): ReactNode {
         </p>
         {gate && <div className="mx-auto mt-20 w-full max-w-md">{gate}</div>}
       </div>
+      {!gate && (
+        <div className="deck-scroll-hint" aria-hidden="true">
+          Scroll down
+          <span className="deck-scroll-hint-arrow">&darr;</span>
+        </div>
+      )}
     </DeckPage>
   );
 }

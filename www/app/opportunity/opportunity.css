@@ -336,6 +336,40 @@ section.deck-page[id] {
   }
 }
 
+/* Scroll cue on the unlocked cover, in the chrome's mono register. */
+.deck-scroll-hint {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-variation-settings: 'MONO' 100;
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+.deck-scroll-hint-arrow {
+  display: inline-block;
+  animation: scroll-hint-bob 1.6s ease-in-out infinite;
+}
+@keyframes scroll-hint-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deck-scroll-hint-arrow {
+    animation: none;
+  }
+}
+
 /* Fixed chrome layer — one instance for the whole deck, values animate as
    the current page changes instead of remounting per page. */
 .deck-chrome {
