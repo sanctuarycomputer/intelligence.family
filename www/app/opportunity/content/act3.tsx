@@ -318,10 +318,9 @@ const page22 = (
       ]}
     />
     <p className="deck-caption-note">
-      Anchors: ~438,000 US law firms (ABA); ~500 infrastructure-scale
-      deployments would be ~$75M license ARR; 0.5% of ~1B annual smart-home
-      shipments at a $5 royalty is ~$25M a year (IDC). Detail in the appendix
-      pro-forma.
+      Anchors: ~438,000 US law firms and ~85,000 accounting firms (ABA, US
+      Census, IBISWorld); ~900M connected home devices shipped annually (IDC).
+      Detail in the appendix.
     </p>
   </DeckPage>
 );
@@ -340,10 +339,37 @@ const platformPage = (
         { label: 'Forward-deployed engineering', value: 'Time & materials' },
       ]}
     />
+    <table className="deck-plan-table">
+      <thead>
+        <tr>
+          <th>Modelled licensing build, $mm</th>
+          <th>Y3</th>
+          <th>Y4</th>
+          <th>Y5</th>
+        </tr>
+      </thead>
+      <tbody>
+        {[
+          ['Platform license', '0.4', '2.2', '6.5'],
+          ['Implementation services', '0.9', '3.5', '7.0'],
+          ['OEM royalty', '-', '0.6', '5.6'],
+          ['Total licensing', '1.3', '6.3', '19.2'],
+          ['% of total revenue', '8%', '16%', '24%'],
+        ].map(row => (
+          <tr key={row[0]}>
+            {row.map((cell, i) => (
+              <td key={i}>{cell}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
     <p className="deck-body">
-      Android proves the shape at 3B+ active devices.
-      <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B at a 72%
-      pre-tax margin.
+      Licenses bill annually in advance, at a 90% margin; implementation
+      services run through our agency partner at 20%. Android proves the shape
+      at 3B+ active devices.
+      <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B last year
+      at a 72% pre-tax margin.
       <Ref k="qualcomm-qtl" />
     </p>
     <Band narrow>

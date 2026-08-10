@@ -33,19 +33,19 @@ const revenueModelPage = (
       </thead>
       <tbody>
         {[
-          ['Flagship device', '$899', 'Oct 2027', '$38.2M', '51%'],
-          ['Companion device', '$499', 'Oct 2028', '$7.4M', '10%'],
+          ['Flagship device', '$899', 'Oct 2027', '$42.7M', '54%'],
+          ['Companion device', '$499', 'Oct 2028', '$7.4M', '9%'],
           ['Professional SKU', '$1,999', 'Oct 2029', '$6.3M', '8%'],
-          ['Backup subscription', '$9 / mo', 'Oct 2027', '$3.0M', '4%'],
+          ['Backup subscription', '$9 / mo', 'Oct 2027', '$3.2M', '4%'],
           [
             'Enterprise licensing + services',
             '$150K ACV',
             'Year 3',
             '$13.5M',
-            '18%',
+            '17%',
           ],
-          ['OEM royalty', '$5 / device', 'Year 4', '$6.3M', '8%'],
-          ['Total revenue', '', '', '$74.7M', '100%'],
+          ['OEM royalty', '$5 / device', 'Year 4', '$5.6M', '7%'],
+          ['Total revenue', '', '', '$78.8M', '100%'],
         ].map(row => (
           <tr key={row[0]}>
             {row.map((cell, i) => (
@@ -57,14 +57,14 @@ const revenueModelPage = (
     </table>
     <StatTiles
       tiles={[
-        { value: '$54.9M', label: 'Year 5 revenue excluding licensing' },
-        { value: '38,262', label: 'Active subscribers exiting Year 5' },
-        { value: '$19.8M', label: 'Enterprise and OEM revenue in Year 5' },
+        { value: '$59.6M', label: 'Year 5 revenue excluding licensing' },
+        { value: '41,036', label: 'Active subscribers exiting Year 5' },
+        { value: '$19.2M', label: 'Enterprise and OEM revenue in Year 5' },
       ]}
     />
     <p className="deck-caption-note">
-      Source: Family Intelligence model v3.1, base case. A single switch zeroes
-      both licensing lines for a devices-only view.
+      Source: Family Intelligence financial model, base case. A single switch
+      zeroes both licensing lines for a devices-only view.
     </p>
   </DeckPage>
 );
@@ -86,11 +86,12 @@ const scenariosPage = (
       </thead>
       <tbody>
         {[
-          ['Revenue', '$38.7M', '$74.7M', '$123.8M'],
-          ['Gross margin', '51%', '53%', '53%'],
-          ['EBITDA', '$6.5M', '$18.8M', '$36.2M'],
-          ['EBITDA margin', '17%', '25%', '29%'],
-          ['Year 4 EBITDA', '($1.0M)', '$1.4M', '$6.8M'],
+          ['Revenue', '$41.3M', '$78.8M', '$131.0M'],
+          ['Gross margin', '51%', '52%', '52%'],
+          ['EBITDA', '$7.7M', '$20.4M', '$38.9M'],
+          ['EBITDA margin', '19%', '26%', '30%'],
+          ['Year 4 EBITDA', '$0.3M', '$3.0M', '$9.2M'],
+          ['Cash trough', '$2.7M', '$2.2M', '$1.1M'],
         ].map(row => (
           <tr key={row[0]}>
             {row.map((cell, i) => (
@@ -101,10 +102,11 @@ const scenariosPage = (
       </tbody>
     </table>
     <p className="deck-caption-note deck-caption-note-table">
-      The switch moves volume 0.6x / 1.0x / 1.7x, subscription attach 30% / 40%
-      / 55%, licensing 0.3x / 1.0x / 1.5x, and the hiring plan with them. The
-      flagship price holds at $899 in every case. Source: model v3.1, Scenario
-      Summary.
+      Every case crosses into EBITDA-positive in Year 4, and every case funds
+      itself on this round. The switch moves volume 0.6x / 1.0x / 1.7x,
+      subscription attach 30% / 40% / 55%, licensing 0.3x / 1.0x / 1.5x, and the
+      hiring plan with them. The flagship price holds at $899 in every case.
+      Source: Family Intelligence financial model, scenario summary.
     </p>
   </DeckPage>
 );
@@ -132,7 +134,14 @@ const methodologyPage = (
                 by production year
               </li>
               <li>Q4 seasonality: every launch lands in the gift quarter</li>
-              <li>A $5M revolver that holds a $750K minimum cash balance</li>
+              <li>
+                Customer pre-order deposits, with the deposit window closing as
+                capacity catches up
+              </li>
+              <li>
+                Enterprise licenses billed annually in advance, with a half-year
+                convention on new signings
+              </li>
               <li>
                 Scenario-linked staffing, NOL carryforwards, and a 27% blended
                 tax rate
@@ -149,6 +158,9 @@ const methodologyPage = (
                 Professional line
               </li>
               <li>Any Series A or B. The headline path is one equity round</li>
+              <li>
+                Any drawn debt. The plan funds itself on the equity round alone
+              </li>
               <li>International revenue beyond the modelled ramp</li>
               <li>
                 Multi-modal capture and artifact integration as separate revenue
@@ -180,32 +192,24 @@ const baseCasePage = (
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Revenue</td>
-          <td>4.1</td>
-          <td>14.7</td>
-          <td>38.0</td>
-          <td>74.7</td>
-        </tr>
-        <tr>
-          <td>Gross margin</td>
-          <td>36%</td>
-          <td>43%</td>
-          <td>46%</td>
-          <td>53%</td>
-        </tr>
-        <tr>
-          <td>EBITDA</td>
-          <td>(4.9)</td>
-          <td>(5.2)</td>
-          <td>1.4</td>
-          <td>18.8</td>
-        </tr>
+        {[
+          ['Revenue', '4.1', '15.4', '40.0', '78.8'],
+          ['Gross margin', '36%', '43%', '45%', '52%'],
+          ['EBITDA', '(4.8)', '(3.7)', '3.0', '20.4'],
+          ['Headcount, year end', '8', '26', '36', '44'],
+          ['Cash, year end', '6.7', '5.5', '2.9', '24.2'],
+        ].map(row => (
+          <tr key={row[0]}>
+            {row.map((cell, i) => (
+              <td key={i}>{cell}</td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
     <StatTiles
       tiles={[
-        { value: '$74.7M', label: 'Year 5 revenue, base case' },
+        { value: '$78.8M', label: 'Year 5 revenue, base case' },
         { value: 'Year 4', label: 'EBITDA-positive on this round alone' },
         {
           value: '$0',
@@ -214,8 +218,9 @@ const baseCasePage = (
       ]}
     />
     <p className="deck-caption-note">
-      A $5M working-capital line backstops the inventory swing. Source: Family
-      Intelligence model v3.1, base case.
+      The plan never runs out of cash: it bottoms at $2.15M in month 42, a
+      working-capital low point, not a burn low point. No debt facility is drawn
+      in any scenario. Source: Family Intelligence financial model, base case.
     </p>
   </DeckPage>
 );
