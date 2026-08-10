@@ -220,7 +220,7 @@ section.deck-page[id] {
 /* Reserve three caption lines so swapping to a shorter caption doesn't
    change the figure height and re-center the slide. */
 .deck-gallery-main .deck-media-caption {
-  min-height: 4.5em;
+  min-height: 6em;
 }
 .deck-gallery-frame {
   display: block;
