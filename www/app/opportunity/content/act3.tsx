@@ -319,52 +319,54 @@ const platformPage = (
       title="Our platform is a compounding business"
       sub="We anticipate three key modes to help partners integrate our software."
     />
-    <table className="deck-plan-table">
-      <thead>
-        <tr>
-          <th>Mode</th>
-          <th>Pricing</th>
-        </tr>
-      </thead>
-      <tbody>
-        {[
-          ['Enterprise deployment & implementation', '$150K ACV + $175K'],
-          ['OEM embedded royalty', '$5 / device'],
-          ['Forward-deployed engineering', 'Time & materials'],
-        ].map(row => (
-          <tr key={row[0]}>
-            {row.map((cell, i) => (
-              <td key={i}>{cell}</td>
-            ))}
+    <div className="grid md:grid-cols-2 gap-10 items-start">
+      <table className="deck-plan-table">
+        <thead>
+          <tr>
+            <th>Mode</th>
+            <th>Pricing</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-    <table className="deck-plan-table">
-      <thead>
-        <tr>
-          <th>Modelled licensing build, $mm</th>
-          <th>Y3</th>
-          <th>Y4</th>
-          <th>Y5</th>
-        </tr>
-      </thead>
-      <tbody>
-        {[
-          ['Platform license', '0.4', '2.2', '6.5'],
-          ['Implementation services', '0.9', '3.5', '7.0'],
-          ['OEM royalty', '-', '0.6', '5.6'],
-          ['Total licensing', '1.3', '6.3', '19.2'],
-          ['% of total revenue', '8%', '16%', '24%'],
-        ].map(row => (
-          <tr key={row[0]}>
-            {row.map((cell, i) => (
-              <td key={i}>{cell}</td>
-            ))}
+        </thead>
+        <tbody>
+          {[
+            ['Enterprise deployment & implementation', '$150K ACV + $175K'],
+            ['OEM embedded royalty', '$5 / device'],
+            ['Forward-deployed engineering', 'Time & materials'],
+          ].map(row => (
+            <tr key={row[0]}>
+              {row.map((cell, i) => (
+                <td key={i}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <table className="deck-plan-table">
+        <thead>
+          <tr>
+            <th>Modelled licensing build, $mm</th>
+            <th>Y3</th>
+            <th>Y4</th>
+            <th>Y5</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {[
+            ['Platform license', '0.4', '2.2', '6.5'],
+            ['Implementation services', '0.9', '3.5', '7.0'],
+            ['OEM royalty', '-', '0.6', '5.6'],
+            ['Total licensing', '1.3', '6.3', '19.2'],
+            ['% of total revenue', '8%', '16%', '24%'],
+          ].map(row => (
+            <tr key={row[0]}>
+              {row.map((cell, i) => (
+                <td key={i}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
     <p className="deck-body">
       Licenses bill annually in advance, at a 90% margin; implementation
       services run through our agency partner at 20%. Android proves the shape
