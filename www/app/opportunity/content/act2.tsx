@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import DeckVideo from '../components/DeckVideo';
-import FpoBox from '../components/FpoBox';
 import Ref from '../components/Ref';
 import {
   BigStat,
@@ -63,10 +62,11 @@ const page8 = (
       title="Your own family vault"
       sub="Weekly check-ins, budgets, school, health, and stories."
       media={
-        <FpoBox
-          note={
-            "Week-strip vignette: Sunday check-in → school log → vacation fund → grandmother's story at dinner"
-          }
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/opportunity/family-vault.jpg"
+          alt="The Family Book device surrounded by illustrated vault contents: a storybook, cookbook, document box, photo pile, calendar, piggy bank, and health folder"
+          className="deck-screenshot"
         />
       }
     >
