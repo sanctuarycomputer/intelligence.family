@@ -56,7 +56,7 @@ const page3 = (
   <DeckPage key={2} n={2} total={TOTAL}>
     <Split
       title="Local AI (finally) runs on consumer hardware"
-      sub="Open models are just months behind the best."
+      sub="Open models are trailing just months behind the best."
       media={
         <MediaGallery
           slides={[
@@ -84,10 +84,15 @@ const page3 = (
       Open weights keep closing on closed models.
       <Ref k="epoch-open-weights" /> Thinking Machines Lab released Inkling,
       975B parameters, Apache 2.0.
-      <Ref k="inkling" />{' '}
-      <strong>Every upstream advance lands in our stack for free.</strong>{' '}
-      NPU-equipped AI PCs are roughly 59% of 2026 shipments.
-      <Ref k="ai-pc-shipments" />
+      <Ref k="inkling" /> Z.ai&rsquo;s founder predicts a Fable quality open
+      model before Q1 2027.
+      <Ref k="zai-fable-prediction" />
+      <br />
+      <br />
+      <strong>
+        Open models already rival the frontier. Soon they&rsquo;ll be
+        indistinguishable.
+      </strong>
     </Split>
   </DeckPage>
 );
@@ -109,13 +114,12 @@ const page2 = (
         </div>
       }
     >
-      Compute has made this trip before. The mainframe sat in a room you had to
-      book.{' '}
+      Compute has made this trip before.{' '}
       <strong>
         8% of US households owned a computer in 1984, and 89% did by 2016.
       </strong>
-      <Ref k="census-computer-ownership" /> The datacenter is making the same
-      move.
+      <Ref k="census-computer-ownership" /> As the home gets smarter and
+      smarter, the datacenter will make the same move.
     </Split>
   </DeckPage>
 );
@@ -126,14 +130,16 @@ const page4 = (
       title="7 in 10 Americans don't trust big tech's AI"
       sub="But today, there's no alternative."
     >
-      Pew measured America&rsquo;s growing AI disdain in June 2026.
+      Pew measured America&rsquo;s growing disdain for big tech&rsquo;s AI in
+      June 2026.
       <Ref k="pew-distrust" /> Amazon went the other way, removing the
       Echo&rsquo;s only local-processing option in March 2025.
       <Ref k="echo-local-removed" />
       <br />
       <br />
-      Today, the data center backlash has arrived at a fever pitch that
-      won&rsquo;t subside, akin to climate dread. America wants an alternative.
+      Today, the datacenter backlash has arrived at a tenor that won&rsquo;t
+      subside, solidifying as a cultural phenomenon like climate dread. America
+      wants an alternative.
     </Statement>
     <Band narrow>
       Demand for private AI is enormous.
@@ -206,8 +212,8 @@ const page5 = (
   <DeckPage key={6} n={6} total={TOTAL}>
     <Split
       flip
-      title="Local architecture changes the story"
-      sub="Our privacy-preserving architecture is what wins customers over."
+      title="Local architecture wins consumer sentiment"
+      sub="Privacy-preserving architecture wins customers over."
       media={
         <div>
           <div className="grid grid-cols-2 gap-4">

@@ -29,7 +29,7 @@ const page24 = (
     <CardsPage
       columns={3}
       title="The team"
-      sub="We shipped the Light Phone, Mill's IoT stack, and USB Club."
+      sub="We shipped the Light Phone II & III, Mill's IoT stack, built IoT for AT&T, stood up Advanced Concepts at Sam Altman's World Protocol, and founded USB Club."
       cards={[
         {
           heading: 'Hugh Francis',

@@ -369,14 +369,14 @@ const platformPage = (
     </div>
     <p className="deck-body">
       Licenses bill annually in advance, at a 90% margin; implementation
-      services run through our agency partner at 20%. Android proves the shape
+      services run through our agency partner at 20%. Android proves this thesis
       at 3B+ active devices.
       <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B last year
       at a 72% pre-tax margin.
       <Ref k="qualcomm-qtl" />
     </p>
     <Band narrow>
-      Sonos, Dyson, and LG will never build this stack - but they will want to
+      Sonos, Dyson, and LG would never build this stack... but they will need to
       license it.
     </Band>
   </DeckPage>

@@ -22,7 +22,7 @@ describe('opportunity deck copy contract', () => {
       'The GPU is coming home',
       "7 in 10 Americans don't trust big tech's AI",
       "The most valuable context is what you'll never upload",
-      'Local architecture changes the story',
+      'Local architecture wins consumer sentiment',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -37,9 +37,9 @@ describe('opportunity deck copy contract', () => {
       'The home holds the richest, longest-running, highest-signal context any AI could use.',
       'starting with families.',
       'AI compute is moving into the house, the way the personal computer did.',
-      'Open models are just months behind the best.',
+      'Open models are trailing just months behind the best.',
       "But today, there's no alternative.",
-      'Our privacy-preserving architecture is what wins customers over.',
+      'Privacy-preserving architecture wins customers over.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
@@ -135,7 +135,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
     const subs = [
       'Competition, model quality, hardware risk, consent, chips, and the raise.',
-      "We shipped the Light Phone, Mill's IoT stack, and USB Club.",
+      "We shipped the Light Phone II & III, Mill's IoT stack, built IoT for AT&T, stood up Advanced Concepts at Sam Altman's World Protocol, and founded USB Club.",
       'Round closes, contract manufacturer in the room, shelves by Christmas 2027.',
       'Shipping out and ready to gift by Christmas 2027.',
     ];
