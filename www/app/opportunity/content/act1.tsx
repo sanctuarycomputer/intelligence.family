@@ -16,7 +16,9 @@ const coverLeafStyle = {
 } as const;
 
 const coverSubStyle = {
-  fontSize: 'clamp(20px, 3.2vw, 34px)',
+  // The floor tracks viewport width so the first line never wraps on phones.
+  fontSize: 'clamp(12px, 3.2vw, 34px)',
+  whiteSpace: 'nowrap',
 } as const;
 
 /**
