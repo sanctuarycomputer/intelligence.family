@@ -39,12 +39,12 @@ const page24 = (
           ),
           body: (
             <>
-              <strong>
-                A computer scientist & patented inventor for architecting the
-                operating system for Light Phone II and III, named among
-                TIME&rsquo;s Best Inventions in 2019 and 2025.
-              </strong>
-              <Ref k="light-phone" />
+              A computer scientist & patented inventor for architecting the
+              operating system for Light Phone II and III, named among
+              TIME&rsquo;s Best Inventions in 2019 and 2025.
+              <Ref k="light-phone" /> In 2017, Hugh received the US Green Card
+              of Extraordinary Ability based on the value of his open source
+              contributions.
               <br />
               <br />
               Among other projects, Hugh architected Mill&rsquo;s IoT
@@ -62,9 +62,15 @@ const page24 = (
           ),
           body: (
             <>
-              Co-founded USB Club, a hardware-enabled social network, and
-              started the Advanced Concepts hardware team at Sam Altman&rsquo;s
-              World. In an earlier life, designed at IBM.
+              Previously CEO &amp; Co-Founder of USB Club, acquired in 2026.
+              Started their career in product management and design at IBM iX,
+              developing new products for institutions including Morgan
+              Stanley, JPMorgan Chase, Citigroup, and Bank of America.
+              <br />
+              <br />
+              More recently, founded and led the Advanced Concepts team at
+              World (formerly Worldcoin), creating new devices and product
+              categories for World ID.
             </>
           ),
         },
@@ -83,8 +89,8 @@ const page24 = (
               <br />
               Led Developer Experience at Plaid before starting the Concepting
               team to accelerate product development across the org. Recently
-              started the Advanced Concepts team at World (prev. Worldcoin) to
-              design devices for World ID.
+              helped found the Advanced Concepts team at World (formerly
+              Worldcoin) to design devices for World ID.
             </>
           ),
         },

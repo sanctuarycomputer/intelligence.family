@@ -230,8 +230,8 @@ const page22 = (
             <>
               <strong>Healthcare & Clinics</strong>
               <span className="deck-ledger-note">
-                Clinical scribes and dictation where patient data stays in the
-                practice
+                Private AI across the practice: scribes, dictation, and records
+                that never leave the building
               </span>
             </>
           ),
@@ -268,7 +268,7 @@ const page22 = (
               </span>
             </>
           ),
-          value: <span className="deck-tam">~$50B</span>,
+          value: <span className="deck-tam">~$20B</span>,
         },
         {
           label: (
@@ -279,7 +279,7 @@ const page22 = (
               </span>
             </>
           ),
-          value: <span className="deck-tam">~$60B</span>,
+          value: <span className="deck-tam">~$35B</span>,
         },
         {
           label: (
@@ -290,7 +290,7 @@ const page22 = (
               </span>
             </>
           ),
-          value: <span className="deck-tam">~$20B</span>,
+          value: <span className="deck-tam">~$10B</span>,
         },
         {
           label: (
