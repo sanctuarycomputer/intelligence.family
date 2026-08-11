@@ -352,6 +352,30 @@ export default function FundraisingClient({
                             />
                           </div>
 
+                          <p className="large">
+                            <strong>
+                              It&apos;s also a context window for the whole
+                              home.
+                            </strong>{' '}
+                            The house knows who the plumber is and what the
+                            family is saving for. As homes get smarter, every
+                            single purpose device will want access to private
+                            inference that understands the home, and who lives
+                            there - and our device is the one place that memory
+                            can safely live.{' '}
+                            <a
+                              href="https://www.parksassociates.com/blogs/press-releases/at-ces-2024-parks-associates-announces-new-research-showing-average-number-of-connected-devices-per-us-internet-household-reached-17-in-2023"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline hover:no-underline"
+                              onClick={() => trackOutbound('parks_17_devices')}
+                            >
+                              The average US internet household already runs 17
+                              connected devices
+                            </a>
+                            , and soon they&apos;ll all need inference.
+                          </p>
+
                           {/* ===== III. WHY THIS WINS ===== */}
                           <div className="pt-8">
                             <SectionHeader label="III" title="Why This Wins" />
