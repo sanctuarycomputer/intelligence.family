@@ -314,6 +314,19 @@ export default function FundraisingClient({
                             captured for them, and them alone.
                           </p>
 
+                          <p className="large">
+                            <strong>
+                              It solves age old family archive problems
+                              overnight
+                            </strong>
+                            : the trustworthy filing cabinet for documents often
+                            lost, the scribe (and fact checker) for
+                            Grandpa&apos;s bewildering tall stories (and history
+                            of glaucoma), the family cookbook, the home media
+                            server for photos and recordings often scattered
+                            across devices.
+                          </p>
+
                           <div className="my-10">
                             <MediaRow
                               items={[
