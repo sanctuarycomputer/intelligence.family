@@ -318,23 +318,24 @@ export default function FundraisingClient({
                             <MediaRow
                               items={[
                                 {
-                                  type: 'image',
-                                  src: '/research/moment-1.png',
-                                  alt: 'Family device in a kitchen',
+                                  type: 'video',
+                                  src: '/opportunity/device-playtest.mp4',
+                                  alt: 'A family play-testing the prototype',
                                 },
                                 {
                                   type: 'image',
-                                  src: '/research/family-together.png',
-                                  alt: 'A family together',
+                                  src: '/opportunity/device-cad.jpg',
+                                  alt: 'CAD render of the device enclosure and compute module',
                                 },
                                 {
                                   type: 'image',
-                                  src: '/research/moment-3.png',
-                                  alt: 'Family device on a shelf',
+                                  src: '/opportunity/device-photo.jpg',
+                                  alt: "A child touching the prototype's screen",
                                 },
                               ]}
-                              caption="Play tests for our early industrial designs."
+                              caption="Play testing our working prototype."
                               height={400}
+                              preload="none"
                             />
                           </div>
 
@@ -528,9 +529,8 @@ export default function FundraisingClient({
                           <p className="large">
                             <strong>Our math is simple</strong>: an $899 device,
                             a $9/month end-to-end encrypted backup subscription,
-                            and a five-year plan built on ~110,000 devices,
-                            roughly 0.05% of the 200M+ English-speaking
-                            households we&apos;re selling into.{' '}
+                            and a five-year plan built on ~91,000 flagship
+                            devices, roughly 0.07% of US households.{' '}
                             <strong>
                               And that&apos;s before we roll out companion
                               devices, or branch into other industries.
@@ -629,8 +629,9 @@ export default function FundraisingClient({
                             >
                               USB Club
                             </a>
-                            , a hardware-enabled social network, founded the
-                            Advanced Concepts hardware team at{' '}
+                            , a hardware-enabled social network (acquired in
+                            2026), founded the Advanced Concepts hardware team
+                            at{' '}
                             <a
                               href="https://www.recordsofthought.com/proof"
                               target="_blank"
