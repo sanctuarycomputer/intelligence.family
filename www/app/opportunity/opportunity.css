@@ -2,6 +2,9 @@
 .deck {
   height: 100dvh;
   overflow-y: auto;
+  /* Nothing in the deck scrolls sideways; this stops any oversized child
+     from dragging the canvas off to the right. */
+  overflow-x: hidden;
   scroll-snap-type: y mandatory;
 }
 /* Mobile-first: slides grow with their content and snapping is a
@@ -322,6 +325,17 @@ section.deck-page[id] {
 
 /* Mobile: datapoint chips stack full width; table cells tighten. */
 @media (max-width: 767px) {
+  /* The global h1 is a fixed 104px; the cover wordmark must scale with the
+     viewport. Archetype titles carry inline clamps and are unaffected. */
+  .deck-page h1 {
+    font-size: clamp(36px, 12vw, 104px);
+  }
+  /* Tables keep their type scale and scroll within their own box instead
+     of widening the page. */
+  .deck-plan-table {
+    display: block;
+    overflow-x: auto;
+  }
   .deck-stat-tiles {
     grid-template-columns: 1fr !important;
   }
