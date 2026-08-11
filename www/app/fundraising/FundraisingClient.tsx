@@ -352,6 +352,19 @@ export default function FundraisingClient({
                             />
                           </div>
 
+                          <p className="large">
+                            <strong>
+                              It&apos;s also a context window for the whole
+                              home.
+                            </strong>{' '}
+                            The house knows who the plumber is and what the
+                            family is saving for. As homes get smarter, every
+                            single purpose device will want access to private
+                            inference that understands the home, and who lives
+                            there - and our device is the one place that memory
+                            can safely live.
+                          </p>
+
                           {/* ===== III. WHY THIS WINS ===== */}
                           <div className="pt-8">
                             <SectionHeader label="III" title="Why This Wins" />
