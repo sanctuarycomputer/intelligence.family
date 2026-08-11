@@ -90,7 +90,7 @@ describe('fundraising page copy contract', () => {
   it('has stage-1 economics only (no model outputs)', () => {
     expect(page).toContain('$899');
     expect(page).toContain('$9/month');
-    expect(page).toContain('110,000');
+    expect(page).toContain('91,000');
     expect(page).not.toMatch(/52\.5|2\.7x|LTV/);
   });
 
