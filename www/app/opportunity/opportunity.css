@@ -407,6 +407,29 @@ section.deck-page[id] {
 }
 .deck-chrome-corner {
   position: absolute;
+  z-index: 1;
+}
+/* Small screens scroll content under the chrome; feather it out with a
+   masked backdrop blur so the bands work over any act background, light,
+   dark, or mid-transition between the two. */
+@media (max-width: 767px) {
+  .deck-chrome::before,
+  .deck-chrome::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 88px;
+    backdrop-filter: blur(12px);
+  }
+  .deck-chrome::before {
+    top: 0;
+    mask-image: linear-gradient(to bottom, black 25%, transparent);
+  }
+  .deck-chrome::after {
+    bottom: 0;
+    mask-image: linear-gradient(to top, black 25%, transparent);
+  }
 }
 .deck-chrome-tr {
   top: 20px;
@@ -692,6 +715,9 @@ section.deck-page[id] {
 .gantt-label {
   flex: 0 0 clamp(140px, 16vw, 220px);
   padding-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .gantt-track {
   position: relative;
@@ -785,6 +811,52 @@ section.deck-page[id] {
 .gantt-bar-late .gantt-tip {
   left: auto;
   right: 0;
+}
+/* On small screens the chart keeps its full width and scrolls sideways;
+   labels and phase names stick to the left edge over the moving track.
+   Horizontal padding moves off the scroller and onto the sticky column
+   so bars can't peek out in the padding gap beside pinned labels. */
+@media (max-width: 767px) {
+  .gantt {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .gantt-head,
+  .gantt-row,
+  .gantt-phase {
+    min-width: 640px;
+  }
+  .gantt-label {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    height: 100%;
+    line-height: clamp(16px, 2.5dvh, 24px);
+    background: var(--fi-green-100);
+    border-right: 1px solid var(--fi-green-300);
+  }
+  .gantt-label,
+  .gantt-phase-name {
+    flex-basis: 164px;
+    padding-left: 14px;
+  }
+  .gantt-phase-name {
+    position: sticky;
+    left: 0;
+    width: max-content;
+  }
+  .gantt-legend {
+    position: sticky;
+    left: 0;
+    padding: 0 14px;
+  }
+  .gantt-head,
+  .gantt-phase {
+    padding-right: 14px;
+  }
 }
 
 /* Pricing tier cards, after the pptx product slide: name row, accent price
