@@ -20,18 +20,21 @@ type PageMeta = {
   counter: string;
   dark?: boolean;
   leaves?: boolean;
+  /** Act background tone; the chrome bar's fill matches it. */
+  bg?: 'green-200';
 };
 
 function actRun(
   count: number,
   act: string,
   start: number,
-  dark?: boolean
+  opts: { dark?: boolean; bg?: PageMeta['bg'] } = {}
 ): PageMeta[] {
   return Array.from({ length: count }, (_, i) => ({
     act,
     counter: `${String(start + i).padStart(2, '0')} / ${TOTAL}`,
-    ...(dark ? { dark: true } : {}),
+    ...(opts.dark ? { dark: true } : {}),
+    ...(opts.bg ? { bg: opts.bg } : {}),
   }));
 }
 
@@ -44,9 +47,9 @@ const LEAF_PAGES = [1, 7, 15, 20, TOTAL + 1]; // cover + act splashes + appendix
 
 export const PAGE_META: PageMeta[] = [
   ...actRun(7, 'I · The Category', 1),
-  ...actRun(7, 'II · Our First Device', 8),
-  ...actRun(5, 'III · Under the Hood', 15, true),
-  ...actRun(5, 'IV · The Ask', 20),
+  ...actRun(7, 'II · Our First Device', 8, { bg: 'green-200' }),
+  ...actRun(5, 'III · Under the Hood', 15, { dark: true }),
+  ...actRun(5, 'IV · The Ask', 20, { bg: 'green-200' }),
   ...APPENDIX_META,
 ];
 

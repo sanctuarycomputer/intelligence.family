@@ -1,5 +1,10 @@
 /* Deck shell */
 .deck {
+  /* The chrome bar's total height (fill + top rule). Slides after the
+     cover reserve this much, so their viewable area ends at the rule
+     instead of running underneath the bar. DeckShell reads this var when
+     it measures whether slides fit. */
+  --deck-bar-h: 57px;
   height: 100dvh;
   overflow-y: auto;
   /* Nothing in the deck scrolls sideways; this stops any oversized child
@@ -10,12 +15,16 @@
 /* Mobile-first: slides grow with their content and snapping is a
    suggestion. Desktop restores the fixed-viewport deck. */
 .deck-page {
-  min-height: 100dvh;
+  min-height: calc(100dvh - var(--deck-bar-h));
   scroll-snap-align: start;
   position: relative;
   display: flex;
   flex-direction: column;
   padding: clamp(48px, 7dvh, 72px) var(--container-padding);
+}
+/* The cover carries no chrome, so it alone stays full-bleed. */
+section.deck-page:first-of-type {
+  min-height: 100dvh;
 }
 @media (max-width: 767px) {
   .deck {
@@ -28,9 +37,21 @@
 }
 @media (min-width: 768px) {
   .deck-page {
+    height: calc(100dvh - var(--deck-bar-h));
+    max-height: calc(100dvh - var(--deck-bar-h));
+    overflow: hidden;
+  }
+  section.deck-page:first-of-type {
     height: 100dvh;
     max-height: 100dvh;
-    overflow: hidden;
+  }
+  /* Once any slide's content outgrows the viewport (deck-no-snap), fixed
+     heights would clip it invisibly; release them so the deck scrolls
+     through full-height slides instead. */
+  .deck-no-snap .deck-page {
+    height: auto;
+    max-height: none;
+    overflow: visible;
   }
 }
 /* Tailwind v4 utilities live in @layer utilities; globals.css's unlayered
@@ -409,39 +430,48 @@ section.deck-page[id] {
   position: absolute;
   z-index: 1;
 }
-/* Small screens scroll content under the chrome; feather it out with a
-   masked backdrop blur so the bands work over any act background, light,
-   dark, or mid-transition between the two. */
-@media (max-width: 767px) {
-  .deck-chrome::before,
-  .deck-chrome::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 88px;
-    backdrop-filter: blur(12px);
-  }
-  .deck-chrome::before {
-    top: 0;
-    mask-image: linear-gradient(to bottom, black 25%, transparent);
-  }
-  .deck-chrome::after {
-    bottom: 0;
-    mask-image: linear-gradient(to top, black 25%, transparent);
-  }
+/* All chrome sits along the bottom edge as a solid bar: opaque fill with
+   a thin rule on top, so scrolling content cuts off cleanly behind it.
+   The fill and rule swap with the dark act alongside the text color. */
+.deck-chrome::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--deck-bar-h, 57px) - 1px);
+  background: var(--fi-green-100);
+  border-top: 1px solid var(--fi-green-300);
+  transition:
+    background-color 400ms ease-out,
+    border-color 400ms ease-out;
 }
-.deck-chrome-tr {
-  top: 20px;
-  right: var(--container-padding);
-  text-align: right;
+/* Acts on the deeper green background carry a matching bar fill; the dark
+   act's rule comes last so it wins over any tone class. */
+.deck-chrome-bar-green-200::after {
+  background: var(--fi-green-200);
+}
+.deck-chrome-dark::after {
+  background: var(--fi-green-600);
+  border-top-color: rgba(184, 198, 176, 0.35);
+}
+/* Corner text fills the bar's height and centers within it, so the space
+   above and below the text is equal by construction rather than tuned
+   against the font's line box. */
+.deck-chrome-bl,
+.deck-chrome-br {
+  bottom: 0;
+  height: calc(var(--deck-bar-h, 57px) - 1px);
+  display: inline-flex;
+  align-items: center;
+  /* Flex layout strips the leading space from the counter's " / 24" text
+     run; pre keeps the authored spacing intact. */
+  white-space: pre;
 }
 .deck-chrome-bl {
-  bottom: 20px;
   left: var(--container-padding);
 }
 .deck-chrome-br {
-  bottom: 20px;
   right: var(--container-padding);
   text-align: right;
 }
@@ -460,6 +490,12 @@ section.deck-page[id] {
   position: absolute;
   top: 0;
   right: 0;
+}
+/* The bottom-left slot is left-aligned, so its outgoing value anchors
+   left; the counter's right anchor stays for the bottom-right slot. */
+.deck-chrome-bl .deck-chrome-leaving {
+  left: 0;
+  right: auto;
 }
 .deck-chrome-in {
   animation: chrome-in 240ms ease-out;

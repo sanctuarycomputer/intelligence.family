@@ -13,28 +13,54 @@ export default function DeckShell({
     counter: string;
     dark?: boolean;
     leaves?: boolean;
+    bg?: string;
   }>;
 }) {
   const [current, setCurrent] = useState(1);
   const [noSnap, setNoSnap] = useState(false);
 
   // Snapping only works when every slide fits the viewport; the moment any
-  // slide runs taller (small screens), snap turns off entirely.
+  // slide runs taller (small screens), snap turns off entirely. Slides can
+  // grow after mount (fonts, images, reflow), so each one is watched with a
+  // ResizeObserver rather than only re-measuring on window resize.
   useEffect(() => {
+    const sections = document.querySelectorAll<HTMLElement>(
+      'section[id^="page-"]'
+    );
     const measure = () => {
-      const sections = document.querySelectorAll<HTMLElement>(
-        'section[id^="page-"]'
-      );
       const vh = window.innerHeight;
+      const deck = document.querySelector('.deck');
+      const barH = deck
+        ? parseFloat(
+            getComputedStyle(deck).getPropertyValue('--deck-bar-h')
+          ) || 0
+        : 0;
       let tall = false;
-      sections.forEach(section => {
-        if (section.offsetHeight > vh + 1) tall = true;
+      sections.forEach((section, i) => {
+        // Every slide but the full-bleed cover reserves the chrome bar's
+        // height, so that's each slide's fit target. Taller than its
+        // target (small screens, where slides grow), or clipping its
+        // content (wider screens, where slides are fixed-height with
+        // hidden overflow) — either way the deck must scroll freely and
+        // let slides run their full height.
+        const target = i === 0 ? vh : vh - barH;
+        if (
+          section.offsetHeight > target + 1 ||
+          section.scrollHeight > section.offsetHeight + 8
+        ) {
+          tall = true;
+        }
       });
       setNoSnap(tall);
     };
     measure();
+    const observer = new ResizeObserver(measure);
+    sections.forEach(section => observer.observe(section));
     window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', measure);
+    };
   }, [pages.length]);
 
   useEffect(() => {
@@ -64,31 +90,38 @@ export default function DeckShell({
     return () => window.removeEventListener('keydown', handler);
   }, [current, pages.length]);
 
+  // The current page is whichever slide sits under the viewport midpoint.
+  // (An IntersectionObserver ratio contest looks simpler, but its callbacks
+  // only see the slides that crossed a threshold, so mid-scroll it flaps
+  // between neighbours and lags transitions; the midpoint rule flips
+  // exactly once per boundary.)
   useEffect(() => {
     const container = document.querySelector('.deck');
     if (!container) return;
-    const sections = container.querySelectorAll('section[id^="page-"]');
+    const sections = Array.from(
+      container.querySelectorAll<HTMLElement>('section[id^="page-"]')
+    );
     if (sections.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      entries => {
-        let best: { page: number; ratio: number } | null = null;
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const id = entry.target.id;
-          const page = Number(id.replace('page-', ''));
-          if (Number.isNaN(page)) continue;
-          if (!best || entry.intersectionRatio > best.ratio) {
-            best = { page, ratio: entry.intersectionRatio };
-          }
-        }
-        if (best) setCurrent(best.page);
-      },
-      { threshold: [0.2, 0.4, 0.6] }
-    );
-
-    sections.forEach(section => observer.observe(section));
-    return () => observer.disconnect();
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const midY = window.innerHeight / 2;
+      const index = sections.findIndex(section => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= midY && rect.bottom > midY;
+      });
+      if (index !== -1) setCurrent(index + 1);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    container.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      container.removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [pages.length]);
 
   return (

@@ -58,19 +58,16 @@ export default function DeckChrome({
   hidden = false,
   dark = false,
 }: {
-  meta?: { act: string; counter: string };
+  meta?: { act: string; counter: string; bg?: string };
   hidden?: boolean;
   dark?: boolean;
 }) {
   return (
     <div
-      className={`deck-chrome${hidden ? ' deck-chrome-hidden' : ''}${dark ? ' deck-chrome-dark' : ''}`}
+      className={`deck-chrome${hidden ? ' deck-chrome-hidden' : ''}${dark ? ' deck-chrome-dark' : ''}${meta?.bg ? ` deck-chrome-bar-${meta.bg}` : ''}`}
     >
-      <span className="deck-chrome-corner deck-chrome-tr">
-        {meta && <RollingValue value={meta.act} />}
-      </span>
       <span className="deck-chrome-corner deck-chrome-bl">
-        Investor Preview
+        {meta && <RollingValue value={meta.act} />}
       </span>
       <span className="deck-chrome-corner deck-chrome-br">
         {meta && <Counter value={meta.counter} />}
