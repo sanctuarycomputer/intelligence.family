@@ -47,6 +47,13 @@ const PHASES: Phase[] = [
         end: 7,
         status: 'done',
       },
+      {
+        name: 'User testing',
+        detail: 'Jun ’26 – Jan ’27 · The Family Trunk prototype in real households',
+        start: 5,
+        end: 13,
+        status: 'active',
+      },
     ],
   },
   {

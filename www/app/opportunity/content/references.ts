@@ -382,6 +382,32 @@ export const REFERENCES: Record<string, Reference> = {
     url: 'https://en.wikipedia.org/wiki/Firefox',
     note: 'verify',
   },
+  // Appended for the smart-routing page. Append-only.
+  routellm: {
+    source: 'RouteLLM, UC Berkeley & LMSYS',
+    date: '2024',
+    url: 'https://github.com/lm-sys/routellm',
+  },
+  frugalgpt: {
+    source: 'FrugalGPT, Chen et al., Stanford',
+    date: '2023',
+    url: 'https://arxiv.org/abs/2305.05176',
+  },
+  'perplexity-hybrid': {
+    source: 'VentureBeat',
+    date: '2026-06',
+    url: 'https://venturebeat.com/technology/perplexity-ai-unveils-hybrid-local-cloud-inference-system-at-computex-2026',
+  },
+  'perplexity-computer': {
+    source: 'TechTimes',
+    date: '2026-07-28',
+    url: 'https://www.techtimes.com/articles/321882/20260728/perplexity-brings-ai-desktop-agent-windows-routing-tasks-across-20-models.htm',
+  },
+  'its-nice-that': {
+    source: "It's Nice That, Good Screens report",
+    date: '2026-08-12',
+    url: 'https://www.itsnicethat.com/features/good-screens-report-its-nice-that-insights-120826',
+  },
 };
 
 const ORDER = Object.keys(REFERENCES);

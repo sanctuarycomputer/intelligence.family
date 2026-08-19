@@ -13,7 +13,7 @@ const contentFiles = () =>
     .map(f => [f, readFileSync(path.join(dir, f), 'utf8')] as const);
 
 describe('opportunity deck copy contract', () => {
-  it('act 1 carries the nine approved titles in order', () => {
+  it('act 1 carries the ten approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const titles = [
       // Cover wordmark carries the homepage's tight-space span between words.
@@ -21,10 +21,11 @@ describe('opportunity deck copy contract', () => {
       'AI finally runs on consumer hardware',
       'The GPU is coming home',
       "The most valuable context is what you'd never upload",
-      "7 in 10 Americans don't trust big tech's AI",
-      'Local architecture wins consumer sentiment',
-      'Consumers happily pay for privacy',
-      'Privacy-centric technology is liberatory, empowering & distinctly American',
+      '7 in 10 Americans don&rsquo;t trust big tech&rsquo;s AI',
+      'But local architecture wins consumers over',
+      'Consumers happily pay for privacy...',
+      "& local AI won't sacrifice convenience",
+      'Privacy-centric technology is liberatory & distinctly American',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -40,10 +41,8 @@ describe('opportunity deck copy contract', () => {
       'starting with families.',
       'AI compute is moving into the house, the way the personal computer did.',
       'Open models are trailing just months behind the best.',
-      "We're building the only AI platform you can trust (and hold).",
-      'Privacy-preserving architecture wins customers over.',
       'Demand for local AI & privacy-preserving systems is newly possible and growing fast.',
-      "A contribution to the USA's lineage of privacy preserving technology.",
+      "A contribution to the USA's proud lineage of empowering, pro-human technology.",
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
@@ -55,7 +54,7 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       'Our first device is for families',
       'Your own family vault',
-      'Convenience of the cloud. Privacy of the room.',
+      'Convenience of the cloud. Privacy of the home.',
       'A context window for smart homes',
       'One device becomes a family of them',
       'Home hubs are a proven category.',

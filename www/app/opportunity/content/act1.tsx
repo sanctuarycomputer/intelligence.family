@@ -82,6 +82,25 @@ const page3 = (
                 'We partnered with Mozilla Foundation to publish our research in February 2026. It was received with overwhelmingly positive reception on social media - at a time when AI devices were a focus of vitriol online.',
             },
             {
+              src: '/opportunity/good-screens.webp',
+              alt: "The cover of It's Nice That's Good Screens report, set in bold type on black",
+              caption: (
+                <>
+                  Our concept was featured in{' '}
+                  <a
+                    href="https://www.itsnicethat.com/features/good-screens-report-its-nice-that-insights-120826"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:no-underline"
+                  >
+                    It&rsquo;s Nice That&rsquo;s Good Screens report
+                  </a>
+                  , August 2026: a survey of the screens doing right by their
+                  users.
+                </>
+              ),
+            },
+            {
               src: '/opportunity/prototype-photo.jpg',
               alt: "Our prototype's compute board, held in one hand above a keyboard",
               caption:
@@ -150,9 +169,9 @@ const LINEAGE_CARDS = [
     meta: '2004 · Mountain View, California',
     body: (
       <>
-        Firefox broke Microsoft&rsquo;s browser monopoly and took the
-        user-first web mainstream: roughly <strong>a third of the web</strong>{' '}
-        at its peak, and nearly <strong>half a billion users</strong>.
+        Firefox broke Microsoft&rsquo;s browser monopoly and took the user-first
+        web mainstream: roughly <strong>a third of the web</strong> at its peak,
+        and nearly <strong>half a billion users</strong>.
         <Ref k="firefox-users" />
       </>
     ),
@@ -162,8 +181,8 @@ const LINEAGE_CARDS = [
     meta: '2014 · San Francisco',
     body: (
       <>
-        Started by Moxie Marlinspike in SF, Signal made private conversation
-        the default for <strong>hundreds of millions</strong>.
+        Started by Moxie Marlinspike in SF, Signal made private conversation the
+        default for <strong>hundreds of millions</strong>.
         <Ref k="signal-protocol-docs" />
       </>
     ),
@@ -248,89 +267,79 @@ const problemPage = (
   </DeckPage>
 );
 
-const page4 = (
-  <DeckPage key={5} n={5} total={TOTAL}>
-    <Statement
-      title="7 in 10 Americans don't trust big tech's AI"
-      sub="We're building the only AI platform you can trust (and hold)."
-    >
-      Pew measured America&rsquo;s growing disdain for big tech&rsquo;s AI in
-      June 2026.
-      <Ref k="pew-distrust" /> Amazon went the other way, removing the
-      Echo&rsquo;s only local-processing option in March 2025.
-      <Ref k="echo-local-removed" />
-      <br />
-      <br />
-      Today, the datacenter backlash has arrived at a tenor that won&rsquo;t
-      subside, solidifying as a cultural phenomenon like climate dread. America
-      wants an alternative.
-    </Statement>
-    <Band narrow>
-      Demand for private AI is enormous.
-      <br />
-      Our market is 70% of America.
-    </Band>
-  </DeckPage>
-);
+const vsTitleStyle = {
+  fontFamily: 'var(--font-serif)',
+  fontSize: 'clamp(28px, 3.8vw, 52px)',
+  fontWeight: 400,
+  lineHeight: 1.05,
+} as const;
 
-const page5 = (
-  <DeckPage key={6} n={6} total={TOTAL}>
-    <Split
-      flip
-      title="Local architecture wins consumer sentiment"
-      sub="Privacy-preserving architecture wins customers over."
-      media={
-        <div>
-          <div className="grid grid-cols-2 gap-4">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/opportunity/friend-poster.webp"
-              alt="friend.com's subway poster defaced in red marker: 'Go make real friends', 'THIS IS SURVEILLANCE'"
-              className="deck-screenshot-tile"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/opportunity/family-book-shelf.png"
-              alt="The Family Book prototype held open like a leather folio on a bookshelf, showing the Add to Family Tree screen"
-              className="deck-screenshot-tile"
-              style={{ objectPosition: 'center' }}
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/opportunity/friend-comments.png"
-              alt="Instagram comments on friend.com's pendant: 'AI IS NOT YOUR FRIEND', 'Disgusting', 'This Black Mirror type product. Ew'"
-              className="deck-screenshot-tile"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/opportunity/fi-comments.png"
-              alt="Instagram comments on the Family Intelligence research: 'LOVE THIS!', 'Brilliant idea', 'Small local AI is the future!'"
-              className="deck-screenshot-tile"
-            />
-          </div>
-          <span className="deck-media-caption">
-            Two AI listening devices. friend.com was panned, while Family
-            Intelligence was praised.
-          </span>
+const sentimentPage = (
+  <DeckPage key={5} n={5} total={TOTAL}>
+    <div className="deck-vs">
+      <div className="deck-vs-row">
+        <div className="deck-vs-text">
+          <h1 className="deck-title" style={vsTitleStyle}>
+            7 in 10 Americans don&rsquo;t trust big tech&rsquo;s AI
+          </h1>
+          <p className="deck-body">
+            Pew measured America&rsquo;s growing disdain for big tech&rsquo;s AI
+            in June 2026.
+            <Ref k="pew-distrust" /> Amazon went the other way, removing the
+            Echo&rsquo;s only local-processing option in March 2025.
+            <Ref k="echo-local-removed" />{' '}
+            <strong>
+              friend.com&rsquo;s always-listening pendant was vandalized on the
+              NYC subway.
+            </strong>
+            <Ref k="friend-backlash" />
+          </p>
         </div>
-      }
-    >
-      Our research, in partnership with the Mozilla Foundation, drew an
-      overwhelmingly positive response across 28k+ impressions.
-      <Ref k="mozilla-research" />
-      <br />
-      <br />
-      Meanwhile... friend.com&rsquo;s always-listening pendant was vandalized on
-      the NYC subway.
-      <Ref k="friend-backlash" />
-    </Split>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/friend-poster.webp"
+          alt="friend.com's subway poster defaced in red marker: 'Go make real friends', 'THIS IS SURVEILLANCE'"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/friend-comments.png"
+          alt="Instagram comments on friend.com's pendant: 'AI IS NOT YOUR FRIEND', 'Disgusting', 'This Black Mirror type product. Ew'"
+        />
+      </div>
+      <div className="deck-vs-row deck-vs-row-flip">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/family-book-shelf.png"
+          alt="The Family Book prototype held open like a leather folio on a bookshelf, showing the Add to Family Tree screen"
+          style={{ objectPosition: 'center' }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/opportunity/fi-comments.png"
+          alt="Instagram comments on the Family Intelligence research: 'LOVE THIS!', 'Brilliant idea', 'Small local AI is the future!'"
+        />
+        <div className="deck-vs-text deck-vs-text-right">
+          <h1 className="deck-title" style={vsTitleStyle}>
+            But local architecture wins consumers over
+          </h1>
+          <p className="deck-body">
+            Our research, in partnership with the Mozilla Foundation, drew an{' '}
+            <strong>overwhelmingly positive response</strong> across 28k+
+            impressions.
+            <Ref k="mozilla-research" /> Our concept was featured in It&rsquo;s
+            Nice That&rsquo;s Good Screens report.
+            <Ref k="its-nice-that" />
+          </p>
+        </div>
+      </div>
+    </div>
   </DeckPage>
 );
 
 const demandPage = (
-  <DeckPage key={7} n={7} total={TOTAL}>
+  <DeckPage key={6} n={6} total={TOTAL}>
     <Statement
-      title="Consumers happily pay for privacy"
+      title="Consumers happily pay for privacy..."
       sub="Demand for local AI & privacy-preserving systems is newly possible and growing fast."
     />
     <StatTiles
@@ -401,6 +410,65 @@ const demandPage = (
   </DeckPage>
 );
 
+const routingPage = (
+  <DeckPage key={7} n={7} total={TOTAL}>
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/opportunity/walled-garden.png"
+      alt="A hedge-walled garden with the glowing Family Book at its center, speech bubbles looping to it along golden paths; one wooden gate sits ajar, where a single dotted thread reaches out to a distant datacenter in a cloud and returns carrying a small parcel"
+      className="deck-bg-art"
+      style={{ width: 'clamp(500px, 52vw, 1040px)' }}
+    />
+    <div className="deck-bg-copy" style={{ maxWidth: '700px' }}>
+      <CardsPage
+        columns={1}
+        title="& local AI won't sacrifice convenience"
+        sub="Enterprises already route AI by sensitivity: we're bringing similar patterns to consumer. Local & private are pure selling points."
+        cards={[
+          {
+            heading: 'The routing is proven science',
+            body: (
+              <>
+                UC Berkeley&rsquo;s RouteLLM keeps{' '}
+                <strong>~95% of frontier quality</strong> while sending only a
+                quarter of requests to the big model.
+                <Ref k="routellm" /> Stanford&rsquo;s FrugalGPT matched GPT-4 at
+                up to 98% lower cost.
+                <Ref k="frugalgpt" /> Most requests never needed the cloud.
+              </>
+            ),
+          },
+          {
+            heading: "It's how business runs AI now",
+            body: (
+              <>
+                Sensitive data stays local by default, and only hard tasks
+                escalate. The driver was cost and compliance, not idealism:
+                routing everything to the cloud burns money on tasks small
+                models handle fine.
+              </>
+            ),
+          },
+          {
+            heading: 'Local inference against the public internet',
+            body: (
+              <>
+                We&rsquo;re a pure trust brand, so our default is a harder
+                policy line: all inference is local. Prompts, data &amp;
+                reasoning never leave the box. Our users can{' '}
+                <strong>
+                  opt-in to allow local AI agents to pull context down from the
+                  public internet, providing the best of both worlds.
+                </strong>
+              </>
+            ),
+          },
+        ]}
+      />
+    </div>
+  </DeckPage>
+);
+
 const lineagePage = (
   <DeckPage key={8} n={8} total={TOTAL}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -417,8 +485,8 @@ const lineagePage = (
       style={{ marginBottom: 'clamp(120px, 24dvh, 260px)' }}
     >
       <Statement
-        title="Privacy-centric technology is liberatory, empowering & distinctly American"
-        sub="A contribution to the USA's lineage of privacy preserving technology."
+        title="Privacy-centric technology is liberatory & distinctly American"
+        sub="A contribution to the USA's proud lineage of empowering, pro-human technology."
       />
       <div className="mt-10">
         <div className="grid md:grid-cols-4 auto-rows-fr gap-3">
@@ -463,9 +531,9 @@ export const ACT1_PAGES: ReactNode[] = [
   page3,
   page2,
   problemPage,
-  page4,
-  page5,
+  sentimentPage,
   demandPage,
+  routingPage,
   lineagePage,
   page7,
 ];

@@ -104,7 +104,7 @@ const page24 = (
           alt="USB Club Transport product poster"
         />
         <DeckVideo
-          src="/fundraising/moment-video.mp4"
+          src="/opportunity/moment-video-540.mp4"
           poster="/fundraising/moment-video-poster.jpg"
           label="Early prototype in use"
         />

@@ -53,6 +53,10 @@ const page7 = (
         className="deck-video-portrait"
       />
     </div>
+    <p className="deck-media-caption">
+      An early user testing prototype, dubbed the Family Trunk. Book a meeting
+      with us to see it working IRL.
+    </p>
   </DeckPage>
 );
 
@@ -90,7 +94,7 @@ const conveniencePage = (
     />
     <div className="deck-bg-copy deck-bg-copy-narrow">
       <Statement
-        title="Convenience of the cloud. Privacy of the room."
+        title="Convenience of the cloud. Privacy of the home."
         sub="Local-first models offer the best of both worlds."
       >
         <strong>

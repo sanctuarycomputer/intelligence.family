@@ -1050,6 +1050,58 @@ section.deck-page[id] {
   font-size: 13px;
   font-weight: 500;
 }
+/* Versus slide: two stacked claim rows with their own H1s, the first
+   headline anchored left and the second right, each beside its evidence
+   tiles. */
+.deck-vs {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 5dvh, 56px);
+}
+.deck-vs-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: clamp(16px, 1.8vw, 32px);
+  align-items: center;
+}
+.deck-vs-row-flip {
+  grid-template-columns: auto auto 1fr;
+}
+.deck-vs-row img {
+  width: clamp(160px, 15vw, 260px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 20px;
+}
+.deck-vs-text .deck-body {
+  margin-top: 16px;
+}
+.deck-vs-text-right {
+  text-align: right;
+}
+.deck-vs-text-right .deck-body {
+  margin-left: auto;
+}
+@media (max-width: 767px) {
+  .deck-vs-row,
+  .deck-vs-row-flip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .deck-vs-text,
+  .deck-vs-text-right {
+    grid-column: 1 / -1;
+  }
+  .deck-vs-row img {
+    width: 100%;
+  }
+  /* Claims read before their evidence on phones. */
+  .deck-vs-row-flip .deck-vs-text-right {
+    order: -1;
+    text-align: left;
+  }
+}
+
 /* Background-art slides: the artwork is a layer pinned to the bottom right
    of the well; the copy floats above it and may overlap on narrow screens. */
 .deck-bg-art {
