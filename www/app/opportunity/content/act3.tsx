@@ -17,7 +17,7 @@ const page17 = (
           private inference.
           <br />
           <br />
-          Here&rsquo;s where our tech goes after winning in the home.
+          Here&rsquo;s where we go after winning in the home
         </>
       }
     />

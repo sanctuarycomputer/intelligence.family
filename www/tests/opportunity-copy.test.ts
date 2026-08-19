@@ -104,7 +104,7 @@ describe('opportunity deck copy contract', () => {
     const subs = [
       'The go-to SDK for private inference, model &amp; chipset agnostic, built on Linux',
       'Today, there is no purpose made privacy stack for running local models.',
-      'Here&rsquo;s where our tech goes after winning in the home.',
+      'Here&rsquo;s where we go after winning in the home',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
