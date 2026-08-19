@@ -1030,6 +1030,61 @@ section.deck-page[id] {
   font-size: 13px;
   font-weight: 500;
 }
+/* Background-art slides: the artwork is a layer pinned to the bottom right
+   of the well; the copy floats above it and may overlap on narrow screens. */
+.deck-bg-art {
+  position: absolute;
+  right: calc(var(--container-padding) * -0.5);
+  bottom: -2%;
+  width: clamp(454px, 56vw, 1080px);
+  max-height: 92%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+.deck-bg-copy {
+  position: relative;
+  z-index: 1;
+}
+.deck-bg-copy-narrow {
+  max-width: 620px;
+}
+@media (max-width: 767px) {
+  .deck-bg-art {
+    position: static;
+    transform: none;
+    width: 100%;
+    order: 2;
+  }
+}
+
+/* Stacked mode: one borderless fact per row, the label riding the value's
+   baseline, so a tall list of tiles still fits a single viewport. The list
+   shrink-wraps to its widest row instead of filling the page. */
+.deck-stat-tiles-stacked {
+  width: fit-content;
+  max-width: 100%;
+}
+.deck-stat-tiles-stacked .deck-stat-tile {
+  flex-direction: row;
+  align-items: baseline;
+  border: 0;
+  border-bottom: 1px solid rgba(94, 123, 41, 0.25);
+  border-radius: 0;
+  padding: 2px 0 6px;
+  column-gap: 16px;
+}
+.deck-stat-tiles-stacked .deck-stat-tile-value {
+  flex: 0 0 auto;
+  padding: 0;
+}
+.deck-stat-tiles-stacked .deck-stat-tile-label {
+  flex: 1 1 auto;
+  padding: 0;
+  border-top: 0;
+  background: transparent;
+  font-size: 15px;
+}
 
 /* Compact multi-year plan table, mono figures. */
 .deck-plan-table {
@@ -1112,6 +1167,16 @@ section.deck-page[id] {
   height: auto;
   max-width: 100%;
   max-height: 58dvh;
+  border-radius: 20px;
+}
+/* 2x2 sentiment grid: mixed aspect sources crop to uniform tiles, anchored
+   to their top edge so posters and comment threads both stay legible. */
+.deck-screenshot-tile {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: top;
   border-radius: 20px;
 }
 

@@ -1,26 +1,34 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import Ref from '../components/Ref';
-import { Band, CardsPage, Ledger, Statement } from '../components/archetypes';
+import { CardsPage, Ledger, Statement } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 26;
 const ACT_CLASS = 'deck-act-3';
 
 const page17 = (
-  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
-      title="But under the hood... we're building the canonical stack for private AI inference"
+      title={
+        <>
+          But under the hood... we&rsquo;re building the canonical stack for
+          private inference.
+          <br />
+          <br />
+          Here&rsquo;s where our tech goes after winning in the home.
+        </>
+      }
     />
   </DeckPage>
 );
 
 const page19 = (
-  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={2}
-      title="Private AI is becoming crucial for businesses"
+      title="Private AI is becoming crucial for business"
       sub="Today, there is no purpose made privacy stack for running local models."
       cards={[
         {
@@ -113,7 +121,7 @@ const page19 = (
 );
 
 const page18 = (
-  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       variant="quote"
@@ -189,16 +197,16 @@ const page18 = (
 );
 
 const page22 = (
-  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
     <Ledger
       wide
-      title="The Android OS for Local AI"
+      title="The missing privacy framework for local AI"
       sub={
         <>
-          Google bought Android in 2005 for ~$50 million.
+          Model &amp; chipset agnostic software for any use case where
+          inference runs on private data.
           <br />
-          What will the canonical infrastructure for private AI be valued at in
-          2030?
+          That is... basically everywhere.
         </>
       }
       rows={[
@@ -313,79 +321,9 @@ const page22 = (
   </DeckPage>
 );
 
-const platformPage = (
-  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
-    <Statement
-      title="Our platform is a compounding business"
-      sub="We anticipate three key modes to help partners integrate our software."
-    />
-    <div className="grid md:grid-cols-2 gap-10 items-start">
-      <table className="deck-plan-table">
-        <thead>
-          <tr>
-            <th>Mode</th>
-            <th>Pricing</th>
-          </tr>
-        </thead>
-        <tbody>
-          {[
-            ['Enterprise deployment & implementation', '$150K ACV + $175K'],
-            ['OEM embedded royalty', '$5 / device'],
-            ['Forward-deployed engineering', 'Time & materials'],
-          ].map(row => (
-            <tr key={row[0]}>
-              {row.map((cell, i) => (
-                <td key={i}>{cell}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <table className="deck-plan-table">
-        <thead>
-          <tr>
-            <th>Modelled licensing build, $mm</th>
-            <th>Y3</th>
-            <th>Y4</th>
-            <th>Y5</th>
-          </tr>
-        </thead>
-        <tbody>
-          {[
-            ['Platform license', '0.4', '2.2', '6.5'],
-            ['Implementation services', '0.9', '3.5', '7.0'],
-            ['OEM royalty', '-', '0.6', '5.6'],
-            ['Total licensing', '1.3', '6.3', '19.2'],
-            ['% of total revenue', '8%', '16%', '24%'],
-          ].map(row => (
-            <tr key={row[0]}>
-              {row.map((cell, i) => (
-                <td key={i}>{cell}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-    <p className="deck-body">
-      Licenses bill annually in advance, at a 90% margin; implementation
-      services run through our agency partner at 20%. Android proves this thesis
-      at 3B+ active devices.
-      <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B last year
-      at a 72% pre-tax margin.
-      <Ref k="qualcomm-qtl" />
-    </p>
-    <Band narrow>
-      Sonos, Dyson, and LG would never build this stack... but they will need to
-      license it.
-    </Band>
-  </DeckPage>
-);
-
 export const ACT3_PAGES: ReactNode[] = [
   page17,
   page19,
   page18,
   page22,
-  platformPage,
 ];

@@ -13,16 +13,18 @@ const contentFiles = () =>
     .map(f => [f, readFileSync(path.join(dir, f), 'utf8')] as const);
 
 describe('opportunity deck copy contract', () => {
-  it('act 1 carries the seven approved titles in order', () => {
+  it('act 1 carries the nine approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const titles = [
       // Cover wordmark carries the homepage's tight-space span between words.
       'Family<span className="tracking-[-0.1em]"> </span>Intelligence',
-      'Local AI (finally) runs on consumer hardware',
+      'AI finally runs on consumer hardware',
       'The GPU is coming home',
+      "The most valuable context is what you'd never upload",
       "7 in 10 Americans don't trust big tech's AI",
-      "The most valuable context is what you'll never upload",
       'Local architecture wins consumer sentiment',
+      'Consumers will happily pay for privacy',
+      'Privacy-centric technology is liberatory, empowering',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -34,23 +36,26 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act1.tsx'), 'utf8');
     const subs = [
       'AI that runs in your home, your office, your hand.',
-      'The home holds the richest, longest-running, highest-signal context any AI could use.',
+      'The home holds the richest context any AI could use.',
       'starting with families.',
       'AI compute is moving into the house, the way the personal computer did.',
       'Open models are trailing just months behind the best.',
-      "But today, there's no alternative.",
+      "We're building the only AI platform you can trust (and hold).",
       'Privacy-preserving architecture wins customers over.',
+      'Demand for local AI & privacy-preserving systems is newly possible and growing fast.',
+      "A contribution to the USA's lineage of privacy preserving technology.",
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
     }
   });
 
-  it('act 2 carries the seven approved titles in order', () => {
+  it('act 2 carries the eight approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
       'Your own family vault',
+      'Convenience of the cloud.',
       'A context window for smart homes',
       'One device becomes a family of them',
       'Home hubs are a proven category.',
@@ -62,30 +67,30 @@ describe('opportunity deck copy contract', () => {
     expect([...idx].sort((a, b) => a - b)).toEqual(idx);
   });
 
-  it('act 2 carries the seven approved subtitles', () => {
+  it('act 2 carries the eight approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, sensitive data, and a GPU in the living room.',
-      'Weekly check-ins, budgets, school, health, and stories.',
+      'Local-first models offer the best of both worlds.',
+      'The device solves age old family archive problems overnight.',
       'Inference for every IoT device on the network.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
       'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
       'Each sale covers its own customer acquisition before subscription starts.',
-      'The flagship device ships first, and every future SKU runs the same (evolving) stack.',
+      'The flagship device ships first, every future SKU runs the same evolving stack.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
     }
   });
 
-  it('act 3 carries the five approved titles in order', () => {
+  it('act 3 carries the four approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
-      "But under the hood... we're building the canonical stack for private AI inference",
-      'Private AI is becoming crucial for businesses',
+      'But under the hood...',
+      'Private AI is becoming crucial for business',
       'Our stack',
-      'The Android OS for Local AI',
-      'Our platform is a compounding business',
+      'The missing privacy framework for local AI',
     ];
     // The Android title deliberately repeats, so scan forward from the
     // previous match instead of using absolute indexOf positions.
@@ -96,14 +101,13 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 3 carries the five approved subtitles', () => {
+  it('act 3 carries the four approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const subs = [
       'The go-to SDK for private inference, built on Linux',
       'Today, there is no purpose made privacy stack for running local models.',
-      'We anticipate three key modes to help partners integrate our software.',
-      'Google bought Android in 2005 for ~$50 million.',
-      'What will the canonical infrastructure for private AI be valued at',
+      'That is... basically everywhere.',
+      'Here&rsquo;s where our tech goes after winning in the home.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
@@ -156,16 +160,17 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('asks for $15M exactly once across the deck, on the ask page', () => {
-    const all = contentFiles()
-      .map(([, s]) => s)
-      .join('\n');
-    expect(all.match(/\$15M/g)).toHaveLength(1);
+  it('states the $15M raise only on the ask page', () => {
     const act4 = readFileSync(path.join(dir, 'act4.tsx'), 'utf8');
+    expect(act4.match(/\$15M/g)).toHaveLength(2);
     expect(act4).toContain("We're raising $15M");
+    for (const [name, src] of contentFiles()) {
+      if (name === 'act4.tsx') continue;
+      expect(src, name).not.toMatch(/\$15M/);
+    }
   });
 
-  it('numbers core pages 1..24 contiguously in export order', () => {
+  it('numbers core pages 1..26 contiguously in export order', () => {
     const acts = ['act1.tsx', 'act2.tsx', 'act3.tsx', 'act4.tsx'];
     const ns = acts.flatMap(f => {
       const src = readFileSync(path.join(dir, f), 'utf8');
@@ -174,16 +179,16 @@ describe('opportunity deck copy contract', () => {
       );
     });
     expect([...ns].sort((a, b) => a - b)).toEqual(
-      Array.from({ length: 24 }, (_, i) => i + 1)
+      Array.from({ length: 26 }, (_, i) => i + 1)
     );
   });
 
-  it('numbers appendix pages FIRST..FIRST+5 in export order', () => {
+  it('numbers appendix pages FIRST..FIRST+6 in export order', () => {
     const src = readFileSync(path.join(dir, 'appendix.tsx'), 'utf8');
     const offsets = [...src.matchAll(/n=\{FIRST(?: \+ (\d+))?\}/g)].map(m =>
       m[1] ? Number(m[1]) : 0
     );
-    expect([...offsets].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5]);
+    expect([...offsets].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5, 6]);
   });
 
   it('renders a sources page from the registry', () => {
@@ -201,7 +206,8 @@ describe('opportunity deck copy contract', () => {
       'A2 · Base case',
       'A3 · Scenarios',
       'A4 · Model methodology',
-      'A5 · Sources',
+      'A5 · Platform licensing',
+      'A6 · Sources',
     ]) {
       expect(src, title).toContain(title);
     }
@@ -231,14 +237,14 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('exports 24 core pages and 6 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(24);
-    expect(APPENDIX_PAGES).toHaveLength(6);
+  it('exports 26 core pages and 7 appendix pages', () => {
+    expect(ALL_PAGES).toHaveLength(26);
+    expect(APPENDIX_PAGES).toHaveLength(7);
   });
 
-  it('sets every chrome counter against 24 pages', () => {
+  it('sets every chrome counter against 26 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 24;/);
+      expect(src, name).toMatch(/const TOTAL = 26;/);
     }
   });
 

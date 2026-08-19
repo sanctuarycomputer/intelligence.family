@@ -3,6 +3,7 @@ import DeckPage from '../components/DeckPage';
 import DeckVideo from '../components/DeckVideo';
 import Ref from '../components/Ref';
 import {
+  Band,
   BigStat,
   EvidenceGrid,
   PricingTiers,
@@ -11,11 +12,11 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 26;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
-  <DeckPage key={8} n={8} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="Our first device is for families"
       sub="High emotional value, sensitive data, and a GPU in the living room."
@@ -56,23 +57,21 @@ const page7 = (
 );
 
 const page8 = (
-  <DeckPage key={9} n={9} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="Your own family vault"
-      sub="Weekly check-ins, budgets, school, health, and stories."
+      sub="The device solves age old family archive problems overnight."
       media={
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src="/opportunity/family-vault.webp"
+          src="/opportunity/family-vault.png"
           alt="The Family Book device surrounded by illustrated vault contents: a storybook, cookbook, document box, photo pile, calendar, piggy bank, and health folder"
           className="deck-slide-media"
         />
       }
     >
-      <strong>
-        The device solves age old family archive problems overnight.
-      </strong>{' '}
+      <strong>Weekly check-ins, budgets, school, health, and stories.</strong>{' '}
       The trustworthy filing cabinet for documents often lost, the scribe (and
       fact checker) for Grandpa&rsquo;s bewildering tall stories (and history of
       glaucoma), the family cookbook, the home media server for photos and
@@ -81,8 +80,47 @@ const page8 = (
   </DeckPage>
 );
 
+const conveniencePage = (
+  <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/opportunity/convenience-tunnel.png"
+      alt="The O'Hagans Family Book device at center with a glowing brain inside; calendar, email, weather and web search clouds stream down into it, while padlocked links connect out to a phone and laptop, each sheltered under its own glass dome"
+      className="deck-bg-art"
+    />
+    <div className="deck-bg-copy deck-bg-copy-narrow">
+      <Statement
+        title={
+          <>
+            Convenience of the cloud.
+            <br />
+            Privacy of the room.
+          </>
+        }
+        sub="Local-first models offer the best of both worlds."
+      >
+        <strong>
+          Opt-in networking modes allow local AI agents to pull context from
+          the public internet:
+        </strong>{' '}
+        connect your Google Calendar &amp; email, and access web search,
+        weather, maps, and any resource on the internet.
+        <br />
+        <br />
+        Our zero-knowledge subscription vault exposes a remote tunnel,
+        connecting the web &amp; phone apps from outside the home, (just as the
+        Claude or ChatGPT consumer apps do their server).
+      </Statement>
+      <Band narrow>
+        Prompts, inference &amp; reasoning never leave the family&rsquo;s
+        end-to-end encrypted network.
+      </Band>
+    </div>
+  </DeckPage>
+);
+
 const contextPage = (
-  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
     <Split
       flip
       title="A context window for smart homes"
@@ -116,10 +154,10 @@ const contextPage = (
 );
 
 const page12 = (
-  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
     <PricingTiers
       title="One device becomes a family of them"
-      sub="The flagship device ships first, and every future SKU runs the same (evolving) stack."
+      sub="The flagship device ships first, every future SKU runs the same evolving stack."
       tiers={[
         {
           name: 'Flagship',
@@ -174,7 +212,7 @@ const page12 = (
 );
 
 const page10 = (
-  <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
     <BigStat
       stat="600M+"
       title="Home hubs are a proven category."
@@ -201,7 +239,7 @@ const page10 = (
 );
 
 const page11 = (
-  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
     <EvidenceGrid
       title="Families already pay for this"
       sub="tonies did €630M in revenue last year. Life360 is a $4.5B public company."
@@ -248,17 +286,18 @@ const page11 = (
 );
 
 const unitEconomicsPage = (
-  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
     <BigStat
       stat="2.1x"
       title="Paid back at point of sale"
       sub="Each sale covers its own customer acquisition before subscription starts."
-      band="We don't rely on years of subscription to recover costs. We recover cost when the box sells."
     >
-      The $200 blended cost of acquiring a customer is recovered 2.1 times over
-      at the register from hardware gross profit alone. Our own plan spends less
-      than that: implied acquisition cost falls from $183 in Year 2 to $137 in
-      Year 5 as the installed base compounds.
+      We budget $200 to acquire each customer, blended across paid social,
+      creators &amp; retail placement.{' '}
+      <strong>
+        That&rsquo;s deliberately conservative: hardware gross profit alone
+        recovers it 2.1 times over at the register.
+      </strong>
       <br />
       <br />
       Plaud proved it first: ~$250M of ARR on 2M+ devices, with essentially no
@@ -275,6 +314,7 @@ const unitEconomicsPage = (
 export const ACT2_PAGES: ReactNode[] = [
   page7,
   page8,
+  conveniencePage,
   contextPage,
   page12,
   page10,

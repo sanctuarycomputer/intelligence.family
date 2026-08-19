@@ -12,11 +12,11 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 26;
 const ACT_CLASS = 'deck-act-4';
 
 const page22 = (
-  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
       title="We've spent our careers deploying novel hardware, low-level infrastructure and custom operating systems"
@@ -25,7 +25,7 @@ const page22 = (
 );
 
 const page24 = (
-  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="The team"
@@ -103,28 +103,28 @@ const page24 = (
           src="/fundraising/signal-source.jpg"
           alt="USB Club Transport product poster"
         />
+        <DeckVideo
+          src="/fundraising/moment-video.mp4"
+          poster="/fundraising/moment-video-poster.jpg"
+          label="Early prototype in use"
+        />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/fundraising/family-together.webp"
           alt="On the factory floor with our contract manufacturing partners"
         />
         <DeckVideo
-          src="/opportunity/moment-video-small.mp4"
-          poster="/fundraising/moment-video-poster.jpg"
-          label="Early prototype in use"
-        />
-        <DeckVideo
           src="/opportunity/proof-portal-close.mp4"
           label="The Proof portal device closing"
-        />
-        <DeckVideo
-          src="/opportunity/sanctuary-work.mp4"
-          label="Sanctuary Computer hardware work"
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/opportunity/transport-lit.jpg"
           alt="The USB Club Transport device, lit"
+        />
+        <DeckVideo
+          src="/opportunity/sanctuary-work.mp4"
+          label="Sanctuary Computer hardware work"
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -137,7 +137,7 @@ const page24 = (
 );
 
 const page23 = (
-  <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="Hard questions"
@@ -246,7 +246,7 @@ const page23 = (
 );
 
 const page25 = (
-  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Timeline"
       sub="Round closes, contract manufacturer in the room, shelves by Christmas 2027."
@@ -256,19 +256,24 @@ const page25 = (
 );
 
 const page26 = (
-  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={26} n={26} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       title="We're raising $15M"
       sub="Shipping out and ready to gift by Christmas 2027."
     >
       Our research found no funded local-first home hub, in a year when AI took
       roughly half of global venture funding.
-      <Ref k="crunchbase-ai-half" /> This round takes us from design to a
-      certified, manufactured, shipped product, and reaches operating
-      profitability without a second equity round.
+      <Ref k="crunchbase-ai-half" />
+      <br />
+      <br />
+      This $15M gets us from user testing and design to a certified,
+      manufactured, shipped product, and reaches operating profitability
+      without a second equity round.
     </Statement>
     <Band narrow>
-      No one owns this market today, and that window is closing fast.
+      It&rsquo;s a foregone conclusion that the future home (and office) will
+      contain countless GPUs. No one owns this market today, and that window is
+      closing fast.
     </Band>
     <div className="mt-8 max-w-xl divide-y divide-fi-green-300">
       {[

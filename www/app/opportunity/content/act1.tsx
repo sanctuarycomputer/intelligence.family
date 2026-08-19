@@ -3,10 +3,16 @@ import LeafIcon from '@/components/LeafIcon';
 import DeckPage from '../components/DeckPage';
 import Ref from '../components/Ref';
 import MediaGallery from '../components/MediaGallery';
-import { Band, CardsPage, Split, Statement } from '../components/archetypes';
+import {
+  Band,
+  CardsPage,
+  Split,
+  Statement,
+  StatTiles,
+} from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 26;
 
 const coverLeafStyle = {
   width: '0.35em',
@@ -63,12 +69,18 @@ export function coverPage(gate: ReactNode): ReactNode {
 const page3 = (
   <DeckPage key={2} n={2} total={TOTAL}>
     <Split
-      title="Local AI (finally) runs on consumer hardware"
+      title="AI finally runs on consumer hardware"
       sub="Open models are trailing just months behind the best."
       band="Open models already rival the frontier. Soon they'll be indistinguishable."
       media={
         <MediaGallery
           slides={[
+            {
+              src: '/research/family-together.png',
+              alt: 'Illustration of a family gathered together around the Family Book device',
+              caption:
+                'We partnered with Mozilla Foundation to publish our research in February 2026. It was received with overwhelmingly positive reception on social media - at a time when AI devices were a focus of vitriol online.',
+            },
             {
               src: '/opportunity/prototype-photo.jpg',
               alt: "Our prototype's compute board, held in one hand above a keyboard",
@@ -80,12 +92,6 @@ const page3 = (
               alt: 'A Snapdragon X Elite chip mounted in a clear acrylic block, lying on grass',
               caption:
                 'Snapdragon X Elite: newly released consumer silicon capable of running local models',
-            },
-            {
-              src: '/research/family-together.png',
-              alt: 'Illustration of a family gathered together around the Family Book device',
-              caption:
-                'We partnered with Mozilla Foundation to publish our research in February 2026. It was received with overwhelmingly positive reception on social media - at a time when AI devices were a focus of vitriol online.',
             },
           ]}
         />
@@ -108,14 +114,12 @@ const page2 = (
       title="The GPU is coming home"
       sub="AI compute is moving into the house, the way the personal computer did."
       media={
-        <div className="deck-media-box">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/opportunity/compute-eras.png"
-            alt="Six eras of compute: mainframe, home computer, and laptop above; on-prem server, cloud data center, and the home inference server (2027+) below"
-            className="deck-slide-media"
-          />
-        </div>
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/opportunity/gpu-coming-home.png"
+          alt="A family carries a small glowing compute cube through their front door at golden hour, their daughter holding the door open, while a cold blue datacenter sits small and distant on the horizon behind them"
+          className="deck-slide-media"
+        />
       }
     >
       Compute has made this trip before.{' '}
@@ -128,11 +132,123 @@ const page2 = (
   </DeckPage>
 );
 
-const page4 = (
+const LINEAGE_CARDS = [
+  {
+    heading: 'PGP',
+    meta: '1991 · Boulder, Colorado',
+    body: (
+      <>
+        Phil Zimmermann put private mail in civilian hands, then beat the US
+        export case against it: code is protected American speech.
+      </>
+    ),
+  },
+  {
+    heading: 'Tor',
+    meta: '2002 · Washington, DC',
+    body: (
+      <>
+        Onion routing, invented at the US Naval Research Laboratory, made
+        private reading possible anywhere on earth.
+      </>
+    ),
+  },
+  {
+    heading: 'Signal',
+    meta: '2014 · San Francisco',
+    body: (
+      <>
+        Started by Moxie Marlinspike in SF, Signal made private conversation the
+        default for hundreds of millions.
+        <Ref k="signal-protocol-docs" />
+      </>
+    ),
+  },
+  {
+    heading: 'Family Intelligence',
+    meta: '2027 · San Francisco & New York City',
+    body: (
+      <>
+        <strong>Private memory &amp; inference</strong> for the household,
+        office and beyond. Designed &amp; engineered in SF &amp; NYC.
+      </>
+    ),
+  },
+];
+
+const problemPage = (
   <DeckPage key={4} n={4} total={TOTAL}>
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/opportunity/home-at-dusk.png"
+      alt="A family home at dusk, windows glowing warm: someone reads in bed upstairs while two people talk over the kitchen table below"
+      className="deck-bg-art"
+      style={{ width: 'clamp(546px, 60vw, 1144px)' }}
+    />
+    <div className="deck-bg-copy" style={{ maxWidth: '700px' }}>
+      <CardsPage
+        columns={1}
+        title="The most valuable context is what you'd never upload"
+        sub="The home holds the richest context any AI could use."
+        cards={[
+          {
+            heading: 'What households want',
+            art: (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src="/opportunity/icons/heart.png"
+                alt=""
+                className="deck-icon-small"
+              />
+            ),
+            body: (
+              <ul className="deck-list">
+                <li>A system that actually knows the household</li>
+                <li>Memory that spans years, not sessions</li>
+                <li>Answers grounded in what was really said</li>
+                <li>Something the least technical person can use</li>
+              </ul>
+            ),
+          },
+          {
+            heading: 'But families will resist',
+            art: (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src="/opportunity/icons/close.png"
+                alt=""
+                className="deck-icon-small"
+              />
+            ),
+            body: (
+              <ul className="deck-list">
+                <li>
+                  Sending intimate stories &amp; household audio to a
+                  third-party cloud
+                </li>
+                <li>
+                  Trusting a business who intends to monetize or train on their
+                  data
+                </li>
+                <li>
+                  Accepting a privacy policy they&rsquo;ll never read and hope
+                  for the best
+                </li>
+                <li>Needing connectivity for a device in their kitchen</li>
+              </ul>
+            ),
+          },
+        ]}
+      />
+    </div>
+  </DeckPage>
+);
+
+const page4 = (
+  <DeckPage key={5} n={5} total={TOTAL}>
     <Statement
       title="7 in 10 Americans don't trust big tech's AI"
-      sub="But today, there's no alternative."
+      sub="We're building the only AI platform you can trust (and hold)."
     >
       Pew measured America&rsquo;s growing disdain for big tech&rsquo;s AI in
       June 2026.
@@ -153,65 +269,6 @@ const page4 = (
   </DeckPage>
 );
 
-const problemPage = (
-  <DeckPage key={5} n={5} total={TOTAL}>
-    <CardsPage
-      columns={2}
-      title="The most valuable context is what you'll never upload"
-      sub="The home holds the richest, longest-running, highest-signal context any AI could use."
-      cards={[
-        {
-          heading: 'What households want',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/opportunity/icons/heart.png"
-              alt=""
-              className="deck-icon-small"
-            />
-          ),
-          body: (
-            <ul className="deck-list">
-              <li>A system that actually knows the household</li>
-              <li>Memory that spans years, not sessions</li>
-              <li>Answers grounded in what was really said</li>
-              <li>Something the least technical person can use</li>
-            </ul>
-          ),
-        },
-        {
-          heading: 'But families will resist',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/opportunity/icons/close.png"
-              alt=""
-              className="deck-icon-small"
-            />
-          ),
-          body: (
-            <ul className="deck-list">
-              <li>
-                Sending intimate stories &amp; household audio to a third-party
-                cloud
-              </li>
-              <li>
-                Trusting a business who intends to monetize or train on their
-                data
-              </li>
-              <li>
-                Accepting a privacy policy they&rsquo;ll never read and hope for
-                the best
-              </li>
-              <li>Needing connectivity for a device in their kitchen</li>
-            </ul>
-          ),
-        },
-      ]}
-    />
-  </DeckPage>
-);
-
 const page5 = (
   <DeckPage key={6} n={6} total={TOTAL}>
     <Split
@@ -223,15 +280,28 @@ const page5 = (
           <div className="grid grid-cols-2 gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              src="/opportunity/friend-poster.webp"
+              alt="friend.com's subway poster defaced in red marker: 'Go make real friends', 'THIS IS SURVEILLANCE'"
+              className="deck-screenshot-tile"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/opportunity/family-book-shelf.png"
+              alt="The Family Book prototype held open like a leather folio on a bookshelf, showing the Add to Family Tree screen"
+              className="deck-screenshot-tile"
+              style={{ objectPosition: 'center' }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/opportunity/friend-comments.png"
               alt="Instagram comments on friend.com's pendant: 'AI IS NOT YOUR FRIEND', 'Disgusting', 'This Black Mirror type product. Ew'"
-              className="deck-screenshot"
+              className="deck-screenshot-tile"
             />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/opportunity/fi-comments.png"
               alt="Instagram comments on the Family Intelligence research: 'LOVE THIS!', 'Brilliant idea', 'Small local AI is the future!'"
-              className="deck-screenshot"
+              className="deck-screenshot-tile"
             />
           </div>
           <span className="deck-media-caption">
@@ -253,8 +323,122 @@ const page5 = (
   </DeckPage>
 );
 
-const page7 = (
+const demandPage = (
   <DeckPage key={7} n={7} total={TOTAL}>
+    <Statement
+      title="Consumers will happily pay for privacy"
+      sub="Demand for local AI & privacy-preserving systems is newly possible and growing fast."
+    />
+    <StatTiles
+      stacked
+      tiles={[
+        {
+          value: '~9M',
+          label: (
+            <>
+              People running models locally with Ollama, the hard way
+              <Ref k="ollama" />
+            </>
+          ),
+        },
+        {
+          value: 'Sold out',
+          label: (
+            <>
+              NVIDIA&rsquo;s $3,999 DGX Spark hobbyist AI machine sold out in
+              hours
+              <Ref k="dgx-spark-soldout" />
+            </>
+          ),
+        },
+        {
+          value: '10M+',
+          label: (
+            <>
+              Users on Proton Lumo, the private ChatGPT alternative, within a
+              year of launch
+              <Ref k="lumo-10m" />
+            </>
+          ),
+        },
+        {
+          value: '100M+',
+          label: (
+            <>
+              Proton accounts across mail, VPN, and storage
+              <Ref k="proton-nonprofit" />
+            </>
+          ),
+        },
+        {
+          value: '$438M',
+          label: (
+            <>
+              1Password ARR, up 32% year over year
+              <Ref k="1password-arr" />
+            </>
+          ),
+        },
+        {
+          value: '$61B+',
+          label: (
+            <>
+              Global consumer VPN market, billed monthly to ordinary households
+              <Ref k="vpn-market" />
+            </>
+          ),
+        },
+      ]}
+    />
+    <Band narrow>
+      As the gap between frontier and open-weight models narrows, privacy stops
+      being a tradeoff, and becomes the moat.
+    </Band>
+  </DeckPage>
+);
+
+const lineagePage = (
+  <DeckPage key={8} n={8} total={TOTAL}>
+    <Statement
+      title={
+        <>
+          Privacy-centric technology is liberatory, empowering
+          <br />
+          &amp; distinctly American
+        </>
+      }
+      sub="A contribution to the USA's lineage of privacy preserving technology."
+    />
+    <div className="mt-10">
+      <div className="grid md:grid-cols-4 auto-rows-fr gap-3">
+        {LINEAGE_CARDS.map(card => (
+          <div
+            key={card.heading}
+            className="deck-card h-full rounded-[8px] bg-fi-green-200 deck-card-quote p-4"
+          >
+            <div className="deck-card-quote-main">
+              <h4>{card.heading}</h4>
+              <p className="deck-card-body-tight">{card.body}</p>
+            </div>
+            <div className="deck-tier-footer">
+              <span className="deck-tier-meta">{card.meta}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <Band narrow>
+      <em>
+        &ldquo;The right of the people to be secure in their&hellip; houses,
+        papers, and effects.&rdquo;
+      </em>{' '}
+      The Fourth Amendment, 1791.
+    </Band>
+  </DeckPage>
+);
+
+const page7 = (
+  <DeckPage key={9} n={9} total={TOTAL}>
     <Statement
       splash
       title="Family Intelligence will be the first trusted brand to run local inference in the home"
@@ -266,8 +450,10 @@ export const ACT1_PAGES: ReactNode[] = [
   coverPage(null),
   page3,
   page2,
-  page4,
   problemPage,
+  page4,
   page5,
+  demandPage,
+  lineagePage,
   page7,
 ];

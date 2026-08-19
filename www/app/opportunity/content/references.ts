@@ -337,6 +337,39 @@ export const REFERENCES: Record<string, Reference> = {
     date: '2026-06',
     url: 'https://x.com/jietang/status/2067580270078030088',
   },
+  // Appended for the demand-validation and protocol pages. Append-only.
+  'vpn-market': {
+    source: 'SQ Magazine, VPN statistics',
+    date: '2026',
+    url: 'https://sqmagazine.co.uk/vpn-statistics/',
+    note: 'verify',
+  },
+  'lumo-10m': {
+    source: 'Wikipedia, Lumo (AI assistant)',
+    date: '2026',
+    url: 'https://en.wikipedia.org/wiki/Lumo_(AI_assistant)',
+    note: 'verify',
+  },
+  'dgx-spark-soldout': {
+    source: 'Network World',
+    date: '2025-10',
+    url: 'https://www.networkworld.com/article/4072947/nvidias-dgx-spark-desktop-supercomputer-is-on-sale-now-but-hard-to-find-2.html',
+  },
+  'signal-protocol-docs': {
+    source: 'Signal, protocol documentation',
+    date: '2026',
+    url: 'https://signal.org/docs/',
+  },
+  'proton-key-transparency': {
+    source: 'Proton, Key Transparency whitepaper',
+    date: '2025',
+    url: 'https://proton.me/files/proton_keytransparency_whitepaper.pdf',
+  },
+  '1password-whitepaper': {
+    source: '1Password Security Design white paper',
+    date: '2025',
+    url: 'https://1passwordstatic.com/files/security/1password-white-paper.pdf',
+  },
 };
 
 const ORDER = Object.keys(REFERENCES);

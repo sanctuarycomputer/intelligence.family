@@ -304,19 +304,19 @@ export function StatTiles({
   tiles,
   stacked,
 }: {
-  tiles: Array<{ value: string; label: string }>;
+  tiles: Array<{ value: string; label: ReactNode }>;
   /** One tile per row instead of a horizontal strip. */
   stacked?: boolean;
 }) {
   return (
     <div
-      className="deck-stat-tiles mt-6 grid gap-4"
+      className={`deck-stat-tiles mt-6 grid ${stacked ? 'gap-3 deck-stat-tiles-stacked' : 'gap-4'}`}
       style={{
         gridTemplateColumns: stacked ? '1fr' : `repeat(${tiles.length}, 1fr)`,
       }}
     >
-      {tiles.map(tile => (
-        <div key={tile.label} className="deck-stat-tile">
+      {tiles.map((tile, i) => (
+        <div key={`${tile.value}-${i}`} className="deck-stat-tile">
           <div className="deck-stat-tile-value">{tile.value}</div>
           <div className="deck-stat-tile-label">{tile.label}</div>
         </div>

@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
-import { CardsPage, StatTiles, Statement } from '../components/archetypes';
+import Ref from '../components/Ref';
+import { Band, CardsPage, StatTiles, Statement } from '../components/archetypes';
 import { orderedReferences } from './references';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 24;
+const TOTAL = 26;
 // Appendix pages continue the page ids past the core deck, but the footer
 // counter stays unnumbered so nobody reads them as pages 27 of 26.
 const FIRST = TOTAL + 1;
@@ -225,9 +226,78 @@ const baseCasePage = (
   </DeckPage>
 );
 
-const sourcesPage = (
+const platformLicensingPage = (
   <DeckPage key={FIRST + 5} n={FIRST + 5} total={TOTAL}>
-    <Statement title="A5 · Sources" sub="Every figure in this deck, linked." />
+    <Statement
+      title="A5 · Platform licensing"
+      sub="Our platform is a compounding business. We anticipate three key modes to help partners integrate our software."
+    />
+    <div className="grid md:grid-cols-2 gap-10 items-start">
+      <table className="deck-plan-table">
+        <thead>
+          <tr>
+            <th>Mode</th>
+            <th>Pricing</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            ['Enterprise deployment & implementation', '$150K ACV + $175K'],
+            ['OEM embedded royalty', '$5 / device'],
+            ['Forward-deployed engineering', 'Time & materials'],
+          ].map(row => (
+            <tr key={row[0]}>
+              {row.map((cell, i) => (
+                <td key={i}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <table className="deck-plan-table">
+        <thead>
+          <tr>
+            <th>Modelled licensing build, $mm</th>
+            <th>Y3</th>
+            <th>Y4</th>
+            <th>Y5</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            ['Platform license', '0.4', '2.2', '6.5'],
+            ['Implementation services', '0.9', '3.5', '7.0'],
+            ['OEM royalty', '-', '0.6', '5.6'],
+            ['Total licensing', '1.3', '6.3', '19.2'],
+            ['% of total revenue', '8%', '16%', '24%'],
+          ].map(row => (
+            <tr key={row[0]}>
+              {row.map((cell, i) => (
+                <td key={i}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p className="deck-body">
+      Licenses bill annually in advance, at a 90% margin; implementation
+      services run through our agency partner at 20%. Android proves this thesis
+      at 3B+ active devices.
+      <Ref k="android-3b" /> Qualcomm&rsquo;s licensing arm did $5.6B last year
+      at a 72% pre-tax margin.
+      <Ref k="qualcomm-qtl" />
+    </p>
+    <Band narrow>
+      Sonos, Dyson, and LG would never build this stack... but they will need to
+      license it.
+    </Band>
+  </DeckPage>
+);
+
+const sourcesPage = (
+  <DeckPage key={FIRST + 6} n={FIRST + 6} total={TOTAL}>
+    <Statement title="A6 · Sources" sub="Every figure in this deck, linked." />
     <ol className="deck-sources mt-10">
       {orderedReferences().map(([key, ref], i) => (
         <li key={key}>
@@ -252,5 +322,6 @@ export const APPENDIX_PAGES: ReactNode[] = [
   baseCasePage,
   scenariosPage,
   methodologyPage,
+  platformLicensingPage,
   sourcesPage,
 ];
