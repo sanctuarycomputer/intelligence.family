@@ -5,14 +5,14 @@ import Ref from '../components/Ref';
 import {
   Band,
   BigStat,
-  EvidenceGrid,
+  CardsPage,
   PricingTiers,
   Split,
   Statement,
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+const TOTAL = 25;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
@@ -90,18 +90,12 @@ const conveniencePage = (
     />
     <div className="deck-bg-copy deck-bg-copy-narrow">
       <Statement
-        title={
-          <>
-            Convenience of the cloud.
-            <br />
-            Privacy of the room.
-          </>
-        }
+        title="Convenience of the cloud. Privacy of the room."
         sub="Local-first models offer the best of both worlds."
       >
         <strong>
-          Opt-in networking modes allow local AI agents to pull context from
-          the public internet:
+          Opt-in networking modes allow local AI agents to pull context from the
+          public internet:
         </strong>{' '}
         connect your Google Calendar &amp; email, and access web search,
         weather, maps, and any resource on the internet.
@@ -155,59 +149,73 @@ const contextPage = (
 
 const page12 = (
   <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
-    <PricingTiers
-      title="One device becomes a family of them"
-      sub="The flagship device ships first, every future SKU runs the same evolving stack."
-      tiers={[
-        {
-          name: 'Flagship',
-          price: '$899',
-          body: (
-            <>
-              The whole-home device. Premium, heirloom-grade object carrying the
-              inference runtime and the household graph.
-            </>
-          ),
-          meta: 'Launch',
-        },
-        {
-          name: 'Companion',
-          price: '$499',
-          body: (
-            <>
-              Smaller second unit for other rooms and less technical family.
-              Syncs end-to-end with the flagship.
-            </>
-          ),
-          meta: '+12 months',
-        },
-        {
-          name: 'Professional',
-          price: '$1,999',
-          body: (
-            <>
-              Category-tuned for the workplace: array mics, multi-speaker
-              separation, long sessions. Same runtime, different use case.
-            </>
-          ),
-          meta: 'Phase 2',
-        },
-        {
-          name: 'Backups & Family Network',
-          price: '$9/mo',
-          body: (
-            <>
-              Optional e2e encrypted archive we cannot open, plus apps for
-              far-away family. 1Password and Proton run profitable subscriptions
-              on the same promise.
-              <Ref k="1password-arr" />
-              <Ref k="proton-nonprofit" />
-            </>
-          ),
-          meta: 'Attach ~40%',
-        },
-      ]}
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/opportunity/device-family.png"
+      alt="Three rounded devices posed together on a wooden sideboard like a family portrait: a large glowing yellow cube, a small matching one beside it, and a taller sage-green one, among books, a plant, and a framed picture of a house"
+      className="deck-bg-art"
+      style={{ width: 'clamp(440px, 46vw, 900px)' }}
     />
+    {/* Half-weighted to the top: a fixed bottom margin lifts the centered
+        block halfway toward the mb-auto position. */}
+    <div
+      className="deck-bg-copy"
+      style={{ marginBottom: 'clamp(120px, 24dvh, 260px)' }}
+    >
+      <PricingTiers
+        title="One device becomes a family of them"
+        sub="The flagship device ships first, every future SKU runs the same evolving stack. All connected via the private family network."
+        tiers={[
+          {
+            name: 'Flagship',
+            price: '$899',
+            body: (
+              <>
+                The whole-home device. Premium, heirloom-grade object carrying
+                the inference runtime and the household graph.
+              </>
+            ),
+            meta: 'Launch',
+          },
+          {
+            name: 'Companion',
+            price: '$499',
+            body: (
+              <>
+                Smaller second unit for other rooms and less technical family.
+                Syncs end-to-end with the flagship.
+              </>
+            ),
+            meta: '+12 months',
+          },
+          {
+            name: 'Professional',
+            price: '$1,999',
+            body: (
+              <>
+                Category-tuned for the workplace: array mics, multi-speaker
+                separation, long sessions. Same runtime, different use case.
+              </>
+            ),
+            meta: 'Phase 2',
+          },
+          {
+            name: 'Backups & Family Network',
+            price: '$9/mo',
+            body: (
+              <>
+                Optional e2e encrypted archive we cannot open, plus apps for
+                far-away family. 1Password and Proton run profitable
+                subscriptions on the same promise.
+                <Ref k="1password-arr" />
+                <Ref k="proton-nonprofit" />
+              </>
+            ),
+            meta: 'Attach ~40%',
+          },
+        ]}
+      />
+    </div>
   </DeckPage>
 );
 
@@ -240,48 +248,72 @@ const page10 = (
 
 const page11 = (
   <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
-    <EvidenceGrid
-      title="Families already pay for this"
-      sub="tonies did €630M in revenue last year. Life360 is a $4.5B public company."
-      cards={[
-        {
-          heading: 'tonies did €630M',
-          body: (
-            <>
-              tonies grew revenue 31% to €630M in FY2025, on a box and its
-              figurines.
-              <Ref k="tonies-fy2025" />{' '}
-              <strong>
-                Family hardware with a recurring layer is a public-company
-                business.
-              </strong>
-            </>
-          ),
-        },
-        {
-          heading: 'Life360 is worth $4.5B',
-          body: (
-            <>
-              Life360 did $489.5M in FY2025 revenue across roughly 98M monthly
-              users, and the market values it near $4.5B.
-              <Ref k="life360-q1" />
-            </>
-          ),
-        },
-        {
-          heading: 'Ancestry and StoryWorth',
-          body: (
-            <>
-              Blackstone bought Ancestry for $4.7B in 2020.
-              <Ref k="ancestry-blackstone" /> StoryWorth reports over 1M printed
-              books, bootstrapped.
-              <Ref k="storyworth" /> We unify the practice these products offer
-              piecemeal.
-            </>
-          ),
-        },
-      ]}
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/opportunity/family-shelf.png"
+      alt="A warm home shelf still-life: a glowing audio box with toy figurines, a framed family tree, an open family memoir book, a phone showing a location map with glowing dots, and a child's drawing pinned to the wall"
+      className="deck-bg-art"
+      style={{
+        width: 'clamp(600px, 65vw, 1248px)',
+        right: 'auto',
+        left: 'calc(var(--container-padding) * -0.5)',
+        transform: 'scaleX(-1)',
+      }}
     />
+    <div
+      className="deck-bg-copy"
+      style={{ maxWidth: '700px', marginLeft: 'auto' }}
+    >
+      <CardsPage
+        columns={1}
+        title="Families already pay for this"
+        sub={
+          <>
+            tonies did &euro;630M in revenue last year.
+            <br />
+            Life360 is a $4.5B public company.
+          </>
+        }
+        cards={[
+          {
+            heading: 'tonies did €630M',
+            body: (
+              <>
+                tonies grew revenue 31% to €630M in FY2025, on a box and its
+                figurines.
+                <Ref k="tonies-fy2025" />{' '}
+                <strong>
+                  Family hardware with a recurring layer is a public-company
+                  business.
+                </strong>
+              </>
+            ),
+          },
+          {
+            heading: 'Life360 is worth $4.5B',
+            body: (
+              <>
+                Life360 did $489.5M in FY2025 revenue across roughly 98M monthly
+                users, and the market values it near $4.5B.
+                <Ref k="life360-q1" />
+              </>
+            ),
+          },
+          {
+            heading: 'Ancestry and StoryWorth',
+            body: (
+              <>
+                Blackstone bought Ancestry for $4.7B in 2020.
+                <Ref k="ancestry-blackstone" /> StoryWorth reports over 1M
+                printed books, bootstrapped.
+                <Ref k="storyworth" /> We unify the practice these products
+                offer piecemeal.
+              </>
+            ),
+          },
+        ]}
+      />
+    </div>
   </DeckPage>
 );
 

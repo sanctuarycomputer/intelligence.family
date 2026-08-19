@@ -370,6 +370,18 @@ export const REFERENCES: Record<string, Reference> = {
     date: '2025',
     url: 'https://1passwordstatic.com/files/security/1password-white-paper.pdf',
   },
+  // Appended for the lineage cards. Append-only.
+  'pgp-symantec': {
+    source: 'Wikipedia, Pretty Good Privacy (Symantec acquisition)',
+    date: '2010',
+    url: 'https://en.wikipedia.org/wiki/Pretty_Good_Privacy',
+  },
+  'firefox-users': {
+    source: 'Wikipedia, Firefox',
+    date: '2012',
+    url: 'https://en.wikipedia.org/wiki/Firefox',
+    note: 'verify',
+  },
 };
 
 const ORDER = Object.keys(REFERENCES);

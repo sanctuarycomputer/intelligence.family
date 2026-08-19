@@ -23,8 +23,8 @@ describe('opportunity deck copy contract', () => {
       "The most valuable context is what you'd never upload",
       "7 in 10 Americans don't trust big tech's AI",
       'Local architecture wins consumer sentiment',
-      'Consumers will happily pay for privacy',
-      'Privacy-centric technology is liberatory, empowering',
+      'Consumers happily pay for privacy',
+      'Privacy-centric technology is liberatory, empowering & distinctly American',
       'Family Intelligence will be the first trusted brand to run local inference in the home',
     ];
     const idx = titles.map(t => src.indexOf(t));
@@ -55,7 +55,7 @@ describe('opportunity deck copy contract', () => {
     const titles = [
       'Our first device is for families',
       'Your own family vault',
-      'Convenience of the cloud.',
+      'Convenience of the cloud. Privacy of the room.',
       'A context window for smart homes',
       'One device becomes a family of them',
       'Home hubs are a proven category.',
@@ -75,22 +75,21 @@ describe('opportunity deck copy contract', () => {
       'The device solves age old family archive problems overnight.',
       'Inference for every IoT device on the network.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
-      'tonies did €630M in revenue last year. Life360 is a $4.5B public company.',
+      'Life360 is a $4.5B public company.',
       'Each sale covers its own customer acquisition before subscription starts.',
-      'The flagship device ships first, every future SKU runs the same evolving stack.',
+      'The flagship device ships first, every future SKU runs the same evolving stack. All connected via the private family network.',
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
     }
   });
 
-  it('act 3 carries the four approved titles in order', () => {
+  it('act 3 carries the three approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const titles = [
       'But under the hood...',
       'Private AI is becoming crucial for business',
-      'Our stack',
-      'The missing privacy framework for local AI',
+      'Our stack deploys anywhere',
     ];
     // The Android title deliberately repeats, so scan forward from the
     // previous match instead of using absolute indexOf positions.
@@ -101,12 +100,11 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 3 carries the four approved subtitles', () => {
+  it('act 3 carries the three approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const subs = [
-      'The go-to SDK for private inference, built on Linux',
+      'The go-to SDK for private inference, model &amp; chipset agnostic, built on Linux',
       'Today, there is no purpose made privacy stack for running local models.',
-      'That is... basically everywhere.',
       'Here&rsquo;s where our tech goes after winning in the home.',
     ];
     for (const sub of subs) {
@@ -170,7 +168,7 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('numbers core pages 1..26 contiguously in export order', () => {
+  it('numbers core pages 1..25 contiguously in export order', () => {
     const acts = ['act1.tsx', 'act2.tsx', 'act3.tsx', 'act4.tsx'];
     const ns = acts.flatMap(f => {
       const src = readFileSync(path.join(dir, f), 'utf8');
@@ -179,7 +177,7 @@ describe('opportunity deck copy contract', () => {
       );
     });
     expect([...ns].sort((a, b) => a - b)).toEqual(
-      Array.from({ length: 26 }, (_, i) => i + 1)
+      Array.from({ length: 25 }, (_, i) => i + 1)
     );
   });
 
@@ -237,14 +235,14 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('exports 26 core pages and 7 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(26);
+  it('exports 25 core pages and 7 appendix pages', () => {
+    expect(ALL_PAGES).toHaveLength(25);
     expect(APPENDIX_PAGES).toHaveLength(7);
   });
 
-  it('sets every chrome counter against 26 pages', () => {
+  it('sets every chrome counter against 25 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 26;/);
+      expect(src, name).toMatch(/const TOTAL = 25;/);
     }
   });
 

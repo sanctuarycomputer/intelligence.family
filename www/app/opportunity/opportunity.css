@@ -161,6 +161,26 @@ section.deck-page[id] {
   background: rgba(215, 221, 212, 0.12);
 }
 
+/* The ragged svg fill (and the quote variant's transparent body) lets
+   background art bleed through; cards that sit over art need an opaque
+   backing so the art reads as underneath, not through. Any card inside a
+   bg-art copy layer gets the backing; the triple selector out-ranks the
+   .deck-card.deck-card-quote reset below. */
+.deck-bg-copy .deck-card,
+.deck-bg-copy .deck-tier,
+.deck-card.deck-card-opaque,
+.deck-card.deck-card-quote.deck-card-opaque {
+  background: var(--fi-green-100);
+  background-clip: padding-box;
+}
+/* Tablet-width desktops: the per-slide art sizes crowd the copy, so cap
+   the layer to a corner vignette. */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .deck-bg-art {
+    width: min(46vw, 440px) !important;
+  }
+}
+
 /* On the darker green-200 act backgrounds the green-200 fill vanishes;
    lift the cards to the lighter tone. */
 .deck-act-2 .deck-card,
@@ -1036,6 +1056,8 @@ section.deck-page[id] {
   position: absolute;
   right: calc(var(--container-padding) * -0.5);
   bottom: -2%;
+  /* Slides may override the width inline; the mobile rule below uses
+     !important so those overrides never leak onto small screens. */
   width: clamp(454px, 56vw, 1080px);
   max-height: 92%;
   object-fit: contain;
@@ -1053,8 +1075,13 @@ section.deck-page[id] {
   .deck-bg-art {
     position: static;
     transform: none;
-    width: 100%;
+    width: 100% !important;
     order: 2;
+  }
+  .deck-bg-copy {
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
   }
 }
 

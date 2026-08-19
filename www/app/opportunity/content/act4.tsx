@@ -12,11 +12,11 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+const TOTAL = 25;
 const ACT_CLASS = 'deck-act-4';
 
 const page22 = (
-  <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
     <Statement
       splash
       title="We've spent our careers deploying novel hardware, low-level infrastructure and custom operating systems"
@@ -25,7 +25,7 @@ const page22 = (
 );
 
 const page24 = (
-  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={22} n={22} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="The team"
@@ -137,7 +137,7 @@ const page24 = (
 );
 
 const page23 = (
-  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={23} n={23} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       title="Hard questions"
@@ -246,7 +246,7 @@ const page23 = (
 );
 
 const page25 = (
-  <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={24} n={24} total={TOTAL} actClass={ACT_CLASS}>
     <DiagramPage
       title="Timeline"
       sub="Round closes, contract manufacturer in the room, shelves by Christmas 2027."
@@ -256,45 +256,53 @@ const page25 = (
 );
 
 const page26 = (
-  <DeckPage key={26} n={26} total={TOTAL} actClass={ACT_CLASS}>
-    <Statement
-      title="We're raising $15M"
-      sub="Shipping out and ready to gift by Christmas 2027."
-    >
-      Our research found no funded local-first home hub, in a year when AI took
-      roughly half of global venture funding.
-      <Ref k="crunchbase-ai-half" />
-      <br />
-      <br />
-      This $15M gets us from user testing and design to a certified,
-      manufactured, shipped product, and reaches operating profitability
-      without a second equity round.
-    </Statement>
-    <Band narrow>
-      It&rsquo;s a foregone conclusion that the future home (and office) will
-      contain countless GPUs. No one owns this market today, and that window is
-      closing fast.
-    </Band>
-    <div className="mt-8 max-w-xl divide-y divide-fi-green-300">
-      {[
-        ['Target raise', '$15.0M'],
-        ['Capacity to', '$30.0M'],
-        ['Instrument', 'Priced equity'],
-        ['First shipment', 'Christmas 2027'],
-        ['Follow-on equity modelled', 'None'],
-      ].map(([label, value]) => (
-        <div
-          key={label}
-          className="flex items-baseline justify-between py-2 text-[15px]"
-        >
-          <span className="deck-ledger-label">{label}</span>
-          <span className="deck-ledger-value">{value}</span>
-        </div>
-      ))}
+  <DeckPage key={25} n={25} total={TOTAL} actClass={ACT_CLASS}>
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/opportunity/christmas-morning.png"
+      alt="A family on Christmas morning: a boy holds up the glowing Family Book device fresh from its wrapping while his younger sibling asks it a question, their parents lean in, and their grandfather watches from an armchair with a mug"
+      className="deck-bg-art"
+      style={{ width: 'clamp(545px, 67vw, 1296px)' }}
+    />
+    <div className="deck-bg-copy">
+      <Statement
+        title="We're raising $15M"
+        sub="Shipping out and ready to gift by Christmas 2027."
+      >
+        Our research found no funded local-first home hub, in a year when AI
+        took roughly half of global venture funding.
+        <Ref k="crunchbase-ai-half" />
+        <br />
+        <br />
+        This $15M gets us from user testing and design to a certified,
+        manufactured, shipped product, and reaches operating profitability
+        without a second equity round.
+      </Statement>
+      <Band narrow>
+        It&rsquo;s a foregone conclusion that the future home (and office) will
+        contain countless GPUs. No one owns this market today, and that window
+        is closing fast.
+      </Band>
+      <div className="mt-8 max-w-xl divide-y divide-fi-green-300">
+        {[
+          ['Target raise', '$15.0M'],
+          ['Instrument', 'Priced equity'],
+          ['First shipment', 'Christmas 2027'],
+          ['Follow-on equity modelled', 'None'],
+        ].map(([label, value]) => (
+          <div
+            key={label}
+            className="flex items-baseline justify-between py-2 text-[15px]"
+          >
+            <span className="deck-ledger-label">{label}</span>
+            <span className="deck-ledger-value">{value}</span>
+          </div>
+        ))}
+      </div>
+      <p className="deck-body">
+        If you&rsquo;d like a demo, email us at <MailtoCta />.
+      </p>
     </div>
-    <p className="deck-body">
-      If you&rsquo;d like a demo, email us at <MailtoCta />.
-    </p>
   </DeckPage>
 );
 

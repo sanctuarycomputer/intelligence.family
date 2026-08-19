@@ -12,7 +12,7 @@ import {
 } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+const TOTAL = 25;
 
 const coverLeafStyle = {
   width: '0.35em',
@@ -139,17 +139,21 @@ const LINEAGE_CARDS = [
     body: (
       <>
         Phil Zimmermann put private mail in civilian hands, then beat the US
-        export case against it: code is protected American speech.
+        export case against it: code is protected American speech. PGP later
+        sold for <strong>$300M</strong>.
+        <Ref k="pgp-symantec" />
       </>
     ),
   },
   {
-    heading: 'Tor',
-    meta: '2002 · Washington, DC',
+    heading: 'Mozilla',
+    meta: '2004 · Mountain View, California',
     body: (
       <>
-        Onion routing, invented at the US Naval Research Laboratory, made
-        private reading possible anywhere on earth.
+        Firefox broke Microsoft&rsquo;s browser monopoly and took the
+        user-first web mainstream: roughly <strong>a third of the web</strong>{' '}
+        at its peak, and nearly <strong>half a billion users</strong>.
+        <Ref k="firefox-users" />
       </>
     ),
   },
@@ -158,8 +162,8 @@ const LINEAGE_CARDS = [
     meta: '2014 · San Francisco',
     body: (
       <>
-        Started by Moxie Marlinspike in SF, Signal made private conversation the
-        default for hundreds of millions.
+        Started by Moxie Marlinspike in SF, Signal made private conversation
+        the default for <strong>hundreds of millions</strong>.
         <Ref k="signal-protocol-docs" />
       </>
     ),
@@ -326,7 +330,7 @@ const page5 = (
 const demandPage = (
   <DeckPage key={7} n={7} total={TOTAL}>
     <Statement
-      title="Consumers will happily pay for privacy"
+      title="Consumers happily pay for privacy"
       sub="Demand for local AI & privacy-preserving systems is newly possible and growing fast."
     />
     <StatTiles
@@ -399,41 +403,49 @@ const demandPage = (
 
 const lineagePage = (
   <DeckPage key={8} n={8} total={TOTAL}>
-    <Statement
-      title={
-        <>
-          Privacy-centric technology is liberatory, empowering
-          <br />
-          &amp; distinctly American
-        </>
-      }
-      sub="A contribution to the USA's lineage of privacy preserving technology."
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img
+      src="/opportunity/american-porch.png"
+      alt="A clapboard front porch at sunset: an American flag on the post, a mailbox holding a wax-sealed letter, a rocking chair with a quilt, and the Family Book glowing on the porch table"
+      className="deck-bg-art"
+      style={{ width: 'clamp(440px, 46vw, 900px)' }}
     />
-    <div className="mt-10">
-      <div className="grid md:grid-cols-4 auto-rows-fr gap-3">
-        {LINEAGE_CARDS.map(card => (
-          <div
-            key={card.heading}
-            className="deck-card h-full rounded-[8px] bg-fi-green-200 deck-card-quote p-4"
-          >
-            <div className="deck-card-quote-main">
-              <h4>{card.heading}</h4>
-              <p className="deck-card-body-tight">{card.body}</p>
+    {/* Half-weighted to the top: a fixed bottom margin lifts the centered
+        block halfway toward the mb-auto position. */}
+    <div
+      className="deck-bg-copy"
+      style={{ marginBottom: 'clamp(120px, 24dvh, 260px)' }}
+    >
+      <Statement
+        title="Privacy-centric technology is liberatory, empowering & distinctly American"
+        sub="A contribution to the USA's lineage of privacy preserving technology."
+      />
+      <div className="mt-10">
+        <div className="grid md:grid-cols-4 auto-rows-fr gap-3">
+          {LINEAGE_CARDS.map(card => (
+            <div
+              key={card.heading}
+              className="deck-card deck-card-opaque h-full rounded-[8px] bg-fi-green-200 deck-card-quote p-4"
+            >
+              <div className="deck-card-quote-main">
+                <h4>{card.heading}</h4>
+                <p className="deck-card-body-tight">{card.body}</p>
+              </div>
+              <div className="deck-tier-footer">
+                <span className="deck-tier-meta">{card.meta}</span>
+              </div>
             </div>
-            <div className="deck-tier-footer">
-              <span className="deck-tier-meta">{card.meta}</span>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+      <Band narrow>
+        <em>
+          &ldquo;The right of the people to be secure in their&hellip; houses,
+          papers, and effects.&rdquo;
+        </em>{' '}
+        The Fourth Amendment, 1791.
+      </Band>
     </div>
-    <Band narrow>
-      <em>
-        &ldquo;The right of the people to be secure in their&hellip; houses,
-        papers, and effects.&rdquo;
-      </em>{' '}
-      The Fourth Amendment, 1791.
-    </Band>
   </DeckPage>
 );
 

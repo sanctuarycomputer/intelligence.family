@@ -7,7 +7,7 @@ const description =
 // Next.js replaces the parent openGraph/twitter wholesale (images do not
 // merge down), so re-declare the shared card here. Without this, scrapers
 // fall back to the largest in-page image for the share preview.
-const shareImage = '/research/fam-og-image.png';
+const shareImage = '/opportunity/og-opportunity.png';
 
 export const metadata: Metadata = {
   title,

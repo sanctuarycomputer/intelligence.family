@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import Ref from '../components/Ref';
-import { CardsPage, Ledger, Statement } from '../components/archetypes';
+import { Band, CardsPage, Statement } from '../components/archetypes';
 
 // Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+const TOTAL = 25;
 const ACT_CLASS = 'deck-act-3';
 
 const page17 = (
@@ -24,6 +24,49 @@ const page17 = (
   </DeckPage>
 );
 
+const INDUSTRIES = [
+  [
+    'Families & The Home',
+    'One hub per household, companions on every shelf',
+    '~$130B',
+  ],
+  [
+    'Office, Legal, & On-Prem',
+    'Meeting capture, privileged review, and document intelligence that never leaves the building',
+    '~$65B',
+  ],
+  [
+    'Healthcare & Clinics',
+    'Scribes, dictation, and records that never leave the building',
+    '~$30B',
+  ],
+  [
+    'Biometrics & Wearables',
+    'Health signals inferred on the device, not in a vendor cloud',
+    '~$90B',
+  ],
+  [
+    'Government & Defense',
+    'Air-gapped inference for the people who cannot use cloud AI',
+    '~$20B',
+  ],
+  [
+    'Agriculture & Industrial',
+    'Edge models on equipment, far from reliable connectivity',
+    '~$35B',
+  ],
+  [
+    'Schools & Childcare',
+    'Learning tools that keep children\u2019s data inside the school',
+    '~$10B',
+  ],
+  [
+    'Enterprise & Partnerships',
+    'Our stack licensed inside other brands\u2019 hardware',
+    '~$95B',
+  ],
+];
+
 const page19 = (
   <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
     <CardsPage
@@ -33,14 +76,6 @@ const page19 = (
       cards={[
         {
           heading: 'Local AI sidesteps impending regulation',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/opportunity/icons/notebook.png"
-              alt=""
-              className="deck-icon-dark"
-            />
-          ),
           body: (
             <>
               COPPA turns on gathering a child&rsquo;s information.
@@ -57,14 +92,6 @@ const page19 = (
         },
         {
           heading: 'Enterprises won’t risk leaking their IP',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/opportunity/icons/tree.png"
-              alt=""
-              className="deck-icon-dark"
-            />
-          ),
           body: (
             <>
               What a company asks AI reveals its roadmap: the deals being
@@ -79,14 +106,6 @@ const page19 = (
         {
           heading:
             'Low connectivity scenarios will require protected inference',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/opportunity/icons/battery.png"
-              alt=""
-              className="deck-icon-dark"
-            />
-          ),
           body: (
             <>
               Agents acting in the physical world (home, car, robotics,
@@ -98,14 +117,6 @@ const page19 = (
         },
         {
           heading: 'Inference economics invert at scale',
-          art: (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/opportunity/icons/lightning.png"
-              alt=""
-              className="deck-icon-dark"
-            />
-          ),
           body: (
             <>
               Cloud AI makes every query a billable event. Local inference flips
@@ -117,6 +128,24 @@ const page19 = (
         },
       ]}
     />
+    <div className="mt-6 grid md:grid-cols-2 gap-x-12">
+      {[INDUSTRIES.slice(0, 4), INDUSTRIES.slice(4)].map((column, i) => (
+        <div key={i} className="divide-y divide-fi-green-300">
+          {column.map(([label, note, value]) => (
+            <div
+              key={label}
+              className="flex items-center justify-between gap-4 py-1.5"
+            >
+              <span className="deck-ledger-label">
+                <strong>{label}</strong>
+                <span className="deck-ledger-note">{note}</span>
+              </span>
+              <span className="deck-tam">{value}</span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
   </DeckPage>
 );
 
@@ -125,8 +154,8 @@ const page18 = (
     <CardsPage
       columns={3}
       variant="quote"
-      title="Our stack"
-      sub="The go-to SDK for private inference, built on Linux &amp; written in Rust."
+      title="Our stack deploys anywhere"
+      sub="The go-to SDK for private inference, model &amp; chipset agnostic, built on Linux &amp; written in Rust."
       cards={[
         {
           heading: 'Trusted Execution Environment (TEE)',
@@ -193,137 +222,12 @@ const page18 = (
         },
       ]}
     />
+    <Band narrow>
+      After our technology is hardened in the home, our trusted brand deploys
+      the same stack for any device that runs local inference against
+      sensitive data.
+    </Band>
   </DeckPage>
 );
 
-const page22 = (
-  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
-    <Ledger
-      wide
-      title="The missing privacy framework for local AI"
-      sub={
-        <>
-          Model &amp; chipset agnostic software for any use case where
-          inference runs on private data.
-          <br />
-          That is... basically everywhere.
-        </>
-      }
-      rows={[
-        {
-          label: (
-            <>
-              <strong>Families & The Home</strong>
-              <span className="deck-ledger-note">
-                The wedge: one hub per household, companions on every shelf
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$130B</span>,
-        },
-        {
-          label: (
-            <>
-              <strong>Office & On-Prem</strong>
-              <span className="deck-ledger-note">
-                Meeting capture and document intelligence that never leaves the
-                building
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$40B</span>,
-        },
-        {
-          label: (
-            <>
-              <strong>Healthcare & Clinics</strong>
-              <span className="deck-ledger-note">
-                Private AI across the practice: scribes, dictation, and records
-                that never leave the building
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$30B</span>,
-        },
-        {
-          label: (
-            <>
-              <strong>Biometrics & Wearables</strong>
-              <span className="deck-ledger-note">
-                Health signals inferred on the device, not in a vendor cloud
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$90B</span>,
-        },
-        {
-          label: (
-            <>
-              <strong>Legal & Financial Back Office</strong>
-              <span className="deck-ledger-note">
-                Privileged review and reconciliation behind the firewall
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$25B</span>,
-        },
-        {
-          label: (
-            <>
-              <strong>Government & Defense</strong>
-              <span className="deck-ledger-note">
-                Air-gapped inference for the people who cannot use cloud AI
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$20B</span>,
-        },
-        {
-          label: (
-            <>
-              <strong>Agriculture & Industrial</strong>
-              <span className="deck-ledger-note">
-                Edge models on equipment, far from reliable connectivity
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$35B</span>,
-        },
-        {
-          label: (
-            <>
-              <strong>Schools & Childcare</strong>
-              <span className="deck-ledger-note">
-                Learning tools that keep children&rsquo;s data inside the school
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$10B</span>,
-        },
-        {
-          label: (
-            <>
-              <strong>Enterprise & Partnerships</strong>
-              <span className="deck-ledger-note">
-                Our stack licensed inside other brands&rsquo; hardware
-              </span>
-            </>
-          ),
-          value: <span className="deck-tam">~$95B</span>,
-        },
-      ]}
-    />
-    <p className="deck-caption-note">
-      Anchors: ~438,000 US law firms and ~85,000 accounting firms (ABA, US
-      Census, IBISWorld); ~900M connected home devices shipped annually (IDC).
-      Detail in the appendix.
-    </p>
-  </DeckPage>
-);
-
-export const ACT3_PAGES: ReactNode[] = [
-  page17,
-  page19,
-  page18,
-  page22,
-];
+export const ACT3_PAGES: ReactNode[] = [page17, page19, page18];
