@@ -327,6 +327,21 @@ export default function FundraisingClient({
                             across devices.
                           </p>
 
+                          <p className="large">
+                            <strong>
+                              Local AI is the best of both worlds.
+                            </strong>{' '}
+                            Going local doesn&apos;t mean giving up convenience:
+                            with the family&apos;s opt-in, local AI agents can
+                            pull remote context down from the public internet
+                            (the weather, web search, your calendar) and mesh it
+                            with the household&apos;s private ontology for a far
+                            more powerful experience. The most valuable context
+                            an AI can operate on is what you resist uploading -
+                            so we bring the internet to your data, (not the
+                            other way around).
+                          </p>
+
                           <div className="my-10">
                             <MediaRow
                               items={[
