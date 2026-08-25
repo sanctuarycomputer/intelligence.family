@@ -339,7 +339,11 @@ export default function FundraisingClient({
                             more powerful experience. The most valuable context
                             an AI can operate on is what you resist uploading -
                             so we bring the internet to your data, (not the
-                            other way around).
+                            other way around). And the family connects to the
+                            box remotely via slick native apps: the same
+                            experience AI users have come to expect from Claude
+                            or ChatGPT, backed by your own hardware instead of
+                            someone else&apos;s server.
                           </p>
 
                           <div className="my-10">

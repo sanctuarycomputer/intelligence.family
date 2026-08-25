@@ -41,8 +41,8 @@ describe('opportunity deck copy contract', () => {
       'starting with families.',
       'AI compute is moving into the house, the way the personal computer did.',
       'Open models are trailing just months behind the best.',
-      'Demand for local AI & privacy-preserving systems is newly possible and growing fast.',
-      "A contribution to the USA's proud lineage of empowering, pro-human technology.",
+      'Local AI is newly possible, and demand is growing fast.',
+      "The next entry in the USA's lineage of empowering technology.",
     ];
     for (const sub of subs) {
       expect(src, sub).toContain(sub);
@@ -70,7 +70,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, sensitive data, and a GPU in the living room.',
-      'Local-first models offer the best of both worlds.',
+      "Local-first models don't make you choose.",
       'The device solves age old family archive problems overnight.',
       'Inference for every IoT device on the network.',
       '600M+ Alexa devices sold, all of them cloud-dependent. Ours runs locally.',
@@ -103,7 +103,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act3.tsx'), 'utf8');
     const subs = [
       'The go-to SDK for private inference, model &amp; chipset agnostic, built on Linux',
-      'Today, there is no purpose made privacy stack for running local models.',
+      'Today, there is no purpose-made privacy stack for running local models.',
       'Here&rsquo;s where we go after winning in the home',
     ];
     for (const sub of subs) {

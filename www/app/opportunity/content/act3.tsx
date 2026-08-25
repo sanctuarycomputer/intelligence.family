@@ -37,7 +37,7 @@ const INDUSTRIES = [
   ],
   [
     'Healthcare & Clinics',
-    'Scribes, dictation, and records that never leave the building',
+    'Scribes, dictation, and records that stay inside the practice',
     '~$30B',
   ],
   [
@@ -72,7 +72,7 @@ const page19 = (
     <CardsPage
       columns={2}
       title="Private AI is becoming crucial for business"
-      sub="Today, there is no purpose made privacy stack for running local models."
+      sub="Today, there is no purpose-made privacy stack for running local models."
       cards={[
         {
           heading: 'Local AI sidesteps impending regulation',
@@ -223,9 +223,8 @@ const page18 = (
       ]}
     />
     <Band narrow>
-      After our technology is hardened in the home, our trusted brand deploys
-      the same stack for any device that runs local inference against
-      sensitive data.
+      After the stack is hardened in the home, we deploy it to any device that
+      runs local inference against sensitive data.
     </Band>
   </DeckPage>
 );

@@ -340,7 +340,7 @@ const demandPage = (
   <DeckPage key={6} n={6} total={TOTAL}>
     <Statement
       title="Consumers happily pay for privacy..."
-      sub="Demand for local AI & privacy-preserving systems is newly possible and growing fast."
+      sub="Local AI is newly possible, and demand is growing fast."
     />
     <StatTiles
       stacked
@@ -405,7 +405,7 @@ const demandPage = (
     />
     <Band narrow>
       As the gap between frontier and open-weight models narrows, privacy stops
-      being a tradeoff, and becomes the moat.
+      being a tradeoff.
     </Band>
   </DeckPage>
 );
@@ -423,10 +423,10 @@ const routingPage = (
       <CardsPage
         columns={1}
         title="& local AI won't sacrifice convenience"
-        sub="Enterprises already route AI by sensitivity: we're bringing similar patterns to consumer. Local & private are pure selling points."
+        sub="Enterprises already route AI by sensitivity: we're bringing similar patterns to consumer."
         cards={[
           {
-            heading: 'The routing is proven science',
+            heading: 'Prompt routing is well studied',
             body: (
               <>
                 UC Berkeley&rsquo;s RouteLLM keeps{' '}
@@ -443,14 +443,14 @@ const routingPage = (
             body: (
               <>
                 Sensitive data stays local by default, and only hard tasks
-                escalate. The driver was cost and compliance, not idealism:
-                routing everything to the cloud burns money on tasks small
+                escalate. Enterprises route to cut cost and meet compliance rules: sending
+              everything to the cloud burns money on tasks small
                 models handle fine.
               </>
             ),
           },
           {
-            heading: 'Local inference against the public internet',
+            heading: 'Local by default, internet by opt-in',
             body: (
               <>
                 We&rsquo;re a pure trust brand, so our default is a harder
@@ -486,7 +486,7 @@ const lineagePage = (
     >
       <Statement
         title="Privacy-centric technology is liberatory & distinctly American"
-        sub="A contribution to the USA's proud lineage of empowering, pro-human technology."
+        sub="The next entry in the USA's lineage of empowering technology."
       />
       <div className="mt-10">
         <div className="grid md:grid-cols-4 auto-rows-fr gap-3">

@@ -17,46 +17,48 @@ const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
   <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
-    <Statement
-      title="Our first device is for families"
-      sub="High emotional value, sensitive data, and a GPU in the living room."
-    >
-      Rich in stories, goals, birth certificates, wills, recipes and genetic
-      histories - families hold rich and precious records worth holding
-      carefully.
-      <br />
-      <br />
-      Today, LLMs can greatly reduce the massive friction to maintaining an
-      accurate family archive.{' '}
-      <strong>
-        But only if families feel safe sharing their most intimate data with the
-        system.
-      </strong>
-    </Statement>
-    <div className="mt-10 deck-media-row">
-      <span className="deck-video-portrait deck-video-frame">
-        <DeckVideo
-          src="/opportunity/device-playtest.mp4"
-          label="A family play-testing the device prototype"
-        />
-      </span>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/opportunity/device-cad.jpg"
-        alt="CAD render of the device enclosure: curved shell, tilted display, and the compute module with its cooler inside"
-        className="deck-video-landscape"
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/opportunity/device-photo.jpg"
-        alt="A child touching the prototype's screen on a kitchen counter"
-        className="deck-video-portrait"
-      />
+    <div className="grid md:grid-cols-2 gap-10 items-center">
+      <Statement
+        title="Our first device is for families"
+        sub="High emotional value, sensitive data, and a GPU in the living room."
+      >
+        Stories, goals, birth certificates, wills, recipes, genetic histories:
+        families keep records that deserve care.
+        <br />
+        <br />
+        LLMs remove most of the friction of keeping an accurate family archive.{' '}
+        <strong>
+          But only if families feel safe sharing their most intimate data with
+          the system.
+        </strong>
+      </Statement>
+      <div>
+        <div className="deck-mosaic">
+          <span className="deck-video-frame">
+            <DeckVideo
+              src="/opportunity/device-playtest.mp4"
+              poster="/opportunity/device-playtest-poster.jpg"
+              label="A family play-testing the device prototype"
+            />
+          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/opportunity/device-photo.jpg"
+            alt="A child touching the prototype's screen on a kitchen counter"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/opportunity/device-cad.jpg"
+            alt="CAD render of the device enclosure: curved shell, tilted display, and the compute module with its cooler inside"
+            className="deck-mosaic-wide"
+          />
+        </div>
+        <p className="deck-media-caption">
+          An early user testing prototype, dubbed the Family Trunk. Book a
+          meeting with us to see it working IRL.
+        </p>
+      </div>
     </div>
-    <p className="deck-media-caption">
-      An early user testing prototype, dubbed the Family Trunk. Book a meeting
-      with us to see it working IRL.
-    </p>
   </DeckPage>
 );
 
@@ -95,7 +97,7 @@ const conveniencePage = (
     <div className="deck-bg-copy deck-bg-copy-narrow">
       <Statement
         title="Convenience of the cloud. Privacy of the home."
-        sub="Local-first models offer the best of both worlds."
+        sub="Local-first models don't make you choose."
       >
         <strong>
           Opt-in networking modes allow local AI agents to pull context from the
@@ -139,7 +141,7 @@ const contextPage = (
       }
     >
       The house knows who the plumber is and what the family is saving for. As
-      homes become smarter, single purpose devices will need access to global
+      homes become smarter, single purpose devices will need access to shared
       inference that understands the home, and who lives there.
       <br />
       <br />
@@ -234,8 +236,8 @@ const page10 = (
       The AI gadget graveyard is littered with attempts to find new ways to
       interact.{' '}
       <strong>
-        Instead, we&rsquo;re entering a proven category with a novel new
-        architecture - already proven compelling to consumers.
+        Instead, we&rsquo;re entering a proven category with a new architecture
+        consumers already want.
       </strong>
       <br />
       <br />

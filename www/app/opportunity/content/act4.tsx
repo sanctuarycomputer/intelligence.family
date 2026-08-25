@@ -182,7 +182,7 @@ const page23 = (
           heading: 'Why this raise size?',
           body: (
             <>
-              No brand owns safe local AI yet, but that window is closing fast.
+              No brand owns safe local AI yet.
               We&rsquo;re building a full privacy-preserving software SDK and a
               hardware device by Christmas 2027. The capital goes to hiring fast
               and securing a blue chip contract manufacturer.
@@ -279,8 +279,7 @@ const page26 = (
         without a second equity round.
       </Statement>
       <Band narrow>
-        It&rsquo;s a foregone conclusion that the future home (and office) will
-        contain countless GPUs. No one owns this market today, and that window
+        The future home (and office) will run multiple GPUs. No one owns this market today, and that window
         is closing fast.
       </Band>
       <div className="mt-8 max-w-xl divide-y divide-fi-green-300">
