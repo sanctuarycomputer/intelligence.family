@@ -64,13 +64,13 @@ const page24 = (
             <>
               Previously CEO &amp; Co-Founder of USB Club, acquired in 2026.
               Started their career in product management and design at IBM iX,
-              developing new products for institutions including Morgan
-              Stanley, JPMorgan Chase, Citigroup, and Bank of America.
+              developing new products for institutions including Morgan Stanley,
+              JPMorgan Chase, Citigroup, and Bank of America.
               <br />
               <br />
-              More recently, founded and led the Advanced Concepts team at
-              World (formerly Worldcoin), creating new devices and product
-              categories for World ID.
+              More recently, founded and led the Advanced Concepts team at World
+              (formerly Worldcoin), creating new devices and product categories
+              for World ID.
             </>
           ),
         },
@@ -144,13 +144,25 @@ const page23 = (
       sub="Competition, model quality, hardware risk, consent, chips, and the raise."
       cards={[
         {
-          heading: 'Why won’t Apple or Google do this?',
+          heading: 'Why won’t Google or Meta do this?',
           body: (
             <>
-              The Big Labs & Hyperscalers&rsquo; business depends on your data
-              living in their cloud - they can&rsquo;t afford to compete. Local,
-              encrypted inference is the moat. Google never tried to compete
-              with Signal or Telegram for the same reason.
+              Their business depends on your data living in their cloud - they
+              can&rsquo;t afford to compete. Local, encrypted inference is the
+              moat. Google never tried to compete with Signal or Telegram for
+              the same reason.
+            </>
+          ),
+        },
+        {
+          heading: 'What about Apple?',
+          body: (
+            <>
+              Grandma has a Samsung. An inclusive family product has to be
+              platform agnostic. Apple has also signed a multi-year deal to run
+              Google&rsquo;s Gemini inside Private Cloud Compute
+              <Ref k="apple-gemini" /> - a hybrid architecture that keeps the
+              data center in the loop and sends intimate data out of the home.
             </>
           ),
         },
@@ -167,25 +179,13 @@ const page23 = (
           ),
         },
         {
-          heading: 'What about OpenAI’s device?',
-          body: (
-            <>
-              Like the failed friend.com, OpenAI&rsquo;s device is an
-              always-listening home companion, tethered to the cloud.
-              <Ref k="openai-io" /> HP switched Humane&rsquo;s servers off ten
-              days after buying it.
-              <Ref k="humane-hp" /> <strong>Ours cannot be revoked.</strong>
-            </>
-          ),
-        },
-        {
           heading: 'Why this raise size?',
           body: (
             <>
-              No brand owns safe local AI yet.
-              We&rsquo;re building a full privacy-preserving software SDK and a
-              hardware device by Christmas 2027. The capital goes to hiring fast
-              and securing a blue chip contract manufacturer.
+              No brand owns safe local AI yet. We&rsquo;re building a full
+              privacy-preserving software SDK and a hardware device by Christmas
+              2027. The capital goes to hiring fast and securing a blue chip
+              contract manufacturer.
             </>
           ),
         },
@@ -216,7 +216,7 @@ const page23 = (
               The seven in ten Americans who distrust big tech&rsquo;s cloud AI
               are not hobbyists. We&rsquo;re giving them AI that&rsquo;s
               immediately useful out of the box - with no data center in the
-              loop.
+              loop. <strong>Ours cannot be revoked.</strong>
             </>
           ),
         },
@@ -279,8 +279,8 @@ const page26 = (
         without a second equity round.
       </Statement>
       <Band narrow>
-        The future home (and office) will run multiple GPUs. No one owns this market today, and that window
-        is closing fast.
+        The future home (and office) will run multiple GPUs. No one owns this
+        market today, and that window is closing fast.
       </Band>
       <div className="mt-8 max-w-xl divide-y divide-fi-green-300">
         {[

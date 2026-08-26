@@ -296,10 +296,10 @@ export const REFERENCES: Record<string, Reference> = {
     url: 'https://blog.google/products/android/the-android-show-io-2025',
   },
   // p22/p24 — objections & ask
-  'humane-hp': {
-    source: 'Quantum Zeitgeist',
-    date: '2025-02',
-    url: 'https://quantumzeitgeist.com/hp-acquires-humane-for-116-million-gains-300-patents-and-employees-shuts-down-ai-pin/',
+  'apple-gemini': {
+    source: 'CNBC',
+    date: '2026-01',
+    url: 'https://www.cnbc.com/2026/01/12/apple-google-ai-siri-gemini.html',
   },
   'crunchbase-ai-half': {
     source: 'Crunchbase News',
