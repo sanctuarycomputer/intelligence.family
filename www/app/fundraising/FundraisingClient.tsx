@@ -86,7 +86,7 @@ export default function FundraisingClient({
         className="absolute top-5 left-5 md:top-10 md:left-10 z-50"
       >
         <a
-          href="/"
+          href="/research"
           className="block p-4 rounded bg-fi-green-200 hover:bg-fi-green-300 transition-colors no-underline"
         >
           <h4>← Read our Research</h4>

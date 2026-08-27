@@ -510,3 +510,61 @@ p + h4 {
   animation: tree-fade-in 0.6s ease-in-out forwards;
   animation-delay: 0.5s;
 }
+
+/* ============================================
+   Debug Copy Editor (?debug=true)
+   ============================================ */
+
+.debug-editable {
+  cursor: text;
+}
+.debug-editable:hover {
+  outline: 1px dashed var(--fi-green-400);
+  outline-offset: 3px;
+}
+.debug-editable:focus {
+  outline: 2px solid var(--fi-green-500);
+  outline-offset: 3px;
+}
+.debug-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--fi-black-900);
+  color: var(--fi-green-100);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-variation-settings: 'MONO' 100;
+  box-shadow: 0 4px 24px rgba(49, 49, 49, 0.35);
+}
+.debug-bar button {
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--fi-green-400);
+  color: var(--fi-black-1000);
+  font: inherit;
+  cursor: pointer;
+}
+.debug-bar button:hover {
+  background: var(--fi-green-300);
+}
+.debug-bar-hint {
+  opacity: 0.75;
+}
+.debug-bar select {
+  font: inherit;
+  border-radius: 6px;
+  border: 0;
+  padding: 2px 6px;
+  background: var(--fi-green-100);
+  color: var(--fi-black-1000);
+}
+

@@ -6,7 +6,7 @@ import EmailGateWrapper from "@/components/EmailGateWrapper";
 export const metadata: Metadata = {
   metadataBase: new URL("https://intelligence.family"),
   title: "Family Intelligence",
-  description: "Speculative Research by USB Club and garden3d",
+  description: "AI that runs in your home, your office, your hand. We're starting with families.",
   icons: {
     icon: [
       { url: "/research/leaf-favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Family Intelligence",
-    description: "Speculative Research by USB Club and garden3d",
+    description: "AI that runs in your home, your office, your hand. We're starting with families.",
     images: [
       {
         url: "/research/fam-og-image.png",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Family Intelligence",
-    description: "Speculative Research by USB Club and garden3d",
+    description: "AI that runs in your home, your office, your hand. We're starting with families.",
     images: ["/research/fam-og-image.png"],
   },
 };
