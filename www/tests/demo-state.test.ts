@@ -37,12 +37,14 @@ describe('stateAt', () => {
     expect(INTRO.cameraDur).toBeGreaterThan(2);
   });
 
-  /* The drift may still technically be running when the first question lands —
-     it eases out hard, so the last stretch covers almost no distance. What
-     matters is that the device has visibly stopped moving by then, not that the
-     clock has formally finished. */
-  it('has all but finished drifting before the first question', () => {
-    expect(stateAt(EXCHANGES[0].start).cameraProgress).toBeGreaterThan(0.95);
+  /* The drift outlasts the first question now. That is deliberate — the
+     opening is slow on purpose and the conversation starts early on purpose —
+     but the device must be nearly home by then rather than still crossing the
+     screen while messages arrive, and it must be done before the second
+     question. */
+  it('is most of the way home before the first question, and done before the second', () => {
+    expect(stateAt(EXCHANGES[0].start).cameraProgress).toBeGreaterThan(0.8);
+    expect(stateAt(EXCHANGES[1].start).cameraProgress).toBe(1);
   });
 
   it('reveals the thread monotonically', () => {
@@ -225,9 +227,12 @@ describe('stateAt', () => {
     expect(stateAt(settled).camera).toEqual(b);
     expect(stateAt(settled + 1).camera).toEqual(b);
 
-    // And near enough at the first question that it reads as still. The
-    // remaining travel is a fraction of a pixel on screen.
-    expect(stateAt(EXCHANGES[0].start).camera.dist).toBeCloseTo(b.dist, 2);
+    // Most of the remaining travel is gone by the first question: within a
+    // fifth of the total distance, so it reads as arriving rather than moving.
+    const travel = Math.abs(b.dist - a.dist);
+    expect(
+      Math.abs(stateAt(EXCHANGES[0].start).camera.dist - b.dist)
+    ).toBeLessThan(travel * 0.2);
   });
 });
 
