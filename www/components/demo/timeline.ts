@@ -40,8 +40,13 @@ export type LabelSpec = {
 export const INTRO = {
   cameraStart: 0.25,
   cameraDur: 3.4,
-  phoneStart: 2.2,
-  phoneDur: 1.3,
+  /* The phone starts the instant play is pressed, alongside the camera. Held
+     back even slightly, it reads as waiting for the device to get out of the
+     way before daring to appear. */
+  phoneStart: 0,
+  /* Mirrored by the .phone-rise transition in globals.css, which is what
+     actually moves it. */
+  phoneDur: 1.4,
 };
 
 /* ------------------------------------------------------------------ */

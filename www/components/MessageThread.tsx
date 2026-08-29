@@ -28,7 +28,7 @@ import {
  */
 
 /** Matches the .phone-rise transform transition in globals.css. */
-const PHONE_EXIT_MS = 700;
+const PHONE_EXIT_MS = 1400;
 
 export default function MessageThread() {
   /* All of these start at the demo's resting state rather than being read from
