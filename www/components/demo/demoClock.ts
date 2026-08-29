@@ -221,9 +221,9 @@ export function seek(seconds: number) {
   publish();
 }
 
-/** Runs on from wherever the clock was parked. */
+/** Runs on from wherever a seek parked the clock. */
 export function resume() {
-  if (phase === 'done' || raf) return;
+  if (phase !== 'playing' || raf) return;
   phase = 'playing';
   lastTick = nowMs();
   publish();

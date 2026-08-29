@@ -93,6 +93,18 @@ describe('stateAt', () => {
     }
   });
 
+  /* An attribution under a bubble that has not arrived would render as a
+     floating citation. The order is fixed by BEAT, so pin it. */
+  it('never attributes a reply before the reply is on screen', () => {
+    for (let t = 0; t <= END; t += 0.02) {
+      const s = stateAt(t);
+      const repliesShown = THREAD.slice(0, s.visibleMessages).filter(
+        e => e.kind === 'reply'
+      ).length;
+      expect(s.attributed).toBeLessThanOrEqual(repliesShown);
+    }
+  });
+
   it('never shows a typing bubble and a settled reply at once', () => {
     for (let t = 0; t <= END; t += 0.02) {
       const s = stateAt(t);
