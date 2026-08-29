@@ -5,6 +5,7 @@ import {
   DEVICE_DEFAULTS,
   setDeviceControls,
 } from '@/components/device/deviceControls';
+import { read as readDemo } from '@/components/demo/demoClock';
 
 /**
  * ?debug=true panel for the homepage device.
@@ -58,12 +59,15 @@ const CASE_PRESETS = [
 ];
 
 export default function DeviceDebugControls() {
-  const [dir, setDir] = useState<[number, number, number]>([
-    ...DEVICE_DEFAULTS.dir,
+  /* Seeded from wherever the demo's camera actually is, not from the stored
+     defaults. These sliders only take effect once Manual cam is on, and
+     starting them anywhere else means flipping that switch jumps the device. */
+  const [dir, setDir] = useState<[number, number, number]>(() => [
+    ...readDemo().camera.dir,
   ]);
-  const [dist, setDist] = useState(DEVICE_DEFAULTS.dist);
-  const [offsetX, setOffsetX] = useState(DEVICE_DEFAULTS.offsetX);
-  const [offsetY, setOffsetY] = useState(DEVICE_DEFAULTS.offsetY);
+  const [dist, setDist] = useState(() => readDemo().camera.dist);
+  const [offsetX, setOffsetX] = useState(() => readDemo().camera.offsetX);
+  const [offsetY, setOffsetY] = useState(() => readDemo().camera.offsetY);
   const [grain, setGrain] = useState({
     grainScale: DEVICE_DEFAULTS.grainScale,
     grainRough: DEVICE_DEFAULTS.grainRough,
@@ -118,10 +122,11 @@ export default function DeviceDebugControls() {
   };
 
   const reset = () => {
-    setDir([...DEVICE_DEFAULTS.dir]);
-    setDist(DEVICE_DEFAULTS.dist);
-    setOffsetX(DEVICE_DEFAULTS.offsetX);
-    setOffsetY(DEVICE_DEFAULTS.offsetY);
+    const live = readDemo().camera;
+    setDir([...live.dir]);
+    setDist(live.dist);
+    setOffsetX(live.offsetX);
+    setOffsetY(live.offsetY);
     setGrain({
       grainScale: DEVICE_DEFAULTS.grainScale,
       grainRough: DEVICE_DEFAULTS.grainRough,
@@ -144,7 +149,8 @@ export default function DeviceDebugControls() {
       `  grainBump: ${grain.grainBump},`,
     ].join('\n');
     await navigator.clipboard.writeText(
-      `export const DEVICE_DEFAULTS: DeviceControls = {\n${body}\n  thinking: false,\n};`
+      `export const DEVICE_DEFAULTS: DeviceControls = {\n${body}\n` +
+        `  thinking: false,\n  cameraOverride: false,\n};`
     );
     setCopied('Copied');
     setTimeout(() => setCopied(null), 1500);
