@@ -293,6 +293,11 @@ export default function DeviceScene({
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.flipY = false;
+    // The panel is tilted away from the camera, which is precisely the case
+    // isotropic filtering handles badly: mip level is chosen from the tightest
+    // axis, so a surface foreshortened in one direction gets blurred in both.
+    // Anisotropic sampling is what makes text on an angled screen legible.
+    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
     const caseMats: THREE.MeshStandardMaterial[] = [];
     const caseGrain: GrainUniforms[] = [];
