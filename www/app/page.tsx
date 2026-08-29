@@ -50,103 +50,108 @@ export default function Home() {
               <DemoControls />
             </div>
 
-            <div className="mt-12">
-              <h4>About</h4>
-            </div>
+            {/* Everything below the masthead fades while the demo runs, so the
+                only things left on the page are the name and what the device
+                is doing. */}
+            <div className="page-copy">
+              <div className="mt-12">
+                <h4>About</h4>
+              </div>
 
-            <div className="mt-4">
-              <p>
-                The GPU is coming home. Compute has made this trip before: 8% of
-                American households owned a computer in 1984, and 89% did by
-                2016. The datacenter is making the same move.
-              </p>
+              <div className="mt-4">
+                <p>
+                  The GPU is coming home. Compute has made this trip before: 8%
+                  of American households owned a computer in 1984, and 89% did
+                  by 2016. The datacenter is making the same move.
+                </p>
 
-              <p>
-                Family Intelligence, Inc. builds privacy-preserving AI hardware
-                devices for the home, office and beyond. Inference never leaves
-                the device. Novel networking protocols and zero-knowledge
-                encryption patterns give private cloud-level convenience. A
-                local MCP server and on-device agent offer general intelligence
-                to every IoT device on the network.
-              </p>
+                <p>
+                  Family Intelligence, Inc. builds privacy-preserving AI
+                  hardware devices for the home, office and beyond. Inference
+                  never leaves the device. Novel networking protocols and
+                  zero-knowledge encryption patterns give private cloud-level
+                  convenience. A local MCP server and on-device agent offer
+                  general intelligence to every IoT device on the network.
+                </p>
 
-              <p>
-                We&rsquo;re starting with families because we have the only
-                culturally viable architecture for storing family context. LLMs
-                can reduce friction in the rhythm of family life, but only if
-                families feel safe using them. Your family&rsquo;s health
-                history, your finances, your will, your kids&rsquo; school
-                calendar, your grandmother&rsquo;s voice. All precious data
-                you&rsquo;d never upload to cloud AI. Exactly what an agentic
-                home assistant needs to be helpful.
-              </p>
+                <p>
+                  We&rsquo;re starting with families because we have the only
+                  culturally viable architecture for storing family context.
+                  LLMs can reduce friction in the rhythm of family life, but
+                  only if families feel safe using them. Your family&rsquo;s
+                  health history, your finances, your will, your kids&rsquo;
+                  school calendar, your grandmother&rsquo;s voice. All precious
+                  data you&rsquo;d never upload to cloud AI. Exactly what an
+                  agentic home assistant needs to be helpful.
+                </p>
 
-              <p>
-                Our first devices go to a small private group of families in San
-                Francisco and New York. They are not for sale and we are not
-                taking orders. If you can help us hone our vision, write and
-                tell us how.
-              </p>
-            </div>
+                <p>
+                  Our first devices go to a small private group of families in
+                  San Francisco and New York. They are not for sale and we are
+                  not taking orders. If you can help us hone our vision, write
+                  and tell us how.
+                </p>
+              </div>
 
-            <div className="mt-12">
-              <h4>Contact</h4>
-            </div>
+              <div className="mt-12">
+                <h4>Contact</h4>
+              </div>
 
-            <div className="mt-4">
-              <p>
-                San Francisco &amp; New York City
-                <br />
-                Email:{' '}
-                <a
-                  href="mailto:invest@intelligence.family"
-                  className="underline hover:no-underline text-fi-green-500"
-                >
-                  invest@intelligence.family
-                </a>
-              </p>
-            </div>
+              <div className="mt-4">
+                <p>
+                  San Francisco &amp; New York City
+                  <br />
+                  Email:{' '}
+                  <a
+                    href="mailto:invest@intelligence.family"
+                    className="underline hover:no-underline text-fi-green-500"
+                  >
+                    invest@intelligence.family
+                  </a>
+                </p>
+              </div>
 
-            <div className="mt-12">
-              <h4>Research</h4>
-            </div>
+              <div className="mt-12">
+                <h4>Research</h4>
+              </div>
 
-            <div className="mt-4">
-              <p>
-                Our research on local AI in the home, published in partnership
-                with the Mozilla Foundation, is{' '}
-                <a
-                  href="/research"
-                  className="underline hover:no-underline text-fi-green-500"
-                >
-                  here
-                </a>
-                .
-              </p>
-            </div>
+              <div className="mt-4">
+                <p>
+                  Our research on local AI in the home, published in partnership
+                  with the Mozilla Foundation, is{' '}
+                  <a
+                    href="/research"
+                    className="underline hover:no-underline text-fi-green-500"
+                  >
+                    here
+                  </a>
+                  .
+                </p>
+              </div>
 
-            <div className="mt-24">
-              <p className="text-sm text-fi-black-900/70">
-                By{' '}
-                <a
-                  href="https://usb.club"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:no-underline"
-                >
-                  USB Club
-                </a>{' '}
-                and{' '}
-                <a
-                  href="https://garden3d.net"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:no-underline"
-                >
-                  garden3d
-                </a>
-                .
-              </p>
+              <div className="mt-24">
+                <p className="text-sm text-fi-black-900/70">
+                  By{' '}
+                  <a
+                    href="https://usb.club"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:no-underline"
+                  >
+                    USB Club
+                  </a>{' '}
+                  and{' '}
+                  <a
+                    href="https://garden3d.net"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:no-underline"
+                  >
+                    garden3d
+                  </a>
+                  .
+                </p>
+              </div>
             </div>
           </div>
 

@@ -37,6 +37,15 @@ export const WIDE_FROM = 1024;
 export const COMPACT_FRACTION = 0.8;
 
 /**
+ * The gap under the phone on a narrow viewport.
+ *
+ * It should read as sitting near the bottom edge, not welded to it — and on a
+ * phone the very bottom is where the home indicator and the browser's own
+ * chrome live.
+ */
+export const COMPACT_BOTTOM_INSET = 20;
+
+/**
  * The scale for a given viewport.
  *
  * Narrow, the phone sits on the bottom edge inside a fraction of the screen,
@@ -46,6 +55,9 @@ export const COMPACT_FRACTION = 0.8;
  */
 export function phoneScaleFor(width: number, height: number): number {
   return width < WIDE_FROM
-    ? fitScale(width * COMPACT_FRACTION, height * COMPACT_FRACTION)
+    ? fitScale(
+        width * COMPACT_FRACTION,
+        (height - COMPACT_BOTTOM_INSET) * COMPACT_FRACTION
+      )
     : fitScale(width, height - VIEWPORT_MARGIN);
 }

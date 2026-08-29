@@ -270,15 +270,29 @@ export default function DeviceScene({
     const target = new THREE.Vector3();
     let radius = 1;
 
+    /**
+     * Resizing is deferred to the frame that draws.
+     *
+     * setSize reallocates the drawing buffer, which leaves the canvas blank
+     * until something renders into it. Doing that straight from the observer
+     * means the browser can paint the empty buffer before the next animation
+     * frame arrives, and dragging a window edge fires the observer continuously
+     * — which is the flicker. Resizing inside the loop puts the reallocation
+     * and the draw in the same frame, so there is never an empty one to see.
+     */
+    let needsResize = true;
     const resize = () => {
       const w = host.clientWidth || 1;
       const h = host.clientHeight || 1;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
+      needsResize = false;
     };
     resize();
-    const ro = new ResizeObserver(resize);
+    const ro = new ResizeObserver(() => {
+      needsResize = true;
+    });
     ro.observe(host);
 
     // No visibility gate: requestAnimationFrame already stops firing when the
@@ -397,7 +411,7 @@ export default function DeviceScene({
           const o = root.getObjectByName(name);
           if (o) parts.set(name, o);
         });
-        resize();
+        needsResize = true;
       })
       .catch(() => {
         /* the static poster underneath stays visible */
@@ -442,6 +456,7 @@ export default function DeviceScene({
     const tick = () => {
       raf = requestAnimationFrame(tick);
       if (!assets) return;
+      if (needsResize) resize();
       const time = (performance.now() - start) / 1000;
       const live = getDeviceControls();
       const demo = readDemo();

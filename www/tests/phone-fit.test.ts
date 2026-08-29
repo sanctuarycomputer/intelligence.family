@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  COMPACT_BOTTOM_INSET,
   COMPACT_FRACTION,
   PHONE_H,
   PHONE_W,
@@ -72,6 +73,15 @@ describe('phoneScaleFor', () => {
     }
   });
 
+  /* Docked 20px up from the bottom, so the phone plus that gap still has to
+     fit — otherwise the inset just pushes its top off the other edge. */
+  it('never runs off the top once the bottom gap is taken', () => {
+    for (const [w, h, name] of VIEWPORTS.filter(v => v[0] < WIDE_FROM)) {
+      const drawn = PHONE_H * phoneScaleFor(w, h);
+      expect(drawn + COMPACT_BOTTOM_INSET, name).toBeLessThanOrEqual(h + 0.001);
+    }
+  });
+
   it('clears the page padding on wide viewports', () => {
     for (const [w, h, name] of VIEWPORTS.filter(v => v[0] >= WIDE_FROM)) {
       expect(PHONE_H * phoneScaleFor(w, h), name).toBeLessThanOrEqual(
@@ -89,11 +99,14 @@ describe('phoneScaleFor', () => {
   /* On a viewport the same shape as the phone the two constraints coincide, so
      the fraction applies to both dimensions at once — which is what "80% of the
      width and the height" means on an actual phone. */
-  it('takes the full fraction of both axes on a phone-shaped viewport', () => {
+  it('is bounded by the fraction on a phone-shaped viewport', () => {
     const scale = phoneScaleFor(PHONE_W, PHONE_H);
-    expect(scale).toBeCloseTo(COMPACT_FRACTION, 10);
-    expect(PHONE_W * scale).toBeCloseTo(PHONE_W * COMPACT_FRACTION, 10);
-    expect(PHONE_H * scale).toBeCloseTo(PHONE_H * COMPACT_FRACTION, 10);
+    expect(scale).toBeLessThanOrEqual(COMPACT_FRACTION);
+    // The bottom gap comes out of the height, so height is what binds.
+    expect(PHONE_H * scale).toBeCloseTo(
+      (PHONE_H - COMPACT_BOTTOM_INSET) * COMPACT_FRACTION,
+      6
+    );
   });
 });
 

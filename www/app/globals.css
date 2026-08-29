@@ -834,9 +834,11 @@ p + h4 {
   pointer-events: none;
 }
 
-/* Narrow: sitting on the bottom edge, centred, at 80% of the viewport. */
+/* Narrow: sitting near the bottom edge, centred, at 80% of the viewport. Off
+   the edge rather than on it — the very bottom of a phone belongs to the home
+   indicator and the browser's own chrome. */
 .phone-dock {
-  bottom: 0;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -1007,5 +1009,34 @@ p + h4 {
   }
   .device-orbit:active {
     cursor: grabbing;
+  }
+}
+
+/* While the demo runs, the page steps back: everything but the name goes, and
+   the control dims to a marker rather than disappearing, so there is still
+   something to aim at. It comes back on hover and focus, and in full once the
+   demo has finished, because Replay has to be findable. */
+.page-copy {
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html[data-demo='playing'] .page-copy,
+html[data-demo='done'] .page-copy {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html[data-demo='playing'] .demo-play {
+  opacity: 0.2;
+}
+
+html[data-demo='playing'] .demo-play:hover,
+html[data-demo='playing'] .demo-play:focus-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-copy {
+    transition: none;
   }
 }
