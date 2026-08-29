@@ -29,6 +29,9 @@ import {
 /** Matches the .phone-rise transform transition in globals.css. */
 const PHONE_EXIT_MS = 700;
 
+/** Page padding above and below the phone, from main's py-32 plus breathing room. */
+const VIEWPORT_MARGIN = 190;
+
 export default function MessageThread() {
   /* All of these start at the demo's resting state rather than being read from
      the clock, so the server and the client render the same first frame.
@@ -41,6 +44,7 @@ export default function MessageThread() {
      the phone blank for the whole of its fade. */
   const [shown, setShown] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let emptying: ReturnType<typeof setTimeout> | undefined;
@@ -66,6 +70,25 @@ export default function MessageThread() {
     };
   }, []);
 
+  /**
+   * How far the phone has to shrink to fit the viewport.
+   *
+   * Computed here rather than in CSS because scale() needs a unitless number,
+   * and CSS cannot divide a length by a length to produce one — written as a
+   * calc() it is silently invalid and the phone renders at full size.
+   */
+  useEffect(() => {
+    const el = frameRef.current;
+    if (!el) return;
+    const fit = () => {
+      const scale = Math.min(1, (window.innerHeight - VIEWPORT_MARGIN) / 844);
+      el.style.setProperty('--phone-scale', String(scale));
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, []);
+
   // Keep the newest bubble in view once the thread outgrows the frame.
   useEffect(() => {
     const el = scrollRef.current;
@@ -83,11 +106,14 @@ export default function MessageThread() {
           be transitioned away from — it just stops, leaving the phone stranded
           wherever the last frame put it. */}
       <div className={`phone-rise${phoneUp ? ' is-up' : ''}`}>
-        {/* ===== iPhone ===== */}
-        {/* Height-driven rather than width-driven: at full size the phone is
-            taller than a laptop viewport, and the newest bubble would arrive
-            below the fold on the one screen that has to be watched. */}
+        {/* ===== iPhone =====
+            Always laid out at 390x844 and scaled to fit, never reflowed. At
+            full size it is taller than a laptop viewport, but shrinking the box
+            while its contents keep their iOS point sizes is what pushed the
+            status bar icons out, wrapped the transcription onto a third line
+            and crowded the timestamp off the voice note. */}
         <div
+          ref={frameRef}
           className="phone-frame relative mx-auto overflow-hidden bg-black shadow-[0_2px_6px_rgba(49,49,49,0.08),0_24px_60px_rgba(49,49,49,0.16)]"
           style={{
             aspectRatio: '390 / 844',
@@ -113,6 +139,7 @@ export default function MessageThread() {
                   viewBox="0 0 17 11"
                   fill="none"
                   aria-hidden="true"
+                  className="shrink-0"
                 >
                   {[0, 1, 2, 3].map(i => (
                     <rect
@@ -130,9 +157,10 @@ export default function MessageThread() {
                 <svg
                   width="16"
                   height="11"
-                  viewBox="0 0 16 12"
+                  viewBox="0 0 16 11"
                   fill="none"
                   aria-hidden="true"
+                  className="shrink-0"
                 >
                   <path
                     d="M8 10.4 6.2 8.5a2.6 2.6 0 0 1 3.6 0L8 10.4Z"
@@ -154,6 +182,7 @@ export default function MessageThread() {
                   viewBox="0 0 26 12"
                   fill="none"
                   aria-hidden="true"
+                  className="shrink-0"
                 >
                   <rect
                     x="0.5"

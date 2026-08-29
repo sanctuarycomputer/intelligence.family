@@ -958,22 +958,23 @@ p + h4 {
 /* The demo scrubber sits above the device panel, sharing its styling. */
 
 /* The phone is 390x844 at full size, which overflows a laptop viewport once
-   the page's vertical padding is counted. Driving it from height keeps the
-   whole conversation on screen while the demo runs. */
+   the page's vertical padding is counted. */
 .phone-frame {
   width: 390px;
   max-width: 100%;
 }
 
-/* Width is computed from the height rather than left as auto: auto on a block
-   element means "fill the container", which inflates the phone instead of
-   deriving it from the space available. */
+/* Scaled to fit rather than resized. Everything inside is in iOS points, so
+   narrowing the box does not narrow its contents — it squeezes the status bar
+   icons out, wraps the transcription onto an extra line and pushes the
+   timestamp off the voice note. Scaling keeps every proportion as designed. */
 @media (min-width: 1024px) {
   .phone-frame {
-    --phone-h: min(844px, calc(100dvh - 190px));
-    height: var(--phone-h);
-    width: calc(var(--phone-h) * 390 / 844);
+    width: 390px;
+    height: 844px;
     max-width: none;
+    transform: scale(var(--phone-scale, 1));
+    transform-origin: top left;
   }
 }
 
