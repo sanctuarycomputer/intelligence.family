@@ -32,21 +32,6 @@ import type { LabelAnchor } from '../demo/timeline';
 const MODEL = '/home/trunk.glb';
 
 /**
- * Where the separated parts travel to in the exploded hero, in object radii.
- *
- * The Leaf lifts clear of its seat; the Orin drops out of the underside, which
- * is the one direction that never puts it in front of the shell and so never
- * hides the thing it is supposed to be explaining.
- */
-const EXPLODE = {
-  leaf: new THREE.Vector3(0, 0.55, 0),
-  orin: new THREE.Vector3(0, -0.85, 0.1),
-};
-
-/** How far past the assembled bounding sphere the exploded parts reach. */
-const EXPLODE_REACH = 0.85;
-
-/**
  * The display panel's own plane: an orthonormal basis and the extent of the
  * mesh within it. The GLB is a CAD export with no UVs, so this is where they
  * come from. The basis is anchored to world up (the model is Y-up, bbox
@@ -314,11 +299,6 @@ export default function DeviceScene({
     let assets: ScreenAssets | null = null;
     const start = performance.now();
 
-    /** Parts that move in the exploded view, with where they rest. */
-    const movers = new Map<
-      string,
-      { object: THREE.Object3D; rest: THREE.Vector3; travel: THREE.Vector3 }
-    >();
     /** Named nodes a label can point at. */
     const parts = new Map<string, THREE.Object3D>();
     /** The display's plane and visible window, for UV-space label anchors. */
@@ -334,11 +314,13 @@ export default function DeviceScene({
         assets = a;
         const root = gltf.scene;
 
-        // The Orin earns its place in the exploded hero, so it stays in the
-        // scene and is tucked inside the trunk once the demo assembles it. The
-        // UPS has no label and never separates, so it is simply not drawn.
-        const ups = root.getObjectByName('ups');
-        if (ups) ups.visible = false;
+        // Neither is ever seen: they sit inside a closed case. They stay in
+        // the tree because the GPU label anchors to the Orin's position, which
+        // is the point — the leader line runs into the body, where it is.
+        ['orin', 'ups'].forEach(name => {
+          const part = root.getObjectByName(name);
+          if (part) part.visible = false;
+        });
 
         root.traverse(o => {
           if (!(o instanceof THREE.Mesh)) return;
@@ -409,16 +391,6 @@ export default function DeviceScene({
           const o = root.getObjectByName(name);
           if (o) parts.set(name, o);
         });
-        (['leaf', 'orin'] as const).forEach(name => {
-          const object = parts.get(name);
-          if (!object) return;
-          movers.set(name, {
-            object,
-            rest: object.position.clone(),
-            travel: EXPLODE[name].clone().multiplyScalar(radius),
-          });
-        });
-
         resize();
         markReady();
       })
@@ -488,22 +460,13 @@ export default function DeviceScene({
         g.uGrainBump.value = live.grainBump;
       });
 
-      // Separated parts ride back to their seats as the demo assembles.
-      movers.forEach(({ object, rest, travel }) => {
-        object.position.copy(rest).addScaledVector(travel, demo.explode);
-      });
-
       const view = live.cameraOverride ? live : demo.camera;
       vDir.set(view.dir[0], view.dir[1], view.dir[2]).normalize();
       // Fit the bounding sphere to whichever viewport dimension is tighter, so
       // the device keeps its size across aspect ratios.
       const vFov = THREE.MathUtils.degToRad(camera.fov);
       const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
-      // The separated parts reach outside the assembled bounding sphere, so the
-      // sphere being framed grows with the explosion. Without this the hero
-      // frames the trunk and drops the Orin off the bottom of the viewport.
-      const spread = radius * (1 + EXPLODE_REACH * demo.explode);
-      const fit = spread / Math.sin(Math.min(vFov, hFov) / 2);
+      const fit = radius / Math.sin(Math.min(vFov, hFov) / 2);
 
       // Shifting camera and look-at together slides the device across the
       // frame without rotating it. The canvas is full-viewport, so this is what

@@ -7,7 +7,6 @@ import {
   replay,
   setCompact,
   setReducedMotion,
-  setSettled,
   subscribe,
 } from './demoClock';
 import type { DemoPhase } from './demoState';
@@ -15,10 +14,9 @@ import type { DemoPhase } from './demoState';
 /**
  * The way in, and the way back.
  *
- * The play control is present from the first frame rather than appearing on
- * hover: hover does not exist on touch, and a visitor who never moves the
- * pointer should not be stranded on a poster. Hovering is a reward — the Leaf
- * seats itself and the device settles — not a gate.
+ * Present from the first frame rather than appearing on hover: hover does not
+ * exist on touch, and a visitor who never moves the pointer should not be
+ * stranded on a still.
  */
 export default function DemoControls() {
   const [phase, setPhase] = useState<DemoPhase>(() => getPhase());
@@ -52,15 +50,7 @@ export default function DemoControls() {
   if (phase === 'idle') {
     return (
       <div className="demo-controls">
-        <button
-          type="button"
-          className="demo-play"
-          onClick={play}
-          onPointerEnter={() => setSettled(true)}
-          onPointerLeave={() => setSettled(false)}
-          onFocus={() => setSettled(true)}
-          onBlur={() => setSettled(false)}
-        >
+        <button type="button" className="demo-play" onClick={play}>
           <span className="demo-play-glyph" aria-hidden="true" />
           See it answer
         </button>

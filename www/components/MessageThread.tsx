@@ -77,7 +77,7 @@ export default function MessageThread() {
   }, [shown, typing, phoneUp]);
 
   return (
-    <div className="flex w-full flex-1 flex-col items-center lg:sticky lg:top-[95px] lg:h-fit lg:items-start lg:self-start">
+    <div className="phone-dock flex w-full flex-1 flex-col items-center lg:items-start">
       {/* The rise is a CSS transition rather than a per-frame write, so it
           eases back out on replay too. A transform written every frame cannot
           be transitioned away from — it just stops, leaving the phone stranded

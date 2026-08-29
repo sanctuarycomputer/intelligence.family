@@ -8,7 +8,6 @@ import {
   HERO_LABELS,
   REPLAY_AT,
   SENT_LABEL,
-  SETTLED_EXPLODE,
 } from '@/components/demo/timeline';
 import { THREAD } from '@/components/thread/threadScript';
 
@@ -21,25 +20,26 @@ describe('stateAt', () => {
     expect(stateAt(END + 100)).toEqual(stateAt(END));
   });
 
-  it('starts exploded and ends assembled', () => {
-    expect(stateAt(0).explode).toBe(1);
-    expect(stateAt(END).explode).toBe(0);
-  });
-
-  /* Hovering part-closes the device. Pressing play after that has to carry on
-     from there: assembling from fully open would snap it back first. */
-  it('assembles from wherever the hover left it', () => {
-    expect(stateAt(0, true).explode).toBe(SETTLED_EXPLODE);
-    expect(stateAt(0, true).explode).toBe(idleState(true, 99).explode);
-    expect(stateAt(END, true).explode).toBe(0);
-
-    // And never re-opens on the way in.
-    let last = stateAt(0, true).explode;
-    for (let t = 0; t <= INTRO.assembleDur; t += 0.01) {
-      const next = stateAt(t, true).explode;
-      expect(next).toBeLessThanOrEqual(last + 1e-9);
+  /* The device drifts back once, without reversing anywhere along the way. A
+     camera that creeps forward mid-move is what reads as a jerk. */
+  it('drifts the camera back in one direction only', () => {
+    let last = stateAt(0).camera.dist;
+    for (let t = 0; t <= INTRO.cameraStart + INTRO.cameraDur; t += 0.02) {
+      const next = stateAt(t).camera.dist;
+      expect(next).toBeGreaterThanOrEqual(last - 1e-9);
       last = next;
     }
+    expect(stateAt(0).camera.dist).toBeLessThan(stateAt(END).camera.dist);
+  });
+
+  it('takes its time getting out of the way', () => {
+    // Unhurried by construction: if this drops back under two seconds the
+    // opening has been made snappy again by accident.
+    expect(INTRO.cameraDur).toBeGreaterThan(2);
+    // And it is done before the first question arrives.
+    expect(INTRO.cameraStart + INTRO.cameraDur).toBeLessThanOrEqual(
+      EXCHANGES[0].start
+    );
   });
 
   it('reveals the thread monotonically', () => {
@@ -166,9 +166,14 @@ describe('stateAt', () => {
   });
 
   it('shows at most one artifact label at a time', () => {
-    // Past the intro, only the current exchange's artifact is named.
-    for (let t = 1; t <= END; t += 0.02) {
-      expect(stateAt(t).labels.length).toBeLessThanOrEqual(1);
+    // Once the hero labels have gone, only the current artifact is named.
+    // Derived from INTRO rather than hardcoded, so retiming the fade does not
+    // quietly turn this into an assertion about nothing.
+    const after = INTRO.labelsOutStart + INTRO.labelsOutDur;
+    for (let t = after; t <= END; t += 0.02) {
+      expect(stateAt(t).labels.length, `t=${t.toFixed(2)}`).toBeLessThanOrEqual(
+        1
+      );
     }
   });
 
@@ -182,7 +187,7 @@ describe('stateAt', () => {
     expect(stateAt(INTRO.phoneStart - EPS).phoneUp).toBe(false);
     expect(stateAt(INTRO.phoneStart).phoneUp).toBe(true);
     expect(stateAt(END).phoneUp).toBe(true);
-    expect(idleState(false, 99).phoneUp).toBe(false);
+    expect(idleState(99).phoneUp).toBe(false);
     // Up before the first question, so it is never mid-rise when one arrives.
     expect(INTRO.phoneStart + INTRO.phoneDur).toBeLessThan(EXCHANGES[0].start);
   });
@@ -226,19 +231,22 @@ describe('stateAt', () => {
 });
 
 describe('idleState', () => {
-  it('staggers the hero labels in and ends with all of them', () => {
-    expect(idleState(false, 0).labels).toHaveLength(1);
-    expect(idleState(false, 99).labels).toHaveLength(HERO_LABELS.length);
+  it('staggers the labels in and ends with all of them', () => {
+    expect(idleState(0).labels).toHaveLength(1);
+    expect(idleState(99).labels).toHaveLength(HERO_LABELS.length);
   });
 
-  it('seats the leaf on hover without assembling the device', () => {
-    expect(idleState(false, 99).explode).toBe(1);
-    const settled = idleState(true, 99);
-    expect(settled.explode).toBeLessThan(1);
-    expect(settled.explode).toBeGreaterThan(0);
-    // The hover is a reward, not the start of the demo.
-    expect(settled.labels).toHaveLength(HERO_LABELS.length);
-    expect(settled.visibleMessages).toBe(0);
+  it('is a still frame: nothing of the demo has happened yet', () => {
+    const idle = idleState(99);
+    expect(idle.visibleMessages).toBe(0);
+    expect(idle.phoneUp).toBe(false);
+    expect(idle.card).toBe(null);
+    expect(idle.thinking).toBe(false);
+    expect(idle.showReplay).toBe(false);
+  });
+
+  it('drops the labels on compact viewports', () => {
+    expect(idleState(99, true).labels).toHaveLength(0);
   });
 });
 

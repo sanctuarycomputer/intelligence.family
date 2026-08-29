@@ -22,21 +22,18 @@ import {
   REPLAY_AT,
   RESTING_POSE,
   SENT_AT,
-  SETTLED_EXPLODE,
   SENT_LABEL,
   type CameraPose,
   type CardKind,
   type LabelSpec,
 } from './timeline';
 import { THREAD } from '../thread/threadScript';
-import { ASSEMBLE, EXIT, FADE, SETTLE } from './easing';
+import { EXIT, FADE, GLIDE, SETTLE } from './easing';
 
 export type DemoPhase = 'idle' | 'playing' | 'done';
 
 export type DemoState = {
   /* --- continuous: read per frame by the render loop, never by React --- */
-  /** 1 = exploded hero, 0 = assembled. */
-  explode: number;
   camera: CameraPose;
   /** 0 = card offscreen below, 1 = settled. */
   cardY: number;
@@ -125,26 +122,15 @@ for (let i = 1; i < ENTRY_DUE.length; i += 1) {
 }
 
 /**
- * The idle state, before play is pressed.
- *
- * `settled` is the hover reward: the Leaf drops onto the trunk and the device
- * shifts, but the labels stay and the Orin stays out. Pressing play is what
- * assembles it.
+ * The idle state, before play is pressed: the device sitting still on the right
+ * with its parts named. Nothing moves except the leaves drifting on its screen.
  */
-export function idleState(
-  settled: boolean,
-  elapsed: number,
-  compact = false
-): DemoState {
+export function idleState(elapsed: number, compact = false): DemoState {
   // Labels arrive staggered so the drawing builds itself rather than appearing
   // all at once. On a seek or a reduced-motion load, elapsed is large and they
   // are simply all there.
   const shown = HERO_LABELS.filter((_, i) => elapsed >= i * HERO_LABEL_STAGGER);
   return {
-    // Compact viewports hide the labels, and an exploded device with nothing
-    // naming its parts is a broken machine rather than a drawing. So below the
-    // breakpoint it simply sits assembled.
-    explode: compact ? 0 : settled ? SETTLED_EXPLODE : 1,
     camera: HERO_POSE,
     cardY: 0,
     phoneUp: false,
@@ -160,26 +146,13 @@ export function idleState(
   };
 }
 
-/**
- * The world at time `t` seconds after play. Clamped to [0, END].
- *
- * `fromSettled` says whether the device was already part-closed when play was
- * pressed — the hover reward. The intro then assembles from there instead of
- * snapping back open first. It is a parameter rather than module state so this
- * stays a pure function of its inputs.
- */
-export function stateAt(t: number, fromSettled = false): DemoState {
+/** The world at time `t` seconds after play. Clamped to [0, END]. */
+export function stateAt(t: number): DemoState {
   const now = Math.min(END, Math.max(0, t));
 
-  // The device has mass and closes itself up; the camera leaves fast and lands
-  // slowly. Giving both the same curve was what made the intro read as machinery.
-  const assembled = progress(
-    now,
-    INTRO.assembleStart,
-    INTRO.assembleDur,
-    ASSEMBLE
-  );
-  const camK = progress(now, INTRO.cameraStart, INTRO.cameraDur, SETTLE);
+  // GLIDE rather than SETTLE: the device is drifting out of the way, and an
+  // expo-out over three and a half seconds reads as a lurch then a crawl.
+  const camK = progress(now, INTRO.cameraStart, INTRO.cameraDur, GLIDE);
 
   /* The hero labels have to survive briefly into the run so they can fade
      rather than vanish the instant play is pressed. Once they are gone the
@@ -252,7 +225,6 @@ export function stateAt(t: number, fromSettled = false): DemoState {
   }
 
   return {
-    explode: lerp(fromSettled ? SETTLED_EXPLODE : 1, 0, assembled),
     camera: lerpPose(HERO_POSE, RESTING_POSE, camK),
     cardY,
     phoneUp: now >= INTRO.phoneStart,

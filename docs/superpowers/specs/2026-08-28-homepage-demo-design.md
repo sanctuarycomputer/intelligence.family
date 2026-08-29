@@ -1,6 +1,6 @@
 # Homepage demo — design
 
-One scripted 25-second sequence on `intelligence.family`. A labelled drawing of
+One scripted 26-second sequence on `intelligence.family`. A labelled drawing of
 the hardware, a play control, then three questions asked and answered, with the
 device visibly producing each answer. The narrative script is
 `docs/homepage-demo-script.md`; this document is how it gets built.
@@ -9,7 +9,9 @@ device visibly producing each answer. The narrative script is
 
 1. **One label system.** The same DOM leader-line label names hardware parts in
    the idle state and artifacts on the device screen during the demo. One
-   component, two phases.
+   component, two phases. The device is never exploded: it sits assembled on
+   the right and the callouts do the explaining, with the GPU's leader line
+   running into the body, where it is.
 2. **One card per exchange.** The device shows a single artifact, landing
    cleanly. A thinking indicator occupies the activity chip's row during the
    search. No rifling through files.
@@ -39,11 +41,6 @@ the same `t` in the same frame, it cannot drift.
 It also means scrubbing is `seek(t)`, replay is `seek(0)`, and reduced motion is
 `seek(END)`. None of those need their own code path.
 
-The one input beyond `t` is `fromSettled`: whether hovering had already
-part-closed the device when play was pressed. Without it the intro assembles
-from fully open and the device snaps back before it starts. It is a parameter
-rather than module state so the function stays pure.
-
 Elapsed time is accumulated per frame and each step is clamped, rather than read
 off the wall clock. A backgrounded tab stops firing rAF, and reading the clock
 on return would jump the demo to its end.
@@ -52,10 +49,10 @@ on return would jump the demo to its end.
 
 `DemoState` splits by consumer:
 
-- **Continuous** (`camera`, `explode`, `cardY`, `t`) is read by the WebGL render
-  loop each frame and never enters React.
+- **Continuous** (`camera`, `cardY`, `t`) is read by the WebGL render loop each
+  frame and never enters React.
 - **Discrete** (`phase`, `thinking`, `card`, `cardState`, `labels`,
-  `visibleMessages`, `typing`) is what React needs. The clock notifies
+  `visibleMessages`, `typing`, `phoneUp`) is what React needs. The clock notifies
   subscribers only when a discrete value actually changes, which is roughly a
   dozen renders across the whole run instead of ~1,500.
 
@@ -83,6 +80,7 @@ screen while the camera is stationary.
 ```
 components/demo/
   timeline.ts         cue data: keyframes, exchange offsets, END
+  easing.ts           cubic-bezier solver and the named curves
   demoState.ts        stateAt(t) -> DemoState, pure. Unit tested.
   demoClock.ts        rAF clock, play/replay/seek/hover, subscriptions
   sceneProjection.ts  anchor id -> projected screen point
@@ -105,20 +103,19 @@ all, and leaves the file readable afterwards.
 
 ## Timeline
 
-Absolute seconds. `END = 24.6`.
+Absolute seconds. `END = 26.2`.
 
-| t     | Event                                                        |
-| ----- | ------------------------------------------------------------ |
-| 0.00  | Orin slides into the trunk (0.6s), leaf seats if not already |
-| 0.10  | Hero labels fade out (0.2s)                                  |
-| 0.60  | Camera moves to resting position (1.4s)                      |
-| 1.30  | Phone slides up (0.7s)                                       |
-| 2.60  | Exchange 1 begins                                            |
-| 9.10  | Exchange 2 begins                                            |
-| 15.60 | Exchange 3 begins                                            |
-| 23.10 | Last reply settled                                           |
-| 23.60 | Replay control fades in                                      |
-| 24.60 | END                                                          |
+| t     | Event                                          |
+| ----- | ---------------------------------------------- |
+| 0.15  | Labels fade out (0.9s)                         |
+| 0.25  | Camera drifts the device back and right (3.4s) |
+| 2.20  | Phone rises (1.3s)                             |
+| 4.20  | Exchange 1 begins                              |
+| 10.70 | Exchange 2 begins                              |
+| 17.20 | Exchange 3 begins                              |
+| 24.70 | Last reply settled                             |
+| 25.20 | Replay control fades in                        |
+| 26.20 | END                                            |
 
 Each exchange runs the same offsets from its start `E`:
 

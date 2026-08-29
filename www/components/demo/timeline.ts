@@ -32,16 +32,18 @@ export type LabelSpec = {
 /* Intro                                                               */
 /* ------------------------------------------------------------------ */
 
+/**
+ * The opening. Deliberately unhurried: the device is not doing anything yet, it
+ * is getting out of the way, and the whole move should read as a drift rather
+ * than a transition. The beats inside each exchange stay quick.
+ */
 export const INTRO = {
-  /** The Orin retracting into the trunk. */
-  assembleStart: 0,
-  assembleDur: 0.6,
-  labelsOutStart: 0.1,
-  labelsOutDur: 0.2,
-  cameraStart: 0.6,
-  cameraDur: 1.4,
-  phoneStart: 1.3,
-  phoneDur: 0.7,
+  labelsOutStart: 0.15,
+  labelsOutDur: 0.9,
+  cameraStart: 0.25,
+  cameraDur: 3.4,
+  phoneStart: 2.2,
+  phoneDur: 1.3,
 };
 
 /* ------------------------------------------------------------------ */
@@ -91,28 +93,28 @@ const screenLabel = (id: string, text: string): LabelSpec => ({
   // The card's top right corner, with the label out to its right. The left of
   // the screen is where the phone sits, and a label anchored there lands on
   // the conversation it is supposed to be corroborating.
-  anchor: { kind: 'screen', u: 0.88, v: 0.4 },
+  anchor: { kind: 'screen', u: 0.76, v: 0.38 },
   side: 'right',
 });
 
 export const EXCHANGES: Exchange[] = [
   {
     id: 'glaucoma',
-    start: 2.6,
+    start: 4.2,
     duration: 6.5,
     card: 'record',
     label: screenLabel('artifact-record', 'gp-summary.pdf'),
   },
   {
     id: 'ballroom',
-    start: 9.1,
+    start: 10.7,
     duration: 6.5,
     card: 'audio',
     label: screenLabel('artifact-audio', 'maire-1971.m4a'),
   },
   {
     id: 'teachers',
-    start: 15.6,
+    start: 17.2,
     duration: 7.5,
     card: 'email',
     label: screenLabel('artifact-email', 'gmail · compose'),
@@ -147,26 +149,27 @@ export type CameraPose = {
   offsetY: number;
 };
 
-/** Idle: the device large and centred, nothing else on screen. */
+/**
+ * Idle: the device sitting on the right, close and calm, nothing else on
+ * screen. It is a still object, not a diagram — the labels do the explaining.
+ */
 export const HERO_POSE: CameraPose = {
-  dir: [-0.2, 0.34, 1.96],
-  dist: 0.92,
-  offsetX: 0.62,
-  offsetY: 0,
+  dir: [-0.34, 0.46, 1.95],
+  dist: 1.24,
+  offsetX: 0.92,
+  offsetY: -0.04,
 };
 
 /**
- * Playing: the device settled at the right, phone to its left.
- *
- * Closer than the device sat when it was only scenery. The artifact card has to
- * be legible from a normal viewing distance, and that is the whole reason the
- * card exists.
+ * Playing: the device drifted back and further right, making room for the
+ * phone. Still close enough that the artifact card reads, which is the whole
+ * reason the card exists.
  */
 export const RESTING_POSE: CameraPose = {
   dir: [-0.42, 0.58, 1.94],
-  dist: 1.3,
+  dist: 1.37,
   offsetX: 1.5,
-  offsetY: -0.18,
+  offsetY: -0.16,
 };
 
 /* ------------------------------------------------------------------ */
@@ -174,11 +177,11 @@ export const RESTING_POSE: CameraPose = {
 /* ------------------------------------------------------------------ */
 
 /**
- * The labelled drawing. Five parts, staggered in.
+ * What the device is made of, called out on the assembled object.
  *
  * There is no speaker mesh — the speaker is the perforated grille on the front
  * face — so its label is anchored to enclosure-front and nudged down to the
- * grille rather than to a part of its own.
+ * grille. The GPU's leader line points into the body, which is where it is.
  */
 export const HERO_LABELS: LabelSpec[] = [
   {
@@ -192,15 +195,21 @@ export const HERO_LABELS: LabelSpec[] = [
     id: 'trunk',
     text: 'Family Trunk',
     sub: 'the body',
-    anchor: { kind: 'part', node: 'enclosure-front', offset: [-0.5, -0.3, 0] },
+    anchor: {
+      kind: 'part',
+      node: 'enclosure-front',
+      offset: [-0.52, -0.4, 0],
+    },
     side: 'left',
   },
   {
     id: 'gpu',
     text: 'On-board GPU',
     sub: 'answers are computed here',
-    anchor: { kind: 'part', node: 'orin' },
-    side: 'right',
+    // The Orin's own position, nudged down into the base of the body. The
+    // leader line runs into the case, which is where the thing actually is.
+    anchor: { kind: 'part', node: 'orin', offset: [-0.1, -0.34, 0] },
+    side: 'left',
   },
   {
     id: 'speaker',
@@ -211,18 +220,10 @@ export const HERO_LABELS: LabelSpec[] = [
   {
     id: 'screen',
     text: 'Touchscreen',
-    anchor: { kind: 'screen', u: 0.72, v: 0.3 },
+    anchor: { kind: 'screen', u: 0.66, v: 0.16 },
     side: 'right',
   },
 ];
-
-/**
- * How far the device closes up on hover, before play is ever pressed.
- *
- * The intro assembles from here rather than from fully open, so pressing play
- * after hovering continues the movement instead of snapping back.
- */
-export const SETTLED_EXPLODE = 0.55;
 
 /** Each hero label lands this many seconds after the one before it. */
 export const HERO_LABEL_STAGGER = 0.12;

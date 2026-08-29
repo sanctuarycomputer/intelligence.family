@@ -849,6 +849,24 @@ p + h4 {
 
 /* ---- the phone ---- */
 
+/* Fixed rather than sticky. Sticky unpins the moment its containing block
+   scrolls past, which on a page this tall meant the phone drifted for a while
+   and then stuck near the bottom. The demo is a fixed overlay everywhere else
+   — canvas, labels, controls — so the phone joins it.
+
+   The offset is the layout it replaces, not a guess: the page's 80px padding,
+   the 620px text column, and the row's 96px gap. */
+@media (min-width: 1024px) {
+  .phone-dock {
+    position: fixed;
+    top: 95px;
+    left: calc(80px + 620px + 96px);
+    /* Without this the fixed box is a full viewport wide from that offset,
+       which hands the page a horizontal scrollbar. */
+    width: auto;
+  }
+}
+
 /* Driven by a class rather than a per-frame transform, so it eases out on
    replay as well as in. Curve matches SETTLE in components/demo/easing.ts. */
 .phone-rise {

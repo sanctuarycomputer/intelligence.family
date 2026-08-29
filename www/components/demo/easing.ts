@@ -73,9 +73,13 @@ export function cubicBezier(
 export const SETTLE = cubicBezier(0.16, 1, 0.3, 1);
 /* css: cubic-bezier(0.16, 1, 0.3, 1) */
 
-/** Weighted both ends: for something with mass closing itself up. */
-export const ASSEMBLE = cubicBezier(0.65, 0, 0.35, 1);
-/* css: cubic-bezier(0.65, 0, 0.35, 1) */
+/**
+ * The long one. Barely moves at first, covers the distance in the middle, and
+ * takes its time arriving. For the camera drifting the device into the
+ * background, where any sharpness at either end reads as a jerk.
+ */
+export const GLIDE = cubicBezier(0.38, 0, 0.12, 1);
+/* css: cubic-bezier(0.38, 0, 0.12, 1) */
 
 /** Accelerates away. For things leaving, which should not linger. */
 export const EXIT = cubicBezier(0.55, 0, 0.85, 0.35);

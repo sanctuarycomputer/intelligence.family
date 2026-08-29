@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
-  ASSEMBLE,
   EXIT,
   FADE,
+  GLIDE,
   SETTLE,
   cubicBezier,
 } from '@/components/demo/easing';
 
-const CURVES = { SETTLE, ASSEMBLE, EXIT, FADE };
+const CURVES = { SETTLE, GLIDE, EXIT, FADE };
 
 describe('cubicBezier', () => {
   it('pins both ends and clamps beyond them', () => {
@@ -55,7 +55,14 @@ describe('cubicBezier', () => {
   it('front-loads SETTLE and back-loads EXIT', () => {
     expect(SETTLE(0.3)).toBeGreaterThan(0.7);
     expect(EXIT(0.3)).toBeLessThan(0.2);
-    // ASSEMBLE is weighted at both ends, so it is near the middle at halfway.
-    expect(ASSEMBLE(0.5)).toBeCloseTo(0.5, 1);
+  });
+
+  /* GLIDE has to be soft at both ends: it carries a three-and-a-half second
+     camera move, where a hard start or a hard stop is exactly the jerk it
+     exists to avoid. */
+  it('eases GLIDE in as well as out', () => {
+    expect(GLIDE(0.08)).toBeLessThan(0.08);
+    expect(GLIDE(0.5)).toBeGreaterThan(0.5);
+    expect(GLIDE(0.92)).toBeGreaterThan(0.97);
   });
 });

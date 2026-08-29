@@ -80,13 +80,22 @@ export function VoiceNote({ duration }: { duration: string }) {
   );
 }
 
-/** Apple's transcription, right-aligned under the note it transcribes. */
+/**
+ * Apple's transcription, flush with the right edge of the note above it.
+ *
+ * The alignment is a flex container rather than `ml-auto` on the paragraph:
+ * globals.css zeroes `p` margins outside any cascade layer, which silently
+ * beats Tailwind's layered margin utilities. Padding still works, margins do
+ * not — the same trap is noted on the homepage.
+ */
 export function Transcript({ text }: { text: string }) {
   return (
     <Entry>
-      <p className="ml-auto max-w-[86%] text-right text-[12px] leading-[1.3] text-black/45">
-        &ldquo;{text}&rdquo;
-      </p>
+      <div className="flex justify-end">
+        <p className="max-w-[86%] text-right text-[12px] leading-[1.3] text-black/45">
+          &ldquo;{text}&rdquo;
+        </p>
+      </div>
     </Entry>
   );
 }
@@ -94,11 +103,13 @@ export function Transcript({ text }: { text: string }) {
 export function Out({ text }: { text: string }) {
   return (
     <Entry>
-      <div
-        className="ml-auto max-w-[86%] rounded-[19px] rounded-br-[6px] px-[13px] py-[8px]"
-        style={{ background: OUT }}
-      >
-        <p className="text-[14px] leading-[1.32] text-white">{text}</p>
+      <div className="flex justify-end">
+        <div
+          className="max-w-[86%] rounded-[19px] rounded-br-[6px] px-[13px] py-[8px]"
+          style={{ background: OUT }}
+        >
+          <p className="text-[14px] leading-[1.32] text-white">{text}</p>
+        </div>
       </div>
     </Entry>
   );
@@ -123,7 +134,7 @@ export function Reply({
       >
         <p className="text-[14px] leading-[1.32] text-black">{text}</p>
         {showAttribution ? (
-          <p className="mt-[6px] text-[11.5px] leading-[1.25] text-black/45">
+          <p className="pt-[6px] text-[11.5px] leading-[1.25] text-black/45">
             {attributionKind === 'source' ? (
               <>from &ldquo;{attribution}&rdquo;</>
             ) : (

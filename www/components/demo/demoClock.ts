@@ -36,26 +36,22 @@ let t = 0;
 let lastTick = 0;
 /** When the idle state went up, for staggering the hero labels in. */
 let idleStart = nowMs();
-let settled = false;
 let reduced = false;
 let compact = false;
-/** Whether the hover had already part-closed the device when play was hit. */
-let startedSettled = false;
 let raf = 0;
 
-let state: DemoState = idleState(false, 0);
+let state: DemoState = idleState(0);
 let key = discreteKey(state);
 const listeners = new Set<Listener>();
 
 function derive(): DemoState {
   return phase === 'idle'
     ? idleState(
-        settled,
         // Reduced motion gets the finished drawing rather than a build.
         reduced ? Number.POSITIVE_INFINITY : (nowMs() - idleStart) / 1000,
         compact
       )
-    : stateAt(t, startedSettled);
+    : stateAt(t);
 }
 
 function publish() {
@@ -174,27 +170,16 @@ export function setCompact(value: boolean) {
   publish();
 }
 
-/** The hover reward: the leaf seats itself and the device shifts. */
-export function setSettled(value: boolean) {
-  if (settled === value || phase !== 'idle') return;
-  settled = value;
-  // `settled` only moves continuous values, so publish() would not notice it.
-  state = derive();
-  listeners.forEach(fn => fn(state, phase));
-}
-
 export function play() {
   if (phase === 'playing') return;
   stop();
   if (reduced) {
     t = END;
     phase = 'done';
-    startedSettled = settled;
     publish();
     return;
   }
   phase = 'playing';
-  startedSettled = settled;
   lastTick = nowMs();
   t = 0;
   publish();
@@ -206,8 +191,6 @@ export function replay() {
   stop();
   phase = 'idle';
   t = 0;
-  settled = false;
-  startedSettled = false;
   idleStart = nowMs();
   publish();
   staggerIdle();
@@ -244,9 +227,8 @@ export function reset() {
   phase = 'idle';
   lastPhase = 'idle';
   t = 0;
-  settled = false;
   reduced = false;
   idleStart = nowMs();
-  state = idleState(false, 0);
+  state = idleState(0);
   key = discreteKey(state);
 }
