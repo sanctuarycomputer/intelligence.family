@@ -31,7 +31,7 @@ export default function Home() {
 
       <main className="relative z-10 min-h-screen px-6 py-24 md:px-20 md:py-32">
         <div className="flex flex-col gap-16 lg:flex-row lg:items-center lg:gap-24">
-          <div className="max-w-[620px] shrink-0">
+          <div className="masthead max-w-[620px] shrink-0">
             <h1 style={{ fontSize: 'clamp(38px, 6vw, 62px)' }}>
               Family<span className="tracking-[-0.1em]"> </span>
               <span className="relative inline-block">
@@ -52,10 +52,7 @@ export default function Home() {
               <DemoControls />
             </div>
 
-            {/* Everything below the masthead fades while the demo runs, so the
-                only things left on the page are the name and what the device
-                is doing. */}
-            <div className="page-copy">
+            <div>
               <div className="mt-12">
                 <h4>About</h4>
               </div>

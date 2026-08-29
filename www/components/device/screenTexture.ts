@@ -29,6 +29,9 @@ const PILL_SHADOW = 'rgba(134, 160, 120, 0.5)'; // remote --shadow-sage-50
    in texture space because the panel tilts away from the camera: equal texture
    distances foreshorten vertically, so INSET_TOP is tuned to READ as equal to
    INSET_LEFT on screen. */
+/** How far the title block fades back while an artifact is up. */
+const TITLE_FADED_TO = 0.2;
+
 const INSET_LEFT = 96;
 const INSET_TOP = 150;
 const GAP_TITLE_SUB = 96;
@@ -163,6 +166,13 @@ export function drawScreen(
   // The top inset matches the left inset so the block sits equidistant from
   // both edges. Measured from the title's real ascent rather than an assumed
   // cap height, so the optical gap is right whatever the face metrics are.
+  //
+  // It fades back as an artifact rises, in step with the card rather than on a
+  // timer of its own. Down to a fifth rather than away: the card covers the
+  // lower two thirds, and whose device this is should still be legible above
+  // it, just not competing with what it is showing you.
+  ctx.save();
+  ctx.globalAlpha = 1 - (card?.y ?? 0) * (1 - TITLE_FADED_TO);
   ctx.fillStyle = INK;
   ctx.textBaseline = 'alphabetic';
   ctx.font = "700 92px 'Windsor Pro', Georgia, serif";
@@ -174,6 +184,7 @@ export function drawScreen(
   ctx.font = "400 56px 'Roobert', sans-serif";
   const subBaseline = titleBaseline + GAP_TITLE_SUB;
   ctx.fillText('Family Book', INSET_LEFT, subBaseline);
+  ctx.restore();
 
   // Activity chip.
   const chipX = INSET_LEFT;

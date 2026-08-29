@@ -103,21 +103,21 @@ const screenLabel = (id: string, text: string): LabelSpec => ({
 export const EXCHANGES: Exchange[] = [
   {
     id: 'glaucoma',
-    start: 4.2,
+    start: 3.0,
     duration: 6.5,
     card: 'record',
     label: screenLabel('artifact-record', 'gp-summary.pdf'),
   },
   {
     id: 'ballroom',
-    start: 10.7,
+    start: 9.5,
     duration: 6.5,
     card: 'audio',
     label: screenLabel('artifact-audio', 'maire-1971.m4a'),
   },
   {
     id: 'teachers',
-    start: 17.2,
+    start: 16.0,
     duration: 7.5,
     card: 'email',
     label: screenLabel('artifact-email', 'gmail · compose'),

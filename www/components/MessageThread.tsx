@@ -127,11 +127,16 @@ export default function MessageThread() {
             status bar icons out, wrapped the transcription onto a third line
             and crowded the timestamp off the voice note. */}
         <div
-          className="phone-frame relative mx-auto overflow-hidden bg-black shadow-[0_2px_6px_rgba(49,49,49,0.08),0_24px_60px_rgba(49,49,49,0.16)]"
+          className="phone-frame relative mx-auto overflow-hidden shadow-[0_2px_6px_rgba(49,49,49,0.08),0_24px_60px_rgba(49,49,49,0.16)]"
           style={{
             aspectRatio: '390 / 844',
             borderRadius: '56px',
-            padding: '11px',
+            /* The bezel, a quarter thinner than a real iPhone's: at this size
+               the full width reads as a heavy frame rather than an edge. */
+            padding: '8.25px',
+            /* The device's own black is the wordmark's off-black, not #000.
+               Pure black beside it looks like a different palette. */
+            background: 'var(--fi-black-900)',
           }}
         >
           <div
@@ -139,7 +144,11 @@ export default function MessageThread() {
             style={{ borderRadius: '46px' }}
           >
             {/* Dynamic Island */}
-            <div className="pointer-events-none absolute left-1/2 top-[9px] z-20 h-[32px] w-[112px] -translate-x-1/2 rounded-full bg-black" />
+            {/* Same off-black as the bezel: it is the same piece of hardware. */}
+            <div
+              className="pointer-events-none absolute left-1/2 top-[9px] z-20 h-[32px] w-[112px] -translate-x-1/2 rounded-full"
+              style={{ background: 'var(--fi-black-900)' }}
+            />
 
             {/* Status bar */}
             <div className="relative z-10 flex shrink-0 items-center justify-between px-[26px] pb-[4px] pt-[15px] text-[14px] font-semibold text-black">

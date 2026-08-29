@@ -1,6 +1,6 @@
 # Homepage demo — design
 
-One scripted 26-second sequence on `intelligence.family`. A labelled drawing of
+One scripted 25-second sequence on `intelligence.family`. A labelled drawing of
 the hardware, a play control, then three questions asked and answered, with the
 device visibly producing each answer. The narrative script is
 `docs/homepage-demo-script.md`; this document is how it gets built.
@@ -103,7 +103,7 @@ all, and leaves the file readable afterwards.
 
 ## Timeline
 
-Absolute seconds. `END = 26.2`.
+Absolute seconds. `END = 25.0`.
 
 | t     | Event                                          |
 | ----- | ---------------------------------------------- |

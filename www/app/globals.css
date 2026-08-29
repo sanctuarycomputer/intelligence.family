@@ -1042,30 +1042,22 @@ p + h4 {
   }
 }
 
-/* Narrow only. On a phone the demo lands on top of the copy, so the page steps
-   back to the name and the device while it runs. Wide, the phone and the
-   device have their own half of the screen and the copy is not in the way —
-   fading it there would just make the page look broken. */
+/* Narrow only. On a phone the demo lands on top of the page, so the whole
+   masthead column goes — wordmark, control and copy — and the screen is the
+   phone and the device. Nothing is stranded by that: a tap anywhere off the
+   phone stops the demo and brings it all back.
+
+   Wide, the phone and the device have their own half of the screen and the
+   copy is not in the way, so fading it there would just look broken. */
 @media (max-width: 1023px) {
-  .page-copy {
+  .masthead {
     transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  html[data-demo='playing'] .page-copy,
-  html[data-demo='done'] .page-copy {
+  html[data-demo='playing'] .masthead,
+  html[data-demo='done'] .masthead {
     opacity: 0;
     pointer-events: none;
-  }
-
-  /* Dimmed to a marker rather than hidden, so there is still something to aim
-     at. Back on hover and focus, and in full once it says Replay. */
-  html[data-demo='playing'] .demo-play {
-    opacity: 0.2;
-  }
-
-  html[data-demo='playing'] .demo-play:hover,
-  html[data-demo='playing'] .demo-play:focus-visible {
-    opacity: 1;
   }
 
   /* The demo owns the screen while it runs. The copy behind it is at zero
@@ -1082,7 +1074,7 @@ p + h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-copy {
+  .masthead {
     transition: none;
   }
 }
