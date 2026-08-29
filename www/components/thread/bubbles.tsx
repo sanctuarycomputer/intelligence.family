@@ -104,16 +104,6 @@ export function Out({ text }: { text: string }) {
   );
 }
 
-export function Receipt({ text }: { text: string }) {
-  return (
-    <Entry>
-      <p className="pr-[3px] text-right text-[10.5px] leading-none text-black/40">
-        {text}
-      </p>
-    </Entry>
-  );
-}
-
 export function Reply({
   text,
   attribution,

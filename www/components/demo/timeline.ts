@@ -57,7 +57,7 @@ export const INTRO = {
  */
 export const BEAT = {
   question: 0,
-  /** Apple's transcription under a voice note, or the delivery receipt. */
+  /** Apple's transcription under a voice note. */
   aside: 0.3,
   think: 0.55,
   typing: 0.95,

@@ -21,8 +21,6 @@ export type ThreadEntry = {
   /** Apple's transcription, right-aligned under a voice note. */
   | { kind: 'transcript'; text: string }
   | { kind: 'out'; text: string }
-  /** Small grey line under an outbound message. */
-  | { kind: 'receipt'; text: string }
   /**
    * `source` renders as a citation — from "GP summary" — and is what a recalled
    * answer carries. `action` renders plain, because a receipt for something the
@@ -96,13 +94,6 @@ export const THREAD: ThreadEntry[] = [
     beat: 'question',
     kind: 'out',
     text: "Can you email the kids' teachers and ask when the next parent-teacher meeting is?",
-  },
-  {
-    id: 'q3-receipt',
-    exchange: 'teachers',
-    beat: 'aside',
-    kind: 'receipt',
-    text: 'Delivered to the box in your kitchen',
   },
   {
     id: 'a3',

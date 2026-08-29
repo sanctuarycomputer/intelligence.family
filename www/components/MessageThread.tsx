@@ -8,7 +8,6 @@ import {
   AudioSnippet,
   OUT,
   Out,
-  Receipt,
   Reply,
   Transcript,
   Typing,
@@ -234,8 +233,6 @@ export default function MessageThread() {
                     return <Transcript key={entry.id} text={entry.text} />;
                   case 'out':
                     return <Out key={entry.id} text={entry.text} />;
-                  case 'receipt':
-                    return <Receipt key={entry.id} text={entry.text} />;
                   case 'reply':
                     return (
                       <Reply
