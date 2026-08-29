@@ -795,64 +795,28 @@ p + h4 {
 
 /* ---- play / replay ---- */
 
-.demo-controls {
-  position: fixed;
-  bottom: 42px;
-  left: 50%;
-  z-index: 30;
-  transform: translateX(-50%);
-}
-
-/* Wide, the device occupies the right of the frame. Centring the control over
-   the text column would put the way in nowhere near the thing it starts. */
-@media (min-width: 1024px) {
-  .demo-controls {
-    left: 74%;
-  }
-}
-
-.demo-play,
-.demo-replay {
-  display: flex;
+/* Sits under the wordmark, in the flow. Small and green so it reads as part of
+   the masthead rather than as a call to action stuck over the scene. */
+.demo-play {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 11px 22px;
+  gap: 8px;
+  padding: 6px 14px 7px;
   border: 0;
   border-radius: 999px;
+  background: var(--fi-green-200);
+  color: var(--fi-green-600);
   font: inherit;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1;
   cursor: pointer;
   transition:
     background 220ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 220ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.demo-play {
-  background: var(--fi-black-1000);
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(49, 49, 49, 0.22);
+    color 220ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .demo-play:hover {
-  transform: translateY(-2px);
-}
-
-.demo-play-glyph {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 8px solid currentColor;
-}
-
-.demo-replay {
-  background: rgba(49, 49, 49, 0.08);
-  color: var(--fi-black-1000);
-}
-
-.demo-replay:hover {
-  background: rgba(49, 49, 49, 0.14);
+  background: var(--fi-green-300);
 }
 
 /* ---- the phone ---- */
@@ -949,13 +913,10 @@ p + h4 {
     animation: none;
   }
   .scene-labels,
-  .demo-play,
-  .demo-replay {
+  .demo-play {
     transition: none;
   }
 }
-
-/* The demo scrubber sits above the device panel, sharing its styling. */
 
 /* The phone is 390x844 at full size, which overflows a laptop viewport once
    the page's vertical padding is counted. */

@@ -26,7 +26,6 @@ export default function Home() {
       <DeviceSceneMount className="device-layer" />
       <SceneLabels />
       <OrbitSurface />
-      <DemoControls />
 
       <main className="relative z-10 min-h-screen px-6 py-24 md:px-20 md:py-32">
         <div className="flex flex-col gap-16 lg:flex-row lg:items-center lg:gap-24">
@@ -47,7 +46,11 @@ export default function Home() {
               </span>
             </h1>
 
-            <div className="mt-14">
+            <div className="mt-5">
+              <DemoControls />
+            </div>
+
+            <div className="mt-12">
               <h4>About</h4>
             </div>
 
