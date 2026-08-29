@@ -187,3 +187,23 @@ export const RESTING_POSE: CameraPose = {
   offsetX: 1.5,
   offsetY: -0.16,
 };
+
+/**
+ * Narrow viewports: the device centred in its own corner of the screen.
+ *
+ * No pan at all. Below the breakpoint the scene's canvas is a small box pinned
+ * to the top right by CSS, so the corner is a layout question and the camera
+ * only has to fill the box it is given. Panning the device across a
+ * full-viewport canvas instead would mean hand-tuning offsets against every
+ * phone aspect ratio, which is exactly the sort of number that is right on the
+ * device it was tuned on and wrong everywhere else.
+ *
+ * One pose rather than a pair: there is nowhere on a phone to drift to, and the
+ * device is not on screen before the demo starts.
+ */
+export const COMPACT_POSE: CameraPose = {
+  dir: [-0.29, 0.51, 0.81],
+  dist: 1.18,
+  offsetX: 0,
+  offsetY: 0,
+};

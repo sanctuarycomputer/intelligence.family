@@ -32,6 +32,7 @@ let t = 0;
 /** Wall clock of the last tick, for accumulating elapsed time. */
 let lastTick = 0;
 let reduced = false;
+let compact = false;
 let raf = 0;
 
 let state: DemoState = idleState();
@@ -39,7 +40,7 @@ let key = discreteKey(state);
 const listeners = new Set<Listener>();
 
 function derive(): DemoState {
-  return phase === 'idle' ? idleState() : stateAt(t);
+  return phase === 'idle' ? idleState(compact) : stateAt(t, compact);
 }
 
 function publish() {
@@ -107,6 +108,17 @@ export function setReducedMotion(value: boolean) {
   publish();
 }
 
+/**
+ * Narrow viewports frame the device in one fixed place instead of drifting it,
+ * and keep it off screen until the demo runs.
+ */
+export function setCompact(value: boolean) {
+  if (compact === value) return;
+  compact = value;
+  state = derive();
+  listeners.forEach(fn => fn(state, phase));
+}
+
 export function play() {
   if (phase === 'playing') return;
   stop();
@@ -163,6 +175,7 @@ export function reset() {
   lastPhase = 'idle';
   t = 0;
   reduced = false;
+  compact = false;
   state = idleState();
   key = discreteKey(state);
 }

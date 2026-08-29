@@ -5,6 +5,7 @@ import {
   getPhase,
   play,
   replay,
+  setCompact,
   setReducedMotion,
   subscribe,
 } from './demoClock';
@@ -43,7 +44,7 @@ function PlayGlyph() {
 
 const LABEL: Record<DemoPhase, string> = {
   idle: 'Demo',
-  playing: 'Playing',
+  playing: 'Playing…',
   done: 'Replay',
 };
 
@@ -52,13 +53,31 @@ export default function DemoControls() {
 
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReducedMotion(motion.matches);
+    const narrow = window.matchMedia('(max-width: 1023px)');
+    const sync = () => {
+      setReducedMotion(motion.matches);
+      setCompact(narrow.matches);
+    };
     sync();
     motion.addEventListener('change', sync);
-    return () => motion.removeEventListener('change', sync);
+    narrow.addEventListener('change', sync);
+    return () => {
+      motion.removeEventListener('change', sync);
+      narrow.removeEventListener('change', sync);
+    };
   }, []);
 
-  useEffect(() => subscribe((_, p) => setPhase(p)), []);
+  useEffect(
+    () =>
+      subscribe((_, p) => {
+        setPhase(p);
+        /* Published to the document so CSS can respond to it. Narrow viewports
+           keep the device and the phone off screen until the demo runs, and
+           that is a presentation concern rather than another subscription. */
+        document.documentElement.dataset.demo = p;
+      }),
+    []
+  );
 
   return (
     <button

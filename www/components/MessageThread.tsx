@@ -32,6 +32,12 @@ const PHONE_EXIT_MS = 700;
 /** Page padding above and below the phone, from main's py-32 plus breathing room. */
 const VIEWPORT_MARGIN = 190;
 
+/** Matches the breakpoint the stylesheet and the clock's compact flag use. */
+const WIDE_FROM = 1024;
+
+/** How much of a narrow viewport the phone is allowed to take. */
+const COMPACT_FRACTION = 0.8;
+
 export default function MessageThread() {
   /* All of these start at the demo's resting state rather than being read from
      the clock, so the server and the client render the same first frame.
@@ -44,7 +50,7 @@ export default function MessageThread() {
      the phone blank for the whole of its fade. */
   const [shown, setShown] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<HTMLDivElement>(null);
+  const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let emptying: ReturnType<typeof setTimeout> | undefined;
@@ -71,17 +77,27 @@ export default function MessageThread() {
   }, []);
 
   /**
-   * How far the phone has to shrink to fit the viewport.
+   * How far the phone has to shrink to fit.
    *
    * Computed here rather than in CSS because scale() needs a unitless number,
    * and CSS cannot divide a length by a length to produce one — written as a
    * calc() it is silently invalid and the phone renders at full size.
+   *
+   * Wide, it fits the viewport's height. Narrow, it fits inside 80% of both
+   * dimensions, whichever binds first, so it stays a phone-shaped thing sitting
+   * on the bottom edge rather than filling the screen.
    */
   useEffect(() => {
-    const el = frameRef.current;
+    const el = dockRef.current;
     if (!el) return;
     const fit = () => {
-      const scale = Math.min(1, (window.innerHeight - VIEWPORT_MARGIN) / 844);
+      const narrow = window.innerWidth < WIDE_FROM;
+      const scale = narrow
+        ? Math.min(
+            (window.innerWidth * COMPACT_FRACTION) / 390,
+            (window.innerHeight * COMPACT_FRACTION) / 844
+          )
+        : Math.min(1, (window.innerHeight - VIEWPORT_MARGIN) / 844);
       el.style.setProperty('--phone-scale', String(scale));
     };
     fit();
@@ -100,7 +116,7 @@ export default function MessageThread() {
   }, [shown, typing, phoneUp]);
 
   return (
-    <div className="phone-dock flex w-full flex-1 flex-col items-center lg:items-start">
+    <div ref={dockRef} className="phone-dock">
       {/* The rise is a CSS transition rather than a per-frame write, so it
           eases back out on replay too. A transform written every frame cannot
           be transitioned away from — it just stops, leaving the phone stranded
@@ -113,7 +129,6 @@ export default function MessageThread() {
             status bar icons out, wrapped the transcription onto a third line
             and crowded the timestamp off the voice note. */}
         <div
-          ref={frameRef}
           className="phone-frame relative mx-auto overflow-hidden bg-black shadow-[0_2px_6px_rgba(49,49,49,0.08),0_24px_60px_rgba(49,49,49,0.16)]"
           style={{
             aspectRatio: '390 / 844',

@@ -821,38 +821,70 @@ p + h4 {
 
 /* ---- the phone ---- */
 
-/* Fixed rather than sticky. Sticky unpins the moment its containing block
-   scrolls past, which on a page this tall meant the phone drifted for a while
-   and then stuck near the bottom. The demo is a fixed overlay everywhere else
-   — canvas, labels, controls — so the phone joins it.
+/* The dock is sized to the phone's *visual* box, so the scaled frame inside it
+   can be positioned by ordinary means. --phone-scale is written by
+   MessageThread: scale() needs a unitless number and CSS cannot produce one by
+   dividing lengths. */
+.phone-dock {
+  position: fixed;
+  z-index: 12;
+  width: calc(390px * var(--phone-scale, 1));
+  height: calc(844px * var(--phone-scale, 1));
+  /* Nothing here is interactive, and it must not block the orbit surface. */
+  pointer-events: none;
+}
 
-   The offset is the layout it replaces, not a guess: the page's 80px padding,
-   the 620px text column, and the row's 96px gap. */
+/* Narrow: sitting on the bottom edge, centred, at 80% of the viewport. */
+.phone-dock {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Wide: beside the text column, at the offset the old flow layout gave it —
+   the page's 80px padding, the 620px text column, and the row's 96px gap. */
 @media (min-width: 1024px) {
   .phone-dock {
-    position: fixed;
     top: 95px;
+    bottom: auto;
     left: calc(80px + 620px + 96px);
-    /* Without this the fixed box is a full viewport wide from that offset,
-       which hands the page a horizontal scrollbar. */
-    width: auto;
+    transform: none;
   }
 }
 
 /* Driven by a class rather than a per-frame transform, so it eases out on
    replay as well as in. Curve matches SETTLE in components/demo/easing.ts. */
 .phone-rise {
-  position: relative;
+  position: absolute;
+  inset: 0;
   opacity: 0;
-  transform: translate3d(0, 46%, 0);
+  /* Narrow, it starts entirely below the bottom edge it slides up from. */
+  transform: translate3d(0, 100%, 0);
   transition:
     transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
     opacity 460ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@media (min-width: 1024px) {
+  .phone-rise {
+    transform: translate3d(0, 46%, 0);
+  }
+}
+
 .phone-rise.is-up {
   opacity: 1;
   transform: none;
+}
+
+/* Always laid out at its true size and scaled, never reflowed: everything
+   inside is in iOS points, so narrowing the box squeezes the status bar icons
+   out and rewraps the copy. */
+.phone-frame {
+  width: 390px;
+  height: 844px;
+  max-width: none;
+  transform: scale(var(--phone-scale, 1));
+  transform-origin: top left;
 }
 
 /* ---- thread ---- */
@@ -895,12 +927,23 @@ p + h4 {
   }
 }
 
-/* Below the breakpoint the device sits behind the phone rather than beside it,
-   so it reads as a backdrop instead of competing for the same space. */
+/* Below the breakpoint there is no room for the device beside the phone, so it
+   stays off screen until the demo runs and then appears in the corner the
+   compact camera pose frames it in. Faded rather than unmounted: the model is
+   2.8MB and pressing Demo should not start a download. */
 @media (max-width: 1023px) {
+  /* Its own box in the corner rather than the whole viewport. The camera then
+     just fills what it is given, so the placement holds on any phone. */
   .device-layer {
-    opacity: 0.32;
-    filter: saturate(0.7);
+    inset: 0 0 auto auto;
+    width: 58vw;
+    height: 34dvh;
+    opacity: 0;
+    transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  html[data-demo='playing'] .device-layer,
+  html[data-demo='done'] .device-layer {
+    opacity: 1;
   }
   .scene-labels {
     display: none;

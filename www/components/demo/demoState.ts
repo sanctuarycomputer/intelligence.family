@@ -18,6 +18,7 @@ import {
   HERO_POSE,
   INTRO,
   REPLAY_AT,
+  COMPACT_POSE,
   RESTING_POSE,
   SENT_AT,
   SENT_LABEL,
@@ -128,9 +129,9 @@ for (let i = 1; i < ENTRY_DUE.length; i += 1) {
  * right, nothing on screen but the leaves drifting across its own display and
  * whatever angle the visitor has turned it to.
  */
-export function idleState(): DemoState {
+export function idleState(compact = false): DemoState {
   return {
-    camera: HERO_POSE,
+    camera: compact ? COMPACT_POSE : HERO_POSE,
     cardY: 0,
     cameraProgress: 0,
     phoneUp: false,
@@ -145,13 +146,20 @@ export function idleState(): DemoState {
   };
 }
 
-/** The world at time `t` seconds after play. Clamped to [0, END]. */
-export function stateAt(t: number): DemoState {
+/**
+ * The world at time `t` seconds after play. Clamped to [0, END].
+ *
+ * `compact` is the narrow-viewport layout: the device sits in one place rather
+ * than drifting, because there is nowhere on a phone for it to drift to.
+ */
+export function stateAt(t: number, compact = false): DemoState {
   const now = Math.min(END, Math.max(0, t));
 
   // GLIDE rather than SETTLE: the device is drifting out of the way, and an
   // expo-out over three and a half seconds reads as a lurch then a crawl.
-  const camK = progress(now, INTRO.cameraStart, INTRO.cameraDur, GLIDE);
+  const camK = compact
+    ? 1
+    : progress(now, INTRO.cameraStart, INTRO.cameraDur, GLIDE);
 
   // The thread is a prefix: entries are listed in the order they arrive, so
   // "how many are showing" is just how many are due.
@@ -216,7 +224,7 @@ export function stateAt(t: number): DemoState {
   }
 
   return {
-    camera: lerpPose(HERO_POSE, RESTING_POSE, camK),
+    camera: compact ? COMPACT_POSE : lerpPose(HERO_POSE, RESTING_POSE, camK),
     cardY,
     cameraProgress: camK,
     phoneUp: now >= INTRO.phoneStart,
