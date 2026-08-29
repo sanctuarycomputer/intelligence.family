@@ -11,6 +11,12 @@ export type DeviceControls = {
   caseColor: string;
   /** Shows the processing dots, to pair with the phone's typing bubble. */
   thinking: boolean;
+  /**
+   * Takes the camera back off the demo clock. The clock owns framing during
+   * normal use; the debug panel sets this the moment a camera slider moves, so
+   * tuning is possible without the timeline fighting it.
+   */
+  cameraOverride: boolean;
   /** Camera direction from the device, normalised by the scene. */
   dir: [number, number, number];
   /** Multiplier on the fitted framing distance. */
@@ -28,6 +34,7 @@ export type DeviceControls = {
 export const DEVICE_DEFAULTS: DeviceControls = {
   caseColor: '#a28f6c',
   thinking: false,
+  cameraOverride: false,
   dir: [-0.52, 0.7, 1.92],
   dist: 1.59,
   offsetX: 2.3,

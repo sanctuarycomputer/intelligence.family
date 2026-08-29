@@ -14,6 +14,9 @@ import {
 } from './screenTexture';
 import { getDeviceControls, setDeviceControls } from './deviceControls';
 import { applyCaseGrain, type GrainUniforms } from './caseMaterial';
+import { markReady, read as readDemo } from '../demo/demoClock';
+import { clearAnchors, setAnchor } from '../demo/sceneProjection';
+import type { LabelAnchor } from '../demo/timeline';
 
 /**
  * The Family Book device, live in WebGL.
@@ -27,6 +30,21 @@ import { applyCaseGrain, type GrainUniforms } from './caseMaterial';
  */
 
 const MODEL = '/home/trunk.glb';
+
+/**
+ * Where the separated parts travel to in the exploded hero, in object radii.
+ *
+ * The Leaf lifts clear of its seat; the Orin drops out of the underside, which
+ * is the one direction that never puts it in front of the shell and so never
+ * hides the thing it is supposed to be explaining.
+ */
+const EXPLODE = {
+  leaf: new THREE.Vector3(0, 0.55, 0),
+  orin: new THREE.Vector3(0, -0.85, 0.1),
+};
+
+/** How far past the assembled bounding sphere the exploded parts reach. */
+const EXPLODE_REACH = 0.85;
 
 /**
  * The display panel's own plane: an orthonormal basis and the extent of the
@@ -303,6 +321,19 @@ export default function DeviceScene({
     let assets: ScreenAssets | null = null;
     const start = performance.now();
 
+    /** Parts that move in the exploded view, with where they rest. */
+    const movers = new Map<
+      string,
+      { object: THREE.Object3D; rest: THREE.Vector3; travel: THREE.Vector3 }
+    >();
+    /** Named nodes a label can point at. */
+    const parts = new Map<string, THREE.Object3D>();
+    /** The display's plane and visible window, for UV-space label anchors. */
+    let panel: {
+      plane: PanelPlane;
+      win: { uLo: number; uHi: number; vLo: number; vHi: number };
+    } | null = null;
+
     const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
     Promise.all([loader.loadAsync(MODEL), loadScreenAssets()])
       .then(([gltf, a]) => {
@@ -310,16 +341,17 @@ export default function DeviceScene({
         assets = a;
         const root = gltf.scene;
 
-        // The internals belong to the exploded view, not the finished object.
-        ['orin', 'ups'].forEach(n => {
-          const o = root.getObjectByName(n);
-          if (o) o.visible = false;
-        });
+        // The Orin earns its place in the exploded hero, so it stays in the
+        // scene and is tucked inside the trunk once the demo assembles it. The
+        // UPS has no label and never separates, so it is simply not drawn.
+        const ups = root.getObjectByName('ups');
+        if (ups) ups.visible = false;
 
         root.traverse(o => {
           if (!(o instanceof THREE.Mesh)) return;
           const isCase =
             o.name.startsWith('enclosure') ||
+            o.name === 'leaf' ||
             (o.parent?.name ?? '').startsWith('enclosure');
           if (isCase) {
             // Ships as metalness 1, which reads as chrome rather than plastic.
@@ -344,13 +376,16 @@ export default function DeviceScene({
         root.updateMatrixWorld(true);
 
         const display = root.getObjectByName('display');
-        // Everything that could sit in front of the glass. The aperture scan
-        // needs these as world-space geometry, hence after updateMatrixWorld.
+        // Only the enclosure can sit in front of the glass, and only the
+        // enclosure is worth raycasting: the Orin is a CAD assembly of several
+        // thousand meshes, and including it turns the 800-ray aperture scan
+        // into a multi-second freeze on the main thread.
         const blockers: THREE.Object3D[] = [];
-        root.traverse(o => {
-          if (!(o instanceof THREE.Mesh) || !o.visible) return;
-          if (display && (o === display || display.getObjectById(o.id))) return;
-          blockers.push(o);
+        ['enclosure-front', 'enclosure-top', 'enclosure-back'].forEach(name => {
+          const part = root.getObjectByName(name);
+          part?.traverse(o => {
+            if (o instanceof THREE.Mesh && o.visible) blockers.push(o);
+          });
         });
 
         display?.traverse(o => {
@@ -358,6 +393,7 @@ export default function DeviceScene({
           const plane = panelPlane(o);
           const win = apertureBounds(plane, blockers);
           writeUVs(o, plane, win);
+          panel = { plane, win };
           // Size the canvas to the opening so the design maps 1:1 rather than
           // being stretched to the panel's own proportions.
           const aspect = (win.uHi - win.uLo) / (win.vHi - win.vLo);
@@ -375,20 +411,80 @@ export default function DeviceScene({
         });
         box.getCenter(target);
         radius = box.getSize(new THREE.Vector3()).length() / 2;
+
+        ['leaf', 'orin', 'enclosure-front', 'display'].forEach(name => {
+          const o = root.getObjectByName(name);
+          if (o) parts.set(name, o);
+        });
+        (['leaf', 'orin'] as const).forEach(name => {
+          const object = parts.get(name);
+          if (!object) return;
+          movers.set(name, {
+            object,
+            rest: object.position.clone(),
+            travel: EXPLODE[name].clone().multiplyScalar(radius),
+          });
+        });
+
         resize();
+        markReady();
         onReadyRef.current?.();
       })
       .catch(() => {
         /* the static poster underneath stays visible */
       });
 
+    /* Scratch vectors. Allocating these per frame is the one thing in a render
+       loop that reliably shows up as GC sawtooth. */
+    const vDir = new THREE.Vector3();
+    const vRight = new THREE.Vector3();
+    const vUp = new THREE.Vector3();
+    const vPan = new THREE.Vector3();
+    const vLook = new THREE.Vector3();
+    const vAnchor = new THREE.Vector3();
+    const WORLD_UP = new THREE.Vector3(0, 1, 0);
+
+    /** World position an anchor points at, or null if it cannot be resolved. */
+    const anchorWorld = (a: LabelAnchor, out: THREE.Vector3) => {
+      if (a.kind === 'screen') {
+        if (!panel) return null;
+        const { plane, win } = panel;
+        const u = win.uLo + (win.uHi - win.uLo) * a.u;
+        // The card's UVs run down the screen; the plane's v runs up it.
+        const v = win.vHi - (win.vHi - win.vLo) * a.v;
+        return out
+          .set(0, 0, 0)
+          .addScaledVector(plane.u, u)
+          .addScaledVector(plane.v, v)
+          .addScaledVector(plane.normal, plane.d);
+      }
+      const node = parts.get(a.node);
+      if (!node) return null;
+      node.getWorldPosition(out);
+      if (a.offset) {
+        out.x += a.offset[0] * radius;
+        out.y += a.offset[1] * radius;
+        out.z += a.offset[2] * radius;
+      }
+      return out;
+    };
+
     const tick = () => {
       raf = requestAnimationFrame(tick);
       if (!assets) return;
       const time = (performance.now() - start) / 1000;
       const live = getDeviceControls();
+      const demo = readDemo();
 
-      drawScreen(ctx, assets, { time, thinking: live.thinking, still });
+      drawScreen(ctx, assets, {
+        time,
+        // The debug panel can force the indicator on while the clock is idle.
+        thinking: demo.thinking || live.thinking,
+        still,
+        card: demo.card
+          ? { kind: demo.card, y: demo.cardY, sent: demo.cardSent, time }
+          : null,
+      });
       texture.needsUpdate = true;
 
       caseMats.forEach(m => m.color.set(live.caseColor));
@@ -400,31 +496,66 @@ export default function DeviceScene({
         g.uGrainBump.value = live.grainBump;
       });
 
-      const dir = new THREE.Vector3(...live.dir).normalize();
+      // Separated parts ride back to their seats as the demo assembles.
+      movers.forEach(({ object, rest, travel }) => {
+        object.position.copy(rest).addScaledVector(travel, demo.explode);
+      });
+
+      const view = live.cameraOverride ? live : demo.camera;
+      vDir.set(view.dir[0], view.dir[1], view.dir[2]).normalize();
       // Fit the bounding sphere to whichever viewport dimension is tighter, so
       // the device keeps its size across aspect ratios.
       const vFov = THREE.MathUtils.degToRad(camera.fov);
       const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
-      const fit = radius / Math.sin(Math.min(vFov, hFov) / 2);
+      // The separated parts reach outside the assembled bounding sphere, so the
+      // sphere being framed grows with the explosion. Without this the hero
+      // frames the trunk and drops the Orin off the bottom of the viewport.
+      const spread = radius * (1 + EXPLODE_REACH * demo.explode);
+      const fit = spread / Math.sin(Math.min(vFov, hFov) / 2);
 
       // Shifting camera and look-at together slides the device across the
-      // frame without rotating it — the canvas is full-viewport, so this is
-      // what places it, and what a fly-around animates.
-      const right = new THREE.Vector3()
-        .crossVectors(dir, new THREE.Vector3(0, 1, 0))
-        .normalize();
-      const up = new THREE.Vector3().crossVectors(right, dir).normalize();
-      const pan = right
-        .multiplyScalar(live.offsetX * radius)
-        .addScaledVector(up, live.offsetY * radius);
+      // frame without rotating it. The canvas is full-viewport, so this is what
+      // places the device, and what the intro animates.
+      vRight.crossVectors(vDir, WORLD_UP).normalize();
+      vUp.crossVectors(vRight, vDir).normalize();
+      vPan
+        .copy(vRight)
+        .multiplyScalar(view.offsetX * radius)
+        .addScaledVector(vUp, view.offsetY * radius);
 
       camera.position
         .copy(target)
-        .addScaledVector(dir, fit * live.dist)
-        .add(pan);
-      camera.lookAt(target.clone().add(pan));
+        .addScaledVector(vDir, fit * view.dist)
+        .add(vPan);
+      vLook.copy(target).add(vPan);
+      camera.lookAt(vLook);
+      camera.updateMatrixWorld();
 
       renderer.render(scene, camera);
+
+      // Project each live label's anchor for the DOM overlay. After the render,
+      // so the matrices are the ones just drawn with.
+      if (demo.labels.length === 0) {
+        clearAnchors();
+      } else {
+        const w = host.clientWidth || 1;
+        const h = host.clientHeight || 1;
+        for (const label of demo.labels) {
+          const point = anchorWorld(label.anchor, vAnchor);
+          if (!point) {
+            setAnchor(label.id, { x: 0, y: 0, onScreen: false });
+            continue;
+          }
+          // Projects in place: anchorWorld wrote into vAnchor, and the world
+          // position is not needed again this frame.
+          point.project(camera);
+          setAnchor(label.id, {
+            x: ((point.x + 1) / 2) * w,
+            y: ((1 - point.y) / 2) * h,
+            onScreen: point.z > -1 && point.z < 1,
+          });
+        }
+      }
     };
     raf = requestAnimationFrame(tick);
 

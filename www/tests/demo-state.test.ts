@@ -3,6 +3,7 @@ import { discreteKey, idleState, stateAt } from '@/components/demo/demoState';
 import {
   BEAT,
   END,
+  INTRO,
   EXCHANGES,
   HERO_LABELS,
   REPLAY_AT,
@@ -136,14 +137,36 @@ describe('stateAt', () => {
   });
 
   it('shows at most one artifact label at a time', () => {
-    for (let t = 0; t <= END; t += 0.02) {
+    // Past the intro, only the current exchange's artifact is named.
+    for (let t = 1; t <= END; t += 0.02) {
       expect(stateAt(t).labels.length).toBeLessThanOrEqual(1);
     }
   });
 
-  it('fades the hero labels out during the intro', () => {
-    expect(stateAt(0).labelOpacity).toBe(1);
-    expect(stateAt(1).labelOpacity).toBe(0);
+  /* The hero labels fade rather than vanish, which means they outlive the press
+     of play by a moment. The group then returns to full opacity, because the
+     artifact labels share the overlay and must not inherit that fade. */
+  it('fades the hero labels out, then hands the overlay back', () => {
+    const start = stateAt(0);
+    expect(start.labelOpacity).toBe(1);
+    expect(start.labels.map(l => l.id)).toEqual(HERO_LABELS.map(l => l.id));
+
+    const mid = stateAt(INTRO.labelsOutStart + INTRO.labelsOutDur / 2);
+    expect(mid.labelOpacity).toBeGreaterThan(0);
+    expect(mid.labelOpacity).toBeLessThan(1);
+    expect(mid.labels).toHaveLength(HERO_LABELS.length);
+
+    const after = stateAt(INTRO.labelsOutStart + INTRO.labelsOutDur + EPS);
+    expect(after.labels).toHaveLength(0);
+    expect(after.labelOpacity).toBe(1);
+  });
+
+  it('never leaves an artifact label invisible', () => {
+    for (let t = 0; t <= END; t += 0.02) {
+      const s = stateAt(t);
+      const artifact = s.labels.some(l => l.id.startsWith('artifact-'));
+      if (artifact) expect(s.labelOpacity).toBe(1);
+    }
   });
 
   it('brings the replay control in near the end and not before', () => {

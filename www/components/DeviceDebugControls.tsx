@@ -70,12 +70,16 @@ export default function DeviceDebugControls() {
     grainBump: DEVICE_DEFAULTS.grainBump,
   });
   const [caseHex, setCaseHex] = useState(DEVICE_DEFAULTS.caseColor);
+  /* The demo clock owns framing by default. Touching a camera slider takes it
+     back, so tuning is possible without the timeline overwriting every frame. */
+  const [cameraOverride, setCameraOverride] = useState(false);
   const [thinking, setThinking] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
 
   useEffect(() => {
     setDeviceControls({
       caseColor: caseHex,
+      cameraOverride,
       dir,
       dist,
       offsetX,
@@ -83,7 +87,7 @@ export default function DeviceDebugControls() {
       thinking,
       ...grain,
     });
-  }, [caseHex, dir, dist, offsetX, offsetY, thinking, grain]);
+  }, [caseHex, cameraOverride, dir, dist, offsetX, offsetY, thinking, grain]);
 
   const valueOf = (k: Knob['key']) => {
     if (k === 'x') return dir[0];
@@ -96,6 +100,9 @@ export default function DeviceDebugControls() {
   };
 
   const setValue = (k: Knob['key'], v: number) => {
+    if (k !== 'grainScale' && k !== 'grainRough' && k !== 'grainBump') {
+      setCameraOverride(true);
+    }
     if (k === 'dist') return setDist(v);
     if (k === 'offsetX') return setOffsetX(v);
     if (k === 'offsetY') return setOffsetY(v);
@@ -122,6 +129,7 @@ export default function DeviceDebugControls() {
     });
     setCaseHex(DEVICE_DEFAULTS.caseColor);
     setThinking(false);
+    setCameraOverride(false);
   };
 
   const copy = async () => {
@@ -197,6 +205,14 @@ export default function DeviceDebugControls() {
         </button>
         <button type="button" onClick={copy}>
           {copied ?? 'Copy'}
+        </button>
+        <button
+          type="button"
+          onClick={() => setCameraOverride(v => !v)}
+          className={cameraOverride ? 'is-on' : undefined}
+          title="take the camera off the demo clock"
+        >
+          {cameraOverride ? 'Manual cam ✓' : 'Manual cam'}
         </button>
         <button type="button" onClick={reset}>
           Reset

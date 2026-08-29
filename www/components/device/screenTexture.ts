@@ -10,6 +10,8 @@
  * correct through any camera move.
  */
 
+import { drawCard, type CardState } from './screenCards';
+
 export const SCREEN_W = 1280;
 export const SCREEN_H = 800;
 
@@ -118,12 +120,14 @@ export type ScreenState = {
   thinking?: boolean;
   /** Freezes the leaves for prefers-reduced-motion. */
   still?: boolean;
+  /** The artifact the device is showing, if any. Drawn over the lock screen. */
+  card?: CardState | null;
 };
 
 export function drawScreen(
   ctx: CanvasRenderingContext2D,
   a: ScreenAssets,
-  { time, thinking = false, still = false }: ScreenState
+  { time, thinking = false, still = false, card = null }: ScreenState
 ) {
   const W = ctx.canvas.width;
   const H = ctx.canvas.height;
@@ -178,13 +182,19 @@ export function drawScreen(
   ctx.font = "500 24px 'Roobert', sans-serif";
   const label = '2 Stories just added by Toni';
   const chipW = 18 + 34 + 14 + ctx.measureText(label).width + 28;
-  ctx.fillStyle = CHIP_BG;
-  ctx.beginPath();
-  ctx.roundRect(chipX, chipY, chipW, chipH, chipH / 2);
-  ctx.fill();
-  ctx.drawImage(a.heart, chipX + 18, chipY + (chipH - 34) / 2, 34, 34);
-  ctx.fillStyle = CHIP_INK;
-  ctx.fillText(label, chipX + 18 + 34 + 14, chipY + chipH / 2 + 8);
+  // While the box is working, the chip's row carries the indicator instead of
+  // the activity line. Same slot, so the screen's composition never jumps.
+  if (thinking) {
+    drawThinking(ctx, chipX, chipY + chipH / 2, time);
+  } else {
+    ctx.fillStyle = CHIP_BG;
+    ctx.beginPath();
+    ctx.roundRect(chipX, chipY, chipW, chipH, chipH / 2);
+    ctx.fill();
+    ctx.drawImage(a.heart, chipX + 18, chipY + (chipH - 34) / 2, 34, 34);
+    ctx.fillStyle = CHIP_INK;
+    ctx.fillText(label, chipX + 18 + 34 + 14, chipY + chipH / 2 + 8);
+  }
 
   // Ask pill, bottom right — launcher.slint's `ask-btn` (label "Ask" beside a
   // microphone), at twice the device's own size so it holds up at the distance
@@ -232,19 +242,28 @@ export function drawScreen(
     micSize
   );
 
-  // Processing indicator, in sync with the phone's typing bubble.
-  if (thinking) {
-    const bx = INSET_LEFT;
-    const by = H - 96;
-    for (let i = 0; i < 3; i += 1) {
-      const p = (time * 1000) / 1200 - i * 0.15;
-      const k = 0.5 - 0.5 * Math.cos(2 * Math.PI * (p % 1));
-      ctx.globalAlpha = 0.28 + 0.72 * k;
-      ctx.fillStyle = SAGE_INK;
-      ctx.beginPath();
-      ctx.arc(bx + i * 34, by - k * 6, 10, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
+  // The artifact, over everything. It slides up from the bottom edge, so it
+  // covers the Ask pill on the way and that is the intent: while the box is
+  // showing you a record, it is not waiting for another question.
+  drawCard(ctx, card);
+}
+
+/** Three dots, in sync with the phone's typing bubble. */
+function drawThinking(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  centreY: number,
+  time: number
+) {
+  ctx.save();
+  for (let i = 0; i < 3; i += 1) {
+    const p = time / 1.2 - i * 0.15;
+    const k = 0.5 - 0.5 * Math.cos(2 * Math.PI * (((p % 1) + 1) % 1));
+    ctx.globalAlpha = 0.28 + 0.72 * k;
+    ctx.fillStyle = SAGE_INK;
+    ctx.beginPath();
+    ctx.arc(x + 14 + i * 34, centreY - k * 6, 10, 0, Math.PI * 2);
+    ctx.fill();
   }
+  ctx.restore();
 }

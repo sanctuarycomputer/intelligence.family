@@ -1,67 +1,99 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import LeafIcon from '@/components/LeafIcon';
+import { read, subscribe } from '@/components/demo/demoClock';
+import { THREAD } from '@/components/thread/threadScript';
+import {
+  AudioSnippet,
+  OUT,
+  Out,
+  Receipt,
+  Reply,
+  Transcript,
+  Typing,
+  VoiceNote,
+} from '@/components/thread/bubbles';
 
 /**
  * A mock iMessage thread showing the device answering from the family's own
- * archive. Content follows the investor demo script's escalation: a recorded
- * story, a cross-source calendar answer, and an honest decline.
+ * archive. The copy lives in threadScript.ts; this file is the phone around it.
  *
- * The O'Hagans are the synthetic seed family from fam-api/fixtures/seeds.
- * Over SMS the real device strips citation markers and shows a single source
- * line, so each reply carries at most one, and the decline carries none.
+ * Entries arrive one at a time, driven by the demo clock, and the thread
+ * scrolls to keep the newest one above the input bar. Before the demo is
+ * played the thread is empty, which is what makes pressing play feel like
+ * starting a conversation rather than replaying a recording.
  *
- * Frame is 390x844 (iPhone logical points, 19.5:9). Static and server
- * rendered: no client JS.
+ * Frame is 390x844 (iPhone logical points, 19.5:9).
  */
 
-const IN = '#E9E9EB';
-const OUT = '#007AFF';
-
-/* Deterministic pseudo-waveform so the bars look spoken, not generated. */
-function bars(seed: number, count: number) {
-  const out: number[] = [];
-  let v = seed;
-  for (let i = 0; i < count; i += 1) {
-    v = (v * 1103515245 + 12345) % 2147483648;
-    out.push(6 + ((v >>> 8) % 15));
-  }
-  return out;
-}
-
-function Waveform({ seed, color }: { seed: number; color: string }) {
-  return (
-    <span className="flex h-[22px] items-center gap-[2.5px]">
-      {bars(seed, 26).map((h, i) => (
-        <span
-          key={i}
-          style={{ height: `${h}px`, background: color }}
-          className="w-[2.5px] rounded-full"
-        />
-      ))}
-    </span>
-  );
-}
-
-function PlayGlyph({ color }: { color: string }) {
-  return (
-    <svg
-      width="9"
-      height="11"
-      viewBox="0 0 9 11"
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        d="M0 0.7v9.6c0 .5.6.9 1 .6l8-4.8c.4-.2.4-.8 0-1L1 .1C.6-.2 0 .2 0 .7Z"
-        fill={color}
-      />
-    </svg>
-  );
-}
-
 export default function MessageThread() {
+  const [visible, setVisible] = useState(() => read().visibleMessages);
+  const [attributed, setAttributed] = useState(() => read().attributed);
+  const [typing, setTyping] = useState(() => read().typing);
+  const [phoneUp, setPhoneUp] = useState(() => read().phoneY > 0.99);
+  const upRef = useRef(read().phoneY > 0.99);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
+
+  useEffect(
+    () =>
+      subscribe(s => {
+        setVisible(s.visibleMessages);
+        setAttributed(s.attributed);
+        setTyping(s.typing);
+      }),
+    []
+  );
+
+  // The phone rises on a continuous value, so it is read per frame rather than
+  // pushed through React. One class toggle, not a re-render per frame.
+  useEffect(() => {
+    let raf = 0;
+    const frame = () => {
+      raf = requestAnimationFrame(frame);
+      const el = frameRef.current;
+      if (!el) return;
+      const y = read().phoneY;
+      el.style.transform = `translate3d(0, ${(1 - y) * 46}%, 0)`;
+      el.style.opacity = String(Math.min(1, y * 1.6));
+      // Only tell React when it actually flips, rather than dispatching an
+      // identical value sixty times a second.
+      const up = y > 0.99;
+      if (up !== upRef.current) {
+        upRef.current = up;
+        setPhoneUp(up);
+      }
+    };
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Keep the newest bubble in view once the thread outgrows the frame.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollTo({
+      top: el.scrollHeight,
+      behavior: phoneUp ? 'smooth' : 'auto',
+    });
+  }, [visible, typing, phoneUp]);
+
+  let replyIndex = -1;
+
   return (
-    <div className="flex w-full flex-1 flex-col items-center lg:items-start lg:pl-[90px]">
-      <div className="relative">
+    <div className="flex w-full flex-1 flex-col items-center lg:items-start">
+      {/* The rise is written per frame by the loop below, but the first paint
+          happens before any frame runs, so the resting state is inline too.
+          Without it the Dynamic Island shows through on load. */}
+      <div
+        className="relative"
+        ref={frameRef}
+        style={{
+          transform: `translate3d(0, ${(1 - read().phoneY) * 46}%, 0)`,
+          opacity: Math.min(1, read().phoneY * 1.6),
+        }}
+      >
         {/* ===== iPhone ===== */}
         <div
           className="relative mx-auto w-[390px] max-w-full overflow-hidden bg-black shadow-[0_2px_6px_rgba(49,49,49,0.08),0_24px_60px_rgba(49,49,49,0.16)]"
@@ -195,102 +227,44 @@ export default function MessageThread() {
             </div>
 
             {/* ===== Thread ===== */}
-            <div className="flex flex-1 flex-col gap-[4px] overflow-hidden px-[13px] pb-2 pt-[6px]">
-              {/* 1 — asked by voice from a waiting room, with Apple's transcription */}
-              <div className="flex flex-col items-end gap-[3px]">
-                <div
-                  className="flex max-w-[86%] items-center gap-[9px] rounded-[19px] rounded-br-[6px] px-[13px] py-[9px]"
-                  style={{ background: OUT }}
-                >
-                  <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-white/95">
-                    <PlayGlyph color={OUT} />
-                  </span>
-                  <Waveform seed={7} color="rgba(255,255,255,0.85)" />
-                  <span className="shrink-0 text-[11px] tabular-nums text-white/80">
-                    0:06
-                  </span>
-                </div>
-                <p className="max-w-[86%] text-right text-[12px] leading-[1.3] text-black/45">
-                  &ldquo;At the doctor. Do we have family history of
-                  glaucoma?&rdquo;
-                </p>
-              </div>
+            <div
+              ref={scrollRef}
+              className="flex flex-1 flex-col gap-[4px] overflow-hidden px-[13px] pb-2 pt-[6px]"
+            >
+              {THREAD.slice(0, visible).map(entry => {
+                if (entry.kind === 'reply') replyIndex += 1;
+                switch (entry.kind) {
+                  case 'voiceNote':
+                    return (
+                      <VoiceNote key={entry.id} duration={entry.duration} />
+                    );
+                  case 'transcript':
+                    return <Transcript key={entry.id} text={entry.text} />;
+                  case 'out':
+                    return <Out key={entry.id} text={entry.text} />;
+                  case 'receipt':
+                    return <Receipt key={entry.id} text={entry.text} />;
+                  case 'reply':
+                    return (
+                      <Reply
+                        key={entry.id}
+                        text={entry.text}
+                        from={entry.from}
+                        showFrom={replyIndex < attributed}
+                      />
+                    );
+                  case 'audioSnippet':
+                    return (
+                      <AudioSnippet
+                        key={entry.id}
+                        name={entry.name}
+                        duration={entry.duration}
+                      />
+                    );
+                }
+              })}
 
-              <div
-                className="max-w-[86%] self-start rounded-[19px] rounded-bl-[6px] px-[13px] py-[7px]"
-                style={{ background: IN }}
-              >
-                <p className="text-[14px] leading-[1.32] text-black">
-                  Yes. Des has glaucoma in the left eye and he&rsquo;s on drops
-                  for it. It came up at his eye review with Mr Deasy.
-                </p>
-                <p className="mt-[6px] text-[11.5px] leading-[1.25] text-black/45">
-                  from &ldquo;GP summary, Des O&rsquo;Hagan&rdquo;
-                </p>
-              </div>
-
-              {/* 2 — answered with the grandmother's own recording */}
-              <div
-                className="max-w-[86%] self-end rounded-[19px] rounded-br-[6px] px-[13px] py-[7px]"
-                style={{ background: OUT }}
-              >
-                <p className="text-[14px] leading-[1.32] text-white">
-                  Ali is asking how Granny &amp; Grandad met?
-                </p>
-              </div>
-
-              <div
-                className="max-w-[86%] self-start rounded-[19px] rounded-bl-[6px] px-[13px] py-[7px]"
-                style={{ background: IN }}
-              >
-                <p className="text-[14px] leading-[1.32] text-black">
-                  At the Crystal Ballroom in Dublin, in 1971. She turned him
-                  down twice before she danced with him on the third ask.
-                </p>
-                <p className="mt-[6px] text-[11.5px] leading-[1.25] text-black/45">
-                  from &ldquo;M&aacute;ire at the Crystal Ballroom&rdquo;
-                </p>
-              </div>
-
-              <div
-                className="flex max-w-[86%] items-center gap-[9px] self-start rounded-[19px] rounded-bl-[6px] px-[13px] py-[9px]"
-                style={{ background: IN }}
-              >
-                <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-black/[0.55]">
-                  <PlayGlyph color="#fff" />
-                </span>
-                <span className="flex flex-col gap-[3px]">
-                  <Waveform seed={21} color="rgba(0,0,0,0.45)" />
-                  <span className="text-[10.5px] leading-none text-black/45">
-                    M&aacute;ire, 0:14
-                  </span>
-                </span>
-              </div>
-
-              {/* 3 — cross-source: the answer names whose calendar it came from */}
-              <div className="flex flex-col items-end gap-[3px]">
-                <div
-                  className="max-w-[86%] rounded-[19px] rounded-br-[6px] px-[13px] py-[7px]"
-                  style={{ background: OUT }}
-                >
-                  <p className="text-[14px] leading-[1.32] text-white">
-                    When is the kids&rsquo; next parent teacher interview?
-                  </p>
-                </div>
-                <p className="pr-[3px] text-[10.5px] leading-none text-black/40">
-                  Delivered to the box in your kitchen
-                </p>
-              </div>
-
-              <div
-                className="max-w-[86%] self-start rounded-[19px] rounded-bl-[6px] px-[13px] py-[7px]"
-                style={{ background: IN }}
-              >
-                <p className="text-[14px] leading-[1.32] text-black">
-                  From your wife&rsquo;s Google Calendar: Thursday 4:30, in the
-                  school hall.
-                </p>
-              </div>
+              {typing ? <Typing /> : null}
             </div>
 
             {/* ===== Input bar ===== */}

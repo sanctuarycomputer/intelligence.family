@@ -88,10 +88,11 @@ export type Exchange = {
 const screenLabel = (id: string, text: string): LabelSpec => ({
   id,
   text,
-  // Anchored to the top left of the card, which sits in the lower two thirds
-  // of the screen. Leader line runs up and out to the left.
-  anchor: { kind: 'screen', u: 0.18, v: 0.42 },
-  side: 'left',
+  // The card's top right corner, with the label out to its right. The left of
+  // the screen is where the phone sits, and a label anchored there lands on
+  // the conversation it is supposed to be corroborating.
+  anchor: { kind: 'screen', u: 0.88, v: 0.4 },
+  side: 'right',
 });
 
 export const EXCHANGES: Exchange[] = [
@@ -148,18 +149,24 @@ export type CameraPose = {
 
 /** Idle: the device large and centred, nothing else on screen. */
 export const HERO_POSE: CameraPose = {
-  dir: [-0.16, 0.42, 1.94],
-  dist: 0.82,
-  offsetX: 0,
-  offsetY: -0.06,
+  dir: [-0.2, 0.34, 1.96],
+  dist: 0.92,
+  offsetX: 0.62,
+  offsetY: 0,
 };
 
-/** Playing: the device settled at the top right, phone to its left. */
+/**
+ * Playing: the device settled at the right, phone to its left.
+ *
+ * Closer than the device sat when it was only scenery. The artifact card has to
+ * be legible from a normal viewing distance, and that is the whole reason the
+ * card exists.
+ */
 export const RESTING_POSE: CameraPose = {
-  dir: [-0.52, 0.7, 1.92],
-  dist: 1.59,
-  offsetX: 2.3,
-  offsetY: -0.5,
+  dir: [-0.42, 0.58, 1.94],
+  dist: 1.3,
+  offsetX: 1.5,
+  offsetY: -0.18,
 };
 
 /* ------------------------------------------------------------------ */

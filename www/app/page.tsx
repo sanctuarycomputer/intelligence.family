@@ -3,6 +3,8 @@ import MessageThread from '@/components/MessageThread';
 import DebugCopyEditorMount from '@/components/DebugCopyEditorMount';
 import DeviceDebugControlsMount from '@/components/DeviceDebugControlsMount';
 import DeviceSceneMount from '@/components/device/DeviceSceneMount';
+import SceneLabels from '@/components/demo/SceneLabels';
+import DemoControls from '@/components/demo/DemoControls';
 
 /**
  * The front door. Deliberately sparse: no images, no navigation, no client JS
@@ -17,9 +19,12 @@ export default function Home() {
   return (
     <>
       {/* Full-viewport 3D layer. The device is positioned by the camera, not by
-          CSS, so it can fly anywhere on screen during the demo. Decorative and
-          non-interactive; the page content sits above it. */}
+          CSS, so the intro can move it without touching layout. The labels are
+          DOM over the top of it, because they name the hardware and that should
+          be selectable and legible to a screen reader. */}
       <DeviceSceneMount className="device-layer" />
+      <SceneLabels />
+      <DemoControls />
 
       <main className="relative z-10 min-h-screen px-6 py-24 md:px-20 md:py-32">
         <div className="flex flex-col gap-16 lg:flex-row lg:items-center lg:gap-24">

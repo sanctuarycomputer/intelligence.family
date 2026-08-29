@@ -2,8 +2,9 @@
 
 import { lazy, Suspense, useSyncExternalStore } from 'react';
 
-// Lazily imported so the panel is its own chunk and never reaches real visitors.
+// Lazily imported so the panels are their own chunk and never reach visitors.
 const DeviceDebugControls = lazy(() => import('./DeviceDebugControls'));
+const DemoDebugControls = lazy(() => import('./demo/DemoDebugControls'));
 
 const emptySubscribe = () => () => {};
 const readDebugFlag = () =>
@@ -19,6 +20,7 @@ export default function DeviceDebugControlsMount() {
   if (!debug) return null;
   return (
     <Suspense fallback={null}>
+      <DemoDebugControls />
       <DeviceDebugControls />
     </Suspense>
   );

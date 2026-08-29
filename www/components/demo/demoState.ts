@@ -151,8 +151,13 @@ export function stateAt(t: number): DemoState {
   const assembled = progress(now, INTRO.assembleStart, INTRO.assembleDur);
   const camK = progress(now, INTRO.cameraStart, INTRO.cameraDur);
   const phoneY = progress(now, INTRO.phoneStart, INTRO.phoneDur);
-  const labelOpacity =
-    1 - progress(now, INTRO.labelsOutStart, INTRO.labelsOutDur);
+
+  /* The hero labels have to survive briefly into the run so they can fade
+     rather than vanish the instant play is pressed. Once they are gone the
+     group returns to full opacity, because the artifact labels share the
+     overlay and must not inherit the fade that retired the hero ones. */
+  const heroFade = 1 - progress(now, INTRO.labelsOutStart, INTRO.labelsOutDur);
+  const labelOpacity = heroFade > 0 ? heroFade : 1;
 
   // The thread is a prefix: entries are listed in the order they arrive, so
   // "how many are showing" is just how many are due.
@@ -170,7 +175,7 @@ export function stateAt(t: number): DemoState {
   let cardY = 0;
   let typing = false;
   let attributed = 0;
-  const labels: LabelSpec[] = [];
+  const labels: LabelSpec[] = heroFade > 0 ? [...HERO_LABELS] : [];
 
   for (const ex of EXCHANGES) {
     if (now < ex.start) break;
