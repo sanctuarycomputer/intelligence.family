@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import { read, subscribe } from '@/components/demo/demoClock';
-import { THREAD } from '@/components/thread/threadScript';
+import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
 import {
   AudioSnippet,
   OUT,
@@ -28,27 +28,34 @@ import {
  */
 
 export default function MessageThread() {
-  const [visible, setVisible] = useState(() => read().visibleMessages);
-  const [attributed, setAttributed] = useState(() => read().attributed);
-  const [typing, setTyping] = useState(() => read().typing);
-  const [phoneUp, setPhoneUp] = useState(() => read().phoneY > 0.99);
-  const upRef = useRef(read().phoneY > 0.99);
+  /* All of these start at the demo's resting state rather than being read from
+     the clock, so the server and the client render the same first frame.
+     subscribe() catches up on mount. */
+  const [visible, setVisible] = useState(0);
+  const [attributed, setAttributed] = useState(0);
+  const [typing, setTyping] = useState(false);
+  const [phoneUp, setPhoneUp] = useState(false);
+  const [running, setRunning] = useState(false);
+  const upRef = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
 
   useEffect(
     () =>
-      subscribe(s => {
+      subscribe((s, p) => {
         setVisible(s.visibleMessages);
         setAttributed(s.attributed);
         setTyping(s.typing);
+        setRunning(p !== 'idle');
       }),
     []
   );
 
   // The phone rises on a continuous value, so it is read per frame rather than
-  // pushed through React. One class toggle, not a re-render per frame.
+  // pushed through React. One style write, not a re-render per frame — and only
+  // while the clock is actually running.
   useEffect(() => {
+    if (!running) return;
     let raf = 0;
     const frame = () => {
       raf = requestAnimationFrame(frame);
@@ -67,7 +74,7 @@ export default function MessageThread() {
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [running]);
 
   // Keep the newest bubble in view once the thread outgrows the frame.
   useEffect(() => {
@@ -79,24 +86,24 @@ export default function MessageThread() {
     });
   }, [visible, typing, phoneUp]);
 
-  let replyIndex = -1;
-
   return (
-    <div className="flex w-full flex-1 flex-col items-center lg:items-start">
+    <div className="flex w-full flex-1 flex-col items-center lg:sticky lg:top-[95px] lg:h-fit lg:items-start lg:self-start">
       {/* The rise is written per frame by the loop below, but the first paint
           happens before any frame runs, so the resting state is inline too.
-          Without it the Dynamic Island shows through on load. */}
+          Without it the Dynamic Island shows through on load. Hardcoded rather
+          than read from the clock, which would make it render differently on
+          the server than on the client. */}
       <div
         className="relative"
         ref={frameRef}
-        style={{
-          transform: `translate3d(0, ${(1 - read().phoneY) * 46}%, 0)`,
-          opacity: Math.min(1, read().phoneY * 1.6),
-        }}
+        style={{ transform: 'translate3d(0, 46%, 0)', opacity: 0 }}
       >
         {/* ===== iPhone ===== */}
+        {/* Height-driven rather than width-driven: at full size the phone is
+            taller than a laptop viewport, and the newest bubble would arrive
+            below the fold on the one screen that has to be watched. */}
         <div
-          className="relative mx-auto w-[390px] max-w-full overflow-hidden bg-black shadow-[0_2px_6px_rgba(49,49,49,0.08),0_24px_60px_rgba(49,49,49,0.16)]"
+          className="phone-frame relative mx-auto overflow-hidden bg-black shadow-[0_2px_6px_rgba(49,49,49,0.08),0_24px_60px_rgba(49,49,49,0.16)]"
           style={{
             aspectRatio: '390 / 844',
             borderRadius: '56px',
@@ -232,7 +239,6 @@ export default function MessageThread() {
               className="flex flex-1 flex-col gap-[4px] overflow-hidden px-[13px] pb-2 pt-[6px]"
             >
               {THREAD.slice(0, visible).map(entry => {
-                if (entry.kind === 'reply') replyIndex += 1;
                 switch (entry.kind) {
                   case 'voiceNote':
                     return (
@@ -249,8 +255,11 @@ export default function MessageThread() {
                       <Reply
                         key={entry.id}
                         text={entry.text}
-                        from={entry.from}
-                        showFrom={replyIndex < attributed}
+                        attribution={entry.attribution}
+                        attributionKind={entry.attributionKind}
+                        showAttribution={
+                          (REPLY_ORDINAL.get(entry.id) ?? 0) < attributed
+                        }
                       />
                     );
                   case 'audioSnippet':

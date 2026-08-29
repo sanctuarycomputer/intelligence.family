@@ -116,12 +116,14 @@ export function Receipt({ text }: { text: string }) {
 
 export function Reply({
   text,
-  from,
-  showFrom,
+  attribution,
+  attributionKind,
+  showAttribution,
 }: {
   text: string;
-  from: string;
-  showFrom: boolean;
+  attribution: string;
+  attributionKind: 'source' | 'action';
+  showAttribution: boolean;
 }) {
   return (
     <Entry>
@@ -130,9 +132,13 @@ export function Reply({
         style={{ background: IN }}
       >
         <p className="text-[14px] leading-[1.32] text-black">{text}</p>
-        {showFrom ? (
+        {showAttribution ? (
           <p className="mt-[6px] text-[11.5px] leading-[1.25] text-black/45">
-            from &ldquo;{from}&rdquo;
+            {attributionKind === 'source' ? (
+              <>from &ldquo;{attribution}&rdquo;</>
+            ) : (
+              attribution
+            )}
           </p>
         ) : null}
       </div>

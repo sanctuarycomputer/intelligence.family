@@ -5,6 +5,7 @@ import {
   getPhase,
   play,
   replay,
+  setCompact,
   setReducedMotion,
   setSettled,
   subscribe,
@@ -24,11 +25,19 @@ export default function DemoControls() {
   const [showReplay, setShowReplay] = useState(false);
 
   useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReducedMotion(media.matches);
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const wide = window.matchMedia('(min-width: 1024px)');
+    const sync = () => {
+      setReducedMotion(motion.matches);
+      setCompact(!wide.matches);
+    };
     sync();
-    media.addEventListener('change', sync);
-    return () => media.removeEventListener('change', sync);
+    motion.addEventListener('change', sync);
+    wide.addEventListener('change', sync);
+    return () => {
+      motion.removeEventListener('change', sync);
+      wide.removeEventListener('change', sync);
+    };
   }, []);
 
   useEffect(

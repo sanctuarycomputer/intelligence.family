@@ -228,24 +228,17 @@ export default function DeviceScene({
   caseColor,
   thinking,
   className,
-  onReady,
 }: {
   /** Optional overrides. Omitted values leave DEVICE_DEFAULTS alone. */
   caseColor?: string;
   thinking?: boolean;
   className?: string;
-  onReady?: () => void;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
-  const onReadyRef = useRef(onReady);
 
   // Props feed the shared store, which the render loop reads each frame. That
   // keeps prop changes cheap (no WebGL teardown) and lets the debug panel and
   // the demo drive the same state.
-  useEffect(() => {
-    onReadyRef.current = onReady;
-  }, [onReady]);
-
   useEffect(() => {
     const patch: Parameters<typeof setDeviceControls>[0] = {};
     if (caseColor !== undefined) patch.caseColor = caseColor;
@@ -428,7 +421,6 @@ export default function DeviceScene({
 
         resize();
         markReady();
-        onReadyRef.current?.();
       })
       .catch(() => {
         /* the static poster underneath stays visible */
@@ -563,6 +555,9 @@ export default function DeviceScene({
       disposed = true;
       cancelAnimationFrame(raf);
       ro.disconnect();
+      // Nothing is projecting any more; leaving the last frame's points behind
+      // would strand any label that outlives the scene.
+      clearAnchors();
       texture.dispose();
       env.texture.dispose();
       pmrem.dispose();

@@ -122,13 +122,20 @@ for (let i = 1; i < ENTRY_DUE.length; i += 1) {
  * shifts, but the labels stay and the Orin stays out. Pressing play is what
  * assembles it.
  */
-export function idleState(settled: boolean, elapsed: number): DemoState {
+export function idleState(
+  settled: boolean,
+  elapsed: number,
+  compact = false
+): DemoState {
   // Labels arrive staggered so the drawing builds itself rather than appearing
   // all at once. On a seek or a reduced-motion load, elapsed is large and they
   // are simply all there.
   const shown = HERO_LABELS.filter((_, i) => elapsed >= i * HERO_LABEL_STAGGER);
   return {
-    explode: settled ? 0.55 : 1,
+    // Compact viewports hide the labels, and an exploded device with nothing
+    // naming its parts is a broken machine rather than a drawing. So below the
+    // breakpoint it simply sits assembled.
+    explode: compact ? 0 : settled ? 0.55 : 1,
     camera: HERO_POSE,
     cardY: 0,
     phoneY: 0,
@@ -136,7 +143,7 @@ export function idleState(settled: boolean, elapsed: number): DemoState {
     thinking: false,
     card: null,
     cardSent: false,
-    labels: shown,
+    labels: compact ? [] : shown,
     visibleMessages: 0,
     attributed: 0,
     typing: false,

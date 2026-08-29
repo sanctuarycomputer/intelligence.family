@@ -24,7 +24,12 @@ const RISE = 38;
 const ELBOW = 18;
 
 export default function SceneLabels() {
-  const [labels, setLabels] = useState<LabelSpec[]>(() => read().labels);
+  /* Deliberately empty for the first render. The idle label set depends on how
+     long the scene has been up, so seeding it from the clock makes the server
+     and the client disagree — and a hydration mismatch here regenerates the
+     tree, which tears down the WebGL scene mid-load. subscribe() fills it on
+     mount. */
+  const [labels, setLabels] = useState<LabelSpec[]>([]);
   const hostRef = useRef<HTMLDivElement>(null);
   const boxes = useRef(new Map<string, HTMLDivElement>());
   const paths = useRef(new Map<string, SVGPathElement>());
@@ -32,6 +37,12 @@ export default function SceneLabels() {
   useEffect(() => subscribe(s => setLabels(s.labels)), []);
 
   useEffect(() => {
+    // No labels, nothing to project. A page sitting at rest should not hold a
+    // rAF loop open to reposition an empty set.
+    if (labels.length === 0) {
+      if (hostRef.current) hostRef.current.style.opacity = '0';
+      return;
+    }
     let raf = 0;
     const frame = () => {
       raf = requestAnimationFrame(frame);

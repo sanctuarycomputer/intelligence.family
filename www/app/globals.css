@@ -773,6 +773,14 @@ p + h4 {
   transform: translateX(-50%);
 }
 
+/* Wide, the device occupies the right of the frame. Centring the control over
+   the text column would put the way in nowhere near the thing it starts. */
+@media (min-width: 1024px) {
+  .demo-controls {
+    left: 74%;
+  }
+}
+
 .demo-play,
 .demo-replay {
   display: flex;
@@ -791,7 +799,7 @@ p + h4 {
 
 .demo-play {
   background: var(--fi-black-1000);
-  color: var(--fi-white);
+  color: #fff;
   box-shadow: 0 10px 30px rgba(49, 49, 49, 0.22);
 }
 
@@ -884,4 +892,24 @@ p + h4 {
 .demo-debug {
   bottom: auto;
   top: 16px;
+}
+
+/* The phone is 390x844 at full size, which overflows a laptop viewport once
+   the page's vertical padding is counted. Driving it from height keeps the
+   whole conversation on screen while the demo runs. */
+.phone-frame {
+  width: 390px;
+  max-width: 100%;
+}
+
+/* Width is computed from the height rather than left as auto: auto on a block
+   element means "fill the container", which inflates the phone instead of
+   deriving it from the space available. */
+@media (min-width: 1024px) {
+  .phone-frame {
+    --phone-h: min(844px, calc(100dvh - 190px));
+    height: var(--phone-h);
+    width: calc(var(--phone-h) * 390 / 844);
+    max-width: none;
+  }
 }

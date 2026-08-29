@@ -23,7 +23,17 @@ export type ThreadEntry = {
   | { kind: 'out'; text: string }
   /** Small grey line under an outbound message. */
   | { kind: 'receipt'; text: string }
-  | { kind: 'reply'; text: string; from: string }
+  /**
+   * `source` renders as a citation — from "GP summary" — and is what a recalled
+   * answer carries. `action` renders plain, because a receipt for something the
+   * box did is not a quotation of anything.
+   */
+  | {
+      kind: 'reply';
+      text: string;
+      attribution: string;
+      attributionKind: 'source' | 'action';
+    }
   | { kind: 'audioSnippet'; name: string; duration: string }
 );
 
@@ -49,7 +59,8 @@ export const THREAD: ThreadEntry[] = [
     beat: 'reply',
     kind: 'reply',
     text: "Yes. Des has glaucoma in the left eye and he's on drops for it. It came up at his eye review with Mr Deasy.",
-    from: 'GP summary, Des O’Hagan',
+    attribution: 'GP summary, Des O’Hagan',
+    attributionKind: 'source',
   },
 
   /* --- 2. Answered with the grandmother's own voice -------------------- */
@@ -66,7 +77,8 @@ export const THREAD: ThreadEntry[] = [
     beat: 'reply',
     kind: 'reply',
     text: 'At the Crystal Ballroom in Dublin, in 1971. She turned him down twice before she danced with him on the third ask.',
-    from: 'Máire at the Crystal Ballroom',
+    attribution: 'Máire at the Crystal Ballroom',
+    attributionKind: 'source',
   },
   {
     id: 'a2-audio',
@@ -98,6 +110,19 @@ export const THREAD: ThreadEntry[] = [
     beat: 'reply',
     kind: 'reply',
     text: "Sent to Ms Boland and Mr Kavanagh. I'll tell you when they write back.",
-    from: 'sent from your Gmail',
+    attribution: 'Sent from your Gmail',
+    attributionKind: 'action',
   },
 ];
+
+/**
+ * Each reply's position among the replies, by entry id.
+ *
+ * The demo reveals attributions as a running count, so a reply needs to know
+ * which number it is. Computed once here rather than by a counter mutated
+ * during render, which is impure and makes the list order load-bearing in a
+ * way React does not guarantee.
+ */
+export const REPLY_ORDINAL: ReadonlyMap<string, number> = new Map(
+  THREAD.filter(e => e.kind === 'reply').map((e, i) => [e.id, i])
+);

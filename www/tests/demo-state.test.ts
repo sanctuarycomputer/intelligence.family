@@ -228,8 +228,15 @@ describe('discreteKey', () => {
 describe('threadScript', () => {
   it('gives every reply an attribution', () => {
     for (const e of THREAD) {
-      if (e.kind === 'reply') expect(e.from.length).toBeGreaterThan(0);
+      if (e.kind === 'reply') expect(e.attribution.length).toBeGreaterThan(0);
     }
+  });
+
+  /* A citation and a receipt read differently: from "GP summary" is a quote of
+     a record, "Sent from your Gmail" is a note about something the box did. */
+  it('marks the action reply as an action, not a source', () => {
+    const replies = THREAD.filter(e => e.kind === 'reply');
+    expect(replies.filter(r => r.attributionKind === 'action')).toHaveLength(1);
   });
 
   it('gives every exchange exactly one question and one reply', () => {

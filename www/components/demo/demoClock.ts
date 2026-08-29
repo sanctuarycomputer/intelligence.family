@@ -38,6 +38,7 @@ let lastTick = 0;
 let idleStart = nowMs();
 let settled = false;
 let reduced = false;
+let compact = false;
 let raf = 0;
 
 let state: DemoState = idleState(false, 0);
@@ -46,7 +47,12 @@ const listeners = new Set<Listener>();
 
 function derive(): DemoState {
   return phase === 'idle'
-    ? idleState(settled, (nowMs() - idleStart) / 1000)
+    ? idleState(
+        settled,
+        // Reduced motion gets the finished drawing rather than a build.
+        reduced ? Number.POSITIVE_INFINITY : (nowMs() - idleStart) / 1000,
+        compact
+      )
     : stateAt(t);
 }
 
@@ -94,7 +100,7 @@ function stop() {
  * the first label would publish and the other four never would.
  */
 function staggerIdle() {
-  if (raf || phase !== 'idle') return;
+  if (raf || phase !== 'idle' || reduced || compact) return;
   const step = () => {
     if (phase !== 'idle') {
       raf = 0;
@@ -151,7 +157,19 @@ export function getTime(): number {
  * demo still runs; it just arrives rather than animating there.
  */
 export function setReducedMotion(value: boolean) {
+  if (reduced === value) return;
   reduced = value;
+  publish();
+}
+
+/**
+ * Below the breakpoint the device sits behind the phone with its labels hidden,
+ * so the exploded hero has nothing to explain and is not shown.
+ */
+export function setCompact(value: boolean) {
+  if (compact === value) return;
+  compact = value;
+  publish();
 }
 
 /** The hover reward: the leaf seats itself and the device shifts. */
