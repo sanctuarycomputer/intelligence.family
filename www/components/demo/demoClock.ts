@@ -18,12 +18,9 @@ import {
   type DemoPhase,
   type DemoState,
 } from './demoState';
-import { END, HERO_LABELS, HERO_LABEL_STAGGER } from './timeline';
+import { END } from './timeline';
 
 type Listener = (s: DemoState, phase: DemoPhase) => void;
-
-/** How long the hero labels take to finish arriving. */
-const IDLE_SETTLE = HERO_LABELS.length * HERO_LABEL_STAGGER;
 
 function nowMs(): number {
   return typeof performance === 'undefined' ? Date.now() : performance.now();
@@ -34,24 +31,15 @@ let lastPhase: DemoPhase = 'idle';
 let t = 0;
 /** Wall clock of the last tick, for accumulating elapsed time. */
 let lastTick = 0;
-/** When the idle state went up, for staggering the hero labels in. */
-let idleStart = nowMs();
 let reduced = false;
-let compact = false;
 let raf = 0;
 
-let state: DemoState = idleState(0);
+let state: DemoState = idleState();
 let key = discreteKey(state);
 const listeners = new Set<Listener>();
 
 function derive(): DemoState {
-  return phase === 'idle'
-    ? idleState(
-        // Reduced motion gets the finished drawing rather than a build.
-        reduced ? Number.POSITIVE_INFINITY : (nowMs() - idleStart) / 1000,
-        compact
-      )
-    : stateAt(t);
+  return phase === 'idle' ? idleState() : stateAt(t);
 }
 
 function publish() {
@@ -92,53 +80,12 @@ function stop() {
 }
 
 /**
- * Runs the clock through the idle label stagger.
- *
- * Idle is otherwise a still frame with nothing to advance it, so without this
- * the first label would publish and the other four never would.
- */
-function staggerIdle() {
-  if (raf || phase !== 'idle' || reduced || compact) return;
-  const step = () => {
-    if (phase !== 'idle') {
-      raf = 0;
-      return;
-    }
-    publish();
-    if ((nowMs() - idleStart) / 1000 >= IDLE_SETTLE) {
-      raf = 0;
-      return;
-    }
-    raf = requestAnimationFrame(step);
-  };
-  raf = requestAnimationFrame(step);
-}
-
-/**
- * Called once the scene has drawn its first frame.
- *
- * The stagger is timed from here rather than from module load: the model is
- * 2.8MB, so the labels would otherwise finish arriving before there is anything
- * for them to point at.
- */
-export function markReady() {
-  if (phase !== 'idle') return;
-  idleStart = nowMs();
-  staggerIdle();
-}
-
-/**
  * Live state, including continuous values. For the render loop.
  *
- * While idle the label stagger advances on wall clock rather than on `t`, so it
- * has to be re-derived. Once the labels are all in, the idle state is constant
- * and the cached object is handed back instead — no allocation per frame for a
- * scene that is not moving.
+ * Idle is a constant, so the cached object is handed straight back rather than
+ * rebuilt sixty times a second for a scene that is not changing.
  */
 export function read(): DemoState {
-  if (phase === 'idle' && (nowMs() - idleStart) / 1000 < IDLE_SETTLE) {
-    state = derive();
-  }
   return state;
 }
 
@@ -157,16 +104,6 @@ export function getTime(): number {
 export function setReducedMotion(value: boolean) {
   if (reduced === value) return;
   reduced = value;
-  publish();
-}
-
-/**
- * Below the breakpoint the device sits behind the phone with its labels hidden,
- * so the exploded hero has nothing to explain and is not shown.
- */
-export function setCompact(value: boolean) {
-  if (compact === value) return;
-  compact = value;
   publish();
 }
 
@@ -191,9 +128,7 @@ export function replay() {
   stop();
   phase = 'idle';
   t = 0;
-  idleStart = nowMs();
   publish();
-  staggerIdle();
 }
 
 /** Debug scrubbing. Parks the clock at `seconds` without running it. */
@@ -228,7 +163,6 @@ export function reset() {
   lastPhase = 'idle';
   t = 0;
   reduced = false;
-  idleStart = nowMs();
-  state = idleState(0);
+  state = idleState();
   key = discreteKey(state);
 }

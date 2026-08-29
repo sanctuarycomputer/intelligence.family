@@ -699,7 +699,6 @@ p + h4 {
   position: fixed;
   inset: 0;
   z-index: 20;
-  opacity: 0;
   pointer-events: none;
 }
 
@@ -994,5 +993,30 @@ p + h4 {
   }
   .phone-rise {
     transition: none;
+  }
+}
+
+/* Catches drags to turn the device while it sits idle. Only over the right of
+   the viewport, where the device is, so the About column stays selectable —
+   and only above the breakpoint, since below it the device is a dim backdrop
+   and swallowing drags there would break scrolling. */
+.device-orbit {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .device-orbit {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 52%;
+    z-index: 15;
+    display: block;
+    cursor: grab;
+    touch-action: pan-y;
+  }
+  .device-orbit:active {
+    cursor: grabbing;
   }
 }

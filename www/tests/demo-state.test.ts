@@ -5,7 +5,6 @@ import {
   END,
   INTRO,
   EXCHANGES,
-  HERO_LABELS,
   REPLAY_AT,
   SENT_LABEL,
 } from '@/components/demo/timeline';
@@ -165,21 +164,14 @@ describe('stateAt', () => {
     expect(sent.cardSent).toBe(true);
   });
 
-  it('shows at most one artifact label at a time', () => {
-    // Once the hero labels have gone, only the current artifact is named.
-    // Derived from INTRO rather than hardcoded, so retiming the fade does not
-    // quietly turn this into an assertion about nothing.
-    const after = INTRO.labelsOutStart + INTRO.labelsOutDur;
-    for (let t = after; t <= END; t += 0.02) {
-      expect(stateAt(t).labels.length, `t=${t.toFixed(2)}`).toBeLessThanOrEqual(
-        1
-      );
+  it('shows at most one label at a time, and only artifacts', () => {
+    for (let t = 0; t <= END; t += 0.02) {
+      const { labels } = stateAt(t);
+      expect(labels.length, `t=${t.toFixed(2)}`).toBeLessThanOrEqual(1);
+      for (const l of labels) expect(l.id.startsWith('artifact-')).toBe(true);
     }
   });
 
-  /* The hero labels fade rather than vanish, which means they outlive the press
-     of play by a moment. The group then returns to full opacity, because the
-     artifact labels share the overlay and must not inherit that fade. */
   /* The phone's rise is a boolean because the exit has to ease too. Replay
      drops it back to false, and CSS carries the phone away. */
   it('raises the phone once, and only after the camera has started moving', () => {
@@ -187,31 +179,23 @@ describe('stateAt', () => {
     expect(stateAt(INTRO.phoneStart - EPS).phoneUp).toBe(false);
     expect(stateAt(INTRO.phoneStart).phoneUp).toBe(true);
     expect(stateAt(END).phoneUp).toBe(true);
-    expect(idleState(99).phoneUp).toBe(false);
+    expect(idleState().phoneUp).toBe(false);
     // Up before the first question, so it is never mid-rise when one arrives.
     expect(INTRO.phoneStart + INTRO.phoneDur).toBeLessThan(EXCHANGES[0].start);
   });
 
-  it('fades the hero labels out, then hands the overlay back', () => {
-    const start = stateAt(0);
-    expect(start.labelOpacity).toBe(1);
-    expect(start.labels.map(l => l.id)).toEqual(HERO_LABELS.map(l => l.id));
+  /* The scene fades the visitor's own orbit out against this, so a held camera
+     angle and the opening drift never fight over the same frame. */
+  it('reports camera progress from nothing to done, once', () => {
+    expect(stateAt(0).cameraProgress).toBe(0);
+    expect(stateAt(END).cameraProgress).toBe(1);
+    expect(idleState().cameraProgress).toBe(0);
 
-    const mid = stateAt(INTRO.labelsOutStart + INTRO.labelsOutDur / 2);
-    expect(mid.labelOpacity).toBeGreaterThan(0);
-    expect(mid.labelOpacity).toBeLessThan(1);
-    expect(mid.labels).toHaveLength(HERO_LABELS.length);
-
-    const after = stateAt(INTRO.labelsOutStart + INTRO.labelsOutDur + EPS);
-    expect(after.labels).toHaveLength(0);
-    expect(after.labelOpacity).toBe(1);
-  });
-
-  it('never leaves an artifact label invisible', () => {
+    let last = 0;
     for (let t = 0; t <= END; t += 0.02) {
-      const s = stateAt(t);
-      const artifact = s.labels.some(l => l.id.startsWith('artifact-'));
-      if (artifact) expect(s.labelOpacity).toBe(1);
+      const next = stateAt(t).cameraProgress;
+      expect(next).toBeGreaterThanOrEqual(last - 1e-9);
+      last = next;
     }
   });
 
@@ -231,13 +215,9 @@ describe('stateAt', () => {
 });
 
 describe('idleState', () => {
-  it('staggers the labels in and ends with all of them', () => {
-    expect(idleState(0).labels).toHaveLength(1);
-    expect(idleState(99).labels).toHaveLength(HERO_LABELS.length);
-  });
-
   it('is a still frame: nothing of the demo has happened yet', () => {
-    const idle = idleState(99);
+    const idle = idleState();
+    expect(idle.labels).toHaveLength(0);
     expect(idle.visibleMessages).toBe(0);
     expect(idle.phoneUp).toBe(false);
     expect(idle.card).toBe(null);
@@ -245,8 +225,8 @@ describe('idleState', () => {
     expect(idle.showReplay).toBe(false);
   });
 
-  it('drops the labels on compact viewports', () => {
-    expect(idleState(99, true).labels).toHaveLength(0);
+  it('is constant, so the render loop can cache it', () => {
+    expect(idleState()).toEqual(idleState());
   });
 });
 

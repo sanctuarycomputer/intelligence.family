@@ -38,8 +38,6 @@ export type LabelSpec = {
  * than a transition. The beats inside each exchange stay quick.
  */
 export const INTRO = {
-  labelsOutStart: 0.15,
-  labelsOutDur: 0.9,
   cameraStart: 0.25,
   cameraDur: 3.4,
   phoneStart: 2.2,
@@ -171,59 +169,3 @@ export const RESTING_POSE: CameraPose = {
   offsetX: 1.5,
   offsetY: -0.16,
 };
-
-/* ------------------------------------------------------------------ */
-/* Idle labels                                                         */
-/* ------------------------------------------------------------------ */
-
-/**
- * What the device is made of, called out on the assembled object.
- *
- * There is no speaker mesh — the speaker is the perforated grille on the front
- * face — so its label is anchored to enclosure-front and nudged down to the
- * grille. The GPU's leader line points into the body, which is where it is.
- */
-export const HERO_LABELS: LabelSpec[] = [
-  {
-    id: 'leaf',
-    text: 'Family Leaf',
-    sub: 'microphone, lifts out and travels',
-    anchor: { kind: 'part', node: 'leaf' },
-    side: 'left',
-  },
-  {
-    id: 'trunk',
-    text: 'Family Trunk',
-    sub: 'the body',
-    anchor: {
-      kind: 'part',
-      node: 'enclosure-front',
-      offset: [-0.52, -0.4, 0],
-    },
-    side: 'left',
-  },
-  {
-    id: 'gpu',
-    text: 'On-board GPU',
-    sub: 'answers are computed here',
-    // The Orin's own position, nudged down into the base of the body. The
-    // leader line runs into the case, which is where the thing actually is.
-    anchor: { kind: 'part', node: 'orin', offset: [-0.1, -0.34, 0] },
-    side: 'left',
-  },
-  {
-    id: 'speaker',
-    text: 'Speaker',
-    anchor: { kind: 'part', node: 'enclosure-front', offset: [0, -0.42, 0.1] },
-    side: 'right',
-  },
-  {
-    id: 'screen',
-    text: 'Touchscreen',
-    anchor: { kind: 'screen', u: 0.66, v: 0.16 },
-    side: 'right',
-  },
-];
-
-/** Each hero label lands this many seconds after the one before it. */
-export const HERO_LABEL_STAGGER = 0.12;

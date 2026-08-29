@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { read, subscribe } from './demoClock';
+import { subscribe } from './demoClock';
 import { getAnchor } from './sceneProjection';
 import type { LabelSpec } from './timeline';
 
@@ -40,20 +40,12 @@ export default function SceneLabels() {
   useEffect(() => {
     // No labels, nothing to project. A page sitting at rest should not hold a
     // rAF loop open to reposition an empty set.
-    if (labels.length === 0) {
-      if (hostRef.current) hostRef.current.style.opacity = '0';
-      return;
-    }
+    if (labels.length === 0) return;
     let raf = 0;
     const frame = () => {
       raf = requestAnimationFrame(frame);
 
-      const host = hostRef.current;
-      if (!host) return;
-      const opacity = read().labelOpacity;
-      host.style.opacity = String(opacity);
-      // Nothing worth positioning while the group is invisible.
-      if (opacity < 0.01) return;
+      if (!hostRef.current) return;
 
       boxes.current.forEach((box, id) => {
         const path = paths.current.get(id);

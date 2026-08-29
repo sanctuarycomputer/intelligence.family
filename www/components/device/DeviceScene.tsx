@@ -14,7 +14,8 @@ import {
 } from './screenTexture';
 import { getDeviceControls, setDeviceControls } from './deviceControls';
 import { applyCaseGrain, type GrainUniforms } from './caseMaterial';
-import { markReady, read as readDemo } from '../demo/demoClock';
+import { getOrbit } from './orbit';
+import { read as readDemo } from '../demo/demoClock';
 import { clearAnchors, setAnchor } from '../demo/sceneProjection';
 import type { LabelAnchor } from '../demo/timeline';
 
@@ -397,7 +398,6 @@ export default function DeviceScene({
           if (o) parts.set(name, o);
         });
         resize();
-        markReady();
       })
       .catch(() => {
         /* the static poster underneath stays visible */
@@ -411,6 +411,7 @@ export default function DeviceScene({
     const vPan = new THREE.Vector3();
     const vLook = new THREE.Vector3();
     const vAnchor = new THREE.Vector3();
+    const vOrbitAxis = new THREE.Vector3();
     const WORLD_UP = new THREE.Vector3(0, 1, 0);
 
     /** World position an anchor points at, or null if it cannot be resolved. */
@@ -467,6 +468,18 @@ export default function DeviceScene({
 
       const view = live.cameraOverride ? live : demo.camera;
       vDir.set(view.dir[0], view.dir[1], view.dir[2]).normalize();
+
+      // The visitor's own angle, leaned on top of whatever the script is doing
+      // and faded out as the opening drift takes over. Blending it away rather
+      // than dropping it means letting go of the device and pressing play do
+      // not fight over the camera on the same frame.
+      const lean = 1 - demo.cameraProgress;
+      if (lean > 0.001 && !live.cameraOverride) {
+        const orbit = getOrbit();
+        vDir.applyAxisAngle(WORLD_UP, orbit.yaw * lean);
+        vOrbitAxis.crossVectors(vDir, WORLD_UP).normalize();
+        vDir.applyAxisAngle(vOrbitAxis, orbit.pitch * lean);
+      }
       // Fit the bounding sphere to whichever viewport dimension is tighter, so
       // the device keeps its size across aspect ratios.
       const vFov = THREE.MathUtils.degToRad(camera.fov);

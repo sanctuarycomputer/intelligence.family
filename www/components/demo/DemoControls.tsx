@@ -5,7 +5,6 @@ import {
   getPhase,
   play,
   replay,
-  setCompact,
   setReducedMotion,
   subscribe,
 } from './demoClock';
@@ -24,18 +23,10 @@ export default function DemoControls() {
 
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const wide = window.matchMedia('(min-width: 1024px)');
-    const sync = () => {
-      setReducedMotion(motion.matches);
-      setCompact(!wide.matches);
-    };
+    const sync = () => setReducedMotion(motion.matches);
     sync();
     motion.addEventListener('change', sync);
-    wide.addEventListener('change', sync);
-    return () => {
-      motion.removeEventListener('change', sync);
-      wide.removeEventListener('change', sync);
-    };
+    return () => motion.removeEventListener('change', sync);
   }, []);
 
   useEffect(

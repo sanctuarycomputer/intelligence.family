@@ -15,8 +15,6 @@ import {
   BEAT,
   END,
   EXCHANGES,
-  HERO_LABELS,
-  HERO_LABEL_STAGGER,
   HERO_POSE,
   INTRO,
   REPLAY_AT,
@@ -28,7 +26,7 @@ import {
   type LabelSpec,
 } from './timeline';
 import { THREAD } from '../thread/threadScript';
-import { EXIT, FADE, GLIDE, SETTLE } from './easing';
+import { EXIT, GLIDE, SETTLE } from './easing';
 
 export type DemoPhase = 'idle' | 'playing' | 'done';
 
@@ -38,13 +36,17 @@ export type DemoState = {
   /** 0 = card offscreen below, 1 = settled. */
   cardY: number;
   /**
+   * How far through the opening drift, 0..1. The scene fades the visitor's own
+   * orbit out against this, so letting go of the device and pressing play do
+   * not fight over the camera.
+   */
+  cameraProgress: number;
+  /**
    * Whether the phone is up. Deliberately a boolean, not a position: the rise
    * is a CSS transition, so it eases out on replay as well as in, and nothing
    * has to write a transform every frame to achieve it.
    */
   phoneUp: boolean;
-  /** Fades the hero labels as a group during the camera move. */
-  labelOpacity: number;
 
   /* --- discrete: React re-renders only when one of these changes --- */
   thinking: boolean;
@@ -122,23 +124,20 @@ for (let i = 1; i < ENTRY_DUE.length; i += 1) {
 }
 
 /**
- * The idle state, before play is pressed: the device sitting still on the right
- * with its parts named. Nothing moves except the leaves drifting on its screen.
+ * The idle state, before play is pressed: the device sitting still on the
+ * right, nothing on screen but the leaves drifting across its own display and
+ * whatever angle the visitor has turned it to.
  */
-export function idleState(elapsed: number, compact = false): DemoState {
-  // Labels arrive staggered so the drawing builds itself rather than appearing
-  // all at once. On a seek or a reduced-motion load, elapsed is large and they
-  // are simply all there.
-  const shown = HERO_LABELS.filter((_, i) => elapsed >= i * HERO_LABEL_STAGGER);
+export function idleState(): DemoState {
   return {
     camera: HERO_POSE,
     cardY: 0,
+    cameraProgress: 0,
     phoneUp: false,
-    labelOpacity: 1,
     thinking: false,
     card: null,
     cardSent: false,
-    labels: compact ? [] : shown,
+    labels: [],
     visibleMessages: 0,
     attributed: 0,
     typing: false,
@@ -153,14 +152,6 @@ export function stateAt(t: number): DemoState {
   // GLIDE rather than SETTLE: the device is drifting out of the way, and an
   // expo-out over three and a half seconds reads as a lurch then a crawl.
   const camK = progress(now, INTRO.cameraStart, INTRO.cameraDur, GLIDE);
-
-  /* The hero labels have to survive briefly into the run so they can fade
-     rather than vanish the instant play is pressed. Once they are gone the
-     group returns to full opacity, because the artifact labels share the
-     overlay and must not inherit the fade that retired the hero ones. */
-  const heroFade =
-    1 - progress(now, INTRO.labelsOutStart, INTRO.labelsOutDur, FADE);
-  const labelOpacity = heroFade > 0 ? heroFade : 1;
 
   // The thread is a prefix: entries are listed in the order they arrive, so
   // "how many are showing" is just how many are due.
@@ -178,7 +169,7 @@ export function stateAt(t: number): DemoState {
   let cardY = 0;
   let typing = false;
   let attributed = 0;
-  const labels: LabelSpec[] = heroFade > 0 ? [...HERO_LABELS] : [];
+  const labels: LabelSpec[] = [];
 
   for (const ex of EXCHANGES) {
     if (now < ex.start) break;
@@ -227,8 +218,8 @@ export function stateAt(t: number): DemoState {
   return {
     camera: lerpPose(HERO_POSE, RESTING_POSE, camK),
     cardY,
+    cameraProgress: camK,
     phoneUp: now >= INTRO.phoneStart,
-    labelOpacity,
     thinking,
     card,
     cardSent,
