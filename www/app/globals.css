@@ -834,6 +834,29 @@ p + h4 {
   pointer-events: none;
 }
 
+/* Except on mobile, where a tap off the phone dismisses the demo — so the
+   phone itself has to absorb the taps that land on it. */
+@media (max-width: 1023px) {
+  .phone-dock {
+    pointer-events: auto;
+  }
+}
+
+/* Above the page, below the phone. Mobile only: wide, the copy beside the demo
+   is still readable and a tap on it is not a request to stop watching. */
+.demo-dismiss {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .demo-dismiss {
+    position: fixed;
+    inset: 0;
+    z-index: 11;
+    display: block;
+  }
+}
+
 /* Narrow: sitting near the bottom edge, centred, at 80% of the viewport. Off
    the edge rather than on it — the very bottom of a phone belongs to the home
    indicator and the browser's own chrome. */
@@ -941,8 +964,8 @@ p + h4 {
      just fills what it is given, so the placement holds on any phone. */
   .device-layer {
     inset: 0 0 auto auto;
-    width: 58vw;
-    height: 34dvh;
+    width: 76vw;
+    height: 42dvh;
     opacity: 0;
     transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -1039,6 +1062,18 @@ p + h4 {
   html[data-demo='playing'] .demo-play:hover,
   html[data-demo='playing'] .demo-play:focus-visible {
     opacity: 1;
+  }
+
+  /* The demo owns the screen while it runs. The copy behind it is at zero
+     opacity, so there is nothing to scroll to, and scrolling would only drag
+     the wordmark and the control off the top. overscroll-behavior stops the
+     gesture handing off to the page behind. */
+  html[data-demo='playing'],
+  html[data-demo='done'],
+  html[data-demo='playing'] body,
+  html[data-demo='done'] body {
+    overflow: hidden;
+    overscroll-behavior: none;
   }
 }
 

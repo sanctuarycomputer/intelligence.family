@@ -208,7 +208,10 @@ export const RESTING_POSE: CameraPose = {
  */
 export const COMPACT_POSE: CameraPose = {
   dir: [-0.29, 0.51, 0.81],
-  dist: 1.18,
+  /* Closer than a plain fit. The framing fits the model's bounding sphere,
+     which includes its depth, so a distance of 1 leaves a visible margin all
+     round; 0.88 spends most of that on the device without clipping it. */
+  dist: 0.88,
   offsetX: 0,
   offsetY: 0,
 };
