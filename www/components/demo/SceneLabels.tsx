@@ -33,6 +33,7 @@ export default function SceneLabels() {
   const hostRef = useRef<HTMLDivElement>(null);
   const boxes = useRef(new Map<string, HTMLDivElement>());
   const paths = useRef(new Map<string, SVGPathElement>());
+  const dots = useRef(new Map<string, SVGCircleElement>());
 
   useEffect(() => subscribe(s => setLabels(s.labels)), []);
 
@@ -56,15 +57,22 @@ export default function SceneLabels() {
 
       boxes.current.forEach((box, id) => {
         const path = paths.current.get(id);
+        const dot = dots.current.get(id);
         const anchor = getAnchor(id);
 
         if (!anchor?.onScreen) {
           box.style.visibility = 'hidden';
           if (path) path.style.visibility = 'hidden';
+          if (dot) dot.style.visibility = 'hidden';
           return;
         }
         box.style.visibility = 'visible';
         if (path) path.style.visibility = 'visible';
+        if (dot) {
+          dot.style.visibility = 'visible';
+          dot.setAttribute('cx', String(anchor.x));
+          dot.setAttribute('cy', String(anchor.y));
+        }
 
         const side = box.dataset.side === 'left' ? -1 : 1;
         const bx = anchor.x + side * LEAD;
@@ -90,22 +98,32 @@ export default function SceneLabels() {
     <div ref={hostRef} className="scene-labels">
       <svg className="scene-labels-lines">
         {labels.map(l => (
-          <path
-            key={l.id}
-            className="scene-label-line"
-            ref={el => {
-              if (el) paths.current.set(l.id, el);
-              else paths.current.delete(l.id);
-            }}
-          />
+          <g key={l.id}>
+            <path
+              className="scene-label-line"
+              ref={el => {
+                if (el) paths.current.set(l.id, el);
+                else paths.current.delete(l.id);
+              }}
+            />
+            <circle
+              r="2.5"
+              className="scene-label-dot"
+              ref={el => {
+                if (el) dots.current.set(l.id, el);
+                else dots.current.delete(l.id);
+              }}
+            />
+          </g>
         ))}
       </svg>
 
-      {labels.map(l => (
+      {labels.map((l, i) => (
         <div
           key={l.id}
           data-side={l.side}
           className="scene-label"
+          style={{ animationDelay: `${i * 40}ms` }}
           ref={el => {
             if (el) boxes.current.set(l.id, el);
             else boxes.current.delete(l.id);

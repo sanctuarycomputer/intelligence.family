@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import LeafIcon from '@/components/LeafIcon';
-import { read, subscribe } from '@/components/demo/demoClock';
+import { subscribe } from '@/components/demo/demoClock';
 import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
 import {
   AudioSnippet,
@@ -27,54 +27,45 @@ import {
  * Frame is 390x844 (iPhone logical points, 19.5:9).
  */
 
+/** Matches the .phone-rise transform transition in globals.css. */
+const PHONE_EXIT_MS = 700;
+
 export default function MessageThread() {
   /* All of these start at the demo's resting state rather than being read from
      the clock, so the server and the client render the same first frame.
      subscribe() catches up on mount. */
-  const [visible, setVisible] = useState(0);
   const [attributed, setAttributed] = useState(0);
   const [typing, setTyping] = useState(false);
   const [phoneUp, setPhoneUp] = useState(false);
-  const [running, setRunning] = useState(false);
-  const upRef = useRef(false);
+  /* How much of the thread renders. Trails the clock on the way down only:
+     replay empties the thread at once, and clearing it immediately would leave
+     the phone blank for the whole of its fade. */
+  const [shown, setShown] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<HTMLDivElement>(null);
 
-  useEffect(
-    () =>
-      subscribe((s, p) => {
-        setVisible(s.visibleMessages);
-        setAttributed(s.attributed);
-        setTyping(s.typing);
-        setRunning(p !== 'idle');
-      }),
-    []
-  );
-
-  // The phone rises on a continuous value, so it is read per frame rather than
-  // pushed through React. One style write, not a re-render per frame — and only
-  // while the clock is actually running.
   useEffect(() => {
-    if (!running) return;
-    let raf = 0;
-    const frame = () => {
-      raf = requestAnimationFrame(frame);
-      const el = frameRef.current;
-      if (!el) return;
-      const y = read().phoneY;
-      el.style.transform = `translate3d(0, ${(1 - y) * 46}%, 0)`;
-      el.style.opacity = String(Math.min(1, y * 1.6));
-      // Only tell React when it actually flips, rather than dispatching an
-      // identical value sixty times a second.
-      const up = y > 0.99;
-      if (up !== upRef.current) {
-        upRef.current = up;
-        setPhoneUp(up);
+    let emptying: ReturnType<typeof setTimeout> | undefined;
+    const stop = subscribe(s => {
+      setAttributed(s.attributed);
+      setTyping(s.typing);
+      setPhoneUp(s.phoneUp);
+
+      if (s.visibleMessages > 0) {
+        clearTimeout(emptying);
+        emptying = undefined;
+        setShown(s.visibleMessages);
+      } else if (!emptying) {
+        emptying = setTimeout(() => {
+          emptying = undefined;
+          setShown(0);
+        }, PHONE_EXIT_MS);
       }
+    });
+    return () => {
+      stop();
+      clearTimeout(emptying);
     };
-    raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
-  }, [running]);
+  }, []);
 
   // Keep the newest bubble in view once the thread outgrows the frame.
   useEffect(() => {
@@ -84,20 +75,15 @@ export default function MessageThread() {
       top: el.scrollHeight,
       behavior: phoneUp ? 'smooth' : 'auto',
     });
-  }, [visible, typing, phoneUp]);
+  }, [shown, typing, phoneUp]);
 
   return (
     <div className="flex w-full flex-1 flex-col items-center lg:sticky lg:top-[95px] lg:h-fit lg:items-start lg:self-start">
-      {/* The rise is written per frame by the loop below, but the first paint
-          happens before any frame runs, so the resting state is inline too.
-          Without it the Dynamic Island shows through on load. Hardcoded rather
-          than read from the clock, which would make it render differently on
-          the server than on the client. */}
-      <div
-        className="relative"
-        ref={frameRef}
-        style={{ transform: 'translate3d(0, 46%, 0)', opacity: 0 }}
-      >
+      {/* The rise is a CSS transition rather than a per-frame write, so it
+          eases back out on replay too. A transform written every frame cannot
+          be transitioned away from — it just stops, leaving the phone stranded
+          wherever the last frame put it. */}
+      <div className={`phone-rise${phoneUp ? ' is-up' : ''}`}>
         {/* ===== iPhone ===== */}
         {/* Height-driven rather than width-driven: at full size the phone is
             taller than a laptop viewport, and the newest bubble would arrive
@@ -238,7 +224,7 @@ export default function MessageThread() {
               ref={scrollRef}
               className="flex flex-1 flex-col gap-[4px] overflow-hidden px-[13px] pb-2 pt-[6px]"
             >
-              {THREAD.slice(0, visible).map(entry => {
+              {THREAD.slice(0, shown).map(entry => {
                 switch (entry.kind) {
                   case 'voiceNote':
                     return (

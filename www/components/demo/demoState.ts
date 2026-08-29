@@ -29,6 +29,7 @@ import {
   type LabelSpec,
 } from './timeline';
 import { THREAD } from '../thread/threadScript';
+import { ASSEMBLE, EXIT, FADE, SETTLE } from './easing';
 
 export type DemoPhase = 'idle' | 'playing' | 'done';
 
@@ -39,8 +40,12 @@ export type DemoState = {
   camera: CameraPose;
   /** 0 = card offscreen below, 1 = settled. */
   cardY: number;
-  /** How far the phone has risen. 0 = below the fold, 1 = settled. */
-  phoneY: number;
+  /**
+   * Whether the phone is up. Deliberately a boolean, not a position: the rise
+   * is a CSS transition, so it eases out on replay as well as in, and nothing
+   * has to write a transform every frame to achieve it.
+   */
+  phoneUp: boolean;
   /** Fades the hero labels as a group during the camera move. */
   labelOpacity: number;
 
@@ -57,16 +62,19 @@ export type DemoState = {
   showReplay: boolean;
 };
 
-/** Smoothstep. Every transition in the demo uses it; nothing eases in twice. */
-function ease(t: number): number {
-  const x = Math.min(1, Math.max(0, t));
-  return x * x * (3 - 2 * x);
-}
-
-/** Progress through a window starting at `start` and lasting `dur`. */
-function progress(t: number, start: number, dur: number): number {
+/**
+ * Progress through a window starting at `start` and lasting `dur`, shaped by
+ * `curve`. Each cue names its own curve: a camera settling and a card leaving
+ * should not move the same way.
+ */
+function progress(
+  t: number,
+  start: number,
+  dur: number,
+  curve: (x: number) => number = SETTLE
+): number {
   if (dur <= 0) return t >= start ? 1 : 0;
-  return ease((t - start) / dur);
+  return curve(Math.min(1, Math.max(0, (t - start) / dur)));
 }
 
 function lerp(a: number, b: number, k: number): number {
@@ -139,7 +147,7 @@ export function idleState(
     explode: compact ? 0 : settled ? SETTLED_EXPLODE : 1,
     camera: HERO_POSE,
     cardY: 0,
-    phoneY: 0,
+    phoneUp: false,
     labelOpacity: 1,
     thinking: false,
     card: null,
@@ -163,15 +171,22 @@ export function idleState(
 export function stateAt(t: number, fromSettled = false): DemoState {
   const now = Math.min(END, Math.max(0, t));
 
-  const assembled = progress(now, INTRO.assembleStart, INTRO.assembleDur);
-  const camK = progress(now, INTRO.cameraStart, INTRO.cameraDur);
-  const phoneY = progress(now, INTRO.phoneStart, INTRO.phoneDur);
+  // The device has mass and closes itself up; the camera leaves fast and lands
+  // slowly. Giving both the same curve was what made the intro read as machinery.
+  const assembled = progress(
+    now,
+    INTRO.assembleStart,
+    INTRO.assembleDur,
+    ASSEMBLE
+  );
+  const camK = progress(now, INTRO.cameraStart, INTRO.cameraDur, SETTLE);
 
   /* The hero labels have to survive briefly into the run so they can fade
      rather than vanish the instant play is pressed. Once they are gone the
      group returns to full opacity, because the artifact labels share the
      overlay and must not inherit the fade that retired the hero ones. */
-  const heroFade = 1 - progress(now, INTRO.labelsOutStart, INTRO.labelsOutDur);
+  const heroFade =
+    1 - progress(now, INTRO.labelsOutStart, INTRO.labelsOutDur, FADE);
   const labelOpacity = heroFade > 0 ? heroFade : 1;
 
   // The thread is a prefix: entries are listed in the order they arrive, so
@@ -211,10 +226,10 @@ export function stateAt(t: number, fromSettled = false): DemoState {
 
     if (now >= at(BEAT.cardUp)) {
       card = ex.card;
-      const up = progress(now, at(BEAT.cardUp), BEAT.cardDur);
+      const up = progress(now, at(BEAT.cardUp), BEAT.cardDur, SETTLE);
       const down = ex.keepCard
         ? 0
-        : progress(now, at(BEAT.cardDown), BEAT.cardDownDur);
+        : progress(now, at(BEAT.cardDown), BEAT.cardDownDur, EXIT);
       cardY = Math.max(0, up - down);
       cardSent = ex.card === 'email' && now >= at(SENT_AT);
     }
@@ -240,7 +255,7 @@ export function stateAt(t: number, fromSettled = false): DemoState {
     explode: lerp(fromSettled ? SETTLED_EXPLODE : 1, 0, assembled),
     camera: lerpPose(HERO_POSE, RESTING_POSE, camK),
     cardY,
-    phoneY,
+    phoneUp: now >= INTRO.phoneStart,
     labelOpacity,
     thinking,
     card,
@@ -267,6 +282,7 @@ export function discreteKey(s: DemoState): string {
     s.cardSent ? 1 : 0,
     s.visibleMessages,
     s.attributed,
+    s.phoneUp ? 1 : 0,
     s.typing ? 1 : 0,
     s.showReplay ? 1 : 0,
     s.labels.map(l => `${l.id}:${l.text}`).join(','),

@@ -175,6 +175,18 @@ describe('stateAt', () => {
   /* The hero labels fade rather than vanish, which means they outlive the press
      of play by a moment. The group then returns to full opacity, because the
      artifact labels share the overlay and must not inherit that fade. */
+  /* The phone's rise is a boolean because the exit has to ease too. Replay
+     drops it back to false, and CSS carries the phone away. */
+  it('raises the phone once, and only after the camera has started moving', () => {
+    expect(stateAt(0).phoneUp).toBe(false);
+    expect(stateAt(INTRO.phoneStart - EPS).phoneUp).toBe(false);
+    expect(stateAt(INTRO.phoneStart).phoneUp).toBe(true);
+    expect(stateAt(END).phoneUp).toBe(true);
+    expect(idleState(false, 99).phoneUp).toBe(false);
+    // Up before the first question, so it is never mid-rise when one arrives.
+    expect(INTRO.phoneStart + INTRO.phoneDur).toBeLessThan(EXCHANGES[0].start);
+  });
+
   it('fades the hero labels out, then hands the overlay back', () => {
     const start = stateAt(0);
     expect(start.labelOpacity).toBe(1);
