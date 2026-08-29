@@ -211,7 +211,7 @@ export const COMPACT_POSE: CameraPose = {
   /* Closer than a plain fit. The framing fits the model's bounding sphere,
      which includes its depth, so a distance of 1 leaves a visible margin all
      round; 0.88 spends most of that on the device without clipping it. */
-  dist: 0.88,
+  dist: 0.85,
   offsetX: 0,
   offsetY: 0,
 };

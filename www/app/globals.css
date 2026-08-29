@@ -964,8 +964,12 @@ p + h4 {
      just fills what it is given, so the placement holds on any phone. */
   .device-layer {
     inset: 0 0 auto auto;
-    width: 76vw;
-    height: 42dvh;
+    width: 68vw;
+    /* Short on purpose. The device is centred in this box, so the box's own
+       middle has to sit above the phone's top edge or the screen ends up
+       behind the conversation. Mirrored by COMPACT_DEVICE_BOX_H in
+       components/thread/phoneFit.ts, which is where that is asserted. */
+    height: 26dvh;
     opacity: 0;
     transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }

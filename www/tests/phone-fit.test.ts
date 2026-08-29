@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   COMPACT_BOTTOM_INSET,
+  COMPACT_DEVICE_BOX_H,
   COMPACT_FRACTION,
   PHONE_H,
   PHONE_W,
@@ -8,6 +9,7 @@ import {
   WIDE_FROM,
   fitScale,
   phoneScaleFor,
+  phoneTopFor,
 } from '@/components/thread/phoneFit';
 
 /** A spread of real viewports, plus a few awkward ones. */
@@ -107,6 +109,27 @@ describe('phoneScaleFor', () => {
       (PHONE_H - COMPACT_BOTTOM_INSET) * COMPACT_FRACTION,
       6
     );
+  });
+});
+
+/* The device sits in a box pinned to the top right and is centred in it, so
+   the box's middle is where the device actually is. At 42dvh that middle sat
+   below the phone's top edge on every phone tested, which put the device's
+   screen behind the conversation. */
+describe('the device box on narrow viewports', () => {
+  it('keeps the device above the phone', () => {
+    for (const [w, h, name] of VIEWPORTS.filter(v => v[0] < WIDE_FROM)) {
+      const boxCentre = (h * COMPACT_DEVICE_BOX_H) / 2;
+      expect(boxCentre, `${name} box centre vs phone top`).toBeLessThan(
+        phoneTopFor(w, h)
+      );
+    }
+  });
+
+  it('leaves the phone somewhere to be', () => {
+    for (const [w, h, name] of VIEWPORTS.filter(v => v[0] < WIDE_FROM)) {
+      expect(phoneTopFor(w, h), name).toBeGreaterThan(0);
+    }
   });
 });
 
