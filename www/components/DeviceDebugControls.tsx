@@ -137,20 +137,22 @@ export default function DeviceDebugControls() {
     setCameraOverride(false);
   };
 
+  /**
+   * Emits the finish only, as lines to drop into DEVICE_DEFAULTS.
+   *
+   * Not the camera: those sliders are a viewing aid for checking the case at
+   * any angle, and the panel seeds them from the demo's live camera, so a pose
+   * copied from here would be a number that looks committed and does nothing.
+   * The framing the demo opens on is the demo panel's ambient camera.
+   */
   const copy = async () => {
-    const body = [
-      `  caseColor: '${caseHex}',`,
-      `  dir: [${dir.map(n => n.toFixed(2)).join(', ')}],`,
-      `  dist: ${dist.toFixed(2)},`,
-      `  offsetX: ${offsetX.toFixed(2)},`,
-      `  offsetY: ${offsetY.toFixed(2)},`,
-      `  grainScale: ${grain.grainScale},`,
-      `  grainRough: ${grain.grainRough},`,
-      `  grainBump: ${grain.grainBump},`,
-    ].join('\n');
     await navigator.clipboard.writeText(
-      `export const DEVICE_DEFAULTS: DeviceControls = {\n${body}\n` +
-        `  thinking: false,\n  cameraOverride: false,\n};`
+      [
+        `  caseColor: '${caseHex}',`,
+        `  grainScale: ${grain.grainScale},`,
+        `  grainRough: ${grain.grainRough},`,
+        `  grainBump: ${grain.grainBump},`,
+      ].join('\n')
     );
     setCopied('Copied');
     setTimeout(() => setCopied(null), 1500);
@@ -209,8 +211,12 @@ export default function DeviceDebugControls() {
         >
           {thinking ? 'Thinking ✓' : 'Thinking'}
         </button>
-        <button type="button" onClick={copy}>
-          {copied ?? 'Copy'}
+        <button
+          type="button"
+          onClick={copy}
+          title="the case finish, as lines for DEVICE_DEFAULTS. Camera lives in the demo panel."
+        >
+          {copied ?? 'Copy finish'}
         </button>
         <button
           type="button"

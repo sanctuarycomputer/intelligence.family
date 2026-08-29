@@ -38,10 +38,10 @@ export const DEVICE_DEFAULTS: DeviceControls = {
   /* Only read while cameraOverride is on. The debug panel seeds these from
      the demo's live camera when it mounts, so what is written here is never
      what you see — the demo's own framing lives in demo/timeline.ts. */
-  dir: [-0.42, 0.58, 1.94],
-  dist: 1.37,
-  offsetX: 1.5,
-  offsetY: -0.16,
+  dir: [-0.34, 0.46, 1.95],
+  dist: 1.24,
+  offsetX: 0.92,
+  offsetY: -0.04,
   grainScale: 130,
   grainRough: 0.5,
   grainBump: 0.09,
