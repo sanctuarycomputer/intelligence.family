@@ -148,8 +148,12 @@ export type CameraPose = {
 };
 
 /**
- * Idle: the device sitting on the right, close and calm, nothing else on
- * screen. It is a still object, not a diagram — the labels do the explaining.
+ * Idle: the device sitting on the right, close and calm.
+ *
+ * Mutable on purpose. The ?debug=true panel writes to it so the ambient angle
+ * can be tuned against the real scene, and its Copy button emits these values
+ * to paste back here. Nothing outside that panel writes to it, and the numbers
+ * committed below are what ships.
  */
 export const HERO_POSE: CameraPose = {
   dir: [-0.34, 0.46, 1.95],
@@ -157,6 +161,20 @@ export const HERO_POSE: CameraPose = {
   offsetX: 0.92,
   offsetY: -0.04,
 };
+
+/** The committed values, for the panel's Reset. */
+const HERO_POSE_DEFAULTS: CameraPose = {
+  ...HERO_POSE,
+  dir: [...HERO_POSE.dir],
+};
+
+export function setHeroPose(patch: Partial<CameraPose>) {
+  Object.assign(HERO_POSE, patch);
+}
+
+export function resetHeroPose() {
+  setHeroPose({ ...HERO_POSE_DEFAULTS, dir: [...HERO_POSE_DEFAULTS.dir] });
+}
 
 /**
  * Playing: the device drifted back and further right, making room for the

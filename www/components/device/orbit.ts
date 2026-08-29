@@ -52,3 +52,26 @@ export function resetOrbit() {
 function clamp(value: number, limit: number): number {
   return Math.min(limit, Math.max(-limit, value));
 }
+
+/**
+ * The direction the scene is actually rendering from, orbit included.
+ *
+ * Published by the render loop and read by the debug panel's "use current
+ * view", which is how an angle found by dragging becomes the committed ambient
+ * pose. A plain array rather than a vector type: orbit.ts is imported by the
+ * pointer surface, which must not pull three.js into the main bundle.
+ */
+let viewDir: [number, number, number] | null = null;
+
+export function setViewDir(x: number, y: number, z: number) {
+  viewDir = [x, y, z];
+}
+
+/**
+ * Null until the scene has actually drawn a frame — no WebGL, or the model
+ * still loading. Callers must handle that rather than capture a placeholder
+ * direction and overwrite a good pose with it.
+ */
+export function getViewDir(): [number, number, number] | null {
+  return viewDir;
+}

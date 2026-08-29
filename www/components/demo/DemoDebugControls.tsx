@@ -2,16 +2,46 @@
 
 import { useEffect, useState } from 'react';
 import { getTime, play, replay, resume, seek, subscribe } from './demoClock';
-import { BEAT, END, EXCHANGES } from './timeline';
+import {
+  BEAT,
+  END,
+  EXCHANGES,
+  HERO_POSE,
+  resetHeroPose,
+  setHeroPose,
+} from './timeline';
 import type { DemoPhase } from './demoState';
+import { getViewDir, resetOrbit } from '@/components/device/orbit';
 
 /**
- * ?debug=true stage scrubber.
+ * ?debug=true stage scrubber and ambient framing.
  *
- * Waiting sixteen seconds to look at the email card is not a workflow, so this
- * parks the clock anywhere on the timeline. Seeking is just stateAt(t), which
- * is why it costs nothing: there is no sequence to fast-forward through.
+ * Waiting seventeen seconds to look at the email card is not a workflow, so
+ * this parks the clock anywhere on the timeline. Seeking is just stateAt(t),
+ * which is why it costs nothing: there is no sequence to fast-forward through.
+ *
+ * The second half sets where the ambient view starts. It is separate from the
+ * device panel's camera sliders, which take the camera off the clock entirely
+ * for material tuning; these change the pose the demo actually opens on and
+ * drifts away from.
  */
+
+type PoseKnob = {
+  key: 'x' | 'y' | 'z' | 'dist' | 'offsetX' | 'offsetY';
+  label: string;
+  min: number;
+  max: number;
+};
+
+const POSE_KNOBS: PoseKnob[] = [
+  { key: 'x', label: 'cam x', min: -3, max: 3 },
+  { key: 'y', label: 'cam y', min: -1.5, max: 2.5 },
+  { key: 'z', label: 'cam z', min: -3, max: 3 },
+  { key: 'dist', label: 'distance', min: 0.4, max: 3 },
+  { key: 'offsetX', label: 'pan x', min: -3, max: 4 },
+  { key: 'offsetY', label: 'pan y', min: -2.5, max: 2.5 },
+];
+
 export default function DemoDebugControls() {
   const [t, setT] = useState(() => getTime());
   const [phase, setPhase] = useState<DemoPhase>('idle');
@@ -38,6 +68,68 @@ export default function DemoDebugControls() {
   }, [phase]);
 
   const jump = (seconds: number) => seek(seconds);
+
+  /* Mirrors HERO_POSE, which the panel mutates. Kept in state so the sliders
+     and readouts re-render; the scene reads the pose itself each frame. */
+  const [pose, setPose] = useState(() => ({
+    ...HERO_POSE,
+    dir: [...HERO_POSE.dir] as [number, number, number],
+  }));
+  const [copied, setCopied] = useState(false);
+
+  const syncPose = () => {
+    setPose({
+      ...HERO_POSE,
+      dir: [...HERO_POSE.dir] as [number, number, number],
+    });
+    // The ambient pose is only visible while idle, so show what was changed.
+    if (getTime() !== 0) replay();
+  };
+
+  const poseValue = (k: PoseKnob['key']) =>
+    k === 'x'
+      ? pose.dir[0]
+      : k === 'y'
+        ? pose.dir[1]
+        : k === 'z'
+          ? pose.dir[2]
+          : pose[k];
+
+  const setPoseValue = (k: PoseKnob['key'], v: number) => {
+    if (k === 'x' || k === 'y' || k === 'z') {
+      const dir: [number, number, number] = [...HERO_POSE.dir];
+      dir[k === 'x' ? 0 : k === 'y' ? 1 : 2] = v;
+      setHeroPose({ dir });
+    } else {
+      setHeroPose({ [k]: v });
+    }
+    syncPose();
+  };
+
+  /* Drag the device to an angle you like, then keep it. Far easier than
+     finding the same view by pushing three direction sliders around. */
+  const keepCurrentView = () => {
+    const dir = getViewDir();
+    // Nothing has rendered yet, so there is no view to keep.
+    if (!dir) return;
+    setHeroPose({ dir: dir.map(round) as [number, number, number] });
+    resetOrbit();
+    syncPose();
+  };
+
+  const copyPose = async () => {
+    const body = [
+      `  dir: [${pose.dir.map(round).join(', ')}],`,
+      `  dist: ${round(pose.dist)},`,
+      `  offsetX: ${round(pose.offsetX)},`,
+      `  offsetY: ${round(pose.offsetY)},`,
+    ].join('\n');
+    await navigator.clipboard.writeText(
+      `export const HERO_POSE: CameraPose = {\n${body}\n};`
+    );
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
   return (
     <div className="device-debug demo-debug" role="group" aria-label="Demo">
@@ -106,6 +198,55 @@ export default function DemoDebugControls() {
           sent
         </button>
       </div>
+
+      <p className="device-debug-title device-debug-title--gap">
+        ambient camera
+      </p>
+
+      {POSE_KNOBS.map(k => (
+        <label key={k.key} className="device-debug-row">
+          <span className="device-debug-label">{k.label}</span>
+          <input
+            type="range"
+            min={k.min}
+            max={k.max}
+            step={0.01}
+            value={poseValue(k.key)}
+            onChange={e => setPoseValue(k.key, Number(e.target.value))}
+          />
+          <span className="device-debug-value">
+            {poseValue(k.key).toFixed(2)}
+          </span>
+        </label>
+      ))}
+
+      <div className="device-debug-actions">
+        <button
+          type="button"
+          onClick={keepCurrentView}
+          title="make the angle you have dragged to the one it starts at"
+        >
+          Keep view
+        </button>
+        <button type="button" onClick={copyPose}>
+          {copied ? 'Copied' : 'Copy'}
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            resetHeroPose();
+            resetOrbit();
+            syncPose();
+          }}
+        >
+          Reset
+        </button>
+      </div>
     </div>
   );
+}
+
+/** Two decimals, matching how the poses are written in timeline.ts. */
+function round(n: number): number {
+  return Math.round(n * 100) / 100;
 }
