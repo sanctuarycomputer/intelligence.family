@@ -39,6 +39,8 @@ let idleStart = nowMs();
 let settled = false;
 let reduced = false;
 let compact = false;
+/** Whether the hover had already part-closed the device when play was hit. */
+let startedSettled = false;
 let raf = 0;
 
 let state: DemoState = idleState(false, 0);
@@ -53,7 +55,7 @@ function derive(): DemoState {
         reduced ? Number.POSITIVE_INFINITY : (nowMs() - idleStart) / 1000,
         compact
       )
-    : stateAt(t);
+    : stateAt(t, startedSettled);
 }
 
 function publish() {
@@ -187,10 +189,12 @@ export function play() {
   if (reduced) {
     t = END;
     phase = 'done';
+    startedSettled = settled;
     publish();
     return;
   }
   phase = 'playing';
+  startedSettled = settled;
   lastTick = nowMs();
   t = 0;
   publish();
@@ -203,6 +207,7 @@ export function replay() {
   phase = 'idle';
   t = 0;
   settled = false;
+  startedSettled = false;
   idleStart = nowMs();
   publish();
   staggerIdle();

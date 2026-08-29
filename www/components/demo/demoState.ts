@@ -22,6 +22,7 @@ import {
   REPLAY_AT,
   RESTING_POSE,
   SENT_AT,
+  SETTLED_EXPLODE,
   SENT_LABEL,
   type CameraPose,
   type CardKind,
@@ -135,7 +136,7 @@ export function idleState(
     // Compact viewports hide the labels, and an exploded device with nothing
     // naming its parts is a broken machine rather than a drawing. So below the
     // breakpoint it simply sits assembled.
-    explode: compact ? 0 : settled ? 0.55 : 1,
+    explode: compact ? 0 : settled ? SETTLED_EXPLODE : 1,
     camera: HERO_POSE,
     cardY: 0,
     phoneY: 0,
@@ -151,8 +152,15 @@ export function idleState(
   };
 }
 
-/** The world at time `t` seconds after play. Clamped to [0, END]. */
-export function stateAt(t: number): DemoState {
+/**
+ * The world at time `t` seconds after play. Clamped to [0, END].
+ *
+ * `fromSettled` says whether the device was already part-closed when play was
+ * pressed — the hover reward. The intro then assembles from there instead of
+ * snapping back open first. It is a parameter rather than module state so this
+ * stays a pure function of its inputs.
+ */
+export function stateAt(t: number, fromSettled = false): DemoState {
   const now = Math.min(END, Math.max(0, t));
 
   const assembled = progress(now, INTRO.assembleStart, INTRO.assembleDur);
@@ -229,7 +237,7 @@ export function stateAt(t: number): DemoState {
   }
 
   return {
-    explode: 1 - assembled,
+    explode: lerp(fromSettled ? SETTLED_EXPLODE : 1, 0, assembled),
     camera: lerpPose(HERO_POSE, RESTING_POSE, camK),
     cardY,
     phoneY,

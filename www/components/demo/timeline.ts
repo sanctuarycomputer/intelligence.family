@@ -216,5 +216,13 @@ export const HERO_LABELS: LabelSpec[] = [
   },
 ];
 
+/**
+ * How far the device closes up on hover, before play is ever pressed.
+ *
+ * The intro assembles from here rather than from fully open, so pressing play
+ * after hovering continues the movement instead of snapping back.
+ */
+export const SETTLED_EXPLODE = 0.55;
+
 /** Each hero label lands this many seconds after the one before it. */
 export const HERO_LABEL_STAGGER = 0.12;

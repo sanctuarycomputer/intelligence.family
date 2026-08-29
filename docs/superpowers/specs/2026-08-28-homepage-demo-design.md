@@ -15,7 +15,10 @@ device visibly producing each answer. The narrative script is
    search. No rifling through files.
 3. **Mobile keeps the device behind the phone.** Below 1024px the device renders
    dimmed behind the phone with no camera move. The artifact card is therefore
-   decorative on small screens; accepted as the cost of one code path.
+   decorative on small screens; accepted as the cost of one code path. The
+   labelled hero is skipped there too: its labels are hidden at that width, and
+   an exploded device with nothing naming its parts reads as a broken machine
+   rather than a drawing.
 4. **The demo stops.** It parks at the end with the thread intact and a replay
    control. Nothing resets on its own.
 5. **One rAF clock, pure state derivation.** Below.
@@ -35,6 +38,15 @@ the same `t` in the same frame, it cannot drift.
 
 It also means scrubbing is `seek(t)`, replay is `seek(0)`, and reduced motion is
 `seek(END)`. None of those need their own code path.
+
+The one input beyond `t` is `fromSettled`: whether hovering had already
+part-closed the device when play was pressed. Without it the intro assembles
+from fully open and the device snaps back before it starts. It is a parameter
+rather than module state so the function stays pure.
+
+Elapsed time is accumulated per frame and each step is clamped, rather than read
+off the wall clock. A backgrounded tab stops firing rAF, and reading the clock
+on return would jump the demo to its end.
 
 ### React renders at stage boundaries, not at 60fps
 
@@ -56,10 +68,10 @@ dedicated rAF loop, never through React state.
 The existing `deviceControls.ts` pattern — a mutable module object read per
 frame — already works and is what the debug panel writes to. Two more follow it:
 
-| Store | Written by | Read by |
-|---|---|---|
-| `demoClock.ts` | play/replay/hover, its own rAF | `DeviceScene` per frame, React on stage change |
-| `sceneProjection.ts` | `DeviceScene` per frame | `SceneLabels` per frame |
+| Store                | Written by                     | Read by                                        |
+| -------------------- | ------------------------------ | ---------------------------------------------- |
+| `demoClock.ts`       | play/replay/hover, its own rAF | `DeviceScene` per frame, React on stage change |
+| `sceneProjection.ts` | `DeviceScene` per frame        | `SceneLabels` per frame                        |
 
 `sceneProjection` holds each label anchor's projected screen position and
 whether it faces the camera. `SceneLabels` reads it in its own rAF and writes
@@ -95,33 +107,33 @@ all, and leaves the file readable afterwards.
 
 Absolute seconds. `END = 24.6`.
 
-| t | Event |
-|---|---|
-| 0.00 | Orin slides into the trunk (0.6s), leaf seats if not already |
-| 0.10 | Hero labels fade out (0.2s) |
-| 0.60 | Camera moves to resting position (1.4s) |
-| 1.30 | Phone slides up (0.7s) |
-| 2.60 | Exchange 1 begins |
-| 9.10 | Exchange 2 begins |
-| 15.60 | Exchange 3 begins |
-| 23.10 | Last reply settled |
-| 23.60 | Replay control fades in |
-| 24.60 | END |
+| t     | Event                                                        |
+| ----- | ------------------------------------------------------------ |
+| 0.00  | Orin slides into the trunk (0.6s), leaf seats if not already |
+| 0.10  | Hero labels fade out (0.2s)                                  |
+| 0.60  | Camera moves to resting position (1.4s)                      |
+| 1.30  | Phone slides up (0.7s)                                       |
+| 2.60  | Exchange 1 begins                                            |
+| 9.10  | Exchange 2 begins                                            |
+| 15.60 | Exchange 3 begins                                            |
+| 23.10 | Last reply settled                                           |
+| 23.60 | Replay control fades in                                      |
+| 24.60 | END                                                          |
 
 Each exchange runs the same offsets from its start `E`:
 
-| Offset | Event |
-|---|---|
-| +0.00 | Question bubble appears |
-| +0.30 | Transcript or receipt line |
-| +0.55 | Device thinking on |
-| +0.95 | Phone typing bubble on |
-| +2.00 | Thinking off, card slides up (0.45s) |
-| +2.45 | Artifact label snaps on |
-| +2.75 | Typing bubble becomes the reply |
-| +3.05 | Attribution line |
-| +3.40 | Trailing element (audio snippet, or the email's sent state) |
-| +6.20 | Card slides down — exchanges 1 and 2 only |
+| Offset | Event                                                       |
+| ------ | ----------------------------------------------------------- |
+| +0.00  | Question bubble appears                                     |
+| +0.30  | Transcript or receipt line                                  |
+| +0.55  | Device thinking on                                          |
+| +0.95  | Phone typing bubble on                                      |
+| +2.00  | Thinking off, card slides up (0.45s)                        |
+| +2.45  | Artifact label snaps on                                     |
+| +2.75  | Typing bubble becomes the reply                             |
+| +3.05  | Attribution line                                            |
+| +3.40  | Trailing element (audio snippet, or the email's sent state) |
+| +5.70  | Card slides down — exchanges 1 and 2 only                   |
 
 Exchanges 1 and 2 run 6.5s. Exchange 3 runs 7.5s: the compose card holds an extra
 second so a viewer can read who it is addressed to before it sends.
@@ -139,8 +151,12 @@ type LabelSpec = {
   sub?: string;
   anchor: PartAnchor | ScreenAnchor;
 };
-type PartAnchor = { kind: 'part'; node: string; offset?: [number, number, number] };
-type ScreenAnchor = { kind: 'screen'; u: number; v: number };
+type PartAnchor = {
+  kind: "part";
+  node: string;
+  offset?: [number, number, number];
+};
+type ScreenAnchor = { kind: "screen"; u: number; v: number };
 ```
 
 `PartAnchor` targets a node in the GLB. `ScreenAnchor` targets a point in the

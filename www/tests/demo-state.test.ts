@@ -8,6 +8,7 @@ import {
   HERO_LABELS,
   REPLAY_AT,
   SENT_LABEL,
+  SETTLED_EXPLODE,
 } from '@/components/demo/timeline';
 import { THREAD } from '@/components/thread/threadScript';
 
@@ -23,6 +24,22 @@ describe('stateAt', () => {
   it('starts exploded and ends assembled', () => {
     expect(stateAt(0).explode).toBe(1);
     expect(stateAt(END).explode).toBe(0);
+  });
+
+  /* Hovering part-closes the device. Pressing play after that has to carry on
+     from there: assembling from fully open would snap it back first. */
+  it('assembles from wherever the hover left it', () => {
+    expect(stateAt(0, true).explode).toBe(SETTLED_EXPLODE);
+    expect(stateAt(0, true).explode).toBe(idleState(true, 99).explode);
+    expect(stateAt(END, true).explode).toBe(0);
+
+    // And never re-opens on the way in.
+    let last = stateAt(0, true).explode;
+    for (let t = 0; t <= INTRO.assembleDur; t += 0.01) {
+      const next = stateAt(t, true).explode;
+      expect(next).toBeLessThanOrEqual(last + 1e-9);
+      last = next;
+    }
   });
 
   it('reveals the thread monotonically', () => {
