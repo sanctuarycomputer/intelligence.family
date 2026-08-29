@@ -4,3 +4,5 @@ venv/
 
 # dotenvx: encrypted www/.env is safe to commit; only www/.env.keys is the secret
 !www/.env
+# Local Claude Code config
+.claude/
