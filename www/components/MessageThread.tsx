@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import { subscribe } from '@/components/demo/demoClock';
 import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
+import { phoneScaleFor } from '@/components/thread/phoneFit';
 import {
   AudioSnippet,
   OUT,
@@ -28,15 +29,6 @@ import {
 
 /** Matches the .phone-rise transform transition in globals.css. */
 const PHONE_EXIT_MS = 700;
-
-/** Page padding above and below the phone, from main's py-32 plus breathing room. */
-const VIEWPORT_MARGIN = 190;
-
-/** Matches the breakpoint the stylesheet and the clock's compact flag use. */
-const WIDE_FROM = 1024;
-
-/** How much of a narrow viewport the phone is allowed to take. */
-const COMPACT_FRACTION = 0.8;
 
 export default function MessageThread() {
   /* All of these start at the demo's resting state rather than being read from
@@ -77,32 +69,38 @@ export default function MessageThread() {
   }, []);
 
   /**
-   * How far the phone has to shrink to fit.
+   * How far the phone has to shrink to fit, whole, in whatever frame it is in.
    *
    * Computed here rather than in CSS because scale() needs a unitless number,
    * and CSS cannot divide a length by a length to produce one — written as a
    * calc() it is silently invalid and the phone renders at full size.
    *
-   * Wide, it fits the viewport's height. Narrow, it fits inside 80% of both
-   * dimensions, whichever binds first, so it stays a phone-shaped thing sitting
-   * on the bottom edge rather than filling the screen.
+   * Measured against the visual viewport where the browser exposes one. On a
+   * phone the layout viewport can be taller than what you can actually see,
+   * with a collapsing toolbar over the difference, and the phone is docked to
+   * the bottom edge — exactly the edge that would be hidden.
    */
   useEffect(() => {
     const el = dockRef.current;
     if (!el) return;
+    const vv = window.visualViewport;
     const fit = () => {
-      const narrow = window.innerWidth < WIDE_FROM;
-      const scale = narrow
-        ? Math.min(
-            (window.innerWidth * COMPACT_FRACTION) / 390,
-            (window.innerHeight * COMPACT_FRACTION) / 844
-          )
-        : Math.min(1, (window.innerHeight - VIEWPORT_MARGIN) / 844);
-      el.style.setProperty('--phone-scale', String(scale));
+      const width = vv?.width ?? window.innerWidth;
+      const height = vv?.height ?? window.innerHeight;
+      el.style.setProperty(
+        '--phone-scale',
+        String(phoneScaleFor(width, height))
+      );
     };
     fit();
     window.addEventListener('resize', fit);
-    return () => window.removeEventListener('resize', fit);
+    window.addEventListener('orientationchange', fit);
+    vv?.addEventListener('resize', fit);
+    return () => {
+      window.removeEventListener('resize', fit);
+      window.removeEventListener('orientationchange', fit);
+      vv?.removeEventListener('resize', fit);
+    };
   }, []);
 
   // Keep the newest bubble in view once the thread outgrows the frame.
