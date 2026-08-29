@@ -20,8 +20,13 @@ export default function DeviceDebugControlsMount() {
   if (!debug) return null;
   return (
     <Suspense fallback={null}>
-      <DemoDebugControls />
-      <DeviceDebugControls />
+      {/* One scrolling column. Pinning one panel to the top and the other to
+          the bottom worked until a panel grew, and then the lower one silently
+          covered the last rows of the upper one. */}
+      <div className="debug-stack">
+        <DemoDebugControls />
+        <DeviceDebugControls />
+      </div>
     </Suspense>
   );
 }

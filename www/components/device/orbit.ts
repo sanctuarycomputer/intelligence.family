@@ -54,24 +54,36 @@ function clamp(value: number, limit: number): number {
 }
 
 /**
- * The direction the scene is actually rendering from, orbit included.
+ * The framing the scene is actually rendering, orbit and manual override
+ * included.
  *
- * Published by the render loop and read by the debug panel's "use current
- * view", which is how an angle found by dragging becomes the committed ambient
- * pose. A plain array rather than a vector type: orbit.ts is imported by the
- * pointer surface, which must not pull three.js into the main bundle.
+ * Published by the render loop and read by the debug panel's "keep view",
+ * which is how a framing arrived at by dragging — or by pushing the device
+ * panel's camera sliders around — becomes the committed ambient pose. All four
+ * values, not just the angle: a view found by moving the distance and the pan
+ * is not reproducible from its direction alone.
+ *
+ * Plain numbers rather than a vector type. orbit.ts is imported by the pointer
+ * surface, which must not pull three.js into the main bundle.
  */
-let viewDir: [number, number, number] | null = null;
+export type ViewPose = {
+  dir: [number, number, number];
+  dist: number;
+  offsetX: number;
+  offsetY: number;
+};
 
-export function setViewDir(x: number, y: number, z: number) {
-  viewDir = [x, y, z];
+let viewPose: ViewPose | null = null;
+
+export function setViewPose(pose: ViewPose) {
+  viewPose = pose;
 }
 
 /**
  * Null until the scene has actually drawn a frame — no WebGL, or the model
  * still loading. Callers must handle that rather than capture a placeholder
- * direction and overwrite a good pose with it.
+ * and overwrite a good pose with it.
  */
-export function getViewDir(): [number, number, number] | null {
-  return viewDir;
+export function getViewPose(): ViewPose | null {
+  return viewPose;
 }

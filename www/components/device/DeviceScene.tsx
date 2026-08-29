@@ -14,7 +14,7 @@ import {
 } from './screenTexture';
 import { getDeviceControls, setDeviceControls } from './deviceControls';
 import { applyCaseGrain, type GrainUniforms } from './caseMaterial';
-import { getOrbit, setViewDir } from './orbit';
+import { getOrbit, setViewPose } from './orbit';
 import { read as readDemo } from '../demo/demoClock';
 import { clearAnchors, setAnchor } from '../demo/sceneProjection';
 import type { LabelAnchor } from '../demo/timeline';
@@ -481,7 +481,12 @@ export default function DeviceScene({
         vDir.applyAxisAngle(vOrbitAxis, orbit.pitch * lean);
       }
       // What the debug panel captures when asked to keep the current view.
-      setViewDir(vDir.x, vDir.y, vDir.z);
+      setViewPose({
+        dir: [vDir.x, vDir.y, vDir.z],
+        dist: view.dist,
+        offsetX: view.offsetX,
+        offsetY: view.offsetY,
+      });
       // Fit the bounding sphere to whichever viewport dimension is tighter, so
       // the device keeps its size across aspect ratios.
       const vFov = THREE.MathUtils.degToRad(camera.fov);

@@ -11,7 +11,7 @@ import {
   setHeroPose,
 } from './timeline';
 import type { DemoPhase } from './demoState';
-import { getViewDir, resetOrbit } from '@/components/device/orbit';
+import { getViewPose, resetOrbit } from '@/components/device/orbit';
 
 /**
  * ?debug=true stage scrubber and ambient framing.
@@ -106,13 +106,24 @@ export default function DemoDebugControls() {
     syncPose();
   };
 
-  /* Drag the device to an angle you like, then keep it. Far easier than
-     finding the same view by pushing three direction sliders around. */
+  /**
+   * Whatever you are looking at becomes the pose the demo opens on.
+   *
+   * Takes the whole framing, so it works however the view was arrived at:
+   * dragging the device, or pushing the device panel's camera sliders around
+   * with Manual cam on. Capturing only the angle left the distance and the pan
+   * behind, which is why a view found that way could not be kept.
+   */
   const keepCurrentView = () => {
-    const dir = getViewDir();
+    const view = getViewPose();
     // Nothing has rendered yet, so there is no view to keep.
-    if (!dir) return;
-    setHeroPose({ dir: dir.map(round) as [number, number, number] });
+    if (!view) return;
+    setHeroPose({
+      dir: view.dir.map(round) as [number, number, number],
+      dist: round(view.dist),
+      offsetX: round(view.offsetX),
+      offsetY: round(view.offsetY),
+    });
     resetOrbit();
     syncPose();
   };

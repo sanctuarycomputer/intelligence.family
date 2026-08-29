@@ -156,7 +156,7 @@ export type CameraPose = {
  * committed below are what ships.
  */
 export const HERO_POSE: CameraPose = {
-  dir: [-0.34, 0.46, 1.95],
+  dir: [-0.29, 0.51, 0.81],
   dist: 1.24,
   offsetX: 0.92,
   offsetY: -0.04,
