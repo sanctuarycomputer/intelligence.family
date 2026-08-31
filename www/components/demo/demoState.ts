@@ -19,6 +19,7 @@ import {
   INTRO,
   REPLAY_AT,
   COMPACT_POSE,
+  COMPACT_START_POSE,
   RESTING_POSE,
   SENT_AT,
   SENT_LABEL,
@@ -131,7 +132,7 @@ for (let i = 1; i < ENTRY_DUE.length; i += 1) {
  */
 export function idleState(compact = false): DemoState {
   return {
-    camera: compact ? COMPACT_POSE : HERO_POSE,
+    camera: compact ? COMPACT_START_POSE : HERO_POSE,
     cardY: 0,
     cameraProgress: 0,
     phoneUp: false,
@@ -149,16 +150,22 @@ export function idleState(compact = false): DemoState {
 /**
  * The world at time `t` seconds after play. Clamped to [0, END].
  *
- * `compact` is the narrow-viewport layout: the device sits in one place rather
- * than drifting, because there is nowhere on a phone for it to drift to.
+ * `compact` is the narrow-viewport layout: the device flies into its own corner
+ * of the screen and stops there, rather than drifting aside to make room for
+ * the phone — on a phone there is nowhere to drift to, and it was not on screen
+ * to begin with.
  */
 export function stateAt(t: number, compact = false): DemoState {
   const now = Math.min(END, Math.max(0, t));
 
-  // GLIDE rather than SETTLE: the device is drifting out of the way, and an
-  // expo-out over three and a half seconds reads as a lurch then a crawl.
+  // GLIDE rather than SETTLE at both widths, for opposite reasons. Wide, the
+  // device is drifting out of the way, and an expo-out over three and a half
+  // seconds reads as a lurch then a crawl. Narrow, it is arriving, and SETTLE
+  // is three quarters done in 320ms — the whole move would happen underneath
+  // the layer's fade and the thing would look like it had faded in after all.
+  // GLIDE is 17% along when the fade ends, so the travel is the part you see.
   const camK = compact
-    ? 1
+    ? progress(now, INTRO.compactCameraStart, INTRO.compactCameraDur, GLIDE)
     : progress(now, INTRO.cameraStart, INTRO.cameraDur, GLIDE);
 
   // The thread is a prefix: entries are listed in the order they arrive, so
@@ -224,7 +231,9 @@ export function stateAt(t: number, compact = false): DemoState {
   }
 
   return {
-    camera: compact ? COMPACT_POSE : lerpPose(HERO_POSE, RESTING_POSE, camK),
+    camera: compact
+      ? lerpPose(COMPACT_START_POSE, COMPACT_POSE, camK)
+      : lerpPose(HERO_POSE, RESTING_POSE, camK),
     cardY,
     cameraProgress: camK,
     phoneUp: now >= INTRO.phoneStart,
