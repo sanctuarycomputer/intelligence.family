@@ -176,6 +176,15 @@ export default function MessageThread() {
                   ))}
                 </svg>
                 {/* wifi */}
+                {/* Three bands and a wedge, all struck about (8, 10.7) at
+                    44 degrees either side of vertical, at radii 2.37 / 4.74 /
+                    6.57 / 8.58 / 10.4. Drawn from that centre rather than by
+                    eye because the outer arc's apex is the highest thing in
+                    the glyph and the easiest to lose: sized to the full 16
+                    wide, it crowns above the top of the viewBox and gets
+                    clipped flat. 10.4 is the largest radius that fits under
+                    it, and leaves the icon the same height as the cellular
+                    bars beside it. */}
                 <svg
                   width="16"
                   height="11"
@@ -185,15 +194,15 @@ export default function MessageThread() {
                   className="shrink-0"
                 >
                   <path
-                    d="M8 10.4 6.2 8.5a2.6 2.6 0 0 1 3.6 0L8 10.4Z"
+                    d="M8 10.7 6.35 8.99a2.37 2.37 0 0 1 3.3 0L8 10.7Z"
                     fill="black"
                   />
                   <path
-                    d="M11.6 6.6a5.2 5.2 0 0 0-7.2 0L3 5.2a7.2 7.2 0 0 1 10 0l-1.4 1.4Z"
+                    d="M11.3 7.29a4.74 4.74 0 0 0-6.59 0L3.44 5.98a6.57 6.57 0 0 1 9.13 0l-1.27 1.31Z"
                     fill="black"
                   />
                   <path
-                    d="M14.5 3.5a9.4 9.4 0 0 0-13 0L0 2.1a11.4 11.4 0 0 1 16 0l-1.5 1.4Z"
+                    d="M13.96 4.53a8.58 8.58 0 0 0-11.91 0L.78 3.22a10.4 10.4 0 0 1 14.45 0l-1.27 1.31Z"
                     fill="black"
                   />
                 </svg>

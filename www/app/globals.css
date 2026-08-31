@@ -878,7 +878,9 @@ p + h4 {
 }
 
 /* Driven by a class rather than a per-frame transform, so it eases out on
-   replay as well as in. Curve matches SETTLE in components/demo/easing.ts. */
+   replay as well as in. Curve matches GLIDE in components/demo/easing.ts,
+   which is also what the camera moves on, so on a phone the rise and the
+   device flying into its corner are literally the same motion. */
 .phone-rise {
   position: absolute;
   inset: 0;
@@ -956,9 +958,15 @@ p + h4 {
 }
 
 /* Below the breakpoint there is no room for the device beside the phone, so it
-   stays off screen until the demo runs and then appears in the corner the
+   stays off screen until the demo runs and then flies into the corner the
    compact camera pose frames it in. Faded rather than unmounted: the model is
-   2.8MB and pressing Demo should not start a download. */
+   2.8MB and pressing Demo should not start a download.
+
+   The fade is short on purpose. The arrival is the camera's job — see
+   COMPACT_START_POSE in components/demo/timeline.ts — and a 700ms cross-fade
+   over the top of it is what made the whole thing read as a still image
+   appearing rather than an object moving. Long enough to take the hard edge
+   off the first frame, over well before the move is. */
 @media (max-width: 1023px) {
   /* Its own box in the corner rather than the whole viewport. The camera then
      just fills what it is given, so the placement holds on any phone. */
@@ -971,7 +979,7 @@ p + h4 {
        components/thread/phoneFit.ts, which is where that is asserted. */
     height: 26dvh;
     opacity: 0;
-    transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 320ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   html[data-demo='playing'] .device-layer,
   html[data-demo='done'] .device-layer {
