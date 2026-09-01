@@ -125,6 +125,26 @@ for (let i = 1; i < ENTRY_DUE.length; i += 1) {
 }
 
 /**
+ * How long after a reply lands its attribution line arrives.
+ *
+ * Read off the shared beat table rather than written twice, so the gap stays
+ * one number. Applied per reply rather than per exchange: the commerce
+ * exchange sends two, and an exchange-level count could only ever light the
+ * first one's citation.
+ */
+export const ATTRIBUTION_LAG = BEAT.attribution - BEAT.reply;
+
+/**
+ * When each reply's attribution line is due, in absolute seconds.
+ *
+ * Replies appear in thread order, so this is ascending and `attributed` stays
+ * a prefix count — which is exactly what REPLY_ORDINAL indexes against.
+ */
+const ATTRIBUTION_DUE: number[] = THREAD.flatMap((entry, i) =>
+  entry.kind === 'reply' ? [ENTRY_DUE[i] + ATTRIBUTION_LAG] : []
+);
+
+/**
  * The idle state, before play is pressed: the device sitting still on the
  * right, nothing on screen but the leaves drifting across its own display and
  * whatever angle the visitor has turned it to.
@@ -171,12 +191,21 @@ export function stateAt(t: number, compact = false): DemoState {
     visibleMessages += 1;
   }
 
+  // Same shape as visibleMessages, and for the same reason: attributions are
+  // ordered, so "how many have arrived" is just how many are due.
+  let attributed = 0;
+  while (
+    attributed < ATTRIBUTION_DUE.length &&
+    now >= ATTRIBUTION_DUE[attributed]
+  ) {
+    attributed += 1;
+  }
+
   let thinking = false;
   let card: CardKind | null = null;
   let cardSent = false;
   let cardY = 0;
   let typing = false;
-  let attributed = 0;
   const labels: LabelSpec[] = [];
 
   for (const ex of EXCHANGES) {
@@ -186,8 +215,6 @@ export function stateAt(t: number, compact = false): DemoState {
     // Subtracting first loses the boundary: 9.1 + 2.75 - 9.1 is 2.7499999996,
     // so a cue would fire a frame late on one exchange and on time on another.
     const at = (beat: number) => ex.start + beat;
-
-    if (now >= at(BEAT.attribution)) attributed += 1;
 
     // The exchange holding the current moment drives the device. Once the next
     // one starts it takes over, except for the last, handled below.
