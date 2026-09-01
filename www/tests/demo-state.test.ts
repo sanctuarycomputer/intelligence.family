@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { discreteKey, idleState, stateAt } from '@/components/demo/demoState';
 import {
   BEAT,
+  CHECKOUT,
   END,
   INTRO,
   EXCHANGES,
@@ -59,7 +60,9 @@ describe('stateAt', () => {
   it('shows the whole thread by the end and nothing at the start', () => {
     expect(stateAt(0).visibleMessages).toBe(0);
     expect(stateAt(END).visibleMessages).toBe(THREAD.length);
-    expect(stateAt(END).attributed).toBe(EXCHANGES.length);
+    expect(stateAt(END).attributed).toBe(
+      THREAD.filter(e => e.kind === 'reply').length
+    );
   });
 
   it('never reveals an entry before its exchange starts', () => {
@@ -183,16 +186,6 @@ describe('stateAt', () => {
     }
   });
 
-  it('parks on the sent email', () => {
-    const parked = stateAt(END);
-    expect(parked.card).toBe('email');
-    expect(parked.cardSent).toBe(true);
-    expect(parked.cardY).toBe(1);
-    expect(parked.labels.map(l => l.text)).toContain(SENT_LABEL);
-    expect(parked.thinking).toBe(false);
-    expect(parked.typing).toBe(false);
-  });
-
   it('renames the email label when it sends', () => {
     const teachers = EXCHANGES.find(e => e.id === 'teachers')!;
     const composing = stateAt(teachers.start + BEAT.label + EPS);
@@ -306,7 +299,13 @@ describe('discreteKey', () => {
   it('changes rarely enough to render through React', () => {
     const keys = new Set<string>();
     for (let t = 0; t <= END; t += 1 / 60) keys.add(discreteKey(stateAt(t)));
-    expect(keys.size).toBeLessThan(40);
+    // Budget raised from 40 to 55 for the commerce exchange: a sheet, a paid
+    // flag and two tap ripples are legitimate new discrete states, and 46
+    // measured across the run is still ~1.4 renders/second — comfortably
+    // inside the "dozens, not ~1,500" intent this guard exists for (see
+    // demoClock's header comment). If this ever needs raising again, that is
+    // the signal to look for: discreteKey has picked up something continuous.
+    expect(keys.size).toBeLessThan(55);
   });
 });
 
@@ -320,8 +319,15 @@ describe('threadScript', () => {
   /* A citation and a receipt read differently: from "GP summary" is a quote of
      a record, "Sent from your Gmail" is a note about something the box did. */
   it('marks the action reply as an action, not a source', () => {
+    // By id rather than by count: a bare count only ever pinned an accident
+    // of how many exchanges existed when it was written. Naming a3 and
+    // a4-paid pins what this test is actually about — a receipt for
+    // something the box did reads differently from a citation of a record.
     const replies = THREAD.filter(e => e.kind === 'reply');
-    expect(replies.filter(r => r.attributionKind === 'action')).toHaveLength(1);
+    const actionIds = replies
+      .filter(r => r.attributionKind === 'action')
+      .map(r => r.id);
+    expect(actionIds).toEqual(['a3', 'a4-paid']);
   });
 
   it('gives every exchange exactly one question and one reply', () => {
@@ -339,5 +345,117 @@ describe('threadScript', () => {
 
   it('has unique ids', () => {
     expect(new Set(THREAD.map(e => e.id)).size).toBe(THREAD.length);
+  });
+});
+
+describe('the commerce exchange', () => {
+  const ex = () => EXCHANGES.find(e => e.id === 'booklist')!;
+  const at = (offset: number) => ex().start + offset;
+
+  it('is the last exchange, and the one the demo parks on', () => {
+    expect(EXCHANGES[EXCHANGES.length - 1].id).toBe('booklist');
+    expect(ex().keepCard).toBe(true);
+    expect(EXCHANGES.find(e => e.id === 'teachers')!.keepCard).toBeUndefined();
+  });
+
+  it('parks on the basket, unflipped', () => {
+    const parked = stateAt(END);
+    expect(parked.card).toBe('basket');
+    expect(parked.cardSent).toBe(false);
+    expect(parked.cardY).toBe(1);
+    expect(parked.sheetUp).toBe(false);
+  });
+
+  it('raises the sheet only between its cues', () => {
+    expect(stateAt(at(CHECKOUT.sheetUp) - EPS).sheetUp).toBe(false);
+    expect(stateAt(at(CHECKOUT.sheetUp)).sheetUp).toBe(true);
+    expect(stateAt(at(CHECKOUT.sheetDown) - EPS).sheetUp).toBe(true);
+    expect(stateAt(at(CHECKOUT.sheetDown)).sheetUp).toBe(false);
+  });
+
+  it('pays partway through, and stays paid while the sheet leaves', () => {
+    expect(stateAt(at(CHECKOUT.paid) - EPS).sheetPaid).toBe(false);
+    expect(stateAt(at(CHECKOUT.paid)).sheetPaid).toBe(true);
+    // Still paid as it slides away: flipping back mid-exit reads as a refund.
+    expect(stateAt(at(CHECKOUT.sheetDown) + EPS).sheetPaid).toBe(true);
+  });
+
+  /* The taps are the only thing standing in for a finger. Each is a brief
+     window, and they never overlap: two ripples at once reads as a glitch. */
+  it('ripples once on the link and once on the pay button', () => {
+    expect(stateAt(at(CHECKOUT.linkTap) - EPS).tap).toBe(null);
+    expect(stateAt(at(CHECKOUT.linkTap)).tap).toBe('checkout');
+    expect(stateAt(at(CHECKOUT.linkTap) + CHECKOUT.tapDur).tap).toBe(null);
+    expect(stateAt(at(CHECKOUT.payTap)).tap).toBe('pay');
+    expect(stateAt(at(CHECKOUT.payTap) + CHECKOUT.tapDur).tap).toBe(null);
+  });
+
+  it('taps the link before the sheet arrives, and pays before it leaves', () => {
+    expect(CHECKOUT.linkTap).toBeLessThan(CHECKOUT.sheetUp);
+    expect(CHECKOUT.sheetUp + CHECKOUT.sheetDur).toBeLessThan(CHECKOUT.payTap);
+    expect(CHECKOUT.payTap).toBeLessThan(CHECKOUT.paid);
+    expect(CHECKOUT.paid).toBeLessThan(CHECKOUT.sheetDown);
+    expect(CHECKOUT.sheetDown + CHECKOUT.sheetDownDur).toBeLessThan(
+      ex().duration
+    );
+  });
+
+  it('never raises the sheet during any other exchange', () => {
+    for (let t = 0; t < ex().start; t += 0.02) {
+      expect(stateAt(t).sheetUp, `t=${t.toFixed(2)}`).toBe(false);
+      expect(stateAt(t).tap, `t=${t.toFixed(2)}`).toBe(null);
+    }
+  });
+
+  it('runs 34 seconds', () => {
+    expect(END).toBeCloseTo(34, 10);
+  });
+
+  it('sends a checkout link, then a receipt, in that order', () => {
+    const own = THREAD.filter(e => e.exchange === 'booklist');
+    expect(own.map(e => e.id)).toEqual([
+      'q4',
+      'a4',
+      'a4-link',
+      'a4-paid',
+      'a4-tracking',
+    ]);
+    expect(own.map(e => e.kind)).toEqual([
+      'out',
+      'reply',
+      'checkoutLink',
+      'reply',
+      'trackingLink',
+    ]);
+  });
+
+  /* The link has to be on screen before a tap lands on it, and the receipt
+     must not arrive until the sheet has gone. */
+  it('sequences the bubbles around the sheet', () => {
+    const due = (id: string) => {
+      const entry = THREAD.find(e => e.id === id)!;
+      return at(BEAT[entry.beat]);
+    };
+    expect(due('a4-link')).toBeLessThanOrEqual(at(CHECKOUT.linkTap));
+    expect(due('a4-paid')).toBeGreaterThan(
+      at(CHECKOUT.sheetDown + CHECKOUT.sheetDownDur)
+    );
+    expect(due('a4-tracking')).toBeGreaterThan(due('a4-paid'));
+  });
+
+  it('cites the supply list, then reports the payment as an action', () => {
+    const first = THREAD.find(e => e.id === 'a4')!;
+    const second = THREAD.find(e => e.id === 'a4-paid')!;
+    expect(first.kind === 'reply' && first.attributionKind).toBe('source');
+    expect(second.kind === 'reply' && second.attributionKind).toBe('action');
+  });
+
+  /* Both of this exchange's replies get their citation, which is the whole
+     reason attribution stopped being an exchange-level count in Task 1. */
+  it('attributes both of its replies', () => {
+    expect(stateAt(END).attributed).toBe(
+      THREAD.filter(e => e.kind === 'reply').length
+    );
+    expect(stateAt(END).attributed).toBe(5);
   });
 });

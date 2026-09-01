@@ -304,6 +304,11 @@ export default function MessageThread() {
                         duration={entry.duration}
                       />
                     );
+                  case 'checkoutLink':
+                  case 'trackingLink':
+                    // Task 5 draws these bubbles. Landing the two cases here
+                    // keeps this switch exhaustive for Task 4's commit.
+                    return null;
                 }
               })}
 

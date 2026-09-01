@@ -13,6 +13,7 @@
 
 import {
   BEAT,
+  CHECKOUT,
   END,
   EXCHANGES,
   HERO_POSE,
@@ -58,6 +59,16 @@ export type DemoState = {
   attributed: number;
   typing: boolean;
   showReplay: boolean;
+  /**
+   * The payment sheet is up. A boolean rather than a position, for the same
+   * reason phoneUp is: a CSS transition carries it, so it eases out on the way
+   * down too, and nothing has to write a transform every frame.
+   */
+  sheetUp: boolean;
+  /** The Apple Pay button has been pressed. */
+  sheetPaid: boolean;
+  /** Which element is showing a tap ripple, if any. */
+  tap: 'checkout' | 'pay' | null;
 };
 
 /**
@@ -161,6 +172,9 @@ export function idleState(compact = false): DemoState {
     attributed: 0,
     typing: false,
     showReplay: false,
+    sheetUp: false,
+    sheetPaid: false,
+    tap: null,
   };
 }
 
@@ -204,6 +218,9 @@ export function stateAt(t: number, compact = false): DemoState {
   let cardSent = false;
   let cardY = 0;
   let typing = false;
+  let sheetUp = false;
+  let sheetPaid = false;
+  let tap: DemoState['tap'] = null;
   const labels: LabelSpec[] = [];
 
   for (const ex of EXCHANGES) {
@@ -240,6 +257,25 @@ export function stateAt(t: number, compact = false): DemoState {
           : ex.label
       );
     }
+
+    if (ex.checkout) {
+      sheetUp = now >= at(CHECKOUT.sheetUp) && now < at(CHECKOUT.sheetDown);
+      // Held for the rest of the exchange rather than until the sheet is
+      // down: flipping back to unpaid while it is still sliding away would
+      // read as the payment being undone.
+      sheetPaid = now >= at(CHECKOUT.paid);
+      if (
+        now >= at(CHECKOUT.linkTap) &&
+        now < at(CHECKOUT.linkTap + CHECKOUT.tapDur)
+      ) {
+        tap = 'checkout';
+      } else if (
+        now >= at(CHECKOUT.payTap) &&
+        now < at(CHECKOUT.payTap + CHECKOUT.tapDur)
+      ) {
+        tap = 'pay';
+      }
+    }
   }
 
   // Past the last exchange the demo parks rather than resetting: its card stays
@@ -269,6 +305,9 @@ export function stateAt(t: number, compact = false): DemoState {
     attributed,
     typing,
     showReplay: now >= REPLAY_AT,
+    sheetUp,
+    sheetPaid,
+    tap,
   };
 }
 
@@ -289,6 +328,9 @@ export function discreteKey(s: DemoState): string {
     s.phoneUp ? 1 : 0,
     s.typing ? 1 : 0,
     s.showReplay ? 1 : 0,
+    s.sheetUp ? 1 : 0,
+    s.sheetPaid ? 1 : 0,
+    s.tap ?? '-',
     s.labels.map(l => `${l.id}:${l.text}`).join(','),
   ].join('|');
 }

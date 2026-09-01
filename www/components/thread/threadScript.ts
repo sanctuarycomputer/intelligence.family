@@ -10,7 +10,15 @@
  */
 
 /** Which beat of its exchange an entry appears on. See timeline.ts BEAT. */
-export type Beat = 'question' | 'aside' | 'reply' | 'trailing';
+export type Beat =
+  | 'question'
+  | 'aside'
+  | 'reply'
+  | 'trailing'
+  /* The commerce exchange only. Its reply arrives, a link follows, and the
+     receipt lands after the sheet has been and gone. */
+  | 'settled'
+  | 'receipt';
 
 export type ThreadEntry = {
   id: string;
@@ -33,6 +41,14 @@ export type ThreadEntry = {
       attributionKind: 'source' | 'action';
     }
   | { kind: 'audioSnippet'; name: string; duration: string }
+  /** A tappable checkout link, the way iMessage renders a rich link preview. */
+  | {
+      kind: 'checkoutLink';
+      merchant: string;
+      summary: string;
+      total: string;
+    }
+  | { kind: 'trackingLink'; label: string; detail: string }
 );
 
 export const THREAD: ThreadEntry[] = [
@@ -103,6 +119,50 @@ export const THREAD: ThreadEntry[] = [
     text: "Sent to Ms Boland and Mr Kavanagh. I'll tell you when they write back.",
     attribution: 'Sent from your Gmail',
     attributionKind: 'action',
+  },
+
+  /* --- 4. The box spends, once it is told to -------------------------- */
+  {
+    id: 'q4',
+    exchange: 'booklist',
+    beat: 'question',
+    kind: 'out',
+    text: "Have we ordered everything for the kids' school?",
+  },
+  {
+    id: 'a4',
+    exchange: 'booklist',
+    beat: 'reply',
+    kind: 'reply',
+    text: "Not yet. I've put Ali's and Tom's lists into one basket. Here's a checkout link.",
+    attribution: 'St Brigid’s supply list',
+    attributionKind: 'source',
+  },
+  {
+    id: 'a4-link',
+    exchange: 'booklist',
+    beat: 'trailing',
+    kind: 'checkoutLink',
+    merchant: 'Instacart',
+    summary: '6 items · Back to school',
+    total: '$87.40',
+  },
+  {
+    id: 'a4-paid',
+    exchange: 'booklist',
+    beat: 'settled',
+    kind: 'reply',
+    text: "That's paid. It arrives tomorrow before 6pm.",
+    attribution: 'Paid with Apple Pay',
+    attributionKind: 'action',
+  },
+  {
+    id: 'a4-tracking',
+    exchange: 'booklist',
+    beat: 'receipt',
+    kind: 'trackingLink',
+    label: 'Track your order',
+    detail: 'Instacart · #IC-4471028',
   },
 ];
 

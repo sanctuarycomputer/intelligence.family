@@ -77,6 +77,12 @@ export const BEAT = {
      question arrives while the last artifact is still on screen. */
   cardDown: 5.7,
   cardDownDur: 0.4,
+
+  /* Only the commerce exchange uses these two. They live in BEAT rather than
+     in CHECKOUT below because ENTRY_DUE looks every thread entry's beat up in
+     this table, and a beat that is not here cannot schedule a bubble. */
+  settled: 6.8,
+  receipt: 7.4,
 };
 
 export type Exchange = {
@@ -99,6 +105,29 @@ export type Exchange = {
   sentAt?: number;
   /** What the card's label reads once it has flipped. */
   sentLabel?: string;
+  /** Runs the CHECKOUT cues on top of the shared beats. */
+  checkout?: true;
+};
+
+/**
+ * The checkout's own cues, offset from the commerce exchange's start.
+ *
+ * Separate from BEAT because these describe a sheet on the phone rather than
+ * the five steps every exchange shares, and folding them in would put seven
+ * numbers into a table three exchanges have no use for.
+ */
+export const CHECKOUT = {
+  /** A tap lands on the checkout link the box just sent. */
+  linkTap: 3.4,
+  /** How long a tap ripple is visible. Mirrored by .tap-ripple in globals.css. */
+  tapDur: 0.35,
+  sheetUp: 3.9,
+  /** Mirrored by the .pay-sheet transition in globals.css. */
+  sheetDur: 0.45,
+  payTap: 5.4,
+  paid: 5.8,
+  sheetDown: 6.3,
+  sheetDownDur: 0.4,
 };
 
 const screenLabel = (id: string, text: string): LabelSpec => ({
@@ -136,9 +165,17 @@ export const EXCHANGES: Exchange[] = [
     duration: 7.5,
     card: 'email',
     label: screenLabel('artifact-email', 'gmail · compose'),
-    keepCard: true,
     sentAt: SENT_AT,
     sentLabel: SENT_LABEL,
+  },
+  {
+    id: 'booklist',
+    start: 22.5,
+    duration: 10.0,
+    card: 'basket',
+    label: screenLabel('artifact-basket', 'instacart · basket'),
+    keepCard: true,
+    checkout: true,
   },
 ];
 
