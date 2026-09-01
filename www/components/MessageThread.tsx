@@ -7,10 +7,12 @@ import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
 import { phoneScaleFor } from '@/components/thread/phoneFit';
 import {
   AudioSnippet,
+  CheckoutLink,
   OUT,
   Out,
   Reply,
   Transcript,
+  TrackingLink,
   Typing,
   VoiceNote,
 } from '@/components/thread/bubbles';
@@ -37,6 +39,7 @@ export default function MessageThread() {
   const [attributed, setAttributed] = useState(0);
   const [typing, setTyping] = useState(false);
   const [phoneUp, setPhoneUp] = useState(false);
+  const [tap, setTap] = useState<'checkout' | 'pay' | null>(null);
   /* How much of the thread renders. Trails the clock on the way down only:
      replay empties the thread at once, and clearing it immediately would leave
      the phone blank for the whole of its fade. */
@@ -50,6 +53,7 @@ export default function MessageThread() {
       setAttributed(s.attributed);
       setTyping(s.typing);
       setPhoneUp(s.phoneUp);
+      setTap(s.tap);
 
       if (s.visibleMessages > 0) {
         clearTimeout(emptying);
@@ -305,10 +309,23 @@ export default function MessageThread() {
                       />
                     );
                   case 'checkoutLink':
+                    return (
+                      <CheckoutLink
+                        key={entry.id}
+                        merchant={entry.merchant}
+                        summary={entry.summary}
+                        total={entry.total}
+                        tapped={tap === 'checkout'}
+                      />
+                    );
                   case 'trackingLink':
-                    // Task 5 draws these bubbles. Landing the two cases here
-                    // keeps this switch exhaustive for Task 4's commit.
-                    return null;
+                    return (
+                      <TrackingLink
+                        key={entry.id}
+                        label={entry.label}
+                        detail={entry.detail}
+                      />
+                    );
                 }
               })}
 
