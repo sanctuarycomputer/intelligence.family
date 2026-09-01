@@ -53,7 +53,18 @@ export default function MessageThread() {
      the phone blank for the whole of its fade. */
   const [shown, setShown] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const threadContentRef = useRef<HTMLDivElement>(null);
   const dockRef = useRef<HTMLDivElement>(null);
+  /* Read from inside the ResizeObserver callback below, which is set up once
+     on mount and so would otherwise close over the phoneUp of that first
+     render forever. A ref sidesteps re-creating the observer on every rise
+     and fall of the phone just to keep one closure current. Written from an
+     effect rather than during render — react-hooks/refs forbids mutating a
+     ref while rendering, even one that render itself never reads. */
+  const phoneUpRef = useRef(phoneUp);
+  useEffect(() => {
+    phoneUpRef.current = phoneUp;
+  }, [phoneUp]);
 
   useEffect(() => {
     let emptying: ReturnType<typeof setTimeout> | undefined;
@@ -182,15 +193,44 @@ export default function MessageThread() {
     };
   }, []);
 
-  // Keep the newest bubble in view once the thread outgrows the frame.
+  /**
+   * Keep the newest bubble in view once the thread outgrows the frame.
+   *
+   * A ResizeObserver on the content, not a dependency array, because too
+   * many things change that content's height for a list of state values to
+   * ever be trusted to name them all: a bubble mounting, its citation line
+   * landing a beat later as separate state, the thread-in keyframe settling,
+   * a reply long enough to outgrow the frame on its own. Naming `shown` and
+   * `typing` here once already missed `attributed` — the citation arriving
+   * late is exactly the bug this replaces. Observing the content's actual
+   * box instead means anything that makes it taller re-pins the scroll,
+   * including whatever a future entry kind adds, without this effect having
+   * to be edited again.
+   *
+   * `scrollRef` is the clipped viewport `scrollTo` moves; `threadContentRef`
+   * is the unclipped column inside it whose natural height is what actually
+   * changes — the viewport's own box is fixed by the flex layout around it,
+   * so observing it directly would never fire.
+   */
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el) return;
-    el.scrollTo({
-      top: el.scrollHeight,
-      behavior: phoneUp ? 'smooth' : 'auto',
-    });
-  }, [shown, typing, phoneUp]);
+    const content = threadContentRef.current;
+    if (!el || !content) return;
+
+    const pin = () => {
+      const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+      el.scrollTo({
+        top: el.scrollHeight,
+        behavior: phoneUpRef.current && !reduceMotion ? 'smooth' : 'auto',
+      });
+    };
+
+    const observer = new ResizeObserver(pin);
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div ref={dockRef} className="phone-dock">
@@ -348,63 +388,70 @@ export default function MessageThread() {
               <span className="w-[12px] shrink-0" />
             </div>
 
-            {/* ===== Thread ===== */}
+            {/* ===== Thread =====
+                The outer div is the clipped viewport `scrollRef` moves; its
+                own box is fixed by the flex layout, so it never resizes with
+                its content and can't be what the ResizeObserver above
+                watches. `threadContentRef` below is the unclipped column
+                that actually grows and shrinks as entries arrive. */}
             <div
               ref={scrollRef}
-              className="flex flex-1 flex-col gap-[4px] overflow-hidden px-[13px] pb-2 pt-[6px]"
+              className="flex flex-1 flex-col overflow-hidden px-[13px] pb-2 pt-[6px]"
             >
-              {THREAD.slice(0, shown).map(entry => {
-                switch (entry.kind) {
-                  case 'voiceNote':
-                    return (
-                      <VoiceNote key={entry.id} duration={entry.duration} />
-                    );
-                  case 'transcript':
-                    return <Transcript key={entry.id} text={entry.text} />;
-                  case 'out':
-                    return <Out key={entry.id} text={entry.text} />;
-                  case 'reply':
-                    return (
-                      <Reply
-                        key={entry.id}
-                        text={entry.text}
-                        attribution={entry.attribution}
-                        attributionKind={entry.attributionKind}
-                        showAttribution={
-                          (REPLY_ORDINAL.get(entry.id) ?? 0) < attributed
-                        }
-                      />
-                    );
-                  case 'audioSnippet':
-                    return (
-                      <AudioSnippet
-                        key={entry.id}
-                        name={entry.name}
-                        duration={entry.duration}
-                      />
-                    );
-                  case 'checkoutLink':
-                    return (
-                      <CheckoutLink
-                        key={entry.id}
-                        merchant={entry.merchant}
-                        summary={entry.summary}
-                        total={entry.total}
-                        tapped={tap === 'checkout'}
-                      />
-                    );
-                  case 'trackingLink':
-                    return (
-                      <TrackingLink
-                        key={entry.id}
-                        label={entry.label}
-                        detail={entry.detail}
-                      />
-                    );
-                }
-              })}
+              <div ref={threadContentRef} className="flex flex-col gap-[4px]">
+                {THREAD.slice(0, shown).map(entry => {
+                  switch (entry.kind) {
+                    case 'voiceNote':
+                      return (
+                        <VoiceNote key={entry.id} duration={entry.duration} />
+                      );
+                    case 'transcript':
+                      return <Transcript key={entry.id} text={entry.text} />;
+                    case 'out':
+                      return <Out key={entry.id} text={entry.text} />;
+                    case 'reply':
+                      return (
+                        <Reply
+                          key={entry.id}
+                          text={entry.text}
+                          attribution={entry.attribution}
+                          attributionKind={entry.attributionKind}
+                          showAttribution={
+                            (REPLY_ORDINAL.get(entry.id) ?? 0) < attributed
+                          }
+                        />
+                      );
+                    case 'audioSnippet':
+                      return (
+                        <AudioSnippet
+                          key={entry.id}
+                          name={entry.name}
+                          duration={entry.duration}
+                        />
+                      );
+                    case 'checkoutLink':
+                      return (
+                        <CheckoutLink
+                          key={entry.id}
+                          merchant={entry.merchant}
+                          summary={entry.summary}
+                          total={entry.total}
+                          tapped={tap === 'checkout'}
+                        />
+                      );
+                    case 'trackingLink':
+                      return (
+                        <TrackingLink
+                          key={entry.id}
+                          label={entry.label}
+                          detail={entry.detail}
+                        />
+                      );
+                  }
+                })}
 
-              {typing ? <Typing /> : null}
+                {typing ? <Typing /> : null}
+              </div>
             </div>
 
             {/* ===== Input bar ===== */}
