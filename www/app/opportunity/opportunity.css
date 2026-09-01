@@ -133,10 +133,25 @@
 }
 .deck-demo-copy .demo-play {
   margin-left: 14px;
-  /* Explicit rather than relied-upon: inline-flex is an atomic inline-level
-     box, and its default vertical-align already puts its own baseline (the
-     label text's) on the surrounding line's baseline, matching the title. */
-  vertical-align: baseline;
+  /* Plain `vertical-align: baseline` seats the wrong point on the title's
+     baseline. CSS2.1 puts an inline-block's baseline at its bottom margin
+     edge once `overflow` isn't `visible` — tried here first as the
+     spec-defined fix — but that rule is written for `inline-block` and,
+     verified in Chrome, doesn't carry over to this button's
+     `inline-flex`: with no baseline-participating child, the browser
+     instead synthesizes the flex container's baseline from its first flex
+     item, the play glyph, not from the button's own edge. So the label
+     baseline (and the glyph above it) still land 8px above where the
+     button's bottom edge would need to be, computed by hand from the
+     other fixed geometry here rather than eyeballed:
+       padding-bottom (7px, from the `padding: 6px 14px 7px` shorthand
+       above) + half the gap between the 13px content line (13px
+       font-size x line-height: 1, both above) and the 11px play glyph it
+       centers (height="11" on the <svg> in PlayGlyph,
+       components/demo/DemoControls.tsx) = 7 + (13 - 11) / 2 = 8px.
+     Raising the button by that amount moves its own bottom edge, rather
+     than the glyph's, onto the title's baseline. */
+  vertical-align: calc(7px + (13px * 1 - 11px) / 2);
 }
 
 /* Deck shell */
@@ -244,18 +259,21 @@ section.deck-page[id] {
 }
 /* .demo-play defaults to an fi-green-200 fill with fi-green-600 text (see
    globals.css). Act II and Act IV both set that same fi-green-200 token as
-   their background, so a demo button on either act's background would
-   disappear the same way. Inverted here for both, scoped to the deck only,
-   so the homepage's soft treatment (the shared .demo-play rule) is
-   untouched. */
+   their background, so a button using the default fill would disappear
+   into it the same way. Lifted here to the lightest token in the scale,
+   fi-green-100, scoped to the deck only, so the homepage's soft treatment
+   (the shared .demo-play rule) is untouched. */
 .deck-act-2 .demo-play,
 .deck-act-4 .demo-play {
-  background: var(--fi-green-600);
-  color: var(--fi-green-100);
+  background: var(--fi-green-100);
+  color: var(--fi-green-600);
 }
+/* fi-green-100 is already the lightest token, so hover has nowhere lighter
+   to go; step one down the scale instead, same as the homepage button's own
+   rest (fi-green-200) to hover (fi-green-300) move. */
 .deck-act-2 .demo-play:hover,
 .deck-act-4 .demo-play:hover {
-  background: var(--fi-green-500);
+  background: var(--fi-green-300);
 }
 /* Cards can carry a small transparent PNG floating off their top-right
    corner; the card anchors it and lets it overflow. Solid card fills come
