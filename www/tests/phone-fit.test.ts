@@ -6,12 +6,15 @@ import {
   PHONE_H,
   PHONE_W,
   SCREEN_TOLERANCE,
+  SLIDE_GAP,
+  SLIDE_PHONE_FRACTION,
   VIEWPORT_MARGIN,
   WIDE_FROM,
   fitScale,
   hostScaleFor,
   phoneScaleFor,
   phoneTopFor,
+  slidePhoneWidthBudget,
 } from '@/components/thread/phoneFit';
 
 /** A spread of real viewports, plus a few awkward ones. */
@@ -286,5 +289,51 @@ describe('hostScaleFor', () => {
   it('ignores hostTop below the breakpoint, where the dock is bottom-anchored, not top-anchored', () => {
     const [w, h] = [800, 700];
     expect(hostScaleFor(w, h, w, h, 95)).toBe(hostScaleFor(w, h, w, h, 0));
+  });
+});
+
+/* The deck slide's device slide splits its box left/right below WIDE_FROM
+   (see --slide-split in opportunity.css's `.demo-stage-slide`) instead of
+   centring the phone over the device. slidePhoneWidthBudget is the half of
+   that split MessageThread hands to hostScaleFor as the phone's width leg. */
+describe('slidePhoneWidthBudget', () => {
+  /* Real `.deck-demo` box widths at the report's three viewports: 342px at
+     390 (24px container padding each side), 382px at 430, and 608px at 768
+     (80px padding either side of that breakpoint). */
+  const HOST_WIDTHS: Array<[number, string]> = [
+    [342, '390px viewport'],
+    [382, '430px viewport'],
+    [608, '768px viewport'],
+  ];
+
+  it('matches the split CSS computes: fraction of the box, minus half the gap', () => {
+    for (const [hostWidth, name] of HOST_WIDTHS) {
+      expect(slidePhoneWidthBudget(hostWidth), name).toBeCloseTo(
+        hostWidth * SLIDE_PHONE_FRACTION - SLIDE_GAP / 2,
+        10
+      );
+    }
+  });
+
+  /* The whole reason this exists: leave the device more than a sliver.
+     SLIDE_PHONE_FRACTION is under a half, so the phone's strip should never
+     be the larger of the two. */
+  it('leaves the device the larger share of the box', () => {
+    for (const [hostWidth, name] of HOST_WIDTHS) {
+      const phoneShare = slidePhoneWidthBudget(hostWidth);
+      const deviceShare =
+        hostWidth * (1 - SLIDE_PHONE_FRACTION) - SLIDE_GAP / 2;
+      expect(phoneShare, name).toBeLessThan(deviceShare);
+    }
+  });
+
+  /* Feeding the budget through the same fit the phone dock actually uses:
+     the drawn phone must never spill past its strip into the device's. */
+  it('keeps the phone inside its strip once fed through hostScaleFor', () => {
+    for (const [hostWidth, name] of HOST_WIDTHS) {
+      const budget = slidePhoneWidthBudget(hostWidth);
+      const scale = hostScaleFor(budget, 480, hostWidth, 844);
+      expect(PHONE_W * scale, name).toBeLessThanOrEqual(budget + 0.001);
+    }
   });
 });

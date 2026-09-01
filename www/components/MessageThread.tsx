@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import { subscribe } from '@/components/demo/demoClock';
 import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
-import { hostScaleFor, phoneScaleFor } from '@/components/thread/phoneFit';
+import {
+  WIDE_FROM,
+  hostScaleFor,
+  phoneScaleFor,
+  slidePhoneWidthBudget,
+} from '@/components/thread/phoneFit';
 import PaymentSheet from '@/components/thread/PaymentSheet';
 import {
   AudioSnippet,
@@ -129,9 +134,19 @@ export default function MessageThread() {
           parseFloat(
             getComputedStyle(host).getPropertyValue('--demo-phone-top')
           ) || 0;
+        /* Below WIDE_FROM the host box splits left/right (--slide-split in
+           opportunity.css's `.demo-stage-slide`), and the phone only owns a
+           strip of it, not the whole box. Without narrowing the width leg to
+           match, the box is usually wide enough that only its height ever
+           binds, and the phone would render at its full height-bound size —
+           wider than the strip CSS gives it — and spill into the device's
+           strip beside it. Wide, the box doesn't split, so the phone keeps
+           fitting the whole of it as it always has. */
+        const hostWidth =
+          width < WIDE_FROM ? slidePhoneWidthBudget(rect.width) : rect.width;
         el.style.setProperty(
           '--phone-scale',
-          String(hostScaleFor(rect.width, rect.height, width, height, hostTop))
+          String(hostScaleFor(hostWidth, rect.height, width, height, hostTop))
         );
       };
       fit();

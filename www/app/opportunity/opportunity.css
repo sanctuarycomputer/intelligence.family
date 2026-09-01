@@ -31,6 +31,17 @@
      so it could never be subtracted from anything. See hostScaleFor's
      `hostTop` parameter. */
   --demo-phone-top: 95px;
+  /* Below 1024px the stacked box splits left/right instead of centring the
+     phone over the device (see the media query below): this is the phone's
+     share of the box's width, the rest — minus --slide-gap — going to the
+     device. Declared once and read by both of that query's rules so they
+     can't drift apart into two different splits. phoneFit.ts's
+     SLIDE_PHONE_FRACTION mirrors this value rather than reading it, the same
+     way COMPACT_DEVICE_BOX_H mirrors the homepage's 26dvh: percentages
+     written into a custom property don't resolve to a length getComputedStyle
+     can read back, so JS has nothing to parse here even if it looked. */
+  --slide-split: 0.42;
+  --slide-gap: 16px;
 }
 
 /* Below 1024px there is no room for the copy beside a full-bleed stage: the
@@ -61,6 +72,33 @@
     inset: auto;
     order: 1;
     height: min(62dvh, 480px);
+  }
+  /* The owner's ask: in this box the phone and the device were overlapping —
+     globals.css's narrow rules centre the phone (`.phone-dock`) and pin the
+     device (`.demo-scene`) top-right, tuned for the homepage's full-viewport
+     stage, and the two overlap heavily in a box this size with the phone
+     painting in front (z 12 over z 1), hiding the device behind it. Split
+     the box left/right instead: phone on the left, device given the rest. */
+  .demo-stage-slide .phone-dock {
+    left: 0;
+    transform: none;
+  }
+  .demo-stage-slide .demo-scene {
+    /* Overrides globals.css's narrow `inset: 0 0 auto auto` (pinned
+       top-right) and its viewport-relative 68vw/26dvh box — numbers tuned
+       for the homepage's full-viewport stage that have nothing to do with a
+       slide's own, much smaller `.deck-demo` box. `height: 100%` (of this
+       box, not a dvh slice of the *viewport* that happens to sit inside it)
+       fills the space beside the phone instead of leaving most of the box
+       empty above and below it. */
+    inset: 0 auto auto calc(var(--slide-split) * 100% + var(--slide-gap) / 2);
+    width: calc((1 - var(--slide-split)) * 100% - var(--slide-gap) / 2);
+    height: 100%;
+    /* globals.css keeps the device at opacity 0 until the demo plays, so the
+       homepage's masthead has something to fade into. This slide's whole
+       subject is the device and has no masthead to trade away, so at rest it
+       would just look like an empty box — show it immediately instead. */
+    opacity: 1;
   }
 }
 

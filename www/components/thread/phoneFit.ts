@@ -148,3 +148,35 @@ export const COMPACT_DEVICE_BOX_H = 0.26;
 export function phoneTopFor(width: number, height: number): number {
   return height - COMPACT_BOTTOM_INSET - PHONE_H * phoneScaleFor(width, height);
 }
+
+/**
+ * Below WIDE_FROM, a deck slide's demo box splits left/right instead of
+ * centring the phone over the device (see --slide-split in
+ * opportunity.css's `.demo-stage-slide` rule). Mirrors that custom
+ * property's value rather than reading it: percentages written into a
+ * custom property don't resolve to a length getComputedStyle can hand back,
+ * so there is nothing here to parse even by reading the host's computed
+ * style, the way `hostTop` is below.
+ */
+export const SLIDE_PHONE_FRACTION = 0.42;
+
+/** Mirrors --slide-gap in opportunity.css: the gutter between the two strips. */
+export const SLIDE_GAP = 16;
+
+/**
+ * The phone's width budget inside a slide's narrow, split demo box.
+ *
+ * `hostWidth` is the *whole* box's width (`.demo-stage-slide`'s rect, same
+ * as `.deck-demo`'s) — not yet narrowed to the phone's strip of it. Without
+ * this, MessageThread's fit would keep handing hostScaleFor the whole box's
+ * width, and since that box is usually wide enough that only its height
+ * ever binds, the phone would render at its full height-bound size and spill
+ * across the boundary into the device's strip beside it.
+ *
+ * Only meaningful below WIDE_FROM, where the box actually splits; wide, the
+ * phone gets the box's whole width as it always has, so callers must not
+ * apply this there.
+ */
+export function slidePhoneWidthBudget(hostWidth: number): number {
+  return hostWidth * SLIDE_PHONE_FRACTION - SLIDE_GAP / 2;
+}
