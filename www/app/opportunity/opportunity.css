@@ -1,3 +1,28 @@
+/* The demo's cell on the device slide. Given a height rather than letting the
+   stage collapse: everything inside it is absolutely positioned, so the box
+   has nothing of its own to be as tall as. No z-index here: `.demo-stage-slide`
+   stays `position: absolute` with `z-index: auto`, so it creates no stacking
+   context of its own and the labels (z 20) and phone (z 12) inside it resolve
+   against `.deck-well` (z 2), the nearest ancestor that actually establishes
+   one, rather than being trapped relative only to each other. */
+.deck-demo {
+  position: relative;
+  min-height: 60vh;
+}
+
+.demo-stage-slide {
+  position: absolute;
+  inset: 0;
+  /* The phone centres in the cell instead of sitting at the homepage's
+     column offset. */
+  --demo-phone-left: 50%;
+  --demo-phone-top: 0px;
+}
+
+.demo-stage-slide .phone-dock {
+  transform: translateX(-50%) scale(1);
+}
+
 /* Deck shell */
 .deck {
   /* The chrome bar's total height (fill + top rule). Slides after the

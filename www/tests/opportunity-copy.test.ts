@@ -49,10 +49,11 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('act 2 carries the eight approved titles in order', () => {
+  it('act 2 carries the nine approved titles in order', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
+      'The best home assistant on the market',
       'Your own family vault',
       'Convenience of the cloud. Privacy of the home.',
       'A context window for smart homes',
@@ -66,10 +67,11 @@ describe('opportunity deck copy contract', () => {
     expect([...idx].sort((a, b) => a - b)).toEqual(idx);
   });
 
-  it('act 2 carries the eight approved subtitles', () => {
+  it('act 2 carries the nine approved subtitles', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, sensitive data, and a GPU in the living room.',
+      'Take better care of your family than ever before.',
       "Local-first models don't make you choose.",
       'The device solves age old family archive problems overnight.',
       'Inference for every IoT device on the network.',
@@ -167,7 +169,7 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('numbers core pages 1..25 contiguously in export order', () => {
+  it('numbers core pages 1..26 contiguously in export order', () => {
     const acts = ['act1.tsx', 'act2.tsx', 'act3.tsx', 'act4.tsx'];
     const ns = acts.flatMap(f => {
       const src = readFileSync(path.join(dir, f), 'utf8');
@@ -176,7 +178,7 @@ describe('opportunity deck copy contract', () => {
       );
     });
     expect([...ns].sort((a, b) => a - b)).toEqual(
-      Array.from({ length: 25 }, (_, i) => i + 1)
+      Array.from({ length: 26 }, (_, i) => i + 1)
     );
   });
 
@@ -234,14 +236,14 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('exports 25 core pages and 7 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(25);
+  it('exports 26 core pages and 7 appendix pages', () => {
+    expect(ALL_PAGES).toHaveLength(26);
     expect(APPENDIX_PAGES).toHaveLength(7);
   });
 
-  it('sets every chrome counter against 25 pages', () => {
+  it('sets every chrome counter against 26 pages', () => {
     for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 25;/);
+      expect(src, name).toMatch(/const TOTAL = 26;/);
     }
   });
 
