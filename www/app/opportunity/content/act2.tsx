@@ -67,17 +67,18 @@ const deviceDemoPage = (
   <DeckPage key={11} n={11} actClass={ACT_CLASS} bleed={<DeckDemo />}>
     <div className="deck-demo-copy">
       <Statement
-        title="The best home assistant on the market"
-        sub="Take better care of your family than ever before."
+        title="Take better care of your family than ever before."
+        sub="The most capable home assistant on the market"
         titleAction={<DemoControls />}
       >
+        Automate shopping and bill payments, balance the household budget, help
+        the kids with homework and stay on top of the family calendar.
+        <br />
+        <br />
         <strong>
-          Automate shopping and bill payments, balance the household budget,
-          help the kids with homework and stay on top of the family calendar.
+          It works out of the box with no subscription required, saving the
+          family money on cloud AI.
         </strong>
-        <br />
-        <br />
-        It all works out of the box with no cloud subscription required.
       </Statement>
     </div>
   </DeckPage>
