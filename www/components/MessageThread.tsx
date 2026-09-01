@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import { subscribe } from '@/components/demo/demoClock';
 import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
-import { phoneScaleFor } from '@/components/thread/phoneFit';
+import { fitScale, phoneScaleFor } from '@/components/thread/phoneFit';
 import PaymentSheet from '@/components/thread/PaymentSheet';
 import {
   AudioSnippet,
@@ -84,14 +84,43 @@ export default function MessageThread() {
    * and CSS cannot divide a length by a length to produce one — written as a
    * calc() it is silently invalid and the phone renders at full size.
    *
-   * Measured against the visual viewport where the browser exposes one. On a
-   * phone the layout viewport can be taller than what you can actually see,
-   * with a collapsing toolbar over the difference, and the phone is docked to
-   * the bottom edge — exactly the edge that would be hidden.
+   * The phone fits whatever box hosts it, and the viewport is that box only on
+   * the homepage: there, `.phone-dock` is `position: fixed`, so it has no
+   * `offsetParent`. On a deck slide `.phone-dock` is `position: absolute`
+   * inside `.demo-stage-slide`, a positioned box of its own — `offsetParent`
+   * is that element, and it stands in for the viewport below.
+   *
+   * With a host, its rect is the frame, fitted with `fitScale` rather than
+   * `phoneScaleFor` — that margin models the homepage `main`'s own padding and
+   * would badly over-shrink a host with none of its own — and a
+   * `ResizeObserver` on the host takes the place of the window listeners,
+   * since the host's box can change size without the window doing so.
+   *
+   * Without one, the frame is the visual viewport where the browser exposes
+   * one. On a phone the layout viewport can be taller than what you can
+   * actually see, with a collapsing toolbar over the difference, and the
+   * phone is docked to the bottom edge — exactly the edge that would be
+   * hidden.
    */
   useEffect(() => {
     const el = dockRef.current;
     if (!el) return;
+    const host = el.offsetParent as HTMLElement | null;
+
+    if (host) {
+      const fit = () => {
+        const rect = host.getBoundingClientRect();
+        el.style.setProperty(
+          '--phone-scale',
+          String(fitScale(rect.width, rect.height))
+        );
+      };
+      fit();
+      const observer = new ResizeObserver(fit);
+      observer.observe(host);
+      return () => observer.disconnect();
+    }
+
     const vv = window.visualViewport;
     const fit = () => {
       const width = vv?.width ?? window.innerWidth;

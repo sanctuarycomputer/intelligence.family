@@ -19,8 +19,11 @@
   --demo-phone-top: 0px;
 }
 
+/* Only the centring: --phone-scale sizes the dock's own width/height and
+   scales `.phone-frame` inside it, so the dock itself is never scaled — a
+   `scale(1)` here would be a no-op. */
 .demo-stage-slide .phone-dock {
-  transform: translateX(-50%) scale(1);
+  transform: translateX(-50%);
 }
 
 /* Deck shell */
