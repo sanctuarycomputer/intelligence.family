@@ -103,18 +103,21 @@ describe('stateAt', () => {
 
   /* An attribution under a bubble that has not arrived would render as a
      floating citation. The order is fixed by BEAT, so pin it. */
-  /* Attribution is about to stop being an exchange-level fact and become a
-     per-reply one, because the commerce exchange has two replies. These are
-     the exact seconds it fires on today. They must survive that rewrite
-     untouched: if this test needs editing to pass, the rewrite is wrong. */
+  /* Indexed by reply, not by exchange: the commerce exchange has two
+     (a4, a4-paid), so an exchange's position in EXCHANGES no longer lines up
+     with a reply's position in the attribution count. Each entry's own beat
+     is looked up rather than assuming `reply`, since a4-paid lands on
+     `settled` instead. */
   it('attributes each reply 0.3s after it lands', () => {
     const lag = BEAT.attribution - BEAT.reply;
     expect(lag).toBeCloseTo(0.3, 10);
 
-    for (const [i, ex] of EXCHANGES.entries()) {
-      const due = ex.start + BEAT.reply + lag;
-      expect(stateAt(due - EPS).attributed, ex.id).toBe(i);
-      expect(stateAt(due).attributed, ex.id).toBe(i + 1);
+    const replies = THREAD.filter(e => e.kind === 'reply');
+    for (const [i, entry] of replies.entries()) {
+      const ex = EXCHANGES.find(e => e.id === entry.exchange)!;
+      const due = ex.start + BEAT[entry.beat] + lag;
+      expect(stateAt(due - EPS).attributed, entry.id).toBe(i);
+      expect(stateAt(due).attributed, entry.id).toBe(i + 1);
     }
   });
 
@@ -195,6 +198,16 @@ describe('stateAt', () => {
     const sent = stateAt(teachers.start + BEAT.trailing + EPS);
     expect(sent.labels[0].text).toBe(SENT_LABEL);
     expect(sent.cardSent).toBe(true);
+  });
+
+  /* teachers is the last exchange now, so this is what the demo parks on:
+     the sent email, not the basket. */
+  it('parks on the sent email, not the basket', () => {
+    const parked = stateAt(END);
+    expect(parked.card).toBe('email');
+    expect(parked.cardSent).toBe(true);
+    expect(parked.cardY).toBe(1);
+    expect(parked.labels[0].text).toBe(SENT_LABEL);
   });
 
   it('shows at most one label at a time, and only artifacts', () => {
@@ -327,7 +340,9 @@ describe('threadScript', () => {
     const actionIds = replies
       .filter(r => r.attributionKind === 'action')
       .map(r => r.id);
-    expect(actionIds).toEqual(['a3', 'a4-paid']);
+    // Booklist now runs first, so its action reply (a4-paid) precedes
+    // teachers' (a3) in thread order.
+    expect(actionIds).toEqual(['a4-paid', 'a3']);
   });
 
   it('gives every exchange exactly one question and one reply', () => {
@@ -346,24 +361,43 @@ describe('threadScript', () => {
   it('has unique ids', () => {
     expect(new Set(THREAD.map(e => e.id)).size).toBe(THREAD.length);
   });
+
+  /* The owner's order: instacart, glaucoma, grandma + grandpa, gmail. Pinned
+     by id so a future reshuffle fails loudly instead of being silently
+     accepted. */
+  it('runs the exchanges in the order the owner asked for', () => {
+    expect(EXCHANGES.map(e => e.id)).toEqual([
+      'booklist',
+      'glaucoma',
+      'ballroom',
+      'teachers',
+    ]);
+  });
 });
 
 describe('the commerce exchange', () => {
   const ex = () => EXCHANGES.find(e => e.id === 'booklist')!;
   const at = (offset: number) => ex().start + offset;
 
-  it('is the last exchange, and the one the demo parks on', () => {
-    expect(EXCHANGES[EXCHANGES.length - 1].id).toBe('booklist');
-    expect(ex().keepCard).toBe(true);
-    expect(EXCHANGES.find(e => e.id === 'teachers')!.keepCard).toBeUndefined();
+  it('runs first, and lets its card fall once the receipt has landed', () => {
+    expect(EXCHANGES[0].id).toBe('booklist');
+    expect(ex().keepCard).toBeUndefined();
+    // teachers is last now, and the one the demo parks on.
+    expect(EXCHANGES[EXCHANGES.length - 1].id).toBe('teachers');
+    expect(EXCHANGES.find(e => e.id === 'teachers')!.keepCard).toBe(true);
   });
 
-  it('parks on the basket, unflipped', () => {
-    const parked = stateAt(END);
-    expect(parked.card).toBe('basket');
-    expect(parked.cardSent).toBe(false);
-    expect(parked.cardY).toBe(1);
-    expect(parked.sheetUp).toBe(false);
+  /* Consequence of moving the checkout to the front: BEAT.cardDown (5.7)
+     would pull the basket away while the payment sheet is still open on the
+     phone (sheetDown is 6.3, gone by 6.7). cardDownAt overrides it to 8.0,
+     after the tracking bubble (receipt, 7.4) has landed. */
+  it('keeps the basket card up for as long as the payment sheet is open', () => {
+    for (let t = at(CHECKOUT.sheetUp); t < at(CHECKOUT.sheetDown); t += 0.05) {
+      const s = stateAt(t);
+      expect(s.sheetUp, `t=${t.toFixed(2)}`).toBe(true);
+      expect(s.card, `t=${t.toFixed(2)}`).toBe('basket');
+      expect(s.cardY, `t=${t.toFixed(2)}`).toBeGreaterThan(0.9);
+    }
   });
 
   it('raises the sheet only between its cues', () => {
@@ -402,6 +436,12 @@ describe('the commerce exchange', () => {
 
   it('never raises the sheet during any other exchange', () => {
     for (let t = 0; t < ex().start; t += 0.02) {
+      expect(stateAt(t).sheetUp, `t=${t.toFixed(2)}`).toBe(false);
+      expect(stateAt(t).tap, `t=${t.toFixed(2)}`).toBe(null);
+    }
+    // Commerce runs first now, so "any other exchange" is mostly the three
+    // that follow it rather than the sliver before it starts.
+    for (let t = ex().start + ex().duration; t <= END; t += 0.02) {
       expect(stateAt(t).sheetUp, `t=${t.toFixed(2)}`).toBe(false);
       expect(stateAt(t).tap, `t=${t.toFixed(2)}`).toBe(null);
     }

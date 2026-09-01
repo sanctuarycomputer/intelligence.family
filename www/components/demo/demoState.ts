@@ -243,7 +243,12 @@ export function stateAt(t: number, compact = false): DemoState {
       const up = progress(now, at(BEAT.cardUp), BEAT.cardDur, SETTLE);
       const down = ex.keepCard
         ? 0
-        : progress(now, at(BEAT.cardDown), BEAT.cardDownDur, EXIT);
+        : progress(
+            now,
+            at(ex.cardDownAt ?? BEAT.cardDown),
+            BEAT.cardDownDur,
+            EXIT
+          );
       cardY = Math.max(0, up - down);
       cardSent = ex.sentAt !== undefined && now >= at(ex.sentAt);
     }

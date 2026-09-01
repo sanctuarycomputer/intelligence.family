@@ -52,76 +52,7 @@ export type ThreadEntry = {
 );
 
 export const THREAD: ThreadEntry[] = [
-  /* --- 1. Asked by voice from a waiting room -------------------------- */
-  {
-    id: 'q1',
-    exchange: 'glaucoma',
-    beat: 'question',
-    kind: 'voiceNote',
-    duration: '0:06',
-  },
-  {
-    id: 'q1-transcript',
-    exchange: 'glaucoma',
-    beat: 'aside',
-    kind: 'transcript',
-    text: 'At the doctor. Do we have family history of glaucoma?',
-  },
-  {
-    id: 'a1',
-    exchange: 'glaucoma',
-    beat: 'reply',
-    kind: 'reply',
-    text: "Yes. Des has glaucoma in the left eye and he's on drops for it. It came up at his eye review with Mr Deasy.",
-    attribution: 'GP summary, Des O’Hagan',
-    attributionKind: 'source',
-  },
-
-  /* --- 2. Answered with the grandmother's own voice -------------------- */
-  {
-    id: 'q2',
-    exchange: 'ballroom',
-    beat: 'question',
-    kind: 'out',
-    text: 'Ali is asking how Granny & Grandad met?',
-  },
-  {
-    id: 'a2',
-    exchange: 'ballroom',
-    beat: 'reply',
-    kind: 'reply',
-    text: 'At the Crystal Ballroom in Dublin, in 1971. She turned him down twice before she danced with him on the third ask.',
-    attribution: 'Máire at the Crystal Ballroom',
-    attributionKind: 'source',
-  },
-  {
-    id: 'a2-audio',
-    exchange: 'ballroom',
-    beat: 'trailing',
-    kind: 'audioSnippet',
-    name: 'Máire',
-    duration: '0:14',
-  },
-
-  /* --- 3. The box acts, rather than recalls ---------------------------- */
-  {
-    id: 'q3',
-    exchange: 'teachers',
-    beat: 'question',
-    kind: 'out',
-    text: "Can you email the kids' teachers and ask when the next parent-teacher meeting is?",
-  },
-  {
-    id: 'a3',
-    exchange: 'teachers',
-    beat: 'reply',
-    kind: 'reply',
-    text: "Sent to Ms Boland and Mr Kavanagh. I'll tell you when they write back.",
-    attribution: 'Sent from your Gmail',
-    attributionKind: 'action',
-  },
-
-  /* --- 4. The box spends, once it is told to -------------------------- */
+  /* --- 1. The box spends, once it is told to --------------------------- */
   {
     id: 'q4',
     exchange: 'booklist',
@@ -163,6 +94,75 @@ export const THREAD: ThreadEntry[] = [
     kind: 'trackingLink',
     label: 'Track your order',
     detail: 'Instacart · #IC-4471028',
+  },
+
+  /* --- 2. Asked by voice from a waiting room -------------------------- */
+  {
+    id: 'q1',
+    exchange: 'glaucoma',
+    beat: 'question',
+    kind: 'voiceNote',
+    duration: '0:06',
+  },
+  {
+    id: 'q1-transcript',
+    exchange: 'glaucoma',
+    beat: 'aside',
+    kind: 'transcript',
+    text: 'At the doctor. Do we have family history of glaucoma?',
+  },
+  {
+    id: 'a1',
+    exchange: 'glaucoma',
+    beat: 'reply',
+    kind: 'reply',
+    text: "Yes. Des has glaucoma in the left eye and he's on drops for it. It came up at his eye review with Mr Deasy.",
+    attribution: 'GP summary, Des O’Hagan',
+    attributionKind: 'source',
+  },
+
+  /* --- 3. Answered with the grandmother's own voice -------------------- */
+  {
+    id: 'q2',
+    exchange: 'ballroom',
+    beat: 'question',
+    kind: 'out',
+    text: 'Ali is asking how Granny & Grandad met?',
+  },
+  {
+    id: 'a2',
+    exchange: 'ballroom',
+    beat: 'reply',
+    kind: 'reply',
+    text: 'At the Crystal Ballroom in Dublin, in 1971. She turned him down twice before she danced with him on the third ask.',
+    attribution: 'Máire at the Crystal Ballroom',
+    attributionKind: 'source',
+  },
+  {
+    id: 'a2-audio',
+    exchange: 'ballroom',
+    beat: 'trailing',
+    kind: 'audioSnippet',
+    name: 'Máire',
+    duration: '0:14',
+  },
+
+  /* --- 4. The box acts, rather than recalls ---------------------------- */
+  {
+    id: 'q3',
+    exchange: 'teachers',
+    beat: 'question',
+    kind: 'out',
+    text: "Can you email the kids' teachers and ask when the next parent-teacher meeting is?",
+  },
+  {
+    id: 'a3',
+    exchange: 'teachers',
+    beat: 'reply',
+    kind: 'reply',
+    text: "Sent to Ms Boland and Mr Kavanagh. I'll tell you when they write back.",
+    attribution: 'Sent from your Gmail',
+    attributionKind: 'action',
   },
 ];
 

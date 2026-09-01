@@ -107,6 +107,18 @@ export type Exchange = {
   sentLabel?: string;
   /** Runs the CHECKOUT cues on top of the shared beats. */
   checkout?: true;
+  /**
+   * When this exchange's card drops, as an offset from the exchange's own
+   * start. Defaults to BEAT.cardDown.
+   *
+   * The commerce exchange needs its own: BEAT.cardDown (5.7) lands while the
+   * payment sheet is still up (CHECKOUT.sheetDown is 6.3, gone by 6.7) and
+   * before the tracking bubble arrives (BEAT.receipt, 7.4). Dropping the
+   * basket on the shared cue would slide it away mid-payment. Only the
+   * exchange that needs a later exit sets this; everyone else takes the
+   * shared one.
+   */
+  cardDownAt?: number;
 };
 
 /**
@@ -146,36 +158,41 @@ export const SENT_LABEL = 'gmail · sent';
 
 export const EXCHANGES: Exchange[] = [
   {
-    id: 'glaucoma',
+    id: 'booklist',
     start: 2.0,
+    duration: 10.0,
+    card: 'basket',
+    label: screenLabel('artifact-basket', 'instacart · basket'),
+    checkout: true,
+    // See the doc comment on cardDownAt: the shared BEAT.cardDown would pull
+    // the basket away while the payment sheet is still on the phone.
+    cardDownAt: 8.0,
+  },
+  {
+    id: 'glaucoma',
+    start: 12.0,
     duration: 6.5,
     card: 'record',
     label: screenLabel('artifact-record', 'gp-summary.pdf'),
   },
   {
     id: 'ballroom',
-    start: 8.5,
+    start: 18.5,
     duration: 6.5,
     card: 'audio',
     label: screenLabel('artifact-audio', 'maire-1971.m4a'),
   },
   {
     id: 'teachers',
-    start: 15.0,
+    start: 25.0,
     duration: 7.5,
     card: 'email',
     label: screenLabel('artifact-email', 'gmail · compose'),
     sentAt: SENT_AT,
     sentLabel: SENT_LABEL,
-  },
-  {
-    id: 'booklist',
-    start: 22.5,
-    duration: 10.0,
-    card: 'basket',
-    label: screenLabel('artifact-basket', 'instacart · basket'),
+    // The last exchange now, so this is what the demo parks on: the sent
+    // email rather than the basket.
     keepCard: true,
-    checkout: true,
   },
 ];
 
