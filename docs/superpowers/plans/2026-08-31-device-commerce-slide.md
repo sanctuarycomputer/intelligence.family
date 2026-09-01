@@ -121,9 +121,9 @@ export const ATTRIBUTION_LAG = BEAT.attribution - BEAT.reply;
  * Replies appear in thread order, so this is ascending and `attributed` stays
  * a prefix count — which is exactly what REPLY_ORDINAL indexes against.
  */
-const ATTRIBUTION_DUE: number[] = THREAD.map((entry, i) =>
-  entry.kind === 'reply' ? ENTRY_DUE[i] + ATTRIBUTION_LAG : Infinity
-).filter(due => due !== Infinity);
+const ATTRIBUTION_DUE: number[] = THREAD.flatMap((entry, i) =>
+  entry.kind === 'reply' ? [ENTRY_DUE[i] + ATTRIBUTION_LAG] : []
+);
 ```
 
 Inside `stateAt`, delete the `if (now >= at(BEAT.attribution)) attributed += 1;` line from the exchange loop and remove `attributed` from that loop's `let` declarations. Replace it with a count derived the same way `visibleMessages` is, placed immediately after the `visibleMessages` while-loop:
@@ -420,12 +420,14 @@ git commit -m "feat: a basket card for the device screen"
 
 ---
 
-### Task 4: The fourth exchange, as timing
+### Task 4: The fourth exchange, as timing and copy
 
-The sheet's own cues, the exchange itself, and the state the phone will read. No thread copy yet, no components yet — this task is the clock.
+The sheet's own cues, the exchange, its thread entries, and the state the phone will read. No components yet — this task is the clock and the script.
+
+**The copy ships in this task, not the next one, and that is load-bearing.** `tests/demo-state.test.ts` has an existing test, `'never shows a typing bubble and a settled reply at once'`, which does `THREAD.findIndex(e => e.exchange === current.id && e.beat === 'reply')` and asserts `visibleMessages <= replyIndex`. An exchange that exists with no thread entries yet makes that `-1`, and the assertion fails. Adding the exchange and its entries in one task keeps the suite green at every commit.
 
 **Files:**
-- Modify: `components/demo/timeline.ts`, `components/demo/demoState.ts`
+- Modify: `components/demo/timeline.ts`, `components/demo/demoState.ts`, `components/thread/threadScript.ts`
 - Test: `tests/demo-state.test.ts`
 
 **Interfaces:**
@@ -435,6 +437,9 @@ The sheet's own cues, the exchange itself, and the state the phone will read. No
   - `BEAT` gains `settled: 6.6` and `receipt: 7.2`.
   - `DemoState` gains `sheetUp: boolean`, `sheetPaid: boolean`, `tap: 'checkout' | 'pay' | null`.
   - `EXCHANGES` gains `{ id: 'booklist', start: 22.5, duration: 10.0, card: 'basket', keepCard: true, checkout: true }`; `teachers` loses `keepCard`.
+  - `Beat` gains `'settled' | 'receipt'`.
+  - `ThreadEntry` gains `{ kind: 'checkoutLink'; merchant: string; summary: string; total: string }` and `{ kind: 'trackingLink'; label: string; detail: string }`.
+  - `THREAD` gains five entries: `q4`, `a4`, `a4-link`, `a4-paid`, `a4-tracking`.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -499,6 +504,58 @@ describe('the commerce exchange', () => {
       expect(stateAt(t).tap, `t=${t.toFixed(2)}`).toBe(null);
     }
   });
+
+  it('runs 34 seconds', () => {
+    expect(END).toBeCloseTo(34, 10);
+  });
+
+  it('sends a checkout link, then a receipt, in that order', () => {
+    const own = THREAD.filter(e => e.exchange === 'booklist');
+    expect(own.map(e => e.id)).toEqual([
+      'q4',
+      'a4',
+      'a4-link',
+      'a4-paid',
+      'a4-tracking',
+    ]);
+    expect(own.map(e => e.kind)).toEqual([
+      'out',
+      'reply',
+      'checkoutLink',
+      'reply',
+      'trackingLink',
+    ]);
+  });
+
+  /* The link has to be on screen before a tap lands on it, and the receipt
+     must not arrive until the sheet has gone. */
+  it('sequences the bubbles around the sheet', () => {
+    const due = (id: string) => {
+      const entry = THREAD.find(e => e.id === id)!;
+      return at(BEAT[entry.beat]);
+    };
+    expect(due('a4-link')).toBeLessThanOrEqual(at(CHECKOUT.linkTap));
+    expect(due('a4-paid')).toBeGreaterThan(
+      at(CHECKOUT.sheetDown + CHECKOUT.sheetDownDur)
+    );
+    expect(due('a4-tracking')).toBeGreaterThan(due('a4-paid'));
+  });
+
+  it('cites the supply list, then reports the payment as an action', () => {
+    const first = THREAD.find(e => e.id === 'a4')!;
+    const second = THREAD.find(e => e.id === 'a4-paid')!;
+    expect(first.kind === 'reply' && first.attributionKind).toBe('source');
+    expect(second.kind === 'reply' && second.attributionKind).toBe('action');
+  });
+
+  /* Both of this exchange's replies get their citation, which is the whole
+     reason attribution stopped being an exchange-level count in Task 1. */
+  it('attributes both of its replies', () => {
+    expect(stateAt(END).attributed).toBe(
+      THREAD.filter(e => e.kind === 'reply').length
+    );
+    expect(stateAt(END).attributed).toBe(5);
+  });
 });
 ```
 
@@ -559,6 +616,85 @@ Append the exchange to `EXCHANGES` and drop `keepCard` from `teachers`:
     checkout: true,
   },
 ```
+
+- [ ] **Step 3b: Write the thread copy**
+
+In `components/thread/threadScript.ts`, widen the two types:
+
+```ts
+export type Beat =
+  | 'question'
+  | 'aside'
+  | 'reply'
+  | 'trailing'
+  /* The commerce exchange only. Its reply arrives, a link follows, and the
+     receipt lands after the sheet has been and gone. */
+  | 'settled'
+  | 'receipt';
+```
+
+Add to the `ThreadEntry` union:
+
+```ts
+  /** A tappable checkout link, the way iMessage renders a rich link preview. */
+  | {
+      kind: 'checkoutLink';
+      merchant: string;
+      summary: string;
+      total: string;
+    }
+  | { kind: 'trackingLink'; label: string; detail: string }
+```
+
+Append to `THREAD`:
+
+```ts
+  /* --- 4. The box spends, once it is told to -------------------------- */
+  {
+    id: 'q4',
+    exchange: 'booklist',
+    beat: 'question',
+    kind: 'out',
+    text: "Have we ordered everything for the kids' school?",
+  },
+  {
+    id: 'a4',
+    exchange: 'booklist',
+    beat: 'reply',
+    kind: 'reply',
+    text: "Not yet. I've put Ali's and Tom's lists into one basket. Here's a checkout link.",
+    attribution: 'St Brigid’s supply list',
+    attributionKind: 'source',
+  },
+  {
+    id: 'a4-link',
+    exchange: 'booklist',
+    beat: 'trailing',
+    kind: 'checkoutLink',
+    merchant: 'Instacart',
+    summary: '6 items · Back to school',
+    total: '$87.40',
+  },
+  {
+    id: 'a4-paid',
+    exchange: 'booklist',
+    beat: 'settled',
+    kind: 'reply',
+    text: "That's paid. It arrives tomorrow before 6pm.",
+    attribution: 'Paid with Apple Pay',
+    attributionKind: 'action',
+  },
+  {
+    id: 'a4-tracking',
+    exchange: 'booklist',
+    beat: 'receipt',
+    kind: 'trackingLink',
+    label: 'Track your order',
+    detail: 'Instacart · #IC-4471028',
+  },
+```
+
+`MessageThread`'s switch over `entry.kind` is exhaustive and will now fail to typecheck. That is expected: Task 5 adds the two cases. To keep this task's commit compiling, add the two cases now returning `null`, with a comment saying Task 5 fills them in. Do not invent bubbles here.
 
 - [ ] **Step 4: Derive the new state**
 
@@ -648,143 +784,19 @@ git commit -m "feat: time the commerce exchange and its payment sheet"
 
 ---
 
-### Task 5: The thread copy, and two new bubbles
+### Task 5: Two new bubbles
+
+The copy and its types landed in Task 4. This task draws them.
 
 **Files:**
-- Modify: `components/thread/threadScript.ts`, `components/thread/bubbles.tsx`, `components/MessageThread.tsx`
-- Test: `tests/demo-state.test.ts`
+- Modify: `components/thread/bubbles.tsx`, `components/MessageThread.tsx`, `app/globals.css`
+- Test: none automatable. These are two presentational components rendering props Task 4 already tests; a render test would assert markup, not behaviour. Verified by eye in Step 6.
 
 **Interfaces:**
-- Consumes: Task 4's `BEAT.settled` and `BEAT.receipt`.
-- Produces:
-  - `Beat` gains `'settled' | 'receipt'`.
-  - `ThreadEntry` gains `{ kind: 'checkoutLink'; merchant: string; summary: string; total: string }` and `{ kind: 'trackingLink'; label: string; detail: string }`.
-  - `bubbles.tsx` exports `CheckoutLink({ merchant, summary, total, tapped }: { …; tapped: boolean })` and `TrackingLink({ label, detail })`.
+- Consumes: Task 4's `checkoutLink` and `trackingLink` entry kinds, and `DemoState.tap`.
+- Produces: `bubbles.tsx` exports `CheckoutLink({ merchant, summary, total, tapped }: { merchant: string; summary: string; total: string; tapped: boolean })` and `TrackingLink({ label, detail }: { label: string; detail: string })`.
 
-- [ ] **Step 1: Write the failing test**
-
-Add to `tests/demo-state.test.ts`, inside `describe('the commerce exchange')`:
-
-```ts
-  it('sends a checkout link, then a receipt, in that order', () => {
-    const ids = THREAD.filter(e => e.exchange === 'booklist').map(e => e.id);
-    expect(ids).toEqual(['q4', 'a4', 'a4-link', 'a4-paid', 'a4-tracking']);
-
-    const kinds = THREAD.filter(e => e.exchange === 'booklist').map(
-      e => e.kind
-    );
-    expect(kinds).toEqual([
-      'out',
-      'reply',
-      'checkoutLink',
-      'reply',
-      'trackingLink',
-    ]);
-  });
-
-  /* The link has to be on screen before a tap lands on it, and the receipt
-     must not arrive until the sheet has gone. */
-  it('sequences the bubbles around the sheet', () => {
-    const due = (id: string) => {
-      const i = THREAD.findIndex(e => e.id === id);
-      return EXCHANGES.find(e => e.id === 'booklist')!.start + BEAT[THREAD[i].beat];
-    };
-    expect(due('a4-link')).toBeLessThanOrEqual(at(CHECKOUT.linkTap));
-    expect(due('a4-paid')).toBeGreaterThan(
-      at(CHECKOUT.sheetDown + CHECKOUT.sheetDownDur) - 0.2
-    );
-    expect(due('a4-tracking')).toBeGreaterThan(due('a4-paid'));
-  });
-
-  it('cites the supply list, then reports the payment as an action', () => {
-    const first = THREAD.find(e => e.id === 'a4')!;
-    const second = THREAD.find(e => e.id === 'a4-paid')!;
-    expect(first.kind === 'reply' && first.attributionKind).toBe('source');
-    expect(second.kind === 'reply' && second.attributionKind).toBe('action');
-  });
-```
-
-- [ ] **Step 2: Run to verify it fails**
-
-Run: `npx vitest run tests/demo-state.test.ts -t "commerce exchange"`
-Expected: FAIL — the entries do not exist.
-
-- [ ] **Step 3: Write the copy**
-
-In `components/thread/threadScript.ts`, widen the two types:
-
-```ts
-export type Beat =
-  | 'question'
-  | 'aside'
-  | 'reply'
-  | 'trailing'
-  /* The commerce exchange only. Its reply arrives, a link follows, and the
-     receipt lands after the sheet has been and gone. */
-  | 'settled'
-  | 'receipt';
-```
-
-```ts
-  /** A tappable checkout link, the way iMessage renders a rich link preview. */
-  | {
-      kind: 'checkoutLink';
-      merchant: string;
-      summary: string;
-      total: string;
-    }
-  | { kind: 'trackingLink'; label: string; detail: string }
-```
-
-Append to `THREAD`:
-
-```ts
-  /* --- 4. The box spends, once it is told to -------------------------- */
-  {
-    id: 'q4',
-    exchange: 'booklist',
-    beat: 'question',
-    kind: 'out',
-    text: "Have we ordered everything for the kids' school?",
-  },
-  {
-    id: 'a4',
-    exchange: 'booklist',
-    beat: 'reply',
-    kind: 'reply',
-    text: "Not yet. I've put Ali's and Tom's lists into one basket. Here's a checkout link.",
-    attribution: 'St Brigid’s supply list',
-    attributionKind: 'source',
-  },
-  {
-    id: 'a4-link',
-    exchange: 'booklist',
-    beat: 'trailing',
-    kind: 'checkoutLink',
-    merchant: 'Instacart',
-    summary: '6 items · Back to school',
-    total: '$87.40',
-  },
-  {
-    id: 'a4-paid',
-    exchange: 'booklist',
-    beat: 'settled',
-    kind: 'reply',
-    text: "That's paid. It arrives tomorrow before 6pm.",
-    attribution: 'Paid with Apple Pay',
-    attributionKind: 'action',
-  },
-  {
-    id: 'a4-tracking',
-    exchange: 'booklist',
-    beat: 'receipt',
-    kind: 'trackingLink',
-    label: 'Track your order',
-    detail: 'Instacart · #IC-4471028',
-  },
-```
-
-- [ ] **Step 4: Draw the two bubbles**
+- [ ] **Step 1: Draw the two bubbles**
 
 In `components/thread/bubbles.tsx`, append:
 
@@ -861,7 +873,7 @@ export function TrackingLink({
 }
 ```
 
-- [ ] **Step 5: Render them**
+- [ ] **Step 2: Render them**
 
 In `components/MessageThread.tsx`, import `CheckoutLink` and `TrackingLink`, add `tap` to the state read from `subscribe` (a `useState<'checkout' | 'pay' | null>(null)` beside `typing`), and add two cases to the switch:
 
@@ -886,7 +898,7 @@ In `components/MessageThread.tsx`, import `CheckoutLink` and `TrackingLink`, add
                     );
 ```
 
-- [ ] **Step 6: Add the tap style**
+- [ ] **Step 3: Add the tap style**
 
 In `app/globals.css`, under the thread section:
 
@@ -903,16 +915,16 @@ In `app/globals.css`, under the thread section:
 }
 ```
 
-- [ ] **Step 7: Run everything**
+- [ ] **Step 4: Run everything**
 
 Run: `npx tsc --noEmit && npm test`
 Expected: PASS.
 
-- [ ] **Step 8: Lint, format, commit**
+- [ ] **Step 5: Lint, format, commit**
 
 ```bash
 npm run lint && npm run format:check
-git add components/thread/threadScript.ts components/thread/bubbles.tsx components/MessageThread.tsx app/globals.css tests/demo-state.test.ts
+git add components/thread/bubbles.tsx components/MessageThread.tsx app/globals.css
 git commit -m "feat: checkout and tracking bubbles for the commerce exchange"
 ```
 
@@ -1228,7 +1240,7 @@ In `app/globals.css`:
 ```
 
 - Change `.device-orbit` inside its `min-width: 1024px` block from `position: fixed` to `position: absolute`.
-- Add the stage itself:
+- Add the stage itself. Note `.phone-dock` is deliberately **not** in the pointer-events selector: it manages its own, `none` by default and `auto` only under `max-width: 1023px` for the mobile tap-off. Re-enabling it here would let the dock swallow drags meant for the orbit surface at desktop widths.
 
 ```css
 /* ---- the demo's box ---- */
@@ -1250,14 +1262,13 @@ In `app/globals.css`:
   z-index: 1;
 }
 
-/* Except the orbit surface and, on mobile, the phone, which take pointers. */
-.demo-stage-page .device-orbit,
-.demo-stage-page .phone-dock {
+/* The orbit surface is the one thing in here that wants pointers at desktop
+   widths. The phone dock manages its own and must not be listed: it takes
+   pointers only under 1023px, for the tap-off that stops the demo. */
+.demo-stage-page .device-orbit {
   pointer-events: auto;
 }
 ```
-
-Note: `.phone-dock` sets `pointer-events: none` on itself and `auto` only under `max-width: 1023px`. The rule above would override that. Instead, drop `.phone-dock` from that selector and leave the dock's own rules untouched; only `.device-orbit` needs re-enabling.
 
 - [ ] **Step 4: Use it on the homepage**
 
