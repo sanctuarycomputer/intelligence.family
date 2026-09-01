@@ -999,7 +999,8 @@ p + h4 {
     animation: none;
   }
   .scene-labels,
-  .demo-play {
+  .demo-play,
+  .thread-link {
     transition: none;
   }
 }
