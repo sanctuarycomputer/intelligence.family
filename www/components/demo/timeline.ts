@@ -10,7 +10,7 @@
  * docs/homepage-demo-script.md.
  */
 
-export type CardKind = 'record' | 'audio' | 'email';
+export type CardKind = 'record' | 'audio' | 'email' | 'basket';
 
 /** Where a label points. */
 export type LabelAnchor =
