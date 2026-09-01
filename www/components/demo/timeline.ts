@@ -80,7 +80,13 @@ export const BEAT = {
 
   /* Only the commerce exchange uses these two. They live in BEAT rather than
      in CHECKOUT below because ENTRY_DUE looks every thread entry's beat up in
-     this table, and a beat that is not here cannot schedule a bubble. */
+     this table, and a beat that is not here cannot schedule a bubble.
+     Moved 0.2s later than the spec's 6.6 and 7.2: the payment sheet is not
+     fully gone until CHECKOUT.sheetDown (6.3) + sheetDownDur (0.4) = 6.7, so
+     a "That's paid" reply at 6.6 would have landed while the sheet was still
+     a quarter of the way through sliding off the phone — the reply and the
+     sheet's own exit competing for the same moment. Pushing both beats to
+     6.8/7.4 lets the sheet finish first. */
   settled: 6.8,
   receipt: 7.4,
 };
