@@ -292,6 +292,46 @@ describe('idleState', () => {
   });
 });
 
+/* The state reduced motion jumps straight to. It has to be a genuine rest: no
+   transient wired to a CSS transition may still be "up" here, or a visitor who
+   never sees the run would land on a frame with something mid-air. */
+describe('the parked state', () => {
+  const parked = stateAt(END);
+
+  it('has put the payment sheet back down', () => {
+    expect(parked.sheetUp).toBe(false);
+  });
+
+  it('is not mid-tap', () => {
+    expect(parked.tap).toBe(null);
+  });
+
+  it('is not showing a typing bubble', () => {
+    expect(parked.typing).toBe(false);
+  });
+
+  it('is not showing a thinking indicator', () => {
+    expect(parked.thinking).toBe(false);
+  });
+
+  it('has revealed the whole thread', () => {
+    expect(parked.visibleMessages).toBe(THREAD.length);
+  });
+
+  it('has attributed every reply', () => {
+    expect(parked.attributed).toBe(
+      THREAD.filter(e => e.kind === 'reply').length
+    );
+  });
+
+  it('has the card parked and flipped to its sent label', () => {
+    expect(parked.card).toBe('email');
+    expect(parked.cardY).toBe(1);
+    expect(parked.cardSent).toBe(true);
+    expect(parked.labels[0]?.text).toBe(SENT_LABEL);
+  });
+});
+
 describe('discreteKey', () => {
   it('ignores continuous motion', () => {
     const a = stateAt(EXCHANGES[0].start + BEAT.cardUp + 0.1);

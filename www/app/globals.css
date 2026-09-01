@@ -1104,7 +1104,8 @@ p + h4 {
   .thread-link,
   .pay-scrim,
   .pay-sheet,
-  .pay-button {
+  .pay-button,
+  .demo-scene {
     transition: none;
   }
 }
