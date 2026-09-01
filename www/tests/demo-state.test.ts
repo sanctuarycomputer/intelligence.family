@@ -100,6 +100,21 @@ describe('stateAt', () => {
 
   /* An attribution under a bubble that has not arrived would render as a
      floating citation. The order is fixed by BEAT, so pin it. */
+  /* Attribution is about to stop being an exchange-level fact and become a
+     per-reply one, because the commerce exchange has two replies. These are
+     the exact seconds it fires on today. They must survive that rewrite
+     untouched: if this test needs editing to pass, the rewrite is wrong. */
+  it('attributes each reply 0.3s after it lands', () => {
+    const lag = BEAT.attribution - BEAT.reply;
+    expect(lag).toBeCloseTo(0.3, 10);
+
+    for (const [i, ex] of EXCHANGES.entries()) {
+      const due = ex.start + BEAT.reply + lag;
+      expect(stateAt(due - EPS).attributed, ex.id).toBe(i);
+      expect(stateAt(due).attributed, ex.id).toBe(i + 1);
+    }
+  });
+
   it('never attributes a reply before the reply is on screen', () => {
     for (let t = 0; t <= END; t += 0.02) {
       const s = stateAt(t);
