@@ -707,18 +707,37 @@ p + h4 {
 /* No positioning of its own: the host decides where the demo lives, and
    everything inside lays out against this box rather than the viewport.
    Needs a containing block, hence the relative — an absolutely positioned
-   child would otherwise escape all the way to the initial containing block. */
+   child would otherwise escape all the way to the initial containing block.
+   Moot on the homepage host below, which generates no box of its own and so
+   has nothing for this to position — said explicitly rather than left to be
+   inferred from that fact. */
 .demo-stage {
   position: relative;
 }
 
-/* The homepage's host: the same full-viewport layer the demo had before this
-   was a component at all. */
+/* The homepage's host. `display: contents` generates no box of its own, so
+   these children join the ROOT stacking context directly, exactly as the
+   four elements did before this was a component — rather than `position:
+   fixed` on this wrapper, which would create a stacking context of its own
+   and trap every z-index inside it, resolved only against each other rather
+   than against `main` (z-10 in app/page.tsx). The design straddles `main` on
+   purpose: the scene sits behind it, the phone/orbit/labels sit in front. No
+   single stacking context can reproduce that straddle, so this element must
+   not be one. */
 .demo-stage-page {
+  display: contents;
+}
+
+/* Re-establishes the fixed, full-viewport positioning `.demo-stage-page`
+   itself no longer has a box to provide. Scoped to the homepage host so a
+   deck slide's `.demo-stage-slide` — absolute, inside its own positioned box
+   — is untouched. Each element keeps its own top/right/bottom/left/inset
+   (set elsewhere): only `position` changes here. */
+.demo-stage-page .demo-scene,
+.demo-stage-page .scene-labels,
+.demo-stage-page .phone-dock,
+.demo-stage-page .device-orbit {
   position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
 }
 
 /* The orbit surface is the one thing in here that wants pointers at desktop
