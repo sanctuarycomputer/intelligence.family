@@ -69,7 +69,6 @@ const deviceDemoPage = (
       <Statement
         title="Take better care of your family than ever before."
         sub="The most capable home assistant on the market"
-        titleAction={<DemoControls />}
       >
         Automate shopping and bill payments, balance the household budget, help
         the kids with homework and stay on top of the family calendar.
@@ -80,6 +79,7 @@ const deviceDemoPage = (
           family money on cloud AI.
         </strong>
       </Statement>
+      <DemoControls />
     </div>
   </DeckPage>
 );

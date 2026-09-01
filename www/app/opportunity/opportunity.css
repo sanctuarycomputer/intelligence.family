@@ -121,37 +121,40 @@
   max-width: 620px;
 }
 
-/* Seats the demo control on the title's last line, beside whatever word it
-   wraps to end on, at any width: an inline heading and an inline-level
-   button share one inline formatting context, so the button simply lands
-   in whichever line box turns out last. Flexbox align-items:baseline was
-   ruled out here because it aligns to a multi-line item's *first* baseline,
-   not its last; absolute positioning was ruled out because it's tuned to a
-   specific wrap and breaks the moment the title rewraps. */
-.deck-demo-copy .deck-title {
-  display: inline;
-}
+/* Sits below the body copy's closing line, spaced the same as .deck-band
+   below a Statement's body elsewhere in the deck. */
 .deck-demo-copy .demo-play {
-  margin-left: 14px;
-  /* Plain `vertical-align: baseline` seats the wrong point on the title's
-     baseline. CSS2.1 puts an inline-block's baseline at its bottom margin
-     edge once `overflow` isn't `visible` — tried here first as the
-     spec-defined fix — but that rule is written for `inline-block` and,
-     verified in Chrome, doesn't carry over to this button's
-     `inline-flex`: with no baseline-participating child, the browser
-     instead synthesizes the flex container's baseline from its first flex
-     item, the play glyph, not from the button's own edge. So the label
-     baseline (and the glyph above it) still land 8px above where the
-     button's bottom edge would need to be, computed by hand from the
-     other fixed geometry here rather than eyeballed:
-       padding-bottom (7px, from the `padding: 6px 14px 7px` shorthand
-       above) + half the gap between the 13px content line (13px
-       font-size x line-height: 1, both above) and the 11px play glyph it
-       centers (height="11" on the <svg> in PlayGlyph,
-       components/demo/DemoControls.tsx) = 7 + (13 - 11) / 2 = 8px.
-     Raising the button by that amount moves its own bottom edge, rather
-     than the glyph's, onto the title's baseline. */
-  vertical-align: calc(7px + (13px * 1 - 11px) / 2);
+  margin-top: 22px;
+}
+
+/* The idle button's default fill matches this act's own background (see
+   .deck-act-2 .demo-play above), so nothing marks it as clickable at a
+   glance. A short, periodic nudge — not a continuous wobble, which would be
+   irritating on an investor slide — calls attention to it every few seconds
+   while it waits to be pressed, then goes fully still for the rest of the
+   cycle. Gated on the phase DemoControls writes to <html>, so it only runs
+   before the demo starts; app/globals.css's prefers-reduced-motion block
+   mirrors this selector to turn it off there instead of opening a new
+   query here. */
+html[data-demo='idle'] .deck-demo-copy .demo-play {
+  animation: deck-demo-jiggle 6s ease-in-out infinite;
+}
+
+@keyframes deck-demo-jiggle {
+  0%,
+  8%,
+  100% {
+    transform: none;
+  }
+  2% {
+    transform: translateX(-3px) rotate(-3deg);
+  }
+  4% {
+    transform: translateX(3px) rotate(3deg);
+  }
+  6% {
+    transform: translateX(-2px) rotate(2deg);
+  }
 }
 
 /* Deck shell */

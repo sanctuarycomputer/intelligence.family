@@ -1108,6 +1108,16 @@ p + h4 {
   .thread-typing-dot {
     animation: none;
   }
+  /* Mirrors the deck-only idle jiggle defined in
+     app/opportunity/opportunity.css (html[data-demo='idle'] .deck-demo-copy
+     .demo-play). Same selector, so equal specificity — but opportunity.css's
+     stylesheet loads after this one (OpportunityClient imports it beneath
+     the root layout's globals.css), which would let the jiggle win the tie
+     and keep animating under reduced motion. !important breaks that tie
+     deliberately, scoped to this one selector. */
+  html[data-demo='idle'] .deck-demo-copy .demo-play {
+    animation: none !important;
+  }
   .scene-labels,
   .demo-play,
   .thread-link,
