@@ -121,8 +121,12 @@
   max-width: 620px;
 }
 
-/* Sits below the body copy's closing line, spaced the same as .deck-band
-   below a Statement's body elsewhere in the deck. */
+/* Sits directly below the subtitle, ahead of the body copy: the button is
+   its own visual unit set off from the text above it, so it takes the same
+   margin-top .deck-band elsewhere uses to separate itself from the body
+   text it follows, rather than a value invented for this one spot. The gap
+   below it, before .deck-body's first line, comes for free from .deck-body's
+   own margin-top (28px) — no rule needed here for that side. */
 .deck-demo-copy .demo-play {
   margin-top: 22px;
 }
