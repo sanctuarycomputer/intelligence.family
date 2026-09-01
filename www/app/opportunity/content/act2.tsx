@@ -64,29 +64,25 @@ const page7 = (
   </DeckPage>
 );
 
+// prettier-ignore
 const deviceDemoPage = (
-  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
-    <div className="grid md:grid-cols-2 gap-10 items-center">
-      <div>
-        <Statement
-          title="The best home assistant on the market"
-          sub="Take better care of your family than ever before."
-        >
-          <strong>
-            It answers from your own records, and it acts on them.
-          </strong>{' '}
-          It finds the eye review buried in a GP summary, plays back a
-          grandmother telling the story in her own voice, emails the school, and
-          fills a basket for the new term that you approve with your thumb.
-          <br />
-          <br />
-          None of it leaves the house until you say so.
-        </Statement>
-        <div className="mt-6">
-          <DemoControls />
-        </div>
+  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS} bleed={<DeckDemo />}>
+    <div className="deck-demo-copy">
+      <Statement
+        title="The best home assistant on the market"
+        sub="Take better care of your family than ever before."
+      >
+        <strong>It answers from your own records, and it acts on them.</strong>{' '}
+        It finds the eye review buried in a GP summary, plays back a grandmother
+        telling the story in her own voice, emails the school, and fills a
+        basket for the new term that you approve with your thumb.
+        <br />
+        <br />
+        None of it leaves the house until you say so.
+      </Statement>
+      <div className="mt-6">
+        <DemoControls />
       </div>
-      <DeckDemo />
     </div>
   </DeckPage>
 );

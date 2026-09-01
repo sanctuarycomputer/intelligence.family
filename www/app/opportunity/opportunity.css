@@ -1,29 +1,34 @@
-/* The demo's cell on the device slide. Given a height rather than letting the
-   stage collapse: everything inside it is absolutely positioned, so the box
-   has nothing of its own to be as tall as. No z-index here: `.demo-stage-slide`
-   stays `position: absolute` with `z-index: auto`, so it creates no stacking
-   context of its own and the labels (z 20) and phone (z 12) inside it resolve
-   against `.deck-well` (z 2), the nearest ancestor that actually establishes
-   one, rather than being trapped relative only to each other. */
+/* The demo's stage on the device slide: a direct child of `.deck-page`
+   (passed through DeckPage's `bleed` prop), given the whole slide rather
+   than a grid cell so it has the same proportions as the homepage's
+   full-viewport layer and the tuned camera poses produce the same framing.
+   No z-index here: `.deck-page` is `position: relative` with `z-index:
+   auto`, so it establishes no stacking context, and this absolutely
+   positioned child with `z-index: auto` establishes none either — the
+   scene, phone and labels inside resolve against `.deck-well` (z 2), the
+   nearest ancestor that actually creates one, exactly as they resolve
+   against `main` (z 10) on the homepage. Giving this a z-index would trap
+   all four layers together instead — that bug already shipped once on the
+   homepage host and was fixed by removing its z-index; don't reintroduce it
+   here. */
 .deck-demo {
-  position: relative;
-  min-height: 60vh;
+  position: absolute;
+  inset: 0;
 }
 
 .demo-stage-slide {
   position: absolute;
   inset: 0;
-  /* The phone centres in the cell instead of sitting at the homepage's
-     column offset. */
-  --demo-phone-left: 50%;
-  --demo-phone-top: 0px;
+  /* Mirrors the homepage's phone offset (padding + copy column + gap) using
+     this page's own --container-padding rather than the homepage's literal
+     80px, so the phone lands just right of the copy column at any width. */
+  --demo-phone-left: calc(var(--container-padding) + 620px + 96px);
 }
 
-/* Only the centring: --phone-scale sizes the dock's own width/height and
-   scales `.phone-frame` inside it, so the dock itself is never scaled — a
-   `scale(1)` here would be a no-op. */
-.demo-stage-slide .phone-dock {
-  transform: translateX(-50%);
+/* Keeps the copy column that sits over the stage from running under the
+   phone: matches the width `--demo-phone-left` above budgets for it. */
+.deck-demo-copy {
+  max-width: 620px;
 }
 
 /* Deck shell */
