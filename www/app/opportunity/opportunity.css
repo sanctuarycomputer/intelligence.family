@@ -32,16 +32,23 @@
      `hostTop` parameter. */
   --demo-phone-top: 95px;
   /* Below 1024px the stacked box splits left/right instead of centring the
-     phone over the device (see the media query below): this is the phone's
-     share of the box's width, the rest — minus --slide-gap — going to the
-     device. Declared once and read by both of that query's rules so they
-     can't drift apart into two different splits. phoneFit.ts's
-     SLIDE_PHONE_FRACTION mirrors this value rather than reading it, the same
-     way COMPACT_DEVICE_BOX_H mirrors the homepage's 26dvh: percentages
-     written into a custom property don't resolve to a length getComputedStyle
-     can read back, so JS has nothing to parse here even if it looked. */
+     phone over the device (see the media query below): this is the boundary
+     between the phone's share of the box's width and the device's. Declared
+     once and read by both of that query's rules so they can't drift apart
+     into two different splits. phoneFit.ts's SLIDE_PHONE_FRACTION mirrors
+     this value rather than reading it, the same way COMPACT_DEVICE_BOX_H
+     mirrors the homepage's 26dvh: percentages written into a custom property
+     don't resolve to a length getComputedStyle can read back, so JS has
+     nothing to parse here even if it looked. */
   --slide-split: 0.42;
-  --slide-gap: 16px;
+  /* The owner's ask: let the two strips overlap by about a tenth of the box
+     width instead of sitting apart with a gap between them, so each can be
+     drawn bigger. Each strip extends half the overlap past --slide-split —
+     the phone strip runs 0 to split + overlap/2, the device strip runs
+     split - overlap/2 to 1 — so together they span the box plus exactly this
+     much double-covered band. SLIDE_OVERLAP in phoneFit.ts mirrors this
+     value for the same reason SLIDE_PHONE_FRACTION mirrors --slide-split. */
+  --slide-overlap: 0.1;
 }
 
 /* Below 1024px there is no room for the copy beside a full-bleed stage: the
@@ -78,7 +85,12 @@
      device (`.demo-scene`) top-right, tuned for the homepage's full-viewport
      stage, and the two overlap heavily in a box this size with the phone
      painting in front (z 12 over z 1), hiding the device behind it. Split
-     the box left/right instead: phone on the left, device given the rest. */
+     the box left/right instead: phone on the left, device given the rest —
+     each strip reaching --slide-overlap/2 past the boundary so both can be
+     drawn larger than a clean split would allow. The device is a 3D render
+     centred in its own box, so the shared band eats into empty canvas around
+     it rather than the device itself, and the phone's z-index (12, above the
+     device's canvas at z 1) is what makes that the visible outcome. */
   .demo-stage-slide .phone-dock {
     left: 0;
     transform: none;
@@ -91,8 +103,9 @@
        box, not a dvh slice of the *viewport* that happens to sit inside it)
        fills the space beside the phone instead of leaving most of the box
        empty above and below it. */
-    inset: 0 auto auto calc(var(--slide-split) * 100% + var(--slide-gap) / 2);
-    width: calc((1 - var(--slide-split)) * 100% - var(--slide-gap) / 2);
+    inset: 0 auto auto
+      calc((var(--slide-split) - var(--slide-overlap) / 2) * 100%);
+    width: calc((1 - var(--slide-split) + var(--slide-overlap) / 2) * 100%);
     height: 100%;
     /* globals.css keeps the device at opacity 0 until the demo plays, so the
        homepage's masthead has something to fade into. This slide's whole

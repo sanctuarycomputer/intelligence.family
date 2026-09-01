@@ -183,8 +183,16 @@ export function phoneTopFor(width: number, height: number): number {
  */
 export const SLIDE_PHONE_FRACTION = 0.42;
 
-/** Mirrors --slide-gap in opportunity.css: the gutter between the two strips. */
-export const SLIDE_GAP = 16;
+/**
+ * Mirrors --slide-overlap in opportunity.css: how much of the box's width
+ * the phone and device strips share, as a fraction of it. Each strip
+ * extends half of this past --slide-split — the owner's ask was for the two
+ * to overlap instead of sitting apart with a gap, so each can be drawn
+ * bigger. A fraction, not a pixel gutter, because it is applied against the
+ * box's own width the same way SLIDE_PHONE_FRACTION is, and the box's width
+ * varies with the viewport.
+ */
+export const SLIDE_OVERLAP = 0.1;
 
 /**
  * The phone's width budget inside a slide's narrow, split demo box.
@@ -196,10 +204,16 @@ export const SLIDE_GAP = 16;
  * ever binds, the phone would render at its full height-bound size and spill
  * across the boundary into the device's strip beside it.
  *
+ * The phone's strip runs from the box's left edge to --slide-split plus half
+ * the overlap (see the CSS), so its share of the box is SLIDE_PHONE_FRACTION
+ * plus half of SLIDE_OVERLAP — added, not subtracted, because the strip now
+ * reaches past the boundary into the shared band rather than stopping short
+ * of it for a gap.
+ *
  * Only meaningful below WIDE_FROM, where the box actually splits; wide, the
  * phone gets the box's whole width as it always has, so callers must not
  * apply this there.
  */
 export function slidePhoneWidthBudget(hostWidth: number): number {
-  return hostWidth * SLIDE_PHONE_FRACTION - SLIDE_GAP / 2;
+  return hostWidth * (SLIDE_PHONE_FRACTION + SLIDE_OVERLAP / 2);
 }

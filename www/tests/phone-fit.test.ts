@@ -8,7 +8,7 @@ import {
   PHONE_H,
   PHONE_W,
   SCREEN_TOLERANCE,
-  SLIDE_GAP,
+  SLIDE_OVERLAP,
   SLIDE_PHONE_FRACTION,
   VIEWPORT_MARGIN,
   WIDE_FROM,
@@ -321,8 +321,8 @@ describe('hostScaleFor', () => {
 
 /* The deck slide's device slide splits its box left/right below WIDE_FROM
    (see --slide-split in opportunity.css's `.demo-stage-slide`) instead of
-   centring the phone over the device. slidePhoneWidthBudget is the half of
-   that split MessageThread hands to hostScaleFor as the phone's width leg. */
+   centring the phone over the device. slidePhoneWidthBudget is the phone's
+   share of that split MessageThread hands to hostScaleFor as its width leg. */
 describe('slidePhoneWidthBudget', () => {
   /* Real `.deck-demo` box widths at the report's three viewports: 342px at
      390 (24px container padding each side), 382px at 430, and 608px at 768
@@ -334,37 +334,55 @@ describe('slidePhoneWidthBudget', () => {
   ];
 
   /* Pinned against numbers computed by hand, once, from the current
-     constants — not against `hostWidth * SLIDE_PHONE_FRACTION - SLIDE_GAP /
-     2` re-typed here, which is just the function's own body copied into the
-     test and can't fail for any change that keeps the formula
-     self-consistent with itself, wrong formula included. A golden number has
-     something independent to disagree with. */
+     constants — not against `hostWidth * (SLIDE_PHONE_FRACTION +
+     SLIDE_OVERLAP / 2)` re-typed here, which is just the function's own body
+     copied into the test and can't fail for any change that keeps the
+     formula self-consistent with itself, wrong formula included. A golden
+     number has something independent to disagree with. */
   it("computes the report's three real .deck-demo box widths to their pinned budgets", () => {
     const golden: Array<[number, number, string]> = [
-      [342, 135.64, '390px viewport'],
-      [382, 152.44, '430px viewport'],
-      [608, 247.36, '768px viewport'],
+      [342, 160.74, '390px viewport'],
+      [382, 179.54, '430px viewport'],
+      [608, 285.76, '768px viewport'],
     ];
     for (const [hostWidth, expected, name] of golden) {
       expect(slidePhoneWidthBudget(hostWidth), name).toBeCloseTo(expected, 6);
     }
   });
 
-  /* The device's own width per the CSS split (`calc((1 - split) * 100% -
-     gap / 2)`) is a distinct formula from the phone's, derived independently
-     here rather than as `hostWidth - phoneShare - gap` (which would sum to
-     hostWidth by definition of subtraction, regardless of what phoneShare
-     is, and so prove nothing). Checking the two independently-derived shares
-     plus the gap add back up to the whole box catches a phone-share formula
-     that drifts from what the CSS split actually implies — a sign flipped,
-     the gap applied twice, the fraction and its complement disagreeing. */
-  it('accounts for the whole box between the phone strip, the gap, and the device strip', () => {
+  /* The device's own width and left offset per the CSS split (`calc((1 -
+     split + overlap / 2) * 100%)` and `calc((split - overlap / 2) * 100%)`)
+     are distinct formulas from the phone's, derived independently here
+     rather than by subtraction from the phone's share (which would prove
+     nothing about the overlap itself — any two numbers "overlap" by
+     whatever is left over once you define it that way). The phone strip
+     runs from the box's left edge to its own share, so that share doubles as
+     the strip's right edge; checking it against the device's independently
+     computed left edge catches a phone-share formula that drifts from what
+     the CSS split actually implies — a sign flipped, the overlap applied
+     twice, added instead of halved. */
+  it('overlaps the device strip by exactly --slide-overlap of the box width', () => {
+    for (const [hostWidth, name] of HOST_WIDTHS) {
+      const phoneRight = slidePhoneWidthBudget(hostWidth); // phone strip starts at 0
+      const deviceLeft = hostWidth * (SLIDE_PHONE_FRACTION - SLIDE_OVERLAP / 2);
+      expect(phoneRight - deviceLeft, name).toBeCloseTo(
+        hostWidth * SLIDE_OVERLAP,
+        6
+      );
+    }
+  });
+
+  /* The two strips' widths, added, must equal the whole box plus exactly the
+     shared band once each side's own independent formula is used — this is
+     the other side of the same geometry the test above checks from the
+     boundary's point of view. */
+  it('together spans the box plus the overlap, not the box alone', () => {
     for (const [hostWidth, name] of HOST_WIDTHS) {
       const phoneShare = slidePhoneWidthBudget(hostWidth);
       const deviceShare =
-        hostWidth * (1 - SLIDE_PHONE_FRACTION) - SLIDE_GAP / 2;
-      expect(phoneShare + SLIDE_GAP + deviceShare, name).toBeCloseTo(
-        hostWidth,
+        hostWidth * (1 - SLIDE_PHONE_FRACTION + SLIDE_OVERLAP / 2);
+      expect(phoneShare + deviceShare, name).toBeCloseTo(
+        hostWidth * (1 + SLIDE_OVERLAP),
         6
       );
     }
@@ -375,8 +393,8 @@ describe('slidePhoneWidthBudget', () => {
      usable width for it means noticeably more than a fifth of the box. */
   it('leaves the device a usable share of the box, not a sliver', () => {
     for (const [hostWidth, name] of HOST_WIDTHS) {
-      const phoneShare = slidePhoneWidthBudget(hostWidth);
-      const deviceShare = hostWidth - phoneShare - SLIDE_GAP;
+      const deviceShare =
+        hostWidth * (1 - SLIDE_PHONE_FRACTION + SLIDE_OVERLAP / 2);
       expect(deviceShare, name).toBeGreaterThan(hostWidth * 0.3);
     }
   });
@@ -418,13 +436,14 @@ describe('slidePhoneWidthBudget', () => {
   });
 
   /* The whole reason this exists: leave the device more than a sliver.
-     SLIDE_PHONE_FRACTION is under a half, so the phone's strip should never
-     be the larger of the two. */
+     SLIDE_PHONE_FRACTION is under a half and SLIDE_OVERLAP adds the same
+     half-overlap to both shares, so the phone's strip should never be the
+     larger of the two. */
   it('leaves the device the larger share of the box', () => {
     for (const [hostWidth, name] of HOST_WIDTHS) {
       const phoneShare = slidePhoneWidthBudget(hostWidth);
       const deviceShare =
-        hostWidth * (1 - SLIDE_PHONE_FRACTION) - SLIDE_GAP / 2;
+        hostWidth * (1 - SLIDE_PHONE_FRACTION + SLIDE_OVERLAP / 2);
       expect(phoneShare, name).toBeLessThan(deviceShare);
     }
   });
@@ -440,7 +459,7 @@ describe('slidePhoneWidthBudget', () => {
   });
 });
 
-/* SLIDE_PHONE_FRACTION, SLIDE_GAP and COMPACT_DEVICE_BOX_H all exist because
+/* SLIDE_PHONE_FRACTION, SLIDE_OVERLAP and COMPACT_DEVICE_BOX_H all exist because
    a CSS value can't be read back out of a percentage written into a custom
    property (see their own comments in phoneFit.ts) — so each one mirrors a
    literal in a stylesheet by hand instead. Nothing but this describe block
@@ -485,16 +504,16 @@ describe('CSS mirror constants', () => {
     ).toBeCloseTo(Number(match![1]), 10);
   });
 
-  it('SLIDE_GAP matches --slide-gap in opportunity.css', () => {
+  it('SLIDE_OVERLAP matches --slide-overlap in opportunity.css', () => {
     const css = opportunityCss();
-    const match = css.match(/--slide-gap:\s*([\d.]+)px;/);
+    const match = css.match(/--slide-overlap:\s*([\d.]+);/);
     expect(
       match,
-      'app/opportunity/opportunity.css: --slide-gap not found'
+      'app/opportunity/opportunity.css: --slide-overlap not found'
     ).not.toBeNull();
     expect(
-      SLIDE_GAP,
-      `components/thread/phoneFit.ts's SLIDE_GAP (${SLIDE_GAP}) must match app/opportunity/opportunity.css's --slide-gap (${match![1]}px)`
-    ).toBe(Number(match![1]));
+      SLIDE_OVERLAP,
+      `components/thread/phoneFit.ts's SLIDE_OVERLAP (${SLIDE_OVERLAP}) must match app/opportunity/opportunity.css's --slide-overlap (${match![1]})`
+    ).toBeCloseTo(Number(match![1]), 10);
   });
 });
