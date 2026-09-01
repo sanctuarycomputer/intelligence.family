@@ -31,6 +31,24 @@
   max-width: 620px;
 }
 
+/* Seats the demo control on the title's last line, beside whatever word it
+   wraps to end on, at any width: an inline heading and an inline-level
+   button share one inline formatting context, so the button simply lands
+   in whichever line box turns out last. Flexbox align-items:baseline was
+   ruled out here because it aligns to a multi-line item's *first* baseline,
+   not its last; absolute positioning was ruled out because it's tuned to a
+   specific wrap and breaks the moment the title rewraps. */
+.deck-demo-copy .deck-title {
+  display: inline;
+}
+.deck-demo-copy .demo-play {
+  margin-left: 14px;
+  /* Explicit rather than relied-upon: inline-flex is an atomic inline-level
+     box, and its default vertical-align already puts its own baseline (the
+     label text's) on the surrounding line's baseline, matching the title. */
+  vertical-align: baseline;
+}
+
 /* Deck shell */
 .deck {
   /* The chrome bar's total height (fill + top rule). Slides after the
@@ -133,6 +151,21 @@ section.deck-page[id] {
 }
 .deck-act-2 {
   background: var(--fi-green-200);
+}
+/* .demo-play defaults to an fi-green-200 fill with fi-green-600 text (see
+   globals.css). Act II and Act IV both set that same fi-green-200 token as
+   their background, so a demo button on either act's background would
+   disappear the same way. Inverted here for both, scoped to the deck only,
+   so the homepage's soft treatment (the shared .demo-play rule) is
+   untouched. */
+.deck-act-2 .demo-play,
+.deck-act-4 .demo-play {
+  background: var(--fi-green-600);
+  color: var(--fi-green-100);
+}
+.deck-act-2 .demo-play:hover,
+.deck-act-4 .demo-play:hover {
+  background: var(--fi-green-500);
 }
 /* Cards can carry a small transparent PNG floating off their top-right
    corner; the card anchors it and lets it overflow. Solid card fills come

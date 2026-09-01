@@ -60,12 +60,22 @@ export function Statement({
   title,
   sub,
   splash,
+  titleAction,
   children,
 }: {
   title: ReactNode;
   sub?: ReactNode;
   /** Oversized, minimal treatment for the act-transition splash pages. */
   splash?: boolean;
+  /**
+   * Rendered as a sibling of the title, not inside it, so an interactive
+   * control never gets announced as part of the heading. It only reaches
+   * the title's line box because the page that passes it also switches
+   * that title to `display: inline` (see .deck-demo-copy in
+   * opportunity.css) — without that, this still just sits under the title
+   * as a block, which is harmless for every other call site.
+   */
+  titleAction?: ReactNode;
   children?: ReactNode;
 }) {
   return (
@@ -73,7 +83,24 @@ export function Statement({
       data-archetype={splash ? 'Statement (splash)' : 'Statement'}
       className={splash ? 'max-w-5xl' : undefined}
     >
-      <Title splash={splash}>{title}</Title>
+      <Title splash={splash}>
+        {title}
+        {/* U+2060 WORD JOINER: a zero-width "glue" character that forbids a
+            line-break opportunity at this exact point (UAX #14 class WJ),
+            with no visible space — the visual gap comes from .demo-play's
+            margin-left instead. It has to sit inside the title's own inline
+            box, as the very last thing before the h1 closes, with nothing
+            (not even a text node) between the h1 and titleAction below:
+            tested empirically, a joiner placed as a separate text node
+            *between* the h1 and the control does not stop the control from
+            wrapping onto its own orphan line once the title's last line
+            runs flush against the container (confirmed at 600px viewport).
+            Placed here instead, the browser correctly pulls words down to
+            a new last line to keep title and control glued together, at
+            every width tested (280–1900px). */}
+        {titleAction != null && '⁠'}
+      </Title>
+      {titleAction}
       <Sub>{sub}</Sub>
       <Body>{children}</Body>
     </div>

@@ -71,6 +71,7 @@ const deviceDemoPage = (
       <Statement
         title="The best home assistant on the market"
         sub="Take better care of your family than ever before."
+        titleAction={<DemoControls />}
       >
         <strong>
           Automate shopping and bill payments, balance the household budget,
@@ -80,9 +81,6 @@ const deviceDemoPage = (
         <br />
         It all works out of the box with no cloud subscription required.
       </Statement>
-      <div className="mt-6">
-        <DemoControls />
-      </div>
     </div>
   </DeckPage>
 );
