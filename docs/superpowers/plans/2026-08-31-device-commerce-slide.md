@@ -14,7 +14,7 @@
 
 - **Run every command from `www/`.** The repo root has no `package.json`.
 - **Tests:** `npm test` (vitest). Single file: `npx vitest run tests/demo-state.test.ts`.
-- **Lint and format before every commit:** `npm run lint && npm run format:check`. If format:check fails, run `npm run format`.
+- **Lint and format the files you touched, before every commit.** The repo-wide `npm run lint` and `npm run format:check` already fail on `main` (11 eslint errors and 34 warnings in `FundraisingClient.tsx`, `Navigation.tsx`, `PageAnimations.tsx`, `types/gtag.d.ts`; 35 files unformatted). Do not try to fix those and do not treat them as your failure. Run `npx eslint <your files>` and `npx prettier --check <your files>` instead, and `npx prettier --write <your files>` if the check fails.
 - **Deck copy contains no em dashes.** `tests/opportunity-copy.test.ts` asserts this over every file in `app/opportunity/content/`. Use a comma, a colon, or a full stop.
 - **Deck copy uses HTML entities for apostrophes and ampersands** in JSX text: `&rsquo;` and `&amp;`. Follow the surrounding file.
 - **Never add positive `letter-spacing`** in any style in this codebase.
