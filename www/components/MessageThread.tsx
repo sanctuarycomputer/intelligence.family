@@ -5,6 +5,7 @@ import LeafIcon from '@/components/LeafIcon';
 import { subscribe } from '@/components/demo/demoClock';
 import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
 import { phoneScaleFor } from '@/components/thread/phoneFit';
+import PaymentSheet from '@/components/thread/PaymentSheet';
 import {
   AudioSnippet,
   CheckoutLink,
@@ -40,6 +41,8 @@ export default function MessageThread() {
   const [typing, setTyping] = useState(false);
   const [phoneUp, setPhoneUp] = useState(false);
   const [tap, setTap] = useState<'checkout' | 'pay' | null>(null);
+  const [sheetUp, setSheetUp] = useState(false);
+  const [sheetPaid, setSheetPaid] = useState(false);
   /* How much of the thread renders. Trails the clock on the way down only:
      replay empties the thread at once, and clearing it immediately would leave
      the phone blank for the whole of its fade. */
@@ -54,6 +57,8 @@ export default function MessageThread() {
       setTyping(s.typing);
       setPhoneUp(s.phoneUp);
       setTap(s.tap);
+      setSheetUp(s.sheetUp);
+      setSheetPaid(s.sheetPaid);
 
       if (s.visibleMessages > 0) {
         clearTimeout(emptying);
@@ -378,6 +383,12 @@ export default function MessageThread() {
               {/* Home indicator */}
               <span className="mx-auto mt-[7px] block h-[5px] w-[134px] rounded-full bg-black/85" />
             </div>
+
+            <PaymentSheet
+              up={sheetUp}
+              paid={sheetPaid}
+              tapped={tap === 'pay'}
+            />
           </div>
         </div>
       </div>
