@@ -688,11 +688,11 @@ p + h4 {
   outline-offset: 1px;
 }
 
-/* Full-viewport 3D layer. Behind the page content, so at rest the phone
-   occludes the device where they overlap. A fly-through can raise this to sit
-   in front by setting --device-layer-z. */
-.device-layer {
-  position: fixed;
+/* Fills the stage. Behind the page content, so at rest the phone occludes the
+   device where they overlap. A fly-through can raise this to sit in front by
+   setting --device-layer-z. */
+.demo-scene {
+  position: absolute;
   inset: 0;
   z-index: var(--device-layer-z, 1);
   pointer-events: none;
@@ -702,10 +702,36 @@ p + h4 {
    Homepage demo
    ============================================ */
 
+/* ---- the demo's box ---- */
+
+/* No positioning of its own: the host decides where the demo lives, and
+   everything inside lays out against this box rather than the viewport.
+   Needs a containing block, hence the relative — an absolutely positioned
+   child would otherwise escape all the way to the initial containing block. */
+.demo-stage {
+  position: relative;
+}
+
+/* The homepage's host: the same full-viewport layer the demo had before this
+   was a component at all. */
+.demo-stage-page {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The orbit surface is the one thing in here that wants pointers at desktop
+   widths. The phone dock manages its own and must not be listed: it takes
+   pointers only under 1023px, for the tap-off that stops the demo. */
+.demo-stage-page .device-orbit {
+  pointer-events: auto;
+}
+
 /* Leader-line labels over the 3D scene. Positions are written per frame from
    the projection store, so nothing here may set transform on .scene-label. */
 .scene-labels {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 20;
   pointer-events: none;
@@ -826,7 +852,7 @@ p + h4 {
    MessageThread: scale() needs a unitless number and CSS cannot produce one by
    dividing lengths. */
 .phone-dock {
-  position: fixed;
+  position: absolute;
   z-index: 12;
   width: calc(390px * var(--phone-scale, 1));
   height: calc(844px * var(--phone-scale, 1));
@@ -866,13 +892,14 @@ p + h4 {
   transform: translateX(-50%);
 }
 
-/* Wide: beside the text column, at the offset the old flow layout gave it —
-   the page's 80px padding, the 620px text column, and the row's 96px gap. */
+/* Wide: beside the text column, at the offset the old flow layout gave it. */
 @media (min-width: 1024px) {
   .phone-dock {
-    top: 95px;
+    top: var(--demo-phone-top, 95px);
     bottom: auto;
-    left: calc(80px + 620px + 96px);
+    /* The homepage's own geometry: its 80px padding, the 620px text column
+       and the row's 96px gap. A host with a different layout sets its own. */
+    left: var(--demo-phone-left, calc(80px + 620px + 96px));
     transform: none;
   }
 }
@@ -1028,7 +1055,7 @@ p + h4 {
 @media (max-width: 1023px) {
   /* Its own box in the corner rather than the whole viewport. The camera then
      just fills what it is given, so the placement holds on any phone. */
-  .device-layer {
+  .demo-scene {
     inset: 0 0 auto auto;
     width: 68vw;
     /* Short on purpose. The device is centred in this box, so the box's own
@@ -1039,8 +1066,8 @@ p + h4 {
     opacity: 0;
     transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  html[data-demo='playing'] .device-layer,
-  html[data-demo='done'] .device-layer {
+  html[data-demo='playing'] .demo-scene,
+  html[data-demo='done'] .demo-scene {
     opacity: 1;
   }
   .scene-labels {
@@ -1097,7 +1124,7 @@ p + h4 {
 
 @media (min-width: 1024px) {
   .device-orbit {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;

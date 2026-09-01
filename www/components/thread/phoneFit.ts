@@ -65,7 +65,7 @@ export function phoneScaleFor(width: number, height: number): number {
 /**
  * Height of the device's corner box on a narrow viewport, as a fraction of it.
  *
- * Mirrors `.device-layer`'s height in globals.css. The device is centred in
+ * Mirrors `.demo-scene`'s height in globals.css. The device is centred in
  * that box, so the box's middle has to stay above the phone's top edge —
  * otherwise the device's screen sits behind the conversation, which is exactly
  * what it looked like at 42dvh. `phoneTopFor` is the other half of that check.

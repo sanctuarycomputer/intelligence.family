@@ -1,11 +1,8 @@
 import LeafIcon from '@/components/LeafIcon';
-import MessageThread from '@/components/MessageThread';
 import DebugCopyEditorMount from '@/components/DebugCopyEditorMount';
 import DeviceDebugControlsMount from '@/components/DeviceDebugControlsMount';
-import DeviceSceneMount from '@/components/device/DeviceSceneMount';
-import SceneLabels from '@/components/demo/SceneLabels';
+import DeviceDemo from '@/components/demo/DeviceDemo';
 import DemoControls from '@/components/demo/DemoControls';
-import OrbitSurface from '@/components/device/OrbitSurface';
 import DemoDismiss from '@/components/demo/DemoDismiss';
 
 /**
@@ -20,13 +17,12 @@ import DemoDismiss from '@/components/demo/DemoDismiss';
 export default function Home() {
   return (
     <>
-      {/* Full-viewport 3D layer. The device is positioned by the camera, not by
-          CSS, so the intro can move it without touching layout. The labels are
-          DOM over the top of it, because they name the hardware and that should
-          be selectable and legible to a screen reader. */}
-      <DeviceSceneMount className="device-layer" />
-      <SceneLabels />
-      <OrbitSurface />
+      {/* The whole demo as a full-viewport layer. The device is positioned by
+          the camera, not by CSS, so the intro can move it without touching
+          layout. The labels are DOM over the top of it, because they name the
+          hardware and that should be selectable and legible to a screen
+          reader. */}
+      <DeviceDemo className="demo-stage-page" />
       <DemoDismiss />
 
       <main className="relative z-10 min-h-screen px-6 py-24 md:px-20 md:py-32">
@@ -153,8 +149,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          <MessageThread />
         </div>
       </main>
 
