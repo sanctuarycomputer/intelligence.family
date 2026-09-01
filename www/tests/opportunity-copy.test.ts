@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import { cloneElement, type ReactElement, type ReactNode } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { type ReactElement, type ReactNode } from 'react';
 import {
   ALL_PAGES,
   APPENDIX_PAGES,
@@ -9,7 +10,6 @@ import {
   TOTAL,
 } from '../app/opportunity/content';
 import {
-  ACT1_PAGES,
   SHOW_LIBERATORY_SLIDE,
   buildAct1Pages,
   lineagePage,
@@ -18,13 +18,19 @@ import { ACT2_PAGES } from '../app/opportunity/content/act2';
 import { ACT3_PAGES } from '../app/opportunity/content/act3';
 import { ACT4_PAGES } from '../app/opportunity/content/act4';
 import { REFERENCES } from '../app/opportunity/content/references';
+import {
+  composeDeckPages,
+  numberPages,
+} from '../app/opportunity/OpportunityClient';
 
-// Mirrors OpportunityClient's derivation: every page's authored `n` is a
-// placeholder (see act1.tsx's comment), overridden here from its actual
-// position, exactly like the real composed deck does.
+// The real numbering mechanism (see OpportunityClient.tsx), not a
+// reimplementation of it: importing cloneElement here and calling it
+// ourselves would only prove cloneElement works, which is what the test
+// this replaced actually did (props.n === i + 1 is true of any call shaped
+// that way, regardless of what the real derivation does).
 const numbered = (pages: ReactNode[]): number[] =>
-  (pages as ReactElement<{ n: number }>[]).map(
-    (page, i) => cloneElement(page, { n: i + 1 }).props.n
+  (numberPages(pages) as ReactElement<{ n: number }>[]).map(
+    page => page.props.n
   );
 
 const dir = path.join(__dirname, '..', 'app', 'opportunity', 'content');
@@ -200,6 +206,25 @@ describe('opportunity deck copy contract', () => {
     );
   });
 
+  it('composeDeckPages (the derivation OpportunityClient actually runs) numbers the unlocked deck the same way', () => {
+    // DeckShell navigates by getElementById(`page-${next}`), built from each
+    // page's `n`. Exercising composeDeckPages itself, rather than only
+    // ALL_PAGES/APPENDIX_PAGES numbered by hand, is what would have caught
+    // that derivation being removed or broken: a green suite here means
+    // keyboard navigation past page 8 keeps working, not just that this
+    // test's own arithmetic is self-consistent.
+    const pages = composeDeckPages(true, null);
+    expect(pages).toHaveLength(ALL_PAGES.length + APPENDIX_PAGES.length);
+    const ns = pages.map(p => (p as ReactElement<{ n: number }>).props.n);
+    expect(ns).toEqual(Array.from({ length: pages.length }, (_, i) => i + 1));
+  });
+
+  it('composeDeckPages renders only the cover, numbered 1, while locked', () => {
+    const pages = composeDeckPages(false, null);
+    expect(pages).toHaveLength(1);
+    expect((pages[0] as ReactElement<{ n: number }>).props.n).toBe(1);
+  });
+
   it('sets TOTAL to the composed core page count', () => {
     expect(TOTAL).toBe(ALL_PAGES.length);
   });
@@ -220,16 +245,45 @@ describe('opportunity deck copy contract', () => {
   });
 
   it('flags leaves on the cover, Act I close, Act III/IV opens, and the appendix open', () => {
-    const leafPositions = PAGE_META.reduce<number[]>((acc, m, i) => {
-      if (m.leaves) acc.push(i + 1);
+    // Pinned by what each slide actually is (its own rendered copy), not by
+    // recomputing the same ACT*_START arithmetic index.ts's LEAF_PAGES uses
+    // to place them. That arithmetic could be wrong in a way this text still
+    // happens to agree with by coincidence of act lengths; searching by
+    // content instead means a leaf lands on the slide that says it does, in
+    // whatever position it actually turns out to be at.
+    const composed = [...ALL_PAGES, ...APPENDIX_PAGES];
+    const rendered = composed.map(page =>
+      renderToStaticMarkup(page as ReactElement)
+    );
+
+    const indexOfText = (needle: string): number => {
+      const matches = rendered.reduce<number[]>((acc, html, i) => {
+        if (html.includes(needle)) acc.push(i);
+        return acc;
+      }, []);
+      expect(matches, `"${needle}" on exactly one slide`).toHaveLength(1);
+      return matches[0];
+    };
+
+    const cover = indexOfText('Scroll down'); // the cover's own scroll hint
+    const act1Close = indexOfText(
+      'Family Intelligence will be the first trusted brand to run local inference in the home'
+    );
+    const act3Open = indexOfText('under the hood'); // "But under the hood..."
+    const act4Open = indexOfText('spent our careers deploying novel hardware');
+    const appendixOpen = indexOfText('Appendix');
+
+    const leafIndices = PAGE_META.reduce<number[]>((acc, m, i) => {
+      if (m.leaves) acc.push(i);
       return acc;
     }, []);
-    expect(leafPositions).toEqual([
-      1, // cover: Act I's first page
-      ACT1_PAGES.length, // Act I's closing splash: its own last page
-      ACT1_PAGES.length + ACT2_PAGES.length + 1, // Act III's opening splash
-      ACT1_PAGES.length + ACT2_PAGES.length + ACT3_PAGES.length + 1, // Act IV's opening splash
-      TOTAL + 1, // appendix's opening splash
+
+    expect(leafIndices).toEqual([
+      cover,
+      act1Close,
+      act3Open,
+      act4Open,
+      appendixOpen,
     ]);
   });
 
