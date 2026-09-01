@@ -339,7 +339,7 @@ const sentimentPage = (
 const demandPage = (
   <DeckPage key={6} n={6} total={TOTAL}>
     <Statement
-      title="Consumers happily pay for privacy..."
+      title="Consumers want real alternatives..."
       sub="Local AI is newly possible, and demand is growing fast."
     />
     <StatTiles
@@ -443,9 +443,9 @@ const routingPage = (
             body: (
               <>
                 Sensitive data stays local by default, and only hard tasks
-                escalate. Enterprises route to cut cost and meet compliance rules: sending
-              everything to the cloud burns money on tasks small
-                models handle fine.
+                escalate. Enterprises route to cut cost and meet compliance
+                rules: sending everything to the cloud burns money on tasks
+                small models handle fine.
               </>
             ),
           },

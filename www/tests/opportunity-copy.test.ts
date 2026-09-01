@@ -23,7 +23,7 @@ describe('opportunity deck copy contract', () => {
       "The most valuable context is what you'd never upload",
       '7 in 10 Americans don&rsquo;t trust big tech&rsquo;s AI',
       'But local architecture wins consumers over',
-      'Consumers happily pay for privacy...',
+      'Consumers want real alternatives...',
       "& local AI won't sacrifice convenience",
       'Privacy-centric technology is liberatory & distinctly American',
       'Family Intelligence will be the first trusted brand to run local inference in the home',

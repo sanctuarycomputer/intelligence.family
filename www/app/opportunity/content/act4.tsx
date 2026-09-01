@@ -287,7 +287,6 @@ const page26 = (
           ['Target raise', '$15.0M'],
           ['Instrument', 'Priced equity'],
           ['First shipment', 'Christmas 2027'],
-          ['Follow-on equity modelled', 'None'],
         ].map(([label, value]) => (
           <div
             key={label}

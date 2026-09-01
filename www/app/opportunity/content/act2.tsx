@@ -72,13 +72,13 @@ const deviceDemoPage = (
         title="The best home assistant on the market"
         sub="Take better care of your family than ever before."
       >
-        <strong>It answers from your own records, and it acts on them.</strong>{' '}
-        It finds the eye review buried in a GP summary, plays back a grandmother
-        telling the story in her own voice, emails the school, and fills a
-        basket for the new term that you approve with your thumb.
+        <strong>
+          Automate shopping and bill payments, balance the household budget,
+          help the kids with homework and stay on top of the family calendar.
+        </strong>
         <br />
         <br />
-        None of it leaves the house until you say so.
+        It all works out of the box with no cloud subscription required.
       </Statement>
       <div className="mt-6">
         <DemoControls />
