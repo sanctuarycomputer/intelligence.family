@@ -23,6 +23,45 @@
      this page's own --container-padding rather than the homepage's literal
      80px, so the phone lands just right of the copy column at any width. */
   --demo-phone-left: calc(var(--container-padding) + 620px + 96px);
+  /* Matches the homepage's own default (globals.css's `var(--demo-phone-top,
+     95px)` fallback) — declared here as a real value, not left to that
+     fallback, because phoneFit.ts's hostScaleFor has to read it and subtract
+     it from the box it fits against. A fallback baked into the var() call is
+     invisible to getComputedStyle: there is nothing to read back out of it,
+     so it could never be subtracted from anything. See hostScaleFor's
+     `hostTop` parameter. */
+  --demo-phone-top: 95px;
+}
+
+/* Below 1024px there is no room for the copy beside a full-bleed stage: the
+   stage (this page's `bleed`, rendered before `.deck-well`) would otherwise
+   sit under the whole slide and the copy's Play control would have nothing
+   under it but the dock's own bounding box. Stack instead of overlay: the
+   copy stays first in document order and the demo becomes a real box in flow
+   underneath it, at its own height, rather than an absolutely positioned
+   layer the copy floats over. Scoped to the one page that renders `.deck-demo`
+   as a direct child (DeckPage's `bleed` prop), so no other slide is touched. */
+@media (max-width: 1023px) {
+  .deck-page:has(> .deck-demo) {
+    /* The >=768px rule below fixes every slide's height to the viewport and
+       hides overflow; stacked copy-then-demo can run taller than that.
+       DeckShell's own ResizeObserver already drops fixed heights and
+       scroll-snap for any slide that outgrows its target (`.deck-no-snap`),
+       so nothing else here has to special-case this page for that. */
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .deck-demo {
+    /* No longer the full slide: a real box in flow, ordered after the copy.
+       Its own children (.demo-scene, .phone-dock, ...) stay absolutely
+       positioned against it exactly as they are at any other width — only
+       this box's own position and size change here. */
+    position: relative;
+    inset: auto;
+    order: 1;
+    height: min(62dvh, 480px);
+  }
 }
 
 /* Keeps the copy column that sits over the stage from running under the

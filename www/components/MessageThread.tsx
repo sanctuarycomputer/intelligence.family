@@ -119,9 +119,19 @@ export default function MessageThread() {
         const rect = host.getBoundingClientRect();
         const width = vv?.width ?? window.innerWidth;
         const height = vv?.height ?? window.innerHeight;
+        /* `.phone-dock`'s own `top` (--demo-phone-top) eats into this same
+           host at wide widths, so hostScaleFor has to know it to keep the
+           dock's real bottom edge — top offset included — inside the host,
+           not just the phone's own drawn height. Read off the host itself
+           rather than the dock: custom properties inherit, and the value is
+           declared on the host (see .demo-stage-slide), not on the dock. */
+        const hostTop =
+          parseFloat(
+            getComputedStyle(host).getPropertyValue('--demo-phone-top')
+          ) || 0;
         el.style.setProperty(
           '--phone-scale',
-          String(hostScaleFor(rect.width, rect.height, width, height))
+          String(hostScaleFor(rect.width, rect.height, width, height, hostTop))
         );
       };
       fit();

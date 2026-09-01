@@ -33,41 +33,68 @@ export function fitScale(boxWidth: number, boxHeight: number): number {
  * The host branch (a deck slide) fits the phone to whatever box the page
  * gives it, and nothing bounds that box itself — a slide can hand the demo
  * the whole stage, and the phone would grow to fill it and land flush against
- * the screen edges.
+ * the screen edges. This is pure breathing room against that: a host exactly
+ * viewport-sized still leaves a visible gap at the physical screen edge.
  *
- * 0.92 was the opening bid, but the real render on the device slide showed it
- * wasn't tight enough: `.phone-dock`'s `top` is a fixed 95px (from
- * `--demo-phone-top`), a positioning offset neither this function nor the
- * plain `fitScale(rect.width, rect.height)` it replaces has ever known about.
- * A tolerance alone cannot fully cancel a fixed-pixel offset — as the
- * viewport shrinks, 95px eats a growing share of it — but 0.85 clears that
- * offset with a visible margin at every viewport this was checked against
- * (ordinary laptop heights and up), where 0.92 did not. Below roughly 650px
- * of height the margin thins out; below roughly 630px it goes negative again.
- * That residual gap is a positioning problem, not a scale one, and is out of
- * this function's reach — see the phoneFit test file and the phone-cap task
- * report for the fuller account.
+ * It used to also be doing a second job it could never actually finish:
+ * standing in for `hostTop` below, which nothing subtracted anywhere. A
+ * tolerance on the *viewport* cannot cancel an offset inside the *host* — the
+ * two boxes differ by however much chrome sits around the host (the deck's
+ * bar, its padding), so no single fraction of one bounds a fixed pixel
+ * amount eaten from the other. `hostScaleFor` now subtracts hostTop directly
+ * from the host leg's own budget, which is what actually fixed the overhang;
+ * see the "keeps the dock inside the host" test in phoneFit.test.ts. This
+ * constant is free to go back to being a plain, honest margin — including,
+ * now, on the host leg itself: see hostScaleFor's own comment on why fitting
+ * the offset-adjusted host exactly is not enough on its own.
  */
 export const SCREEN_TOLERANCE = 0.85;
+
+/** Matches the breakpoint the stylesheet and the clock's compact flag use. */
+export const WIDE_FROM = 1024;
 
 /**
  * The scale for a phone inside a host box, capped so the box can never grow
  * the phone past the screen.
  *
- * Whichever leg is tighter wins: fitting the host, or fitting the viewport
- * shrunk by SCREEN_TOLERANCE. Both go through fitScale, which is where the
- * single-scale-for-both-axes guarantee lives, so taking the min of two such
- * scales still leaves one uniform number — the aspect ratio can't drift
- * either leg introduces on its own.
+ * `hostTop` is how far down the dock's own `top` sits inside that host (see
+ * `--demo-phone-top` in opportunity.css) — the dock's real bottom edge is
+ * `hostTop + PHONE_H * scale`, not `PHONE_H * scale` alone, so it has to come
+ * out of the host leg's budget before fitScale ever sees it. It only applies
+ * at `viewportWidth >= WIDE_FROM`: below that breakpoint `.phone-dock`
+ * anchors to the host's *bottom* edge instead (see globals.css), where a top
+ * offset has nothing to do with where the dock actually sits.
+ *
+ * Whichever leg is tighter wins: fitting the (offset-adjusted) host, or
+ * fitting the viewport shrunk by SCREEN_TOLERANCE. Both go through fitScale,
+ * which is where the single-scale-for-both-axes guarantee lives, so taking
+ * the min of two such scales still leaves one uniform number — the aspect
+ * ratio can't drift either leg introduces on its own.
+ *
+ * The host leg gets its own SCREEN_TOLERANCE margin too, once `hostTop` is
+ * actually supplied. fitScale always fills whichever dimension binds
+ * exactly, so subtracting hostTop and stopping there fits the dock flush
+ * against the host's bottom edge whenever the host leg is what binds — "not
+ * overhanging" but with a margin of precisely zero, which reads as the same
+ * bug from a glance at the render. Gated on `hostTop > 0` rather than
+ * applied unconditionally, so every caller that never passed a real offset
+ * (every existing test but the ones testing this) keeps fitting the host
+ * exactly, as it always did.
  */
 export function hostScaleFor(
   hostWidth: number,
   hostHeight: number,
   viewportWidth: number,
-  viewportHeight: number
+  viewportHeight: number,
+  hostTop = 0
 ): number {
+  const wideWithOffset = viewportWidth >= WIDE_FROM && hostTop > 0;
+  const budgetHeight = wideWithOffset
+    ? (hostHeight - hostTop) * SCREEN_TOLERANCE
+    : hostHeight;
+  const budgetWidth = wideWithOffset ? hostWidth * SCREEN_TOLERANCE : hostWidth;
   return Math.min(
-    fitScale(hostWidth, hostHeight),
+    fitScale(budgetWidth, budgetHeight),
     fitScale(
       viewportWidth * SCREEN_TOLERANCE,
       viewportHeight * SCREEN_TOLERANCE
@@ -77,9 +104,6 @@ export function hostScaleFor(
 
 /** Page padding above and below the phone, from main's py-32 plus room to breathe. */
 export const VIEWPORT_MARGIN = 190;
-
-/** Matches the breakpoint the stylesheet and the clock's compact flag use. */
-export const WIDE_FROM = 1024;
 
 /** How much of a narrow viewport the phone may take, leaving the device its corner. */
 export const COMPACT_FRACTION = 0.8;

@@ -236,4 +236,55 @@ describe('hostScaleFor', () => {
       10
     );
   });
+
+  /* The bug a scale-only assertion cannot see: `.phone-dock`'s `top` sits
+     `hostTop` px down inside its host (see --demo-phone-top in
+     opportunity.css), so the dock's actual bottom edge is hostTop + the
+     drawn phone height, not the drawn height alone. A prior version of this
+     suite only ever asserted PHONE_H * scale <= hostHeight — true even while
+     the dock hung 17-32px past the slide's own bottom edge on real deck
+     viewports, because nothing here ever added hostTop back in.
+
+     The host here is deliberately smaller than the raw viewport passed
+     alongside it — exactly the real shape of the deck: `.demo-stage-slide`'s
+     rect excludes the chrome bar and the slide's own padding, while
+     visualViewport stays full-size. That gap is what let the old code look
+     safe: the viewport*SCREEN_TOLERANCE leg could still be the tighter of
+     the two scales and yet, once hostTop is added back on top of it, still
+     overrun a host that never got its own share of the budget. */
+  it('keeps the dock inside the host once its own top offset is added back in', () => {
+    const hostTop = 95;
+    for (const [w, h, name] of VIEWPORTS.filter(v => v[0] >= WIDE_FROM)) {
+      const hostHeight = h - 80; // stands in for the chrome bar + slide padding
+      const scale = hostScaleFor(w, hostHeight, w, h, hostTop);
+      const dockBottom = hostTop + PHONE_H * scale;
+      expect(dockBottom, name).toBeLessThanOrEqual(hostHeight + 0.001);
+    }
+  });
+
+  /* Inside is not enough on its own: fitScale always fills whichever leg
+     binds exactly, so a hostTop subtraction with nothing else keeps the dock
+     inside the host by fitting it flush against the bottom edge — a margin
+     of exactly zero, indistinguishable from the overhang bug to a glance at
+     the render. Once hostTop is supplied (a real caller, not a test default
+     of 0), the host leg has to leave the same visible breathing room the
+     viewport leg already does. */
+  it('leaves visible breathing room under the dock, not just a non-overlapping fit', () => {
+    const hostTop = 95;
+    for (const [w, h, name] of VIEWPORTS.filter(v => v[0] >= WIDE_FROM)) {
+      const hostHeight = h - 80;
+      const scale = hostScaleFor(w, hostHeight, w, h, hostTop);
+      const dockBottom = hostTop + PHONE_H * scale;
+      expect(hostHeight - dockBottom, name).toBeGreaterThan(10);
+    }
+  });
+
+  /* Below the breakpoint the dock anchors to the host's bottom edge instead
+     (`.phone-dock`'s narrow rule), so hostTop describes an offset that does
+     not apply there — passing it must not shrink the phone on top of the
+     fraction narrow layouts already budget for. */
+  it('ignores hostTop below the breakpoint, where the dock is bottom-anchored, not top-anchored', () => {
+    const [w, h] = [800, 700];
+    expect(hostScaleFor(w, h, w, h, 95)).toBe(hostScaleFor(w, h, w, h, 0));
+  });
 });

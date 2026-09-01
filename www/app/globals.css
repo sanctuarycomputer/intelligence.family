@@ -880,9 +880,14 @@ p + h4 {
 }
 
 /* Except on mobile, where a tap off the phone dismisses the demo — so the
-   phone itself has to absorb the taps that land on it. */
+   phone itself has to absorb the taps that land on it. Scoped to the
+   homepage host: `DemoDismiss`, the full-viewport tap-catcher this exists
+   for, is a homepage-only component the deck never renders. Left unscoped,
+   this used to swallow every tap on the deck slide's `.phone-dock` box too —
+   including the Play control, which sits under it at these widths before the
+   stacked layout above separates them. */
 @media (max-width: 1023px) {
-  .phone-dock {
+  .demo-stage-page .phone-dock {
     pointer-events: auto;
   }
 }
