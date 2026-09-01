@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import { subscribe } from '@/components/demo/demoClock';
 import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
-import { fitScale, phoneScaleFor } from '@/components/thread/phoneFit';
+import { hostScaleFor, phoneScaleFor } from '@/components/thread/phoneFit';
 import PaymentSheet from '@/components/thread/PaymentSheet';
 import {
   AudioSnippet,
@@ -90,11 +90,17 @@ export default function MessageThread() {
    * inside `.demo-stage-slide`, a positioned box of its own — `offsetParent`
    * is that element, and it stands in for the viewport below.
    *
-   * With a host, its rect is the frame, fitted with `fitScale` rather than
-   * `phoneScaleFor` — that margin models the homepage `main`'s own padding and
-   * would badly over-shrink a host with none of its own — and a
-   * `ResizeObserver` on the host takes the place of the window listeners,
-   * since the host's box can change size without the window doing so.
+   * With a host, its rect is the frame, fitted with `hostScaleFor` rather
+   * than `phoneScaleFor` — that margin models the homepage `main`'s own
+   * padding and would badly over-shrink a host with none of its own. A deck
+   * slide can now give the demo its entire stage, though, so the host box
+   * alone is not enough of a cap: `hostScaleFor` also fits the visual
+   * viewport (with a margin of its own) and takes whichever is tighter, so
+   * the phone can never grow past the screen just because its host did. That
+   * means the screen is an input to this branch too, not only the host, so it
+   * keeps the same window/`visualViewport` listeners as the branch below
+   * alongside the `ResizeObserver` on the host, which still catches host
+   * resizes the window doesn't cause.
    *
    * Without one, the frame is the visual viewport where the browser exposes
    * one. On a phone the layout viewport can be taller than what you can
@@ -106,22 +112,32 @@ export default function MessageThread() {
     const el = dockRef.current;
     if (!el) return;
     const host = el.offsetParent as HTMLElement | null;
+    const vv = window.visualViewport;
 
     if (host) {
       const fit = () => {
         const rect = host.getBoundingClientRect();
+        const width = vv?.width ?? window.innerWidth;
+        const height = vv?.height ?? window.innerHeight;
         el.style.setProperty(
           '--phone-scale',
-          String(fitScale(rect.width, rect.height))
+          String(hostScaleFor(rect.width, rect.height, width, height))
         );
       };
       fit();
       const observer = new ResizeObserver(fit);
       observer.observe(host);
-      return () => observer.disconnect();
+      window.addEventListener('resize', fit);
+      window.addEventListener('orientationchange', fit);
+      vv?.addEventListener('resize', fit);
+      return () => {
+        observer.disconnect();
+        window.removeEventListener('resize', fit);
+        window.removeEventListener('orientationchange', fit);
+        vv?.removeEventListener('resize', fit);
+      };
     }
 
-    const vv = window.visualViewport;
     const fit = () => {
       const width = vv?.width ?? window.innerWidth;
       const height = vv?.height ?? window.innerHeight;

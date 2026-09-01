@@ -27,6 +27,54 @@ export function fitScale(boxWidth: number, boxHeight: number): number {
   return Number.isFinite(scale) && scale > 0 ? scale : 1;
 }
 
+/**
+ * How much of the visual viewport a hosted phone may fill.
+ *
+ * The host branch (a deck slide) fits the phone to whatever box the page
+ * gives it, and nothing bounds that box itself — a slide can hand the demo
+ * the whole stage, and the phone would grow to fill it and land flush against
+ * the screen edges.
+ *
+ * 0.92 was the opening bid, but the real render on the device slide showed it
+ * wasn't tight enough: `.phone-dock`'s `top` is a fixed 95px (from
+ * `--demo-phone-top`), a positioning offset neither this function nor the
+ * plain `fitScale(rect.width, rect.height)` it replaces has ever known about.
+ * A tolerance alone cannot fully cancel a fixed-pixel offset — as the
+ * viewport shrinks, 95px eats a growing share of it — but 0.85 clears that
+ * offset with a visible margin at every viewport this was checked against
+ * (ordinary laptop heights and up), where 0.92 did not. Below roughly 650px
+ * of height the margin thins out; below roughly 630px it goes negative again.
+ * That residual gap is a positioning problem, not a scale one, and is out of
+ * this function's reach — see the phoneFit test file and the phone-cap task
+ * report for the fuller account.
+ */
+export const SCREEN_TOLERANCE = 0.85;
+
+/**
+ * The scale for a phone inside a host box, capped so the box can never grow
+ * the phone past the screen.
+ *
+ * Whichever leg is tighter wins: fitting the host, or fitting the viewport
+ * shrunk by SCREEN_TOLERANCE. Both go through fitScale, which is where the
+ * single-scale-for-both-axes guarantee lives, so taking the min of two such
+ * scales still leaves one uniform number — the aspect ratio can't drift
+ * either leg introduces on its own.
+ */
+export function hostScaleFor(
+  hostWidth: number,
+  hostHeight: number,
+  viewportWidth: number,
+  viewportHeight: number
+): number {
+  return Math.min(
+    fitScale(hostWidth, hostHeight),
+    fitScale(
+      viewportWidth * SCREEN_TOLERANCE,
+      viewportHeight * SCREEN_TOLERANCE
+    )
+  );
+}
+
 /** Page padding above and below the phone, from main's py-32 plus room to breathe. */
 export const VIEWPORT_MARGIN = 190;
 

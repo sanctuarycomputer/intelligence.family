@@ -5,9 +5,11 @@ import {
   COMPACT_FRACTION,
   PHONE_H,
   PHONE_W,
+  SCREEN_TOLERANCE,
   VIEWPORT_MARGIN,
   WIDE_FROM,
   fitScale,
+  hostScaleFor,
   phoneScaleFor,
   phoneTopFor,
 } from '@/components/thread/phoneFit';
@@ -151,5 +153,87 @@ describe('fitScale', () => {
     expect(fitScale(0, 0)).toBe(1);
     expect(fitScale(-100, 500)).toBe(1);
     expect(fitScale(Number.NaN, 500)).toBe(1);
+  });
+});
+
+/* The deck slide now hands the demo its whole stage rather than a grid cell,
+   so the host box alone can no longer be trusted to keep the phone off the
+   screen edges — hostScaleFor is the cap that fixes that. */
+describe('hostScaleFor', () => {
+  it('fits the whole phone inside the screen at every viewport, even when the host is the whole thing', () => {
+    for (const [w, h, name] of VIEWPORTS) {
+      const scale = hostScaleFor(w, h, w, h);
+      const drawn = { w: PHONE_W * scale, h: PHONE_H * scale };
+      expect(drawn.w, `${name} width`).toBeLessThanOrEqual(w + 0.001);
+      expect(drawn.h, `${name} height`).toBeLessThanOrEqual(h + 0.001);
+    }
+  });
+
+  /* Both legs go through fitScale, which is where the single-scale guarantee
+     lives — taking the min of two such scales must still leave one uniform
+     number, even when the host and the viewport disagree about shape. */
+  it('never distorts the phone', () => {
+    const designed = PHONE_W / PHONE_H;
+    for (const [w, h, name] of VIEWPORTS) {
+      const scale = hostScaleFor(w, h * 1.5, w * 0.6, h);
+      expect((PHONE_W * scale) / (PHONE_H * scale), name).toBeCloseTo(
+        designed,
+        10
+      );
+    }
+  });
+
+  it('never magnifies past 1', () => {
+    expect(hostScaleFor(10000, 10000, 10000, 10000)).toBe(1);
+  });
+
+  /* The device-slide bug this exists to fix: a host bigger than the screen
+     must be bound by the screen, not by its own oversized box. */
+  it('is capped by the screen when the host is larger than it', () => {
+    const scale = hostScaleFor(5000, 5000, 1280, 800);
+    expect(scale).toBeCloseTo(
+      fitScale(1280 * SCREEN_TOLERANCE, 800 * SCREEN_TOLERANCE),
+      10
+    );
+  });
+
+  /* A host smaller than the screen (a half-width grid cell, say — the layout
+     this branch used before the slide got its own stage) is still bound by
+     its own box: the screen cap must never loosen a tighter host fit. */
+  it('is capped by the host when the host is smaller than the screen', () => {
+    const scale = hostScaleFor(300, 500, 2560, 1440);
+    expect(scale).toBeCloseTo(fitScale(300, 500), 10);
+  });
+
+  /* A collapsed host falls back to fitScale's degenerate case (1, "don't
+     hide the phone"), but the screen leg still applies on top of that
+     fallback — so a collapsed host with a real screen behind it lands on the
+     screen's honest scale, not on the fallback itself. Only when *both* legs
+     are degenerate does the fallback have nothing to be capped against. */
+  it('survives a collapsed host or a collapsed viewport without hiding the phone', () => {
+    expect(hostScaleFor(0, 0, 1280, 800)).toBeCloseTo(
+      fitScale(1280 * SCREEN_TOLERANCE, 800 * SCREEN_TOLERANCE),
+      10
+    );
+    expect(hostScaleFor(-100, 500, 1280, 800)).toBeGreaterThan(0);
+    expect(hostScaleFor(1280, 800, 0, 0)).toBeCloseTo(fitScale(1280, 800), 10);
+    expect(hostScaleFor(1280, 800, -100, 500)).toBeGreaterThan(0);
+    expect(hostScaleFor(0, 0, 0, 0)).toBe(1);
+  });
+
+  /* The regression itself: a host exactly phone-shaped (so the host leg
+     alone would happily hand back a full-size scale of 1) still has to give
+     up some of that room to the screen cap. If this ever comes back 1, the
+     cap has stopped doing anything. */
+  it('gives up room to the screen cap even when the host fit alone would allow full size', () => {
+    const k = 1.05;
+    const host = { w: PHONE_W * k, h: PHONE_H * k };
+    expect(fitScale(host.w, host.h)).toBe(1); // the host leg alone would not shrink it
+    const scale = hostScaleFor(host.w, host.h, host.w, host.h);
+    expect(scale).toBeLessThan(1);
+    expect(scale).toBeCloseTo(
+      fitScale(host.w * SCREEN_TOLERANCE, host.h * SCREEN_TOLERANCE),
+      10
+    );
   });
 });
