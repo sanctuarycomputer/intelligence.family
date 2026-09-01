@@ -13,12 +13,10 @@ import {
   Statement,
 } from '../components/archetypes';
 
-// Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
-  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={10} n={10} actClass={ACT_CLASS}>
     <div className="grid md:grid-cols-2 gap-10 items-center">
       <Statement
         title="Our first device is for families"
@@ -66,7 +64,7 @@ const page7 = (
 
 // prettier-ignore
 const deviceDemoPage = (
-  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS} bleed={<DeckDemo />}>
+  <DeckPage key={11} n={11} actClass={ACT_CLASS} bleed={<DeckDemo />}>
     <div className="deck-demo-copy">
       <Statement
         title="The best home assistant on the market"
@@ -86,7 +84,7 @@ const deviceDemoPage = (
 );
 
 const page8 = (
-  <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={12} n={12} actClass={ACT_CLASS}>
     <Split
       flip
       title="Your own family vault"
@@ -110,7 +108,7 @@ const page8 = (
 );
 
 const conveniencePage = (
-  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={13} n={13} actClass={ACT_CLASS}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/convenience-tunnel.png"
@@ -143,7 +141,7 @@ const conveniencePage = (
 );
 
 const contextPage = (
-  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={14} n={14} actClass={ACT_CLASS}>
     <Split
       flip
       title="A context window for smart homes"
@@ -177,7 +175,7 @@ const contextPage = (
 );
 
 const page12 = (
-  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={15} n={15} actClass={ACT_CLASS}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/device-family.png"
@@ -249,7 +247,7 @@ const page12 = (
 );
 
 const page10 = (
-  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={16} n={16} actClass={ACT_CLASS}>
     <BigStat
       stat="600M+"
       title="Home hubs are a proven category."
@@ -276,7 +274,7 @@ const page10 = (
 );
 
 const page11 = (
-  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={17} n={17} actClass={ACT_CLASS}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/family-shelf.png"
@@ -347,7 +345,7 @@ const page11 = (
 );
 
 const unitEconomicsPage = (
-  <DeckPage key={18} n={18} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={18} n={18} actClass={ACT_CLASS}>
     <BigStat
       stat="2.1x"
       title="Paid back at point of sale"

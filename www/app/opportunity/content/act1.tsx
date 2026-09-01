@@ -11,8 +11,12 @@ import {
   StatTiles,
 } from '../components/archetypes';
 
-// Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
+// Product wants the "liberatory & distinctly American" framing off the
+// deck for now while that positioning is reconsidered, without losing the
+// slide itself (sources, cards, copy) or renumbering everything after it.
+// Flip to true to bring it back; every page number, PAGE_META run and leaf
+// marker derives from ACT1_PAGES's length, so nothing else needs updating.
+export const SHOW_LIBERATORY_SLIDE = false;
 
 const coverLeafStyle = {
   width: '0.35em',
@@ -33,7 +37,7 @@ const coverSubStyle = {
  */
 export function coverPage(gate: ReactNode): ReactNode {
   return (
-    <DeckPage key={1} n={1} total={TOTAL}>
+    <DeckPage key={1} n={1}>
       <div className="relative mx-auto max-w-3xl text-center">
         <h1 className="relative inline-block">
           Family<span className="tracking-[-0.1em]"> </span>Intelligence
@@ -67,7 +71,7 @@ export function coverPage(gate: ReactNode): ReactNode {
 }
 
 const page3 = (
-  <DeckPage key={2} n={2} total={TOTAL}>
+  <DeckPage key={2} n={2}>
     <Split
       title="AI finally runs on consumer hardware"
       sub="Open models are trailing just months behind the best."
@@ -127,7 +131,7 @@ const page3 = (
 );
 
 const page2 = (
-  <DeckPage key={3} n={3} total={TOTAL}>
+  <DeckPage key={3} n={3}>
     <Split
       flip
       title="The GPU is coming home"
@@ -200,7 +204,7 @@ const LINEAGE_CARDS = [
 ];
 
 const problemPage = (
-  <DeckPage key={4} n={4} total={TOTAL}>
+  <DeckPage key={4} n={4}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/home-at-dusk.png"
@@ -275,7 +279,7 @@ const vsTitleStyle = {
 } as const;
 
 const sentimentPage = (
-  <DeckPage key={5} n={5} total={TOTAL}>
+  <DeckPage key={5} n={5}>
     <div className="deck-vs">
       <div className="deck-vs-row">
         <div className="deck-vs-text">
@@ -337,7 +341,7 @@ const sentimentPage = (
 );
 
 const demandPage = (
-  <DeckPage key={6} n={6} total={TOTAL}>
+  <DeckPage key={6} n={6}>
     <Statement
       title="Consumers want real alternatives..."
       sub="Local AI is newly possible, and demand is growing fast."
@@ -411,7 +415,7 @@ const demandPage = (
 );
 
 const routingPage = (
-  <DeckPage key={7} n={7} total={TOTAL}>
+  <DeckPage key={7} n={7}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/walled-garden.png"
@@ -469,8 +473,10 @@ const routingPage = (
   </DeckPage>
 );
 
-const lineagePage = (
-  <DeckPage key={8} n={8} total={TOTAL}>
+// Exported so tests can check for its presence/absence by reference
+// without duplicating its title text.
+export const lineagePage = (
+  <DeckPage key={8} n={8}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/american-porch.png"
@@ -518,7 +524,7 @@ const lineagePage = (
 );
 
 const page7 = (
-  <DeckPage key={9} n={9} total={TOTAL}>
+  <DeckPage key={9} n={9}>
     <Statement
       splash
       title="Family Intelligence will be the first trusted brand to run local inference in the home"
@@ -526,14 +532,21 @@ const page7 = (
   </DeckPage>
 );
 
-export const ACT1_PAGES: ReactNode[] = [
-  coverPage(null),
-  page3,
-  page2,
-  problemPage,
-  sentimentPage,
-  demandPage,
-  routingPage,
-  lineagePage,
-  page7,
-];
+// Exported as a function (rather than only the resolved ACT1_PAGES below)
+// so tests can build both the shown and hidden lists directly, without
+// re-executing this module under a mocked flag.
+export function buildAct1Pages(showLiberatorySlide: boolean): ReactNode[] {
+  return [
+    coverPage(null),
+    page3,
+    page2,
+    problemPage,
+    sentimentPage,
+    demandPage,
+    routingPage,
+    ...(showLiberatorySlide ? [lineagePage] : []),
+    page7,
+  ];
+}
+
+export const ACT1_PAGES: ReactNode[] = buildAct1Pages(SHOW_LIBERATORY_SLIDE);

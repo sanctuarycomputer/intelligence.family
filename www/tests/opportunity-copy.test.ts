@@ -1,8 +1,31 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import { ALL_PAGES, APPENDIX_PAGES } from '../app/opportunity/content';
+import { cloneElement, type ReactElement, type ReactNode } from 'react';
+import {
+  ALL_PAGES,
+  APPENDIX_PAGES,
+  PAGE_META,
+  TOTAL,
+} from '../app/opportunity/content';
+import {
+  ACT1_PAGES,
+  SHOW_LIBERATORY_SLIDE,
+  buildAct1Pages,
+  lineagePage,
+} from '../app/opportunity/content/act1';
+import { ACT2_PAGES } from '../app/opportunity/content/act2';
+import { ACT3_PAGES } from '../app/opportunity/content/act3';
+import { ACT4_PAGES } from '../app/opportunity/content/act4';
 import { REFERENCES } from '../app/opportunity/content/references';
+
+// Mirrors OpportunityClient's derivation: every page's authored `n` is a
+// placeholder (see act1.tsx's comment), overridden here from its actual
+// position, exactly like the real composed deck does.
+const numbered = (pages: ReactNode[]): number[] =>
+  (pages as ReactElement<{ n: number }>[]).map(
+    (page, i) => cloneElement(page, { n: i + 1 }).props.n
+  );
 
 const dir = path.join(__dirname, '..', 'app', 'opportunity', 'content');
 // Every content file is deck copy, except the citation registry: its section
@@ -169,25 +192,73 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('numbers core pages 1..26 contiguously in export order', () => {
-    const acts = ['act1.tsx', 'act2.tsx', 'act3.tsx', 'act4.tsx'];
-    const ns = acts.flatMap(f => {
-      const src = readFileSync(path.join(dir, f), 'utf8');
-      return [...src.matchAll(/key=\{(\d+)\} n=\{\1\}/g)].map(m =>
-        Number(m[1])
-      );
-    });
-    expect([...ns].sort((a, b) => a - b)).toEqual(
-      Array.from({ length: 26 }, (_, i) => i + 1)
+  it('numbers the composed deck contiguously from 1 with no gaps or duplicates', () => {
+    const composed = [...ALL_PAGES, ...APPENDIX_PAGES];
+    const ns = numbered(composed);
+    expect(ns).toEqual(
+      Array.from({ length: composed.length }, (_, i) => i + 1)
     );
   });
 
-  it('numbers appendix pages FIRST..FIRST+6 in export order', () => {
-    const src = readFileSync(path.join(dir, 'appendix.tsx'), 'utf8');
-    const offsets = [...src.matchAll(/n=\{FIRST(?: \+ (\d+))?\}/g)].map(m =>
-      m[1] ? Number(m[1]) : 0
+  it('sets TOTAL to the composed core page count', () => {
+    expect(TOTAL).toBe(ALL_PAGES.length);
+  });
+
+  it('keeps PAGE_META aligned 1:1 with [...ALL_PAGES, ...APPENDIX_PAGES]', () => {
+    expect(PAGE_META).toHaveLength(ALL_PAGES.length + APPENDIX_PAGES.length);
+  });
+
+  it('runs PAGE_META counters 1..TOTAL then unnumbered for the appendix', () => {
+    const coreCounters = PAGE_META.slice(0, TOTAL).map(m =>
+      Number(m.counter.split(' / ')[0])
     );
-    expect([...offsets].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(coreCounters).toEqual(
+      Array.from({ length: TOTAL }, (_, i) => i + 1)
+    );
+    const appendixCounters = PAGE_META.slice(TOTAL);
+    expect(appendixCounters.every(m => m.counter === 'A')).toBe(true);
+  });
+
+  it('flags leaves on the cover, Act I close, Act III/IV opens, and the appendix open', () => {
+    const leafPositions = PAGE_META.reduce<number[]>((acc, m, i) => {
+      if (m.leaves) acc.push(i + 1);
+      return acc;
+    }, []);
+    expect(leafPositions).toEqual([
+      1, // cover: Act I's first page
+      ACT1_PAGES.length, // Act I's closing splash: its own last page
+      ACT1_PAGES.length + ACT2_PAGES.length + 1, // Act III's opening splash
+      ACT1_PAGES.length + ACT2_PAGES.length + ACT3_PAGES.length + 1, // Act IV's opening splash
+      TOTAL + 1, // appendix's opening splash
+    ]);
+  });
+
+  it('the liberatory slide is hidden by default', () => {
+    expect(SHOW_LIBERATORY_SLIDE).toBe(false);
+    expect(ALL_PAGES).not.toContain(lineagePage);
+  });
+
+  it('flipping the flag adds exactly one page, toggles the liberatory slide, and both states stay numbered contiguously', () => {
+    const hidden = buildAct1Pages(false);
+    const shown = buildAct1Pages(true);
+
+    expect(shown).toHaveLength(hidden.length + 1);
+    expect(shown).toContain(lineagePage);
+    expect(hidden).not.toContain(lineagePage);
+
+    for (const act1 of [hidden, shown]) {
+      const composed = [
+        ...act1,
+        ...ACT2_PAGES,
+        ...ACT3_PAGES,
+        ...ACT4_PAGES,
+        ...APPENDIX_PAGES,
+      ];
+      const ns = numbered(composed);
+      expect(ns).toEqual(
+        Array.from({ length: composed.length }, (_, i) => i + 1)
+      );
+    }
   });
 
   it('renders a sources page from the registry', () => {
@@ -236,15 +307,9 @@ describe('opportunity deck copy contract', () => {
     }
   });
 
-  it('exports 26 core pages and 7 appendix pages', () => {
-    expect(ALL_PAGES).toHaveLength(26);
+  it('exports 25 core pages (liberatory slide hidden) and 7 appendix pages', () => {
+    expect(ALL_PAGES).toHaveLength(25);
     expect(APPENDIX_PAGES).toHaveLength(7);
-  });
-
-  it('sets every chrome counter against 26 pages', () => {
-    for (const [name, src] of contentFiles()) {
-      expect(src, name).toMatch(/const TOTAL = 26;/);
-    }
   });
 
   it('bolds one lead fragment per body', () => {

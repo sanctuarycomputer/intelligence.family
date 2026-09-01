@@ -1,23 +1,29 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import Ref from '../components/Ref';
-import { Band, CardsPage, StatTiles, Statement } from '../components/archetypes';
+import {
+  Band,
+  CardsPage,
+  StatTiles,
+  Statement,
+} from '../components/archetypes';
 import { orderedReferences } from './references';
 
-// Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
-// Appendix pages continue the page ids past the core deck, but the footer
-// counter stays unnumbered so nobody reads them as pages 27 of 26.
-const FIRST = TOTAL + 1;
+// Only needs to sit clear of the core deck's key range (currently 1..26,
+// but the exact count moves as pages are hidden or added); the real page
+// number and id are assigned by position once this module is composed
+// into the full deck in OpportunityClient. Kept local so this module
+// never imports ./index (which imports this file).
+const FIRST = 100;
 
 const splashPage = (
-  <DeckPage key={FIRST} n={FIRST} total={TOTAL}>
+  <DeckPage key={FIRST} n={FIRST}>
     <Statement splash title="Appendix" />
   </DeckPage>
 );
 
 const revenueModelPage = (
-  <DeckPage key={FIRST + 1} n={FIRST + 1} total={TOTAL}>
+  <DeckPage key={FIRST + 1} n={FIRST + 1}>
     <Statement
       title="A1 · Revenue model"
       sub="Devices carry the business through Year 3. Subscription and licensing carry the margin after it."
@@ -71,7 +77,7 @@ const revenueModelPage = (
 );
 
 const scenariosPage = (
-  <DeckPage key={FIRST + 3} n={FIRST + 3} total={TOTAL}>
+  <DeckPage key={FIRST + 3} n={FIRST + 3}>
     <Statement
       title="A3 · Scenarios"
       sub="One switch rescales volume, subscription attach, licensing and the hiring plan together."
@@ -113,7 +119,7 @@ const scenariosPage = (
 );
 
 const methodologyPage = (
-  <DeckPage key={FIRST + 4} n={FIRST + 4} total={TOTAL}>
+  <DeckPage key={FIRST + 4} n={FIRST + 4}>
     <CardsPage
       columns={2}
       title="A4 · Model methodology"
@@ -177,7 +183,7 @@ const methodologyPage = (
 );
 
 const baseCasePage = (
-  <DeckPage key={FIRST + 2} n={FIRST + 2} total={TOTAL}>
+  <DeckPage key={FIRST + 2} n={FIRST + 2}>
     <Statement
       title="A2 · Base case"
       sub="EBITDA-positive in Year 4 on this round alone. The platform upside is what you're pricing."
@@ -227,7 +233,7 @@ const baseCasePage = (
 );
 
 const platformLicensingPage = (
-  <DeckPage key={FIRST + 5} n={FIRST + 5} total={TOTAL}>
+  <DeckPage key={FIRST + 5} n={FIRST + 5}>
     <Statement
       title="A5 · Platform licensing"
       sub="Our platform is a compounding business. We anticipate three key modes to help partners integrate our software."
@@ -296,7 +302,7 @@ const platformLicensingPage = (
 );
 
 const sourcesPage = (
-  <DeckPage key={FIRST + 6} n={FIRST + 6} total={TOTAL}>
+  <DeckPage key={FIRST + 6} n={FIRST + 6}>
     <Statement title="A6 · Sources" sub="Every figure in this deck, linked." />
     <ol className="deck-sources mt-10">
       {orderedReferences().map(([key, ref], i) => (

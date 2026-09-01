@@ -1,5 +1,6 @@
 'use client';
-import { useState, useSyncExternalStore } from 'react';
+import { cloneElement, useState, useSyncExternalStore } from 'react';
+import type { ReactElement } from 'react';
 import InlineEmailGate from '@/components/InlineEmailGate';
 import { OPPORTUNITY_GATE_SOURCE } from '@/lib/crm';
 import DeckShell from './components/DeckShell';
@@ -56,9 +57,18 @@ export default function OpportunityClient() {
     />
   );
 
-  const pages = unlocked
+  // Each content file authors its own `n` (see act1.tsx and friends), but
+  // that value is only ever a placeholder: it gets overridden here from
+  // the page's actual position, which is what DeckShell/DeckPage rely on
+  // for the `page-N` scroll anchors and PAGE_META alignment. Composing the
+  // list first and numbering it by index means hiding or adding a page
+  // anywhere upstream never requires touching a number by hand.
+  const composed = unlocked
     ? [coverPage(null), ...ALL_PAGES.slice(1), ...APPENDIX_PAGES]
     : [coverPage(gate)];
+  const pages = composed.map((page, i) =>
+    cloneElement(page as ReactElement<{ n: number }>, { n: i + 1 })
+  );
 
   return (
     <>

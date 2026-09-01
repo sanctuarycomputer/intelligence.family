@@ -3,12 +3,10 @@ import DeckPage from '../components/DeckPage';
 import Ref from '../components/Ref';
 import { Band, CardsPage, Statement } from '../components/archetypes';
 
-// Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 26;
 const ACT_CLASS = 'deck-act-3';
 
 const page17 = (
-  <DeckPage key={19} n={19} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={19} n={19} actClass={ACT_CLASS}>
     <Statement
       splash
       title={
@@ -68,7 +66,7 @@ const INDUSTRIES = [
 ];
 
 const page19 = (
-  <DeckPage key={20} n={20} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={20} n={20} actClass={ACT_CLASS}>
     <CardsPage
       columns={2}
       title="Private AI is becoming crucial for business"
@@ -150,7 +148,7 @@ const page19 = (
 );
 
 const page18 = (
-  <DeckPage key={21} n={21} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={21} n={21} actClass={ACT_CLASS}>
     <CardsPage
       columns={3}
       variant="quote"
