@@ -139,24 +139,31 @@
    cycle. Gated on the phase DemoControls writes to <html>, so it only runs
    before the demo starts; app/globals.css's prefers-reduced-motion block
    mirrors this selector to turn it off there instead of opening a new
-   query here. */
+   query here.
+
+   The control is easy to miss, so it nudges twice as often as it used to
+   (3s instead of 6s) — but the nudge itself should still take the same
+   0.48s to play out, not run at double speed. The keyframe percentages are
+   doubled alongside the halved duration for exactly that reason: 8% of 6s
+   and 16% of 3s are both 0.48s, so the motion's own pace is unchanged and
+   only how often it recurs doubles. */
 html[data-demo='idle'] .deck-demo-copy .demo-play {
-  animation: deck-demo-jiggle 6s ease-in-out infinite;
+  animation: deck-demo-jiggle 3s ease-in-out infinite;
 }
 
 @keyframes deck-demo-jiggle {
   0%,
-  8%,
+  16%,
   100% {
     transform: none;
   }
-  2% {
+  4% {
     transform: translateX(-3px) rotate(-3deg);
   }
-  4% {
+  8% {
     transform: translateX(3px) rotate(3deg);
   }
-  6% {
+  12% {
     transform: translateX(-2px) rotate(2deg);
   }
 }
