@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import {
   COMPACT_BOTTOM_INSET,
   COMPACT_DEVICE_BOX_H,
@@ -290,6 +292,31 @@ describe('hostScaleFor', () => {
     const [w, h] = [800, 700];
     expect(hostScaleFor(w, h, w, h, 95)).toBe(hostScaleFor(w, h, w, h, 0));
   });
+
+  /* The bug this exists to fix: below WIDE_FROM `.phone-dock` anchors to the
+     host's *bottom* edge via a fixed `bottom: 20px` (COMPACT_BOTTOM_INSET),
+     but the old code fit the phone to the host's raw height, so whenever
+     height was the binding leg the drawn phone came out exactly host-height
+     tall — plus the 20px the dock sits up off the bottom, its top landed
+     20px above the host's own top edge. Measured for real at 1023px on the
+     opportunity deck's device slide (host height 480, the report's own
+     numbers): the copy above the demo box and the phone's overhanging top
+     edge came out 20px into each other, not apart. The real host width here
+     (`.deck-demo`'s own rect) is always well above the ~547px where height
+     starts binding for these box heights, at every width this box actually
+     renders at (768-1023px viewports, both container-padding tiers), so the
+     whole HOST_WIDTHS/host-height-480 range below is the bug's live range,
+     not a cherry-picked case. */
+  it('keeps a bottom-anchored dock from overhanging the top of a narrow host', () => {
+    const hostHeight = 480; // .deck-demo's own height: min(62dvh, 480px)
+    for (const hostWidth of [608, 720, 863]) {
+      // 768px, ~900px and 1023px viewports' real .deck-demo widths.
+      const budget = slidePhoneWidthBudget(hostWidth);
+      const scale = hostScaleFor(budget, hostHeight, hostWidth, 1024);
+      const dockTop = hostHeight - COMPACT_BOTTOM_INSET - PHONE_H * scale;
+      expect(dockTop, `hostWidth=${hostWidth}`).toBeGreaterThanOrEqual(-0.001);
+    }
+  });
 });
 
 /* The deck slide's device slide splits its box left/right below WIDE_FROM
@@ -306,12 +333,87 @@ describe('slidePhoneWidthBudget', () => {
     [608, '768px viewport'],
   ];
 
-  it('matches the split CSS computes: fraction of the box, minus half the gap', () => {
+  /* Pinned against numbers computed by hand, once, from the current
+     constants — not against `hostWidth * SLIDE_PHONE_FRACTION - SLIDE_GAP /
+     2` re-typed here, which is just the function's own body copied into the
+     test and can't fail for any change that keeps the formula
+     self-consistent with itself, wrong formula included. A golden number has
+     something independent to disagree with. */
+  it("computes the report's three real .deck-demo box widths to their pinned budgets", () => {
+    const golden: Array<[number, number, string]> = [
+      [342, 135.64, '390px viewport'],
+      [382, 152.44, '430px viewport'],
+      [608, 247.36, '768px viewport'],
+    ];
+    for (const [hostWidth, expected, name] of golden) {
+      expect(slidePhoneWidthBudget(hostWidth), name).toBeCloseTo(expected, 6);
+    }
+  });
+
+  /* The device's own width per the CSS split (`calc((1 - split) * 100% -
+     gap / 2)`) is a distinct formula from the phone's, derived independently
+     here rather than as `hostWidth - phoneShare - gap` (which would sum to
+     hostWidth by definition of subtraction, regardless of what phoneShare
+     is, and so prove nothing). Checking the two independently-derived shares
+     plus the gap add back up to the whole box catches a phone-share formula
+     that drifts from what the CSS split actually implies — a sign flipped,
+     the gap applied twice, the fraction and its complement disagreeing. */
+  it('accounts for the whole box between the phone strip, the gap, and the device strip', () => {
     for (const [hostWidth, name] of HOST_WIDTHS) {
-      expect(slidePhoneWidthBudget(hostWidth), name).toBeCloseTo(
-        hostWidth * SLIDE_PHONE_FRACTION - SLIDE_GAP / 2,
-        10
+      const phoneShare = slidePhoneWidthBudget(hostWidth);
+      const deviceShare =
+        hostWidth * (1 - SLIDE_PHONE_FRACTION) - SLIDE_GAP / 2;
+      expect(phoneShare + SLIDE_GAP + deviceShare, name).toBeCloseTo(
+        hostWidth,
+        6
       );
+    }
+  });
+
+  /* Not just "less than the device's share" (below) but comfortably more
+     than a token strip: the device is what this slide exists to show, so a
+     usable width for it means noticeably more than a fifth of the box. */
+  it('leaves the device a usable share of the box, not a sliver', () => {
+    for (const [hostWidth, name] of HOST_WIDTHS) {
+      const phoneShare = slidePhoneWidthBudget(hostWidth);
+      const deviceShare = hostWidth - phoneShare - SLIDE_GAP;
+      expect(deviceShare, name).toBeGreaterThan(hostWidth * 0.3);
+    }
+  });
+
+  /* Bigger boxes should hand the phone a bigger strip, roughly in step with
+     the box rather than flat or runaway — the fixed gap is the only thing
+     that keeps it from being exactly proportional. */
+  it('scales sensibly across host widths', () => {
+    const widths = [...HOST_WIDTHS.map(([w]) => w)].sort((a, b) => a - b);
+    for (let i = 1; i < widths.length; i++) {
+      expect(
+        slidePhoneWidthBudget(widths[i]),
+        `${widths[i]} > ${widths[i - 1]}`
+      ).toBeGreaterThan(slidePhoneWidthBudget(widths[i - 1]));
+    }
+    const narrow = slidePhoneWidthBudget(300);
+    const wide = slidePhoneWidthBudget(600);
+    expect(wide, 'doubling the box roughly doubles the strip').toBeGreaterThan(
+      narrow * 1.8
+    );
+    expect(wide).toBeLessThan(narrow * 2.2);
+  });
+
+  /* A collapsed or nonsensical box (mid-rotation, or a host that hasn't laid
+     out yet) must not hand back something the rest of the pipeline can't
+     recover from — NaN, Infinity, or a budget so large hostScaleFor draws an
+     absurdly oversized phone. slidePhoneWidthBudget itself has no floor (a
+     tiny or negative hostWidth can produce a negative raw budget), so this
+     checks what actually matters: the same hostScaleFor pipeline the phone
+     dock runs through still lands on a sane, on-screen scale. */
+  it('does not send an absurd result downstream for a degenerate host width', () => {
+    for (const hostWidth of [0, -50, 5]) {
+      const budget = slidePhoneWidthBudget(hostWidth);
+      expect(Number.isFinite(budget), `hostWidth=${hostWidth}`).toBe(true);
+      const scale = hostScaleFor(budget, 480, Math.max(hostWidth, 0), 844);
+      expect(scale, `hostWidth=${hostWidth}`).toBeGreaterThan(0);
+      expect(scale, `hostWidth=${hostWidth}`).toBeLessThanOrEqual(1);
     }
   });
 
@@ -335,5 +437,64 @@ describe('slidePhoneWidthBudget', () => {
       const scale = hostScaleFor(budget, 480, hostWidth, 844);
       expect(PHONE_W * scale, name).toBeLessThanOrEqual(budget + 0.001);
     }
+  });
+});
+
+/* SLIDE_PHONE_FRACTION, SLIDE_GAP and COMPACT_DEVICE_BOX_H all exist because
+   a CSS value can't be read back out of a percentage written into a custom
+   property (see their own comments in phoneFit.ts) — so each one mirrors a
+   literal in a stylesheet by hand instead. Nothing but this describe block
+   ties the two sides together: edit either one alone and every test above
+   still passes, since they only exercise phoneFit.ts's own arithmetic, never
+   the CSS it's supposed to match. Reading the stylesheets' source, the way
+   tests/opportunity-copy.test.ts already does for deck copy, is the only way
+   to catch that drift. */
+describe('CSS mirror constants', () => {
+  const globalsCss = () =>
+    readFileSync(path.join(__dirname, '..', 'app', 'globals.css'), 'utf8');
+  const opportunityCss = () =>
+    readFileSync(
+      path.join(__dirname, '..', 'app', 'opportunity', 'opportunity.css'),
+      'utf8'
+    );
+
+  it("COMPACT_DEVICE_BOX_H matches .demo-scene's height in globals.css's max-width: 1023px block", () => {
+    const css = globalsCss();
+    const match = css.match(/\.demo-scene\s*\{[^}]*height:\s*([\d.]+)dvh/);
+    expect(
+      match,
+      'app/globals.css: .demo-scene { height: N dvh } not found'
+    ).not.toBeNull();
+    const cssFraction = Number(match![1]) / 100;
+    expect(
+      COMPACT_DEVICE_BOX_H,
+      `components/thread/phoneFit.ts's COMPACT_DEVICE_BOX_H (${COMPACT_DEVICE_BOX_H}) must match app/globals.css's .demo-scene height (${match![1]}dvh)`
+    ).toBeCloseTo(cssFraction, 10);
+  });
+
+  it('SLIDE_PHONE_FRACTION matches --slide-split in opportunity.css', () => {
+    const css = opportunityCss();
+    const match = css.match(/--slide-split:\s*([\d.]+);/);
+    expect(
+      match,
+      'app/opportunity/opportunity.css: --slide-split not found'
+    ).not.toBeNull();
+    expect(
+      SLIDE_PHONE_FRACTION,
+      `components/thread/phoneFit.ts's SLIDE_PHONE_FRACTION (${SLIDE_PHONE_FRACTION}) must match app/opportunity/opportunity.css's --slide-split (${match![1]})`
+    ).toBeCloseTo(Number(match![1]), 10);
+  });
+
+  it('SLIDE_GAP matches --slide-gap in opportunity.css', () => {
+    const css = opportunityCss();
+    const match = css.match(/--slide-gap:\s*([\d.]+)px;/);
+    expect(
+      match,
+      'app/opportunity/opportunity.css: --slide-gap not found'
+    ).not.toBeNull();
+    expect(
+      SLIDE_GAP,
+      `components/thread/phoneFit.ts's SLIDE_GAP (${SLIDE_GAP}) must match app/opportunity/opportunity.css's --slide-gap (${match![1]}px)`
+    ).toBe(Number(match![1]));
   });
 });

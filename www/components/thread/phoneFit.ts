@@ -54,6 +54,19 @@ export const SCREEN_TOLERANCE = 0.85;
 export const WIDE_FROM = 1024;
 
 /**
+ * The gap under the phone on a narrow viewport.
+ *
+ * It should read as sitting near the bottom edge, not welded to it — and on a
+ * phone the very bottom is where the home indicator and the browser's own
+ * chrome live. Declared here, ahead of `phoneScaleFor` below, because
+ * `hostScaleFor` needs it too: `.phone-dock`'s narrow `bottom: 20px` rule
+ * (globals.css) is unscoped, so it anchors the dock to the bottom of
+ * whatever box it is in — the viewport on the homepage, a host box on a deck
+ * slide — and both fits have to leave the same gap for it.
+ */
+export const COMPACT_BOTTOM_INSET = 20;
+
+/**
  * The scale for a phone inside a host box, capped so the box can never grow
  * the phone past the screen.
  *
@@ -64,6 +77,20 @@ export const WIDE_FROM = 1024;
  * at `viewportWidth >= WIDE_FROM`: below that breakpoint `.phone-dock`
  * anchors to the host's *bottom* edge instead (see globals.css), where a top
  * offset has nothing to do with where the dock actually sits.
+ *
+ * Below WIDE_FROM the same problem shows up from the other side: the dock's
+ * real *top* edge is `hostHeight - COMPACT_BOTTOM_INSET - PHONE_H * scale`,
+ * not `hostHeight - PHONE_H * scale`, and fitScale fills the box's whole
+ * height whenever height is what binds. On a deck slide's device slide —
+ * tall enough, with a phone strip wide enough, that height is what binds —
+ * that put the dock's top 20px above `.demo-stage-slide`'s own top edge,
+ * overlapping the copy above it at tablet widths (measured at 1023px: the
+ * copy's own bottom edge and the phone's overhanging top edge landed 20px
+ * apart, the wrong way). Homepage's `phoneScaleFor`/`phoneTopFor` already
+ * budget for this the same way; this mirrors it for the host leg. Gated on
+ * `viewportWidth > 0` so a collapsed or absent viewport (several existing
+ * tests' and callers' shorthand for "no viewport data") keeps fitting the
+ * host's raw height rather than being mistaken for an actual narrow phone.
  *
  * Whichever leg is tighter wins: fitting the (offset-adjusted) host, or
  * fitting the viewport shrunk by SCREEN_TOLERANCE. Both go through fitScale,
@@ -79,7 +106,9 @@ export const WIDE_FROM = 1024;
  * bug from a glance at the render. Gated on `hostTop > 0` rather than
  * applied unconditionally, so every caller that never passed a real offset
  * (every existing test but the ones testing this) keeps fitting the host
- * exactly, as it always did.
+ * exactly, as it always did. The narrow leg below deliberately skips this
+ * same tolerance and only removes the bottom inset: the fix is for the
+ * overhang, not for extra breathing room nobody asked for.
  */
 export function hostScaleFor(
   hostWidth: number,
@@ -89,9 +118,12 @@ export function hostScaleFor(
   hostTop = 0
 ): number {
   const wideWithOffset = viewportWidth >= WIDE_FROM && hostTop > 0;
+  const narrowBottomAnchored = viewportWidth > 0 && viewportWidth < WIDE_FROM;
   const budgetHeight = wideWithOffset
     ? (hostHeight - hostTop) * SCREEN_TOLERANCE
-    : hostHeight;
+    : narrowBottomAnchored
+      ? hostHeight - COMPACT_BOTTOM_INSET
+      : hostHeight;
   const budgetWidth = wideWithOffset ? hostWidth * SCREEN_TOLERANCE : hostWidth;
   return Math.min(
     fitScale(budgetWidth, budgetHeight),
@@ -107,15 +139,6 @@ export const VIEWPORT_MARGIN = 190;
 
 /** How much of a narrow viewport the phone may take, leaving the device its corner. */
 export const COMPACT_FRACTION = 0.8;
-
-/**
- * The gap under the phone on a narrow viewport.
- *
- * It should read as sitting near the bottom edge, not welded to it — and on a
- * phone the very bottom is where the home indicator and the browser's own
- * chrome live.
- */
-export const COMPACT_BOTTOM_INSET = 20;
 
 /**
  * The scale for a given viewport.
