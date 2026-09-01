@@ -11,6 +11,7 @@
  */
 
 import type { CardKind } from '../demo/timeline';
+import { BASKET_COUNT, BASKET_ITEMS, BASKET_TOTAL } from '../thread/basket';
 
 const CARD_BG = '#eef1ec';
 const CARD_EDGE = 'rgba(84, 102, 58, 0.22)';
@@ -203,32 +204,13 @@ function drawEmail(ctx: CanvasRenderingContext2D, b: Box, sent: boolean) {
   }
 }
 
-/**
- * The basket the box assembled, priced and ready to pay for.
- *
- * Six items is a constraint, not a preference: the card box is 1088x480 in
- * screen space and the header eats the first 124px of it, so six rows plus the
- * total rule is 326px of the 356px left. A seventh line would draw past the
- * bottom edge.
- */
-const BASKET: Array<[string, string]> = [
-  ['Composition books x 8', '$12.00'],
-  ['Highlighters x 2', '$8.50'],
-  ['Reading log', '$6.90'],
-  ['Pencil case x 2', '$14.00'],
-  ['Lunchbox x 2', '$16.00'],
-  ['Sneakers, Tom', '$30.00'],
-];
-
-const BASKET_TOTAL = '$87.40';
-
 function drawBasket(ctx: CanvasRenderingContext2D, b: Box) {
   let y = header(ctx, b, 'Basket', 'Instacart');
   const left = b.x + 44;
   const right = b.x + b.w - 44;
   const max = b.w - 88 - 140;
 
-  for (const [item, price] of BASKET) {
+  for (const [item, price] of BASKET_ITEMS) {
     ctx.font = "400 30px 'Roobert', sans-serif";
     ctx.fillStyle = 'rgba(26, 26, 26, 0.78)';
     ctx.fillText(fit(ctx, item, max), left, y);
@@ -252,7 +234,7 @@ function drawBasket(ctx: CanvasRenderingContext2D, b: Box) {
   y += 40;
   ctx.font = "500 30px 'Roobert', sans-serif";
   ctx.fillStyle = MUTED;
-  ctx.fillText(`${BASKET.length} items`, left, y);
+  ctx.fillText(`${BASKET_COUNT} items`, left, y);
 
   ctx.textAlign = 'right';
   ctx.font = "600 34px 'Roobert', sans-serif";
@@ -298,10 +280,27 @@ export function drawCard(
   ctx.roundRect(b.x, b.y, b.w, b.h, [RADIUS, RADIUS, 0, 0]);
   ctx.clip();
 
-  if (card.kind === 'record') drawRecord(ctx, b);
-  else if (card.kind === 'audio') drawAudio(ctx, b, card.time);
-  else if (card.kind === 'email') drawEmail(ctx, b, card.sent);
-  else drawBasket(ctx, b);
+  switch (card.kind) {
+    case 'record':
+      drawRecord(ctx, b);
+      break;
+    case 'audio':
+      drawAudio(ctx, b, card.time);
+      break;
+    case 'email':
+      drawEmail(ctx, b, card.sent);
+      break;
+    case 'basket':
+      drawBasket(ctx, b);
+      break;
+    default: {
+      // A new CardKind lands here as a compile error rather than silently
+      // drawing a basket for it, which is what the if/else chain this
+      // replaced would have done.
+      const exhaustive: never = card.kind;
+      throw new Error(`Unhandled card kind: ${exhaustive}`);
+    }
+  }
 
   ctx.restore();
 }

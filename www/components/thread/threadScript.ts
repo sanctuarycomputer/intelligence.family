@@ -9,6 +9,8 @@
  * The O'Hagans are the synthetic seed family from fam-api/fixtures/seeds.
  */
 
+import { BASKET_SUMMARY, BASKET_TOTAL } from './basket';
+
 /** Which beat of its exchange an entry appears on. See timeline.ts BEAT. */
 export type Beat =
   | 'question'
@@ -75,8 +77,8 @@ export const THREAD: ThreadEntry[] = [
     beat: 'trailing',
     kind: 'checkoutLink',
     merchant: 'Instacart',
-    summary: '6 items · Back to school',
-    total: '$87.40',
+    summary: BASKET_SUMMARY,
+    total: BASKET_TOTAL,
   },
   {
     id: 'a4-paid',

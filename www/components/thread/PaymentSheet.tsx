@@ -10,16 +10,8 @@
  * phone itself does.
  */
 
+import { BASKET_ITEMS, BASKET_SUMMARY, BASKET_TOTAL } from './basket';
 import { OUT } from './bubbles';
-
-const ITEMS: Array<[string, string]> = [
-  ['Composition books x 8', '$12.00'],
-  ['Highlighters x 2', '$8.50'],
-  ['Reading log', '$6.90'],
-  ['Pencil case x 2', '$14.00'],
-  ['Lunchbox x 2', '$16.00'],
-  ['Sneakers, Tom', '$30.00'],
-];
 
 function AppleMark() {
   return (
@@ -83,13 +75,11 @@ export default function PaymentSheet({
           <span className="text-[15px] font-semibold text-black">
             Instacart
           </span>
-          <span className="text-[11.5px] text-black/45">
-            6 items · Back to school
-          </span>
+          <span className="text-[11.5px] text-black/45">{BASKET_SUMMARY}</span>
         </div>
 
         <div className="border-t border-black/[0.08] px-[18px] pt-[8px]">
-          {ITEMS.map(([item, price]) => (
+          {BASKET_ITEMS.map(([item, price]) => (
             <div
               key={item}
               className="flex items-center justify-between py-[4px]"
@@ -105,7 +95,7 @@ export default function PaymentSheet({
         <div className="mt-[6px] flex items-center justify-between border-t border-black/[0.08] px-[18px] py-[10px]">
           <span className="text-[13px] font-medium text-black/55">Total</span>
           <span className="text-[17px] font-semibold tabular-nums text-black">
-            $87.40
+            {BASKET_TOTAL}
           </span>
         </div>
 
