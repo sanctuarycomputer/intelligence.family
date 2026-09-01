@@ -3,6 +3,8 @@ import { discreteKey, idleState, stateAt } from '@/components/demo/demoState';
 import {
   BEAT,
   CHECKOUT,
+  COMPACT_POSE,
+  COMPACT_START_POSE,
   END,
   INTRO,
   EXCHANGES,
@@ -273,6 +275,64 @@ describe('stateAt', () => {
     expect(
       Math.abs(stateAt(EXCHANGES[0].start).camera.dist - b.dist)
     ).toBeLessThan(travel * 0.2);
+  });
+});
+
+/* Narrow viewports. The device is off screen until the demo runs, and the
+   complaint that produced these tests was that it then simply faded in: a still
+   image appearing, with nothing to say the scene was 3D. So the compact camera
+   has to actually travel — angle, distance and pan all changing — and land. */
+describe('stateAt, compact', () => {
+  const compact = (t: number) => stateAt(t, true);
+
+  it('starts away from where it ends, on every axis that reads as depth', () => {
+    const a = compact(0).camera;
+    const b = compact(END).camera;
+
+    // The angle: the shell turns as it arrives, which is the parallax.
+    expect(a.dir).not.toEqual(b.dir);
+    // The distance: it comes towards the viewer rather than only across.
+    expect(a.dist).toBeGreaterThan(b.dist);
+    // The pan: it enters from above its box rather than materialising in it.
+    expect(a.offsetY).toBeLessThan(b.offsetY);
+
+    expect(a).toEqual(COMPACT_START_POSE);
+    expect(b).toEqual(COMPACT_POSE);
+  });
+
+  it('closes the distance in one direction only, and holds once home', () => {
+    let last = compact(0).camera.dist;
+    for (let t = 0; t <= INTRO.compactCameraDur; t += 0.02) {
+      const next = compact(t).camera.dist;
+      expect(next).toBeLessThanOrEqual(last + 1e-9);
+      last = next;
+    }
+
+    const settled = INTRO.compactCameraStart + INTRO.compactCameraDur;
+    expect(compact(settled).camera).toEqual(COMPACT_POSE);
+    expect(compact(settled + 1).camera).toEqual(COMPACT_POSE);
+  });
+
+  /* It shares the screen with the phone rising, and the two are one movement.
+     Well clear of the first question either way: the arrival should be over
+     before there is anything to read. */
+  it('arrives with the phone, and before the conversation starts', () => {
+    const done = INTRO.compactCameraStart + INTRO.compactCameraDur;
+    expect(done).toBeLessThan(EXCHANGES[0].start);
+    expect(Math.abs(done - (INTRO.phoneStart + INTRO.phoneDur))).toBeLessThan(
+      0.5
+    );
+  });
+
+  it('is parked at the start pose while idle, so replay moves it again', () => {
+    expect(idleState(true).camera).toEqual(COMPACT_START_POSE);
+  });
+
+  /* Reduced motion runs the demo as stateAt(END), which must land the device
+     in its corner rather than leaving it half-arrived off the top edge. */
+  it('lands the device even when the whole run is skipped to the end', () => {
+    expect(compact(END).camera).toEqual(COMPACT_POSE);
+    expect(compact(END).cameraProgress).toBe(1);
   });
 });
 

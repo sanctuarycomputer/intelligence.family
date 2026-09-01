@@ -40,6 +40,12 @@ export type LabelSpec = {
 export const INTRO = {
   cameraStart: 0.25,
   cameraDur: 3.4,
+  /* Narrow, the camera is not getting the device out of the way — it is
+     bringing it on. So it starts on the instant and takes about as long as the
+     phone's rise, on the same GLIDE curve the rise uses: the two are one
+     movement, and the device lands as the conversation opens. */
+  compactCameraStart: 0,
+  compactCameraDur: 1.6,
   /* The phone starts the instant play is pressed, alongside the camera. Held
      back even slightly, it reads as waiting for the device to get out of the
      way before daring to appear. */
@@ -267,6 +273,32 @@ export const RESTING_POSE: CameraPose = {
 };
 
 /**
+ * Narrow viewports, before the camera arrives: high, wide and a way back, with
+ * the device pushed up out of the top of its box.
+ *
+ * The device is not on screen on a phone until the demo runs, so it has to get
+ * there somehow, and fading it in where it will end up says nothing about what
+ * it is. Coming down and around into place does: the angle changes, the shell
+ * turns, near edges move further than far ones, and the thing reads as an
+ * object in a room rather than a picture of one. All three cues are here on
+ * purpose — a pan alone would look like a sprite sliding.
+ *
+ * The pan is the one number tuned against the box rather than the model.
+ * offsetY is negative, which lifts the device in frame; -0.34 radius is enough
+ * to clear the top edge on the short 26dvh box without throwing it so far out
+ * that the first third of the move is empty screen.
+ */
+export const COMPACT_START_POSE: CameraPose = {
+  /* ~24 degrees of yaw and ~11 of pitch off COMPACT_POSE. Enough to see the
+     shell turn; much more and the display swings edge-on and the lock screen
+     is a bright sliver for the first half second. */
+  dir: [-0.52, 0.67, 0.53],
+  dist: 1.05,
+  offsetX: 0,
+  offsetY: -0.34,
+};
+
+/**
  * Narrow viewports: the device centred in its own corner of the screen.
  *
  * No pan at all. Below the breakpoint the scene's canvas is a small box pinned
@@ -276,8 +308,8 @@ export const RESTING_POSE: CameraPose = {
  * phone aspect ratio, which is exactly the sort of number that is right on the
  * device it was tuned on and wrong everywhere else.
  *
- * One pose rather than a pair: there is nowhere on a phone to drift to, and the
- * device is not on screen before the demo starts.
+ * Where the compact camera comes to rest. It starts at COMPACT_START_POSE and
+ * arrives here; nothing moves it afterwards.
  */
 export const COMPACT_POSE: CameraPose = {
   dir: [-0.29, 0.51, 0.81],
