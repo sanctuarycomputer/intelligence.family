@@ -20,8 +20,6 @@ import {
   REPLAY_AT,
   COMPACT_POSE,
   RESTING_POSE,
-  SENT_AT,
-  SENT_LABEL,
   type CameraPose,
   type CardKind,
   type LabelSpec,
@@ -230,13 +228,17 @@ export function stateAt(t: number, compact = false): DemoState {
         ? 0
         : progress(now, at(BEAT.cardDown), BEAT.cardDownDur, EXIT);
       cardY = Math.max(0, up - down);
-      cardSent = ex.card === 'email' && now >= at(SENT_AT);
+      cardSent = ex.sentAt !== undefined && now >= at(ex.sentAt);
     }
 
     // The label waits for the card to be most of the way up, so it never
     // points at empty screen.
     if (now >= at(BEAT.label) && cardY > 0.5) {
-      labels.push(cardSent ? { ...ex.label, text: SENT_LABEL } : ex.label);
+      labels.push(
+        cardSent && ex.sentLabel
+          ? { ...ex.label, text: ex.sentLabel }
+          : ex.label
+      );
     }
   }
 
@@ -246,8 +248,12 @@ export function stateAt(t: number, compact = false): DemoState {
   if (lastEx.keepCard && now >= lastEx.start + lastEx.duration) {
     card = lastEx.card;
     cardY = 1;
-    cardSent = true;
-    labels.push({ ...lastEx.label, text: SENT_LABEL });
+    cardSent = lastEx.sentAt !== undefined;
+    labels.push(
+      cardSent && lastEx.sentLabel
+        ? { ...lastEx.label, text: lastEx.sentLabel }
+        : lastEx.label
+    );
   }
 
   return {

@@ -88,6 +88,17 @@ export type Exchange = {
   label: LabelSpec;
   /** Exchange 3 leaves its card up: the demo parks on it. */
   keepCard?: boolean;
+  /**
+   * When this exchange's card flips to its finished state, as an offset from
+   * the exchange's own start. Absent means the card never flips.
+   *
+   * On the exchange rather than matched off the card kind, because the last
+   * card shown is not necessarily one that flips, and the park branch has to
+   * be able to ask rather than assume.
+   */
+  sentAt?: number;
+  /** What the card's label reads once it has flipped. */
+  sentLabel?: string;
 };
 
 const screenLabel = (id: string, text: string): LabelSpec => ({
@@ -99,6 +110,10 @@ const screenLabel = (id: string, text: string): LabelSpec => ({
   anchor: { kind: 'screen', u: 0.76, v: 0.38 },
   side: 'right',
 });
+
+/** The email card's header flips at this offset, and so does its label. */
+export const SENT_AT = BEAT.trailing;
+export const SENT_LABEL = 'gmail · sent';
 
 export const EXCHANGES: Exchange[] = [
   {
@@ -122,12 +137,10 @@ export const EXCHANGES: Exchange[] = [
     card: 'email',
     label: screenLabel('artifact-email', 'gmail · compose'),
     keepCard: true,
+    sentAt: SENT_AT,
+    sentLabel: SENT_LABEL,
   },
 ];
-
-/** The email card's header flips at this offset, and so does its label. */
-export const SENT_AT = BEAT.trailing;
-export const SENT_LABEL = 'gmail · sent';
 
 /* ------------------------------------------------------------------ */
 /* Ending                                                              */

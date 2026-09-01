@@ -141,6 +141,25 @@ describe('stateAt', () => {
     }
   });
 
+  /* The flip is a property of the exchange that does it, not of a card kind
+     matched by name. The commerce card is about to be the last one up and it
+     never flips, so an unconditional `cardSent = true` in the park branch
+     would light a "sent" label on a basket. */
+  it('only flips a card whose exchange says when', () => {
+    for (const ex of EXCHANGES) {
+      const settled = stateAt(ex.start + BEAT.label + EPS);
+      if (ex.sentAt === undefined) {
+        expect(settled.cardSent, ex.id).toBe(false);
+        expect(stateAt(ex.start + ex.duration - EPS).cardSent, ex.id).toBe(
+          false
+        );
+      } else {
+        expect(stateAt(ex.start + ex.sentAt - EPS).cardSent, ex.id).toBe(false);
+        expect(stateAt(ex.start + ex.sentAt).cardSent, ex.id).toBe(true);
+      }
+    }
+  });
+
   it('keeps the last card up and lets the others fall', () => {
     for (const ex of EXCHANGES) {
       const settled = stateAt(ex.start + BEAT.label + EPS);
