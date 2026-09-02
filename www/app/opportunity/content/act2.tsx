@@ -67,8 +67,8 @@ const deviceDemoPage = (
   <DeckPage key={11} n={11} actClass={ACT_CLASS} bleed={<DeckDemo />}>
     <div className="deck-demo-copy">
       <Statement
-        title="Take better care of your family than ever before."
-        sub="The most capable home assistant on the market"
+        title="Take better care of your family than ever before"
+        sub="The smartest and safest home assistant on the market."
         belowSub={<DemoControls />}
       >
         Automate shopping and bill payments, balance the household budget, help

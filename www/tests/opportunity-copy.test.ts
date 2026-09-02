@@ -82,7 +82,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const titles = [
       'Our first device is for families',
-      'Take better care of your family than ever before.',
+      'Take better care of your family than ever before',
       'Your own family vault',
       'Convenience of the cloud. Privacy of the home.',
       'A context window for smart homes',
@@ -100,7 +100,7 @@ describe('opportunity deck copy contract', () => {
     const src = readFileSync(path.join(dir, 'act2.tsx'), 'utf8');
     const subs = [
       'High emotional value, sensitive data, and a GPU in the living room.',
-      'The most capable home assistant on the market',
+      'The smartest and safest home assistant on the market.',
       "Local-first models don't make you choose.",
       'The device solves age old family archive problems overnight.',
       'Inference for every IoT device on the network.',
