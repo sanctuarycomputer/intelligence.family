@@ -123,30 +123,6 @@ export default function Home() {
                   .
                 </p>
               </div>
-
-              <div className="mt-24">
-                <p className="text-sm text-fi-black-900/70">
-                  By{' '}
-                  <a
-                    href="https://usb.club"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:no-underline"
-                  >
-                    USB Club
-                  </a>{' '}
-                  and{' '}
-                  <a
-                    href="https://garden3d.net"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:no-underline"
-                  >
-                    garden3d
-                  </a>
-                  .
-                </p>
-              </div>
             </div>
           </div>
         </div>
