@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { discreteKey, idleState, stateAt } from '@/components/demo/demoState';
 import {
@@ -15,6 +17,30 @@ import { THREAD } from '@/components/thread/threadScript';
 
 /** A hair either side of a cue, to pin the exact frame it fires on. */
 const EPS = 0.01;
+
+const globalsCss = () =>
+  readFileSync(path.join(__dirname, '..', 'app', 'globals.css'), 'utf8');
+
+/**
+ * How long a thread bubble takes to arrive, in seconds, read out of the
+ * stylesheet that actually animates it.
+ *
+ * Read rather than typed so the timing guards below cannot drift away from the
+ * animation they are reasoning about: shorten `thread-in` and the tap that has
+ * to clear it moves with it.
+ */
+function threadInSeconds(): number {
+  const match = globalsCss().match(
+    /\.thread-entry\s*\{[^}]*animation:\s*thread-in\s+(\d+)ms/
+  );
+  expect(
+    match,
+    'app/globals.css: .thread-entry { animation: thread-in Nms } not found'
+  ).not.toBeNull();
+  return Number(match![1]) / 1000;
+}
+
+const THREAD_IN = threadInSeconds();
 
 describe('stateAt', () => {
   it('clamps outside the run', () => {
@@ -529,9 +555,7 @@ describe('the commerce exchange', () => {
     expect(CHECKOUT.sheetUp + CHECKOUT.sheetDur).toBeLessThan(CHECKOUT.payTap);
     expect(CHECKOUT.payTap).toBeLessThan(CHECKOUT.paid);
     expect(CHECKOUT.paid).toBeLessThan(CHECKOUT.sheetDown);
-    expect(CHECKOUT.sheetDown + CHECKOUT.sheetDownDur).toBeLessThan(
-      ex().duration
-    );
+    expect(CHECKOUT.sheetDown + CHECKOUT.sheetDur).toBeLessThan(ex().duration);
   });
 
   it('never raises the sheet during any other exchange', () => {
@@ -569,16 +593,23 @@ describe('the commerce exchange', () => {
     ]);
   });
 
-  /* The link has to be on screen before a tap lands on it, and the receipt
-     must not arrive until the sheet has gone. */
+  /* The link has to have finished arriving before a tap lands on it, and the
+     receipt must not arrive until the sheet has gone.
+
+     Strictly greater than the bubble's whole entrance, not merely at or after
+     the bubble's due time. A tap on the mount frame is worse than an early
+     one: the element mounts already carrying `is-tapped`, and because a CSS
+     transition does not run on an initial computed value, the press plays
+     backwards — pre-pressed, then growing. toBeLessThanOrEqual permitted
+     exactly that and it shipped. */
   it('sequences the bubbles around the sheet', () => {
     const due = (id: string) => {
       const entry = THREAD.find(e => e.id === id)!;
       return at(BEAT[entry.beat]);
     };
-    expect(due('a4-link')).toBeLessThanOrEqual(at(CHECKOUT.linkTap));
+    expect(at(CHECKOUT.linkTap)).toBeGreaterThan(due('a4-link') + THREAD_IN);
     expect(due('a4-paid')).toBeGreaterThan(
-      at(CHECKOUT.sheetDown + CHECKOUT.sheetDownDur)
+      at(CHECKOUT.sheetDown + CHECKOUT.sheetDur)
     );
     expect(due('a4-tracking')).toBeGreaterThan(due('a4-paid'));
   });

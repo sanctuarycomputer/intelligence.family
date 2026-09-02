@@ -160,8 +160,14 @@ const ATTRIBUTION_DUE: number[] = THREAD.flatMap((entry, i) =>
  * whatever angle the visitor has turned it to.
  */
 export function idleState(compact = false): DemoState {
+  const pose = compact ? COMPACT_START_POSE : HERO_POSE;
   return {
-    camera: compact ? COMPACT_START_POSE : HERO_POSE,
+    /* Copied, not handed out. HERO_POSE is deliberately mutable — the debug
+       panel's setHeroPose writes to it — so returning the singleton would let
+       any caller that adjusted "its own" snapshot rewrite the module constant,
+       and stateAt would quietly stop being a function of t. stateAt itself is
+       safe already: lerpPose always allocates. */
+    camera: { ...pose, dir: [...pose.dir] },
     cardY: 0,
     cameraProgress: 0,
     phoneUp: false,

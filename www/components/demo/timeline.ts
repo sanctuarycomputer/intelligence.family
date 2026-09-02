@@ -87,14 +87,13 @@ export const BEAT = {
   /* Only the commerce exchange uses these two. They live in BEAT rather than
      in CHECKOUT below because ENTRY_DUE looks every thread entry's beat up in
      this table, and a beat that is not here cannot schedule a bubble.
-     Moved 0.2s later than the spec's 6.6 and 7.2: the payment sheet is not
-     fully gone until CHECKOUT.sheetDown (6.3) + sheetDownDur (0.4) = 6.7, so
-     a "That's paid" reply at 6.6 would have landed while the sheet was still
-     a quarter of the way through sliding off the phone — the reply and the
-     sheet's own exit competing for the same moment. Pushing both beats to
-     6.8/7.4 lets the sheet finish first. */
-  settled: 6.8,
-  receipt: 7.4,
+     Later than the spec's 6.6 and 7.2: the payment sheet is not fully gone
+     until CHECKOUT.sheetDown (6.8) + sheetDur (0.45) = 7.25, so a "That's
+     paid" reply any earlier would land while the sheet was still sliding off
+     the phone — the reply and the sheet's own exit competing for the same
+     moment. 7.4 lets the sheet finish first, with 0.15s to spare. */
+  settled: 7.4,
+  receipt: 8.0,
 };
 
 export type Exchange = {
@@ -124,8 +123,8 @@ export type Exchange = {
    * start. Defaults to BEAT.cardDown.
    *
    * The commerce exchange needs its own: BEAT.cardDown (5.7) lands while the
-   * payment sheet is still up (CHECKOUT.sheetDown is 6.3, gone by 6.7) and
-   * before the tracking bubble arrives (BEAT.receipt, 7.4). Dropping the
+   * payment sheet is still up (CHECKOUT.sheetDown is 6.8, gone by 7.25) and
+   * before the tracking bubble arrives (BEAT.receipt, 8.0). Dropping the
    * basket on the shared cue would slide it away mid-payment. Only the
    * exchange that needs a later exit sets this; everyone else takes the
    * shared one.
@@ -141,17 +140,36 @@ export type Exchange = {
  * numbers into a table three exchanges have no use for.
  */
 export const CHECKOUT = {
-  /** A tap lands on the checkout link the box just sent. */
-  linkTap: 3.4,
-  /** How long a tap ripple is visible. Mirrored by .tap-ripple in globals.css. */
+  /**
+   * A tap lands on the checkout link the box just sent.
+   *
+   * Must clear the link bubble's own arrival, not merely follow it. The bubble
+   * is due at BEAT.trailing (3.4) and rides a 380ms `thread-in` entrance, so it
+   * has only just stopped moving at 3.78. A tap at 3.4 landed on the same frame
+   * the bubble mounted, which is worse than early: the element mounts already
+   * carrying `is-tapped`, a CSS transition does not run on an initial computed
+   * value, and the press reads backwards — the link appears pre-pressed and
+   * then grows. 3.9 gives it a beat of stillness first.
+   */
+  linkTap: 3.9,
+  /**
+   * How long a tap ripple is visible — how long the `is-tapped` class is on.
+   * Applied by MessageThread from this number; the CSS side (.thread-link and
+   * .pay-button) only says how fast the scale gets there, not how long it
+   * holds, so there is no duration to mirror.
+   */
   tapDur: 0.35,
-  sheetUp: 3.9,
-  /** Mirrored by the .pay-sheet transition in globals.css. */
+  sheetUp: 4.4,
+  /**
+   * Mirrored by the .pay-sheet transition in globals.css. One transition on
+   * the base class, so it carries the sheet in both directions — the exit
+   * takes this long too, and there is no separate down-duration to keep in
+   * step with it.
+   */
   sheetDur: 0.45,
-  payTap: 5.4,
-  paid: 5.8,
-  sheetDown: 6.3,
-  sheetDownDur: 0.4,
+  payTap: 5.9,
+  paid: 6.3,
+  sheetDown: 6.8,
 };
 
 const screenLabel = (id: string, text: string): LabelSpec => ({
@@ -315,7 +333,7 @@ export const COMPACT_POSE: CameraPose = {
   dir: [-0.29, 0.51, 0.81],
   /* Closer than a plain fit. The framing fits the model's bounding sphere,
      which includes its depth, so a distance of 1 leaves a visible margin all
-     round; 0.88 spends most of that on the device without clipping it. */
+     round; 0.85 spends most of that on the device without clipping it. */
   dist: 0.85,
   offsetX: 0,
   offsetY: 0,
