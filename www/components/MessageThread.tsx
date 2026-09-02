@@ -141,10 +141,25 @@ export default function MessageThread() {
            not just the phone's own drawn height. Read off the host itself
            rather than the dock: custom properties inherit, and the value is
            declared on the host (see .demo-stage-slide), not on the dock. */
+        const hostStyle = getComputedStyle(host);
         const hostTop =
-          parseFloat(
-            getComputedStyle(host).getPropertyValue('--demo-phone-top')
-          ) || 0;
+          parseFloat(hostStyle.getPropertyValue('--demo-phone-top')) || 0;
+        /* And the dock's `left` eats into the host's width the same way, so
+           hostScaleFor needs it for the same reason. Without it the phone was
+           fitted against a box starting 796px left of where the dock actually
+           begins, and its right edge ran past the screen between 1024 and
+           1186px wide — clipped rather than scrollable, since .deck sets
+           overflow-x: hidden.
+
+           Read off the dock's own resolved `left`, not the --demo-phone-left
+           property behind it. getComputedStyle hands back an unregistered
+           custom property as the token stream after var() substitution, not as
+           a computed length: --demo-phone-top is a bare `95px` and survives
+           parseFloat, but --demo-phone-left is a calc(), so this came back as
+           "calc(80px + 620px + 96px)" and parsed to NaN — silently 0, which is
+           the value that made the whole fix a no-op the first time. The used
+           `left` is always a plain pixel length. */
+        const hostLeft = parseFloat(getComputedStyle(el).left) || 0;
         /* Below WIDE_FROM the host box splits left/right (--slide-split in
            opportunity.css's `.demo-stage-slide`), and the phone only owns a
            strip of it, not the whole box. Without narrowing the width leg to
@@ -157,7 +172,16 @@ export default function MessageThread() {
           width < WIDE_FROM ? slidePhoneWidthBudget(rect.width) : rect.width;
         el.style.setProperty(
           '--phone-scale',
-          String(hostScaleFor(hostWidth, rect.height, width, height, hostTop))
+          String(
+            hostScaleFor(
+              hostWidth,
+              rect.height,
+              width,
+              height,
+              hostTop,
+              hostLeft
+            )
+          )
         );
       };
       fit();

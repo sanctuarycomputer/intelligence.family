@@ -517,3 +517,54 @@ describe('CSS mirror constants', () => {
     ).toBeCloseTo(Number(match![1]), 10);
   });
 });
+
+/* The horizontal twin of the hostTop overhang, and the more damaging one:
+   `.deck` sets overflow-x: hidden, so a phone that runs past the right edge is
+   sliced off rather than scrolled to. Asserted against the dock's *real* right
+   edge (`--demo-phone-left` + the drawn width), not against the budget the fit
+   was handed — checking the phone fits the box it was fitted to is the
+   tautology that let the vertical version of this ship green.
+
+   The band that actually broke is 1024-1186px: 1024x768 is a projector, and
+   1024x1366 is an iPad Pro in portrait, where the phone overhung by 162px. */
+describe('a wide deck slide keeps the phone on screen horizontally', () => {
+  /* opportunity.css: --demo-phone-left is
+     calc(var(--container-padding) + 620px + 96px). Read the two literals out of
+     the stylesheet so this cannot drift from the value the browser computes. */
+  const phoneLeft = () => {
+    const css = readFileSync(
+      path.join(__dirname, '..', 'app', 'opportunity', 'opportunity.css'),
+      'utf8'
+    );
+    const match = css.match(
+      /--demo-phone-left:\s*calc\(var\(--container-padding\)\s*\+\s*(\d+)px\s*\+\s*(\d+)px\)/
+    );
+    expect(
+      match,
+      'app/opportunity/opportunity.css: --demo-phone-left calc() not found'
+    ).not.toBeNull();
+    // --container-padding is 80px at these widths.
+    return 80 + Number(match![1]) + Number(match![2]);
+  };
+
+  const CHROME_BAR = 57;
+  const HOST_TOP = 95;
+
+  it.each([
+    [1024, 768],
+    [1024, 1366],
+    [1100, 926],
+    [1100, 1200],
+    [1186, 1000],
+    [1280, 800],
+    [1440, 900],
+  ])('fits the dock inside %ix%i', (vw, vh) => {
+    const left = phoneLeft();
+    const scale = hostScaleFor(vw, vh - CHROME_BAR, vw, vh, HOST_TOP, left);
+    const dockRight = left + PHONE_W * scale;
+    expect(
+      dockRight,
+      `at ${vw}x${vh} the dock's right edge lands at ${dockRight.toFixed(1)}, past the ${vw}px viewport`
+    ).toBeLessThanOrEqual(vw);
+  });
+});

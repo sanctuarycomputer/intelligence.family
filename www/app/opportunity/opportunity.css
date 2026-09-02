@@ -144,6 +144,25 @@
   }
 }
 
+/* globals.css starts the orbit surface at `left: 52%`, tuned for the
+   homepage, where the About column ends left of the midpoint. This slide's
+   copy runs further right — `.deck-demo-copy` to 700px, `.deck-body` to 580 —
+   so at 1024-1280px that 52% lands *inside* the paragraph. The surface sits at
+   z-index 15 with pointer-events, so the right edge of the body copy could not
+   be selected, and since releasing a press over it starts the demo (with no
+   distance threshold, deliberately, so a plain click counts), clicking the
+   text began playing the demo out from under the reader.
+
+   Start it where the phone starts instead. --demo-phone-left is already the
+   "right of the copy column" boundary this page computes for exactly that
+   purpose, so the two cannot drift apart: widen the copy and the orbit
+   surface steps aside with it. */
+@media (min-width: 1024px) {
+  .demo-stage-slide .device-orbit {
+    left: var(--demo-phone-left);
+  }
+}
+
 /* Keeps the copy column that sits over the stage from running under the
    phone: matches the width `--demo-phone-left` above budgets for it. */
 .deck-demo-copy {

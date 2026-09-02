@@ -115,7 +115,8 @@ export function hostScaleFor(
   hostHeight: number,
   viewportWidth: number,
   viewportHeight: number,
-  hostTop = 0
+  hostTop = 0,
+  hostLeft = 0
 ): number {
   const wideWithOffset = viewportWidth >= WIDE_FROM && hostTop > 0;
   const narrowBottomAnchored = viewportWidth > 0 && viewportWidth < WIDE_FROM;
@@ -124,7 +125,23 @@ export function hostScaleFor(
     : narrowBottomAnchored
       ? hostHeight - COMPACT_BOTTOM_INSET
       : hostHeight;
-  const budgetWidth = wideWithOffset ? hostWidth * SCREEN_TOLERANCE : hostWidth;
+  /* The horizontal twin of hostTop, and it has to come out for exactly the
+     same reason. `.phone-dock` is placed at `left: var(--demo-phone-left)`
+     inside the host, so the width it actually has is the host minus that
+     offset. Fitting the phone against the host's full width measures a box
+     starting 796px left of where the dock really begins, and the dock's true
+     right edge — offset included — runs off the screen.
+
+     The viewport leg cannot catch this on its own: it would need
+     `viewportWidth * SCREEN_TOLERANCE <= viewportWidth - hostLeft`, i.e. a
+     viewport over 5000px wide before it ever binds. It was dead code for this
+     purpose at every width a person actually presents on, which is why the
+     phone was sliced off between 1024 and 1186px — a projector at 1024x768 and
+     an iPad Pro in portrait at 1024x1366 both land in that band, and `.deck`
+     sets overflow-x: hidden, so it clipped rather than scrolled. */
+  const budgetWidth = wideWithOffset
+    ? (hostWidth - hostLeft) * SCREEN_TOLERANCE
+    : hostWidth;
   return Math.min(
     fitScale(budgetWidth, budgetHeight),
     fitScale(
