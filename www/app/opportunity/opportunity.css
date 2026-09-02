@@ -1,3 +1,221 @@
+/* The demo's stage on the device slide: a direct child of `.deck-page`
+   (passed through DeckPage's `bleed` prop), given the whole slide rather
+   than a grid cell so it has the same proportions as the homepage's
+   full-viewport layer and the tuned camera poses produce the same framing.
+   No z-index here: `.deck-page` is `position: relative` with `z-index:
+   auto`, so it establishes no stacking context, and this absolutely
+   positioned child with `z-index: auto` establishes none either — the
+   scene, phone and labels inside resolve against `.deck-well` (z 2), the
+   nearest ancestor that actually creates one, exactly as they resolve
+   against `main` (z 10) on the homepage. Giving this a z-index would trap
+   all four layers together instead — that bug already shipped once on the
+   homepage host and was fixed by removing its z-index; don't reintroduce it
+   here. */
+.deck-demo {
+  position: absolute;
+  inset: 0;
+}
+
+.demo-stage-slide {
+  position: absolute;
+  inset: 0;
+  /* Mirrors the homepage's phone offset (padding + copy column + gap) using
+     this page's own --container-padding rather than the homepage's literal
+     80px, so the phone lands just right of the copy column at any width. */
+  --demo-phone-left: calc(var(--container-padding) + 620px + 96px);
+  /* Matches the homepage's own default (globals.css's `var(--demo-phone-top,
+     95px)` fallback) — declared here as a real value, not left to that
+     fallback, because phoneFit.ts's hostScaleFor has to read it and subtract
+     it from the box it fits against. A fallback baked into the var() call is
+     invisible to getComputedStyle: there is nothing to read back out of it,
+     so it could never be subtracted from anything. See hostScaleFor's
+     `hostTop` parameter. */
+  --demo-phone-top: 95px;
+  /* Below 1024px the stacked box splits left/right instead of centring the
+     phone over the device (see the media query below): this is the boundary
+     between the phone's share of the box's width and the device's. Declared
+     once and read by both of that query's rules so they can't drift apart
+     into two different splits. phoneFit.ts's SLIDE_PHONE_FRACTION mirrors
+     this value rather than reading it, the same way COMPACT_DEVICE_BOX_H
+     mirrors the homepage's 26dvh: percentages written into a custom property
+     don't resolve to a length getComputedStyle can read back, so JS has
+     nothing to parse here even if it looked. */
+  --slide-split: 0.42;
+  /* The owner's ask: let the two strips overlap by about a tenth of the box
+     width instead of sitting apart with a gap between them, so each can be
+     drawn bigger. Each strip extends half the overlap past --slide-split —
+     the phone strip runs 0 to split + overlap/2, the device strip runs
+     split - overlap/2 to 1 — so together they span the box plus exactly this
+     much double-covered band. SLIDE_OVERLAP in phoneFit.ts mirrors this
+     value for the same reason SLIDE_PHONE_FRACTION mirrors --slide-split. */
+  --slide-overlap: 0.1;
+}
+
+/* Below 1024px there is no room for the copy beside a full-bleed stage: the
+   stage (this page's `bleed`, rendered before `.deck-well`) would otherwise
+   sit under the whole slide and the copy's Play control would have nothing
+   under it but the dock's own bounding box. Stack instead of overlay: the
+   copy stays first in document order and the demo becomes a real box in flow
+   underneath it, at its own height, rather than an absolutely positioned
+   layer the copy floats over. Scoped to the one page that renders `.deck-demo`
+   as a direct child (DeckPage's `bleed` prop), so no other slide is touched. */
+@media (max-width: 1023px) {
+  .deck-page:has(> .deck-demo) {
+    /* The >=768px rule below fixes every slide's height to the viewport and
+       hides overflow; stacked copy-then-demo can run taller than that.
+       DeckShell's own ResizeObserver already drops fixed heights and
+       scroll-snap for any slide that outgrows its target (`.deck-no-snap`),
+       so nothing else here has to special-case this page for that. */
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  .deck-demo {
+    /* No longer the full slide: a real box in flow, ordered after the copy.
+       Its own children (.demo-scene, .phone-dock, ...) stay absolutely
+       positioned against it exactly as they are at any other width — only
+       this box's own position and size change here. */
+    position: relative;
+    inset: auto;
+    order: 1;
+    height: min(62dvh, 480px);
+  }
+  /* The owner's ask: in this box the phone and the device were overlapping —
+     globals.css's narrow rules centre the phone (`.phone-dock`) and pin the
+     device (`.demo-scene`) top-right, tuned for the homepage's full-viewport
+     stage, and the two overlap heavily in a box this size with the phone
+     painting in front (z 12 over z 1), hiding the device behind it. Split
+     the box left/right instead: phone on the left, device given the rest —
+     each strip reaching --slide-overlap/2 past the boundary so both can be
+     drawn larger than a clean split would allow. The device is a 3D render
+     centred in its own box, so the shared band eats into empty canvas around
+     it rather than the device itself, and the phone's z-index (12, above the
+     device's canvas at z 1) is what makes that the visible outcome. */
+  .demo-stage-slide .phone-dock {
+    left: 0;
+    transform: none;
+  }
+  .demo-stage-slide .demo-scene {
+    /* Overrides globals.css's narrow `inset: 0 0 auto auto` (pinned
+       top-right) and its viewport-relative 68vw/26dvh box — numbers tuned
+       for the homepage's full-viewport stage that have nothing to do with a
+       slide's own, much smaller `.deck-demo` box. `height: 100%` (of this
+       box, not a dvh slice of the *viewport* that happens to sit inside it)
+       fills the space beside the phone instead of leaving most of the box
+       empty above and below it. */
+    inset: 0 auto auto
+      calc((var(--slide-split) - var(--slide-overlap) / 2) * 100%);
+    width: calc((1 - var(--slide-split) + var(--slide-overlap) / 2) * 100%);
+    height: 100%;
+    /* globals.css keeps the device at opacity 0 until the demo plays, so the
+       homepage's masthead has something to fade into. This slide's whole
+       subject is the device and has no masthead to trade away, so at rest it
+       would just look like an empty box — show it immediately instead. */
+    opacity: 1;
+  }
+
+  /* Let a tap on the device itself start the demo, the way releasing an orbit
+     drag already does at desktop widths.
+
+     globals.css hides .device-orbit below 1024px, and rightly so for the
+     homepage: there the device is a dim backdrop behind the copy, and a
+     surface over it would swallow scrolls for no gain. Neither is true here —
+     this slide's whole subject is the device, it has its own strip beside the
+     phone, and it is drawn at full opacity at rest. So the reasoning behind
+     that rule doesn't reach this case, and the fix is scoped to this stage
+     rather than by relaxing the global.
+
+     The box is .demo-scene's strip, from the same two custom properties, so
+     the tap target is the device's own area and stops short of the phone's.
+     z-index 11 clears the scene canvas (1) and stays under the phone dock
+     (12), which owns the tap-off that stops a running demo. touch-action
+     leaves vertical scrolling to the page: below this breakpoint the slide is
+     stacked and taller than the viewport, so a surface that ate pan-y would
+     strand the reader on it. */
+  .demo-stage-slide .device-orbit {
+    position: absolute;
+    inset: 0 auto auto
+      calc((var(--slide-split) - var(--slide-overlap) / 2) * 100%);
+    width: calc((1 - var(--slide-split) + var(--slide-overlap) / 2) * 100%);
+    height: 100%;
+    z-index: 11;
+    display: block;
+    touch-action: pan-y;
+  }
+}
+
+/* globals.css starts the orbit surface at `left: 52%`, tuned for the
+   homepage, where the About column ends left of the midpoint. This slide's
+   copy runs further right — `.deck-demo-copy` to 700px, `.deck-body` to 580 —
+   so at 1024-1280px that 52% lands *inside* the paragraph. The surface sits at
+   z-index 15 with pointer-events, so the right edge of the body copy could not
+   be selected, and since releasing a press over it starts the demo (with no
+   distance threshold, deliberately, so a plain click counts), clicking the
+   text began playing the demo out from under the reader.
+
+   Start it where the phone starts instead. --demo-phone-left is already the
+   "right of the copy column" boundary this page computes for exactly that
+   purpose, so the two cannot drift apart: widen the copy and the orbit
+   surface steps aside with it. */
+@media (min-width: 1024px) {
+  .demo-stage-slide .device-orbit {
+    left: var(--demo-phone-left);
+  }
+}
+
+/* Keeps the copy column that sits over the stage from running under the
+   phone: matches the width `--demo-phone-left` above budgets for it. */
+.deck-demo-copy {
+  max-width: 620px;
+}
+
+/* Sits directly below the subtitle, ahead of the body copy: the button is
+   its own visual unit set off from the text above it, so it takes the same
+   margin-top .deck-band elsewhere uses to separate itself from the body
+   text it follows, rather than a value invented for this one spot. The gap
+   below it, before .deck-body's first line, comes for free from .deck-body's
+   own margin-top (28px) — no rule needed here for that side. */
+.deck-demo-copy .demo-play {
+  margin-top: 22px;
+}
+
+/* The idle button's default fill matches this act's own background (see
+   .deck-act-2 .demo-play above), so nothing marks it as clickable at a
+   glance. A short, periodic nudge — not a continuous wobble, which would be
+   irritating on an investor slide — calls attention to it every few seconds
+   while it waits to be pressed, then goes fully still for the rest of the
+   cycle. Gated on the phase DemoControls writes to <html>, so it only runs
+   before the demo starts; app/globals.css's prefers-reduced-motion block
+   mirrors this selector to turn it off there instead of opening a new
+   query here.
+
+   The control is easy to miss, so it nudges twice as often as it used to
+   (3s instead of 6s) — but the nudge itself should still take the same
+   0.48s to play out, not run at double speed. The keyframe percentages are
+   doubled alongside the halved duration for exactly that reason: 8% of 6s
+   and 16% of 3s are both 0.48s, so the motion's own pace is unchanged and
+   only how often it recurs doubles. */
+html[data-demo='idle'] .deck-demo-copy .demo-play {
+  animation: deck-demo-jiggle 3s ease-in-out infinite;
+}
+
+@keyframes deck-demo-jiggle {
+  0%,
+  16%,
+  100% {
+    transform: none;
+  }
+  4% {
+    transform: translateX(-3px) rotate(-3deg);
+  }
+  8% {
+    transform: translateX(3px) rotate(3deg);
+  }
+  12% {
+    transform: translateX(-2px) rotate(2deg);
+  }
+}
+
 /* Deck shell */
 .deck {
   /* The chrome bar's total height (fill + top rule). Slides after the
@@ -100,6 +318,24 @@ section.deck-page[id] {
 }
 .deck-act-2 {
   background: var(--fi-green-200);
+}
+/* .demo-play defaults to an fi-green-200 fill with fi-green-600 text (see
+   globals.css). Act II and Act IV both set that same fi-green-200 token as
+   their background, so a button using the default fill would disappear
+   into it the same way. Lifted here to the lightest token in the scale,
+   fi-green-100, scoped to the deck only, so the homepage's soft treatment
+   (the shared .demo-play rule) is untouched. */
+.deck-act-2 .demo-play,
+.deck-act-4 .demo-play {
+  background: var(--fi-green-100);
+  color: var(--fi-green-600);
+}
+/* fi-green-100 is already the lightest token, so hover has nowhere lighter
+   to go; step one down the scale instead, same as the homepage button's own
+   rest (fi-green-200) to hover (fi-green-300) move. */
+.deck-act-2 .demo-play:hover,
+.deck-act-4 .demo-play:hover {
+  background: var(--fi-green-300);
 }
 /* Cards can carry a small transparent PNG floating off their top-right
    corner; the card anchors it and lets it overflow. Solid card fills come

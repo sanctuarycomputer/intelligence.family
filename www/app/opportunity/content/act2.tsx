@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import DeckPage from '../components/DeckPage';
 import DeckVideo from '../components/DeckVideo';
+import DeckDemo from '../components/DeckDemo';
 import Ref from '../components/Ref';
+import DemoControls from '@/components/demo/DemoControls';
 import {
   Band,
   BigStat,
@@ -11,12 +13,10 @@ import {
   Statement,
 } from '../components/archetypes';
 
-// Kept local so this module never imports ./index (which imports this file).
-const TOTAL = 25;
 const ACT_CLASS = 'deck-act-2';
 
 const page7 = (
-  <DeckPage key={10} n={10} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={10} n={10} actClass={ACT_CLASS}>
     <div className="grid md:grid-cols-2 gap-10 items-center">
       <Statement
         title="Our first device is for families"
@@ -62,8 +62,30 @@ const page7 = (
   </DeckPage>
 );
 
+// prettier-ignore
+const deviceDemoPage = (
+  <DeckPage key={11} n={11} actClass={ACT_CLASS} bleed={<DeckDemo />}>
+    <div className="deck-demo-copy">
+      <Statement
+        title="Take better care of your family than ever before"
+        sub="The smartest and safest home assistant on the market."
+        belowSub={<DemoControls />}
+      >
+        Automate shopping and bill payments, balance the household budget, help
+        the kids with homework and stay on top of the family calendar.
+        <br />
+        <br />
+        <strong>
+          It works out of the box with no subscription required, saving the
+          family money on cloud AI.
+        </strong>
+      </Statement>
+    </div>
+  </DeckPage>
+);
+
 const page8 = (
-  <DeckPage key={11} n={11} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={12} n={12} actClass={ACT_CLASS}>
     <Split
       flip
       title="Your own family vault"
@@ -87,7 +109,7 @@ const page8 = (
 );
 
 const conveniencePage = (
-  <DeckPage key={12} n={12} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={13} n={13} actClass={ACT_CLASS}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/convenience-tunnel.png"
@@ -120,7 +142,7 @@ const conveniencePage = (
 );
 
 const contextPage = (
-  <DeckPage key={13} n={13} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={14} n={14} actClass={ACT_CLASS}>
     <Split
       flip
       title="A context window for smart homes"
@@ -154,7 +176,7 @@ const contextPage = (
 );
 
 const page12 = (
-  <DeckPage key={14} n={14} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={15} n={15} actClass={ACT_CLASS}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/device-family.png"
@@ -226,7 +248,7 @@ const page12 = (
 );
 
 const page10 = (
-  <DeckPage key={15} n={15} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={16} n={16} actClass={ACT_CLASS}>
     <BigStat
       stat="600M+"
       title="Home hubs are a proven category."
@@ -253,7 +275,7 @@ const page10 = (
 );
 
 const page11 = (
-  <DeckPage key={16} n={16} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={17} n={17} actClass={ACT_CLASS}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img
       src="/opportunity/family-shelf.png"
@@ -324,7 +346,7 @@ const page11 = (
 );
 
 const unitEconomicsPage = (
-  <DeckPage key={17} n={17} total={TOTAL} actClass={ACT_CLASS}>
+  <DeckPage key={18} n={18} actClass={ACT_CLASS}>
     <BigStat
       stat="2.1x"
       title="Paid back at point of sale"
@@ -351,6 +373,7 @@ const unitEconomicsPage = (
 
 export const ACT2_PAGES: ReactNode[] = [
   page7,
+  deviceDemoPage,
   page8,
   conveniencePage,
   contextPage,

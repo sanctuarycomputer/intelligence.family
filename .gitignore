@@ -6,3 +6,6 @@ venv/
 !www/.env
 # Local Claude Code config
 .claude/
+
+# Subagent-driven development scratch (ledger, briefs, review packages)
+.superpowers/

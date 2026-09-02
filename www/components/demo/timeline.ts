@@ -10,7 +10,7 @@
  * docs/homepage-demo-script.md.
  */
 
-export type CardKind = 'record' | 'audio' | 'email';
+export type CardKind = 'record' | 'audio' | 'email' | 'basket';
 
 /** Where a label points. */
 export type LabelAnchor =
@@ -83,6 +83,17 @@ export const BEAT = {
      question arrives while the last artifact is still on screen. */
   cardDown: 5.7,
   cardDownDur: 0.4,
+
+  /* Only the commerce exchange uses these two. They live in BEAT rather than
+     in CHECKOUT below because ENTRY_DUE looks every thread entry's beat up in
+     this table, and a beat that is not here cannot schedule a bubble.
+     Later than the spec's 6.6 and 7.2: the payment sheet is not fully gone
+     until CHECKOUT.sheetDown (6.8) + sheetDur (0.45) = 7.25, so a "That's
+     paid" reply any earlier would land while the sheet was still sliding off
+     the phone — the reply and the sheet's own exit competing for the same
+     moment. 7.4 lets the sheet finish first, with 0.15s to spare. */
+  settled: 7.4,
+  receipt: 8.0,
 };
 
 export type Exchange = {
@@ -94,6 +105,71 @@ export type Exchange = {
   label: LabelSpec;
   /** Exchange 3 leaves its card up: the demo parks on it. */
   keepCard?: boolean;
+  /**
+   * When this exchange's card flips to its finished state, as an offset from
+   * the exchange's own start. Absent means the card never flips.
+   *
+   * On the exchange rather than matched off the card kind, because the last
+   * card shown is not necessarily one that flips, and the park branch has to
+   * be able to ask rather than assume.
+   */
+  sentAt?: number;
+  /** What the card's label reads once it has flipped. */
+  sentLabel?: string;
+  /** Runs the CHECKOUT cues on top of the shared beats. */
+  checkout?: true;
+  /**
+   * When this exchange's card drops, as an offset from the exchange's own
+   * start. Defaults to BEAT.cardDown.
+   *
+   * The commerce exchange needs its own: BEAT.cardDown (5.7) lands while the
+   * payment sheet is still up (CHECKOUT.sheetDown is 6.8, gone by 7.25) and
+   * before the tracking bubble arrives (BEAT.receipt, 8.0). Dropping the
+   * basket on the shared cue would slide it away mid-payment. Only the
+   * exchange that needs a later exit sets this; everyone else takes the
+   * shared one.
+   */
+  cardDownAt?: number;
+};
+
+/**
+ * The checkout's own cues, offset from the commerce exchange's start.
+ *
+ * Separate from BEAT because these describe a sheet on the phone rather than
+ * the five steps every exchange shares, and folding them in would put seven
+ * numbers into a table three exchanges have no use for.
+ */
+export const CHECKOUT = {
+  /**
+   * A tap lands on the checkout link the box just sent.
+   *
+   * Must clear the link bubble's own arrival, not merely follow it. The bubble
+   * is due at BEAT.trailing (3.4) and rides a 380ms `thread-in` entrance, so it
+   * has only just stopped moving at 3.78. A tap at 3.4 landed on the same frame
+   * the bubble mounted, which is worse than early: the element mounts already
+   * carrying `is-tapped`, a CSS transition does not run on an initial computed
+   * value, and the press reads backwards — the link appears pre-pressed and
+   * then grows. 3.9 gives it a beat of stillness first.
+   */
+  linkTap: 3.9,
+  /**
+   * How long a tap ripple is visible — how long the `is-tapped` class is on.
+   * Applied by MessageThread from this number; the CSS side (.thread-link and
+   * .pay-button) only says how fast the scale gets there, not how long it
+   * holds, so there is no duration to mirror.
+   */
+  tapDur: 0.35,
+  sheetUp: 4.4,
+  /**
+   * Mirrored by the .pay-sheet transition in globals.css. One transition on
+   * the base class, so it carries the sheet in both directions — the exit
+   * takes this long too, and there is no separate down-duration to keep in
+   * step with it.
+   */
+  sheetDur: 0.45,
+  payTap: 5.9,
+  paid: 6.3,
+  sheetDown: 6.8,
 };
 
 const screenLabel = (id: string, text: string): LabelSpec => ({
@@ -106,34 +182,49 @@ const screenLabel = (id: string, text: string): LabelSpec => ({
   side: 'right',
 });
 
+/** The email card's header flips at this offset, and so does its label. */
+export const SENT_AT = BEAT.trailing;
+export const SENT_LABEL = 'gmail · sent';
+
 export const EXCHANGES: Exchange[] = [
   {
-    id: 'glaucoma',
+    id: 'booklist',
     start: 2.0,
+    duration: 10.0,
+    card: 'basket',
+    label: screenLabel('artifact-basket', 'instacart · basket'),
+    checkout: true,
+    // See the doc comment on cardDownAt: the shared BEAT.cardDown would pull
+    // the basket away while the payment sheet is still on the phone.
+    cardDownAt: 8.0,
+  },
+  {
+    id: 'glaucoma',
+    start: 12.0,
     duration: 6.5,
     card: 'record',
     label: screenLabel('artifact-record', 'gp-summary.pdf'),
   },
   {
     id: 'ballroom',
-    start: 8.5,
+    start: 18.5,
     duration: 6.5,
     card: 'audio',
     label: screenLabel('artifact-audio', 'maire-1971.m4a'),
   },
   {
     id: 'teachers',
-    start: 15.0,
+    start: 25.0,
     duration: 7.5,
     card: 'email',
     label: screenLabel('artifact-email', 'gmail · compose'),
+    sentAt: SENT_AT,
+    sentLabel: SENT_LABEL,
+    // The last exchange now, so this is what the demo parks on: the sent
+    // email rather than the basket.
     keepCard: true,
   },
 ];
-
-/** The email card's header flips at this offset, and so does its label. */
-export const SENT_AT = BEAT.trailing;
-export const SENT_LABEL = 'gmail · sent';
 
 /* ------------------------------------------------------------------ */
 /* Ending                                                              */
@@ -242,7 +333,7 @@ export const COMPACT_POSE: CameraPose = {
   dir: [-0.29, 0.51, 0.81],
   /* Closer than a plain fit. The framing fits the model's bounding sphere,
      which includes its depth, so a distance of 1 leaves a visible margin all
-     round; 0.88 spends most of that on the device without clipping it. */
+     round; 0.85 spends most of that on the device without clipping it. */
   dist: 0.85,
   offsetX: 0,
   offsetY: 0,

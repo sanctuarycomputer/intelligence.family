@@ -4,13 +4,21 @@ import { useEffect, useRef, useState } from 'react';
 import LeafIcon from '@/components/LeafIcon';
 import { subscribe } from '@/components/demo/demoClock';
 import { REPLY_ORDINAL, THREAD } from '@/components/thread/threadScript';
-import { phoneScaleFor } from '@/components/thread/phoneFit';
+import {
+  WIDE_FROM,
+  hostScaleFor,
+  phoneScaleFor,
+  slidePhoneWidthBudget,
+} from '@/components/thread/phoneFit';
+import PaymentSheet from '@/components/thread/PaymentSheet';
 import {
   AudioSnippet,
+  CheckoutLink,
   OUT,
   Out,
   Reply,
   Transcript,
+  TrackingLink,
   Typing,
   VoiceNote,
 } from '@/components/thread/bubbles';
@@ -37,12 +45,26 @@ export default function MessageThread() {
   const [attributed, setAttributed] = useState(0);
   const [typing, setTyping] = useState(false);
   const [phoneUp, setPhoneUp] = useState(false);
+  const [tap, setTap] = useState<'checkout' | 'pay' | null>(null);
+  const [sheetUp, setSheetUp] = useState(false);
+  const [sheetPaid, setSheetPaid] = useState(false);
   /* How much of the thread renders. Trails the clock on the way down only:
      replay empties the thread at once, and clearing it immediately would leave
      the phone blank for the whole of its fade. */
   const [shown, setShown] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const threadContentRef = useRef<HTMLDivElement>(null);
   const dockRef = useRef<HTMLDivElement>(null);
+  /* Read from inside the ResizeObserver callback below, which is set up once
+     on mount and so would otherwise close over the phoneUp of that first
+     render forever. A ref sidesteps re-creating the observer on every rise
+     and fall of the phone just to keep one closure current. Written from an
+     effect rather than during render — react-hooks/refs forbids mutating a
+     ref while rendering, even one that render itself never reads. */
+  const phoneUpRef = useRef(phoneUp);
+  useEffect(() => {
+    phoneUpRef.current = phoneUp;
+  }, [phoneUp]);
 
   useEffect(() => {
     let emptying: ReturnType<typeof setTimeout> | undefined;
@@ -50,6 +72,9 @@ export default function MessageThread() {
       setAttributed(s.attributed);
       setTyping(s.typing);
       setPhoneUp(s.phoneUp);
+      setTap(s.tap);
+      setSheetUp(s.sheetUp);
+      setSheetPaid(s.sheetPaid);
 
       if (s.visibleMessages > 0) {
         clearTimeout(emptying);
@@ -75,15 +100,104 @@ export default function MessageThread() {
    * and CSS cannot divide a length by a length to produce one — written as a
    * calc() it is silently invalid and the phone renders at full size.
    *
-   * Measured against the visual viewport where the browser exposes one. On a
-   * phone the layout viewport can be taller than what you can actually see,
-   * with a collapsing toolbar over the difference, and the phone is docked to
-   * the bottom edge — exactly the edge that would be hidden.
+   * The phone fits whatever box hosts it, and the viewport is that box only on
+   * the homepage: there, `.phone-dock` is `position: fixed`, so it has no
+   * `offsetParent`. On a deck slide `.phone-dock` is `position: absolute`
+   * inside `.demo-stage-slide`, a positioned box of its own — `offsetParent`
+   * is that element, and it stands in for the viewport below.
+   *
+   * With a host, its rect is the frame, fitted with `hostScaleFor` rather
+   * than `phoneScaleFor` — that margin models the homepage `main`'s own
+   * padding and would badly over-shrink a host with none of its own. A deck
+   * slide can now give the demo its entire stage, though, so the host box
+   * alone is not enough of a cap: `hostScaleFor` also fits the visual
+   * viewport (with a margin of its own) and takes whichever is tighter, so
+   * the phone can never grow past the screen just because its host did. That
+   * means the screen is an input to this branch too, not only the host, so it
+   * keeps the same window/`visualViewport` listeners as the branch below
+   * alongside the `ResizeObserver` on the host, which still catches host
+   * resizes the window doesn't cause.
+   *
+   * Without one, the frame is the visual viewport where the browser exposes
+   * one. On a phone the layout viewport can be taller than what you can
+   * actually see, with a collapsing toolbar over the difference, and the
+   * phone is docked to the bottom edge — exactly the edge that would be
+   * hidden.
    */
   useEffect(() => {
     const el = dockRef.current;
     if (!el) return;
+    const host = el.offsetParent as HTMLElement | null;
     const vv = window.visualViewport;
+
+    if (host) {
+      const fit = () => {
+        const rect = host.getBoundingClientRect();
+        const width = vv?.width ?? window.innerWidth;
+        const height = vv?.height ?? window.innerHeight;
+        /* `.phone-dock`'s own `top` (--demo-phone-top) eats into this same
+           host at wide widths, so hostScaleFor has to know it to keep the
+           dock's real bottom edge — top offset included — inside the host,
+           not just the phone's own drawn height. Read off the host itself
+           rather than the dock: custom properties inherit, and the value is
+           declared on the host (see .demo-stage-slide), not on the dock. */
+        const hostStyle = getComputedStyle(host);
+        const hostTop =
+          parseFloat(hostStyle.getPropertyValue('--demo-phone-top')) || 0;
+        /* And the dock's `left` eats into the host's width the same way, so
+           hostScaleFor needs it for the same reason. Without it the phone was
+           fitted against a box starting 796px left of where the dock actually
+           begins, and its right edge ran past the screen between 1024 and
+           1186px wide — clipped rather than scrollable, since .deck sets
+           overflow-x: hidden.
+
+           Read off the dock's own resolved `left`, not the --demo-phone-left
+           property behind it. getComputedStyle hands back an unregistered
+           custom property as the token stream after var() substitution, not as
+           a computed length: --demo-phone-top is a bare `95px` and survives
+           parseFloat, but --demo-phone-left is a calc(), so this came back as
+           "calc(80px + 620px + 96px)" and parsed to NaN — silently 0, which is
+           the value that made the whole fix a no-op the first time. The used
+           `left` is always a plain pixel length. */
+        const hostLeft = parseFloat(getComputedStyle(el).left) || 0;
+        /* Below WIDE_FROM the host box splits left/right (--slide-split in
+           opportunity.css's `.demo-stage-slide`), and the phone only owns a
+           strip of it, not the whole box. Without narrowing the width leg to
+           match, the box is usually wide enough that only its height ever
+           binds, and the phone would render at its full height-bound size —
+           wider than the strip CSS gives it — and spill into the device's
+           strip beside it. Wide, the box doesn't split, so the phone keeps
+           fitting the whole of it as it always has. */
+        const hostWidth =
+          width < WIDE_FROM ? slidePhoneWidthBudget(rect.width) : rect.width;
+        el.style.setProperty(
+          '--phone-scale',
+          String(
+            hostScaleFor(
+              hostWidth,
+              rect.height,
+              width,
+              height,
+              hostTop,
+              hostLeft
+            )
+          )
+        );
+      };
+      fit();
+      const observer = new ResizeObserver(fit);
+      observer.observe(host);
+      window.addEventListener('resize', fit);
+      window.addEventListener('orientationchange', fit);
+      vv?.addEventListener('resize', fit);
+      return () => {
+        observer.disconnect();
+        window.removeEventListener('resize', fit);
+        window.removeEventListener('orientationchange', fit);
+        vv?.removeEventListener('resize', fit);
+      };
+    }
+
     const fit = () => {
       const width = vv?.width ?? window.innerWidth;
       const height = vv?.height ?? window.innerHeight;
@@ -103,15 +217,44 @@ export default function MessageThread() {
     };
   }, []);
 
-  // Keep the newest bubble in view once the thread outgrows the frame.
+  /**
+   * Keep the newest bubble in view once the thread outgrows the frame.
+   *
+   * A ResizeObserver on the content, not a dependency array, because too
+   * many things change that content's height for a list of state values to
+   * ever be trusted to name them all: a bubble mounting, its citation line
+   * landing a beat later as separate state, the thread-in keyframe settling,
+   * a reply long enough to outgrow the frame on its own. Naming `shown` and
+   * `typing` here once already missed `attributed` — the citation arriving
+   * late is exactly the bug this replaces. Observing the content's actual
+   * box instead means anything that makes it taller re-pins the scroll,
+   * including whatever a future entry kind adds, without this effect having
+   * to be edited again.
+   *
+   * `scrollRef` is the clipped viewport `scrollTo` moves; `threadContentRef`
+   * is the unclipped column inside it whose natural height is what actually
+   * changes — the viewport's own box is fixed by the flex layout around it,
+   * so observing it directly would never fire.
+   */
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el) return;
-    el.scrollTo({
-      top: el.scrollHeight,
-      behavior: phoneUp ? 'smooth' : 'auto',
-    });
-  }, [shown, typing, phoneUp]);
+    const content = threadContentRef.current;
+    if (!el || !content) return;
+
+    const pin = () => {
+      const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+      el.scrollTo({
+        top: el.scrollHeight,
+        behavior: phoneUpRef.current && !reduceMotion ? 'smooth' : 'auto',
+      });
+    };
+
+    const observer = new ResizeObserver(pin);
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div ref={dockRef} className="phone-dock">
@@ -278,45 +421,70 @@ export default function MessageThread() {
               <span className="w-[12px] shrink-0" />
             </div>
 
-            {/* ===== Thread ===== */}
+            {/* ===== Thread =====
+                The outer div is the clipped viewport `scrollRef` moves; its
+                own box is fixed by the flex layout, so it never resizes with
+                its content and can't be what the ResizeObserver above
+                watches. `threadContentRef` below is the unclipped column
+                that actually grows and shrinks as entries arrive. */}
             <div
               ref={scrollRef}
-              className="flex flex-1 flex-col gap-[4px] overflow-hidden px-[13px] pb-2 pt-[6px]"
+              className="flex flex-1 flex-col overflow-hidden px-[13px] pb-2 pt-[6px]"
             >
-              {THREAD.slice(0, shown).map(entry => {
-                switch (entry.kind) {
-                  case 'voiceNote':
-                    return (
-                      <VoiceNote key={entry.id} duration={entry.duration} />
-                    );
-                  case 'transcript':
-                    return <Transcript key={entry.id} text={entry.text} />;
-                  case 'out':
-                    return <Out key={entry.id} text={entry.text} />;
-                  case 'reply':
-                    return (
-                      <Reply
-                        key={entry.id}
-                        text={entry.text}
-                        attribution={entry.attribution}
-                        attributionKind={entry.attributionKind}
-                        showAttribution={
-                          (REPLY_ORDINAL.get(entry.id) ?? 0) < attributed
-                        }
-                      />
-                    );
-                  case 'audioSnippet':
-                    return (
-                      <AudioSnippet
-                        key={entry.id}
-                        name={entry.name}
-                        duration={entry.duration}
-                      />
-                    );
-                }
-              })}
+              <div ref={threadContentRef} className="flex flex-col gap-[4px]">
+                {THREAD.slice(0, shown).map(entry => {
+                  switch (entry.kind) {
+                    case 'voiceNote':
+                      return (
+                        <VoiceNote key={entry.id} duration={entry.duration} />
+                      );
+                    case 'transcript':
+                      return <Transcript key={entry.id} text={entry.text} />;
+                    case 'out':
+                      return <Out key={entry.id} text={entry.text} />;
+                    case 'reply':
+                      return (
+                        <Reply
+                          key={entry.id}
+                          text={entry.text}
+                          attribution={entry.attribution}
+                          attributionKind={entry.attributionKind}
+                          showAttribution={
+                            (REPLY_ORDINAL.get(entry.id) ?? 0) < attributed
+                          }
+                        />
+                      );
+                    case 'audioSnippet':
+                      return (
+                        <AudioSnippet
+                          key={entry.id}
+                          name={entry.name}
+                          duration={entry.duration}
+                        />
+                      );
+                    case 'checkoutLink':
+                      return (
+                        <CheckoutLink
+                          key={entry.id}
+                          merchant={entry.merchant}
+                          summary={entry.summary}
+                          total={entry.total}
+                          tapped={tap === 'checkout'}
+                        />
+                      );
+                    case 'trackingLink':
+                      return (
+                        <TrackingLink
+                          key={entry.id}
+                          label={entry.label}
+                          detail={entry.detail}
+                        />
+                      );
+                  }
+                })}
 
-              {typing ? <Typing /> : null}
+                {typing ? <Typing /> : null}
+              </div>
             </div>
 
             {/* ===== Input bar ===== */}
@@ -365,6 +533,12 @@ export default function MessageThread() {
               {/* Home indicator */}
               <span className="mx-auto mt-[7px] block h-[5px] w-[134px] rounded-full bg-black/85" />
             </div>
+
+            <PaymentSheet
+              up={sheetUp}
+              paid={sheetPaid}
+              tapped={tap === 'pay'}
+            />
           </div>
         </div>
       </div>

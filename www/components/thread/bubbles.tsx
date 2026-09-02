@@ -174,6 +174,80 @@ export function AudioSnippet({
   );
 }
 
+/**
+ * The checkout link, drawn the way iMessage draws a rich link preview: a card
+ * rather than a line of blue text.
+ *
+ * `tapped` is the demo's stand-in for a finger. Nothing here is clickable, so
+ * the press has to be visible or the sheet appears to open by itself.
+ */
+export function CheckoutLink({
+  merchant,
+  summary,
+  total,
+  tapped,
+}: {
+  merchant: string;
+  summary: string;
+  total: string;
+  tapped: boolean;
+}) {
+  return (
+    <Entry>
+      <div
+        className={`mr-auto w-[86%] overflow-hidden rounded-[15px]${tapped ? ' is-tapped' : ''} thread-link`}
+        style={{ background: IN }}
+      >
+        <div className="flex items-center justify-between px-[13px] pb-[9px] pt-[10px]">
+          <span className="flex flex-col gap-[2px]">
+            <span className="text-[13px] font-medium leading-none text-black">
+              {merchant}
+            </span>
+            <span className="text-[11px] leading-none text-black/45">
+              {summary}
+            </span>
+          </span>
+          <span className="text-[15px] font-medium tabular-nums text-black">
+            {total}
+          </span>
+        </div>
+        <div
+          className="px-[13px] py-[7px] text-center text-[12.5px] font-medium"
+          style={{ background: 'rgba(0,0,0,0.05)', color: OUT }}
+        >
+          Check out
+        </div>
+      </div>
+    </Entry>
+  );
+}
+
+/** The receipt's tail: where the order can be followed. */
+export function TrackingLink({
+  label,
+  detail,
+}: {
+  label: string;
+  detail: string;
+}) {
+  return (
+    <Entry>
+      <div
+        className="mr-auto flex max-w-[86%] flex-col gap-[2px] rounded-[15px] px-[13px] py-[9px]"
+        style={{ background: IN }}
+      >
+        <span
+          className="text-[13px] font-medium leading-none"
+          style={{ color: OUT }}
+        >
+          {label}
+        </span>
+        <span className="text-[11px] leading-none text-black/45">{detail}</span>
+      </div>
+    </Entry>
+  );
+}
+
 /** The three dots, paired with the device's own thinking indicator. */
 export function Typing() {
   return (

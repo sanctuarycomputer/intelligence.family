@@ -60,12 +60,15 @@ export function Statement({
   title,
   sub,
   splash,
+  belowSub,
   children,
 }: {
   title: ReactNode;
   sub?: ReactNode;
   /** Oversized, minimal treatment for the act-transition splash pages. */
   splash?: boolean;
+  /** A block slotted between the subtitle and the body copy. */
+  belowSub?: ReactNode;
   children?: ReactNode;
 }) {
   return (
@@ -75,6 +78,7 @@ export function Statement({
     >
       <Title splash={splash}>{title}</Title>
       <Sub>{sub}</Sub>
+      {belowSub}
       <Body>{children}</Body>
     </div>
   );

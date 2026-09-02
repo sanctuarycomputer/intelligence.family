@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { subscribe } from '@/components/demo/demoClock';
+import { play, subscribe } from '@/components/demo/demoClock';
 import { DRAG_SPEED, addOrbit } from './orbit';
 
 /**
@@ -15,6 +15,13 @@ import { DRAG_SPEED, addOrbit } from './orbit';
  * Present only while the demo is idle. Once it is running the camera is the
  * script's, and a surface that quietly swallowed drags over a playing demo
  * would be worse than no surface at all.
+ *
+ * Letting go starts the demo. The Play control is easy to miss next to a
+ * device that already invites touch, so a visitor who reaches for the object
+ * itself — a curious drag, or even just a click that never moves — gets the
+ * same outcome as pressing play. There is deliberately no distance threshold:
+ * gating this on how far the pointer travelled would silently drop the plain
+ * click, which is the exact case this exists to catch.
  */
 export default function OrbitSurface() {
   const [idle, setIdle] = useState(false);
@@ -41,7 +48,22 @@ export default function OrbitSurface() {
     addOrbit(-dx * DRAG_SPEED, -dy * DRAG_SPEED);
   };
 
+  // A real release: the visitor let go, so this is the one path that starts
+  // the demo. `wasDragging` is true from `start` for any press on this
+  // surface, moved or not, which is what makes a plain click count too.
   const end = (e: React.PointerEvent<HTMLDivElement>) => {
+    const wasDragging = dragging.current;
+    dragging.current = false;
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+    if (wasDragging) play();
+  };
+
+  // A cancel is the browser taking the gesture away — a scroll winning a
+  // touch, another app claiming focus — not the visitor choosing to let go.
+  // Only clean up the drag state here; starting the demo belongs to `end`.
+  const cancel = (e: React.PointerEvent<HTMLDivElement>) => {
     dragging.current = false;
     if (e.currentTarget.hasPointerCapture(e.pointerId)) {
       e.currentTarget.releasePointerCapture(e.pointerId);
@@ -54,7 +76,7 @@ export default function OrbitSurface() {
       onPointerDown={start}
       onPointerMove={move}
       onPointerUp={end}
-      onPointerCancel={end}
+      onPointerCancel={cancel}
       aria-hidden="true"
     />
   );

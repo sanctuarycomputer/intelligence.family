@@ -11,6 +11,7 @@
  */
 
 import type { CardKind } from '../demo/timeline';
+import { BASKET_COUNT, BASKET_ITEMS, BASKET_TOTAL } from '../thread/basket';
 
 const CARD_BG = '#eef1ec';
 const CARD_EDGE = 'rgba(84, 102, 58, 0.22)';
@@ -203,6 +204,45 @@ function drawEmail(ctx: CanvasRenderingContext2D, b: Box, sent: boolean) {
   }
 }
 
+function drawBasket(ctx: CanvasRenderingContext2D, b: Box) {
+  let y = header(ctx, b, 'Basket', 'Instacart');
+  const left = b.x + 44;
+  const right = b.x + b.w - 44;
+  const max = b.w - 88 - 140;
+
+  for (const [item, price] of BASKET_ITEMS) {
+    ctx.font = "400 30px 'Roobert', sans-serif";
+    ctx.fillStyle = 'rgba(26, 26, 26, 0.78)';
+    ctx.fillText(fit(ctx, item, max), left, y);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = INK;
+    ctx.fillText(price, right, y);
+    ctx.textAlign = 'left';
+
+    y += 44;
+  }
+
+  y += 16;
+  ctx.strokeStyle = CARD_EDGE;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(left, y);
+  ctx.lineTo(right, y);
+  ctx.stroke();
+
+  y += 40;
+  ctx.font = "500 30px 'Roobert', sans-serif";
+  ctx.fillStyle = MUTED;
+  ctx.fillText(`${BASKET_COUNT} items`, left, y);
+
+  ctx.textAlign = 'right';
+  ctx.font = "600 34px 'Roobert', sans-serif";
+  ctx.fillStyle = SAGE;
+  ctx.fillText(BASKET_TOTAL, right, y);
+  ctx.textAlign = 'left';
+}
+
 /**
  * Draws the current artifact over the lock screen. A `y` of 0 draws nothing,
  * so the caller does not have to special-case the gaps between exchanges.
@@ -240,9 +280,27 @@ export function drawCard(
   ctx.roundRect(b.x, b.y, b.w, b.h, [RADIUS, RADIUS, 0, 0]);
   ctx.clip();
 
-  if (card.kind === 'record') drawRecord(ctx, b);
-  else if (card.kind === 'audio') drawAudio(ctx, b, card.time);
-  else drawEmail(ctx, b, card.sent);
+  switch (card.kind) {
+    case 'record':
+      drawRecord(ctx, b);
+      break;
+    case 'audio':
+      drawAudio(ctx, b, card.time);
+      break;
+    case 'email':
+      drawEmail(ctx, b, card.sent);
+      break;
+    case 'basket':
+      drawBasket(ctx, b);
+      break;
+    default: {
+      // A new CardKind lands here as a compile error rather than silently
+      // drawing a basket for it, which is what the if/else chain this
+      // replaced would have done.
+      const exhaustive: never = card.kind;
+      throw new Error(`Unhandled card kind: ${exhaustive}`);
+    }
+  }
 
   ctx.restore();
 }

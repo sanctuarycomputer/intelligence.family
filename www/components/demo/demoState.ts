@@ -13,6 +13,7 @@
 
 import {
   BEAT,
+  CHECKOUT,
   END,
   EXCHANGES,
   HERO_POSE,
@@ -21,8 +22,6 @@ import {
   COMPACT_POSE,
   COMPACT_START_POSE,
   RESTING_POSE,
-  SENT_AT,
-  SENT_LABEL,
   type CameraPose,
   type CardKind,
   type LabelSpec,
@@ -61,6 +60,16 @@ export type DemoState = {
   attributed: number;
   typing: boolean;
   showReplay: boolean;
+  /**
+   * The payment sheet is up. A boolean rather than a position, for the same
+   * reason phoneUp is: a CSS transition carries it, so it eases out on the way
+   * down too, and nothing has to write a transform every frame.
+   */
+  sheetUp: boolean;
+  /** The Apple Pay button has been pressed. */
+  sheetPaid: boolean;
+  /** Which element is showing a tap ripple, if any. */
+  tap: 'checkout' | 'pay' | null;
 };
 
 /**
@@ -126,13 +135,39 @@ for (let i = 1; i < ENTRY_DUE.length; i += 1) {
 }
 
 /**
+ * How long after a reply lands its attribution line arrives.
+ *
+ * Read off the shared beat table rather than written twice, so the gap stays
+ * one number. Applied per reply rather than per exchange: the commerce
+ * exchange sends two, and an exchange-level count could only ever light the
+ * first one's citation.
+ */
+export const ATTRIBUTION_LAG = BEAT.attribution - BEAT.reply;
+
+/**
+ * When each reply's attribution line is due, in absolute seconds.
+ *
+ * Replies appear in thread order, so this is ascending and `attributed` stays
+ * a prefix count — which is exactly what REPLY_ORDINAL indexes against.
+ */
+const ATTRIBUTION_DUE: number[] = THREAD.flatMap((entry, i) =>
+  entry.kind === 'reply' ? [ENTRY_DUE[i] + ATTRIBUTION_LAG] : []
+);
+
+/**
  * The idle state, before play is pressed: the device sitting still on the
  * right, nothing on screen but the leaves drifting across its own display and
  * whatever angle the visitor has turned it to.
  */
 export function idleState(compact = false): DemoState {
+  const pose = compact ? COMPACT_START_POSE : HERO_POSE;
   return {
-    camera: compact ? COMPACT_START_POSE : HERO_POSE,
+    /* Copied, not handed out. HERO_POSE is deliberately mutable — the debug
+       panel's setHeroPose writes to it — so returning the singleton would let
+       any caller that adjusted "its own" snapshot rewrite the module constant,
+       and stateAt would quietly stop being a function of t. stateAt itself is
+       safe already: lerpPose always allocates. */
+    camera: { ...pose, dir: [...pose.dir] },
     cardY: 0,
     cameraProgress: 0,
     phoneUp: false,
@@ -144,6 +179,9 @@ export function idleState(compact = false): DemoState {
     attributed: 0,
     typing: false,
     showReplay: false,
+    sheetUp: false,
+    sheetPaid: false,
+    tap: null,
   };
 }
 
@@ -178,12 +216,24 @@ export function stateAt(t: number, compact = false): DemoState {
     visibleMessages += 1;
   }
 
+  // Same shape as visibleMessages, and for the same reason: attributions are
+  // ordered, so "how many have arrived" is just how many are due.
+  let attributed = 0;
+  while (
+    attributed < ATTRIBUTION_DUE.length &&
+    now >= ATTRIBUTION_DUE[attributed]
+  ) {
+    attributed += 1;
+  }
+
   let thinking = false;
   let card: CardKind | null = null;
   let cardSent = false;
   let cardY = 0;
   let typing = false;
-  let attributed = 0;
+  let sheetUp = false;
+  let sheetPaid = false;
+  let tap: DemoState['tap'] = null;
   const labels: LabelSpec[] = [];
 
   for (const ex of EXCHANGES) {
@@ -193,8 +243,6 @@ export function stateAt(t: number, compact = false): DemoState {
     // Subtracting first loses the boundary: 9.1 + 2.75 - 9.1 is 2.7499999996,
     // so a cue would fire a frame late on one exchange and on time on another.
     const at = (beat: number) => ex.start + beat;
-
-    if (now >= at(BEAT.attribution)) attributed += 1;
 
     // The exchange holding the current moment drives the device. Once the next
     // one starts it takes over, except for the last, handled below.
@@ -208,15 +256,43 @@ export function stateAt(t: number, compact = false): DemoState {
       const up = progress(now, at(BEAT.cardUp), BEAT.cardDur, SETTLE);
       const down = ex.keepCard
         ? 0
-        : progress(now, at(BEAT.cardDown), BEAT.cardDownDur, EXIT);
+        : progress(
+            now,
+            at(ex.cardDownAt ?? BEAT.cardDown),
+            BEAT.cardDownDur,
+            EXIT
+          );
       cardY = Math.max(0, up - down);
-      cardSent = ex.card === 'email' && now >= at(SENT_AT);
+      cardSent = ex.sentAt !== undefined && now >= at(ex.sentAt);
     }
 
     // The label waits for the card to be most of the way up, so it never
     // points at empty screen.
     if (now >= at(BEAT.label) && cardY > 0.5) {
-      labels.push(cardSent ? { ...ex.label, text: SENT_LABEL } : ex.label);
+      labels.push(
+        cardSent && ex.sentLabel
+          ? { ...ex.label, text: ex.sentLabel }
+          : ex.label
+      );
+    }
+
+    if (ex.checkout) {
+      sheetUp = now >= at(CHECKOUT.sheetUp) && now < at(CHECKOUT.sheetDown);
+      // Held for the rest of the exchange rather than until the sheet is
+      // down: flipping back to unpaid while it is still sliding away would
+      // read as the payment being undone.
+      sheetPaid = now >= at(CHECKOUT.paid);
+      if (
+        now >= at(CHECKOUT.linkTap) &&
+        now < at(CHECKOUT.linkTap + CHECKOUT.tapDur)
+      ) {
+        tap = 'checkout';
+      } else if (
+        now >= at(CHECKOUT.payTap) &&
+        now < at(CHECKOUT.payTap + CHECKOUT.tapDur)
+      ) {
+        tap = 'pay';
+      }
     }
   }
 
@@ -226,8 +302,12 @@ export function stateAt(t: number, compact = false): DemoState {
   if (lastEx.keepCard && now >= lastEx.start + lastEx.duration) {
     card = lastEx.card;
     cardY = 1;
-    cardSent = true;
-    labels.push({ ...lastEx.label, text: SENT_LABEL });
+    cardSent = lastEx.sentAt !== undefined;
+    labels.push(
+      cardSent && lastEx.sentLabel
+        ? { ...lastEx.label, text: lastEx.sentLabel }
+        : lastEx.label
+    );
   }
 
   return {
@@ -245,6 +325,9 @@ export function stateAt(t: number, compact = false): DemoState {
     attributed,
     typing,
     showReplay: now >= REPLAY_AT,
+    sheetUp,
+    sheetPaid,
+    tap,
   };
 }
 
@@ -265,6 +348,9 @@ export function discreteKey(s: DemoState): string {
     s.phoneUp ? 1 : 0,
     s.typing ? 1 : 0,
     s.showReplay ? 1 : 0,
+    s.sheetUp ? 1 : 0,
+    s.sheetPaid ? 1 : 0,
+    s.tap ?? '-',
     s.labels.map(l => `${l.id}:${l.text}`).join(','),
   ].join('|');
 }

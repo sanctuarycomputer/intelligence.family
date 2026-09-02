@@ -688,11 +688,11 @@ p + h4 {
   outline-offset: 1px;
 }
 
-/* Full-viewport 3D layer. Behind the page content, so at rest the phone
-   occludes the device where they overlap. A fly-through can raise this to sit
-   in front by setting --device-layer-z. */
-.device-layer {
-  position: fixed;
+/* Fills the stage. Behind the page content, so at rest the phone occludes the
+   device where they overlap. A fly-through can raise this to sit in front by
+   setting --device-layer-z. */
+.demo-scene {
+  position: absolute;
   inset: 0;
   z-index: var(--device-layer-z, 1);
   pointer-events: none;
@@ -702,10 +702,55 @@ p + h4 {
    Homepage demo
    ============================================ */
 
+/* ---- the demo's box ---- */
+
+/* No positioning of its own: the host decides where the demo lives, and
+   everything inside lays out against this box rather than the viewport.
+   Needs a containing block, hence the relative — an absolutely positioned
+   child would otherwise escape all the way to the initial containing block.
+   Moot on the homepage host below, which generates no box of its own and so
+   has nothing for this to position — said explicitly rather than left to be
+   inferred from that fact. */
+.demo-stage {
+  position: relative;
+}
+
+/* The homepage's host. `display: contents` generates no box of its own, so
+   these children join the ROOT stacking context directly, exactly as the
+   four elements did before this was a component — rather than `position:
+   fixed` on this wrapper, which would create a stacking context of its own
+   and trap every z-index inside it, resolved only against each other rather
+   than against `main` (z-10 in app/page.tsx). The design straddles `main` on
+   purpose: the scene sits behind it, the phone/orbit/labels sit in front. No
+   single stacking context can reproduce that straddle, so this element must
+   not be one. */
+.demo-stage-page {
+  display: contents;
+}
+
+/* Re-establishes the fixed, full-viewport positioning `.demo-stage-page`
+   itself no longer has a box to provide. Scoped to the homepage host so a
+   deck slide's `.demo-stage-slide` — absolute, inside its own positioned box
+   — is untouched. Each element keeps its own top/right/bottom/left/inset
+   (set elsewhere): only `position` changes here. */
+.demo-stage-page .demo-scene,
+.demo-stage-page .scene-labels,
+.demo-stage-page .phone-dock,
+.demo-stage-page .device-orbit {
+  position: fixed;
+}
+
+/* The orbit surface is the one thing in here that wants pointers at desktop
+   widths. The phone dock manages its own and must not be listed: it takes
+   pointers only under 1023px, for the tap-off that stops the demo. */
+.demo-stage-page .device-orbit {
+  pointer-events: auto;
+}
+
 /* Leader-line labels over the 3D scene. Positions are written per frame from
    the projection store, so nothing here may set transform on .scene-label. */
 .scene-labels {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 20;
   pointer-events: none;
@@ -826,7 +871,7 @@ p + h4 {
    MessageThread: scale() needs a unitless number and CSS cannot produce one by
    dividing lengths. */
 .phone-dock {
-  position: fixed;
+  position: absolute;
   z-index: 12;
   width: calc(390px * var(--phone-scale, 1));
   height: calc(844px * var(--phone-scale, 1));
@@ -835,9 +880,14 @@ p + h4 {
 }
 
 /* Except on mobile, where a tap off the phone dismisses the demo — so the
-   phone itself has to absorb the taps that land on it. */
+   phone itself has to absorb the taps that land on it. Scoped to the
+   homepage host: `DemoDismiss`, the full-viewport tap-catcher this exists
+   for, is a homepage-only component the deck never renders. Left unscoped,
+   this used to swallow every tap on the deck slide's `.phone-dock` box too —
+   including the Play control, which sits under it at these widths before the
+   stacked layout above separates them. */
 @media (max-width: 1023px) {
-  .phone-dock {
+  .demo-stage-page .phone-dock {
     pointer-events: auto;
   }
 }
@@ -866,13 +916,14 @@ p + h4 {
   transform: translateX(-50%);
 }
 
-/* Wide: beside the text column, at the offset the old flow layout gave it —
-   the page's 80px padding, the 620px text column, and the row's 96px gap. */
+/* Wide: beside the text column, at the offset the old flow layout gave it. */
 @media (min-width: 1024px) {
   .phone-dock {
-    top: 95px;
+    top: var(--demo-phone-top, 95px);
     bottom: auto;
-    left: calc(80px + 620px + 96px);
+    /* The homepage's own geometry: its 80px padding, the 620px text column
+       and the row's 96px gap. A host with a different layout sets its own. */
+    left: var(--demo-phone-left, calc(80px + 620px + 96px));
     transform: none;
   }
 }
@@ -944,6 +995,17 @@ p + h4 {
   animation: thread-typing 1.2s ease-in-out infinite;
 }
 
+/* The demo's stand-in for a finger. Duration mirrors CHECKOUT.tapDur in
+   components/demo/timeline.ts, which is what actually decides how long the
+   class is on. */
+.thread-link {
+  transition: transform 140ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thread-link.is-tapped {
+  transform: scale(0.97);
+}
+
 @keyframes thread-typing {
   0%,
   70%,
@@ -955,6 +1017,61 @@ p + h4 {
     opacity: 1;
     transform: translateY(-3px);
   }
+}
+
+/* ---- the payment sheet ---- */
+
+/* Sits inside the phone's screen, not over the whole dock: an iOS sheet is a
+   card the app presents, so it stops short of the status bar. */
+.pay-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  background: rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pay-scrim.is-up {
+  opacity: 1;
+}
+
+/* Driven by a class rather than a per-frame transform, so it eases back down
+   as well as up. Duration mirrors CHECKOUT.sheetDur in
+   components/demo/timeline.ts. */
+.pay-sheet {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 26;
+  border-radius: 22px 22px 46px 46px;
+  background: #f7f7f8;
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.18);
+  transform: translate3d(0, 100%, 0);
+  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.pay-sheet.is-up {
+  transform: none;
+}
+
+.pay-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 44px;
+  border-radius: 22px;
+  color: #fff;
+  transition:
+    transform 140ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pay-button.is-tapped {
+  transform: scale(0.97);
 }
 
 /* Below the breakpoint there is no room for the device beside the phone, so it
@@ -970,19 +1087,23 @@ p + h4 {
 @media (max-width: 1023px) {
   /* Its own box in the corner rather than the whole viewport. The camera then
      just fills what it is given, so the placement holds on any phone. */
-  .device-layer {
+  .demo-scene {
     inset: 0 0 auto auto;
     width: 68vw;
     /* Short on purpose. The device is centred in this box, so the box's own
        middle has to sit above the phone's top edge or the screen ends up
        behind the conversation. Mirrored by COMPACT_DEVICE_BOX_H in
-       components/thread/phoneFit.ts, which is where that is asserted. */
+       components/thread/phoneFit.ts — pinned to this literal by the "CSS
+       mirror constants" describe block in tests/phone-fit.test.ts, not by
+       the geometric check in "the device box on narrow viewports" below,
+       which only asserts the two stay in a valid relationship, not that
+       they agree. */
     height: 26dvh;
     opacity: 0;
     transition: opacity 320ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  html[data-demo='playing'] .device-layer,
-  html[data-demo='done'] .device-layer {
+  html[data-demo='playing'] .demo-scene,
+  html[data-demo='done'] .demo-scene {
     opacity: 1;
   }
   .scene-labels {
@@ -995,8 +1116,23 @@ p + h4 {
   .thread-typing-dot {
     animation: none;
   }
+  /* Mirrors the deck-only idle jiggle defined in
+     app/opportunity/opportunity.css (html[data-demo='idle'] .deck-demo-copy
+     .demo-play). Same selector, so equal specificity — but opportunity.css's
+     stylesheet loads after this one (OpportunityClient imports it beneath
+     the root layout's globals.css), which would let the jiggle win the tie
+     and keep animating under reduced motion. !important breaks that tie
+     deliberately, scoped to this one selector. */
+  html[data-demo='idle'] .deck-demo-copy .demo-play {
+    animation: none !important;
+  }
   .scene-labels,
-  .demo-play {
+  .demo-play,
+  .thread-link,
+  .pay-scrim,
+  .pay-sheet,
+  .pay-button,
+  .demo-scene {
     transition: none;
   }
 }
@@ -1035,7 +1171,7 @@ p + h4 {
 
 @media (min-width: 1024px) {
   .device-orbit {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
