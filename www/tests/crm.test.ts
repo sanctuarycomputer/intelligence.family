@@ -22,7 +22,21 @@ describe('ALLOWED_SOURCES', () => {
       'g3d:family_intelligence:fundraising-viewed',
       'g3d:family_intelligence:opportunity',
       'g3d:family_intelligence:opportunity-viewed',
+      'g3d:family_intelligence:preorder',
+      'g3d:family_intelligence:preorder:ads',
+      'g3d:family_intelligence:preorder:prolific',
     ]);
+  });
+
+  it('exports the preorder sources by name', async () => {
+    const crm = await import('../lib/crm');
+    expect(crm.PREORDER_SOURCE).toBe('g3d:family_intelligence:preorder');
+    expect(crm.PREORDER_ADS_SOURCE).toBe(
+      'g3d:family_intelligence:preorder:ads'
+    );
+    expect(crm.PREORDER_PROLIFIC_SOURCE).toBe(
+      'g3d:family_intelligence:preorder:prolific'
+    );
   });
 });
 

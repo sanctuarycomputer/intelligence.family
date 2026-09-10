@@ -1,12 +1,10 @@
+import { PREORDER_SOURCE, PREORDER_ADS_SOURCE } from './crm';
+
 export const FOUNDER_UNITS_DEFAULT_TOTAL = 250;
 
 export type PreorderSrc = 'prolific' | 'ads' | 'direct';
 export type ReserveOutcome = 'reserve' | 'waitlist';
 export type ProlificOutcome = 'reserved' | 'declined';
-
-// Stacks sources. Task 2 moves these into lib/crm.ts's allowlist.
-const PREORDER_SOURCE = 'g3d:family_intelligence:preorder';
-const PREORDER_ADS_SOURCE = 'g3d:family_intelligence:preorder:ads';
 
 export function remainingUnits(total: number, reserved: number): number {
   return Math.min(total, Math.max(0, total - reserved));
