@@ -10,7 +10,11 @@ vi.mock('resend', () => ({
   }),
 }));
 
-import { sendOtpEmail } from '../lib/email';
+import {
+  sendOtpEmail,
+  sendReservationEmail,
+  RESERVATION_EMAIL,
+} from '../lib/email';
 
 beforeEach(() => {
   sendMock.mockReset();
@@ -58,5 +62,52 @@ describe('sendOtpEmail', () => {
     sendMock.mockRejectedValue(new Error('network boom'));
     const ok = await sendOtpEmail('user@example.com', '123456');
     expect(ok).toBe(false);
+  });
+});
+
+describe('sendReservationEmail', () => {
+  it('sends the reserve email with the in-line subject', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'msg_r1' }, error: null });
+    const ok = await sendReservationEmail('parent@example.com', 'reserve');
+    expect(ok).toBe(true);
+    const payload = sendMock.mock.calls[0][0];
+    expect(payload.to).toBe('parent@example.com');
+    expect(payload.subject).toBe("You're in line for the Flagship");
+    expect(payload.text).toContain(
+      "You're in line for one of 250 Flagship founder units."
+    );
+    expect(payload.text).toContain('$49 refundable deposit');
+    expect(payload.text).toContain('$850 balance');
+  });
+
+  it('sends the waitlist email with the waitlist subject', async () => {
+    sendMock.mockResolvedValue({ data: { id: 'msg_w1' }, error: null });
+    await sendReservationEmail('parent@example.com', 'waitlist');
+    const payload = sendMock.mock.calls[0][0];
+    expect(payload.subject).toBe("You're on the Flagship waitlist");
+    expect(payload.text).toContain('All 250 founder units are spoken for');
+  });
+
+  it('includes replyTo when REPLY_TO is set', async () => {
+    process.env.REPLY_TO = 'invest@intelligence.family';
+    sendMock.mockResolvedValue({ data: { id: 'msg_r2' }, error: null });
+    await sendReservationEmail('parent@example.com', 'reserve');
+    expect(sendMock.mock.calls[0][0].replyTo).toBe(
+      'invest@intelligence.family'
+    );
+  });
+
+  it('returns false on error and when the SDK throws', async () => {
+    sendMock.mockResolvedValue({ data: null, error: { message: 'boom' } });
+    expect(await sendReservationEmail('a@b.co', 'reserve')).toBe(false);
+    sendMock.mockRejectedValue(new Error('network'));
+    expect(await sendReservationEmail('a@b.co', 'reserve')).toBe(false);
+  });
+
+  it('exports copy with no em dashes', () => {
+    for (const { subject, text } of Object.values(RESERVATION_EMAIL)) {
+      expect(subject).not.toContain('—');
+      expect(text).not.toContain('—');
+    }
   });
 });
