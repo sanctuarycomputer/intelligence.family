@@ -1,4 +1,4 @@
-# /buy page design
+# /preorder page design
 
 Date: 2026-09-10
 Status: approved in conversation, awaiting written review
@@ -35,14 +35,14 @@ No money changes hands in this version. Stripe comes later.
 
 ## Route and files
 
-- `www/app/buy/page.tsx`: server component. Reads env for the countdown,
-  reads `src` from search params, renders the page with `BuyClient` for the
+- `www/app/preorder/page.tsx`: server component. Reads env for the countdown,
+  reads `src` from search params, renders the page with `PreorderClient` for the
   interactive parts.
-- `www/app/buy/layout.tsx`: metadata (title, description, OG image) and
+- `www/app/preorder/layout.tsx`: metadata (title, description, OG image) and
   `robots: { index: false, follow: false }`.
-- `www/app/buy/BuyClient.tsx`: buy card, sticky bar, reserve form,
+- `www/app/preorder/PreorderClient.tsx`: reserve card, sticky bar, reserve form,
   confirmation and completion states.
-- `www/app/buy/content.tsx`: all narrative copy and the use-case menu as
+- `www/app/preorder/content.tsx`: all narrative copy and the use-case menu as
   data, so words change without touching components.
 - `www/app/api/reserve/route.ts`: reservation endpoint.
 - `www/lib/crm.ts`: three new allowed sources.
@@ -139,7 +139,7 @@ through apps over a tunnel we cannot read. Media: `walled-garden.png`.
 models locally, no subscription needed to use it, gets smarter over the air
 as better open models ship.
 
-### 7. Buy card
+### 7. Reserve card
 
 Same card as the hero: full price, deposit, "refundable any time", the
 ship window ("Founder units ship in 2027", exact quarter to be confirmed by Hugh before launch), what happens next, countdown, button.
@@ -151,8 +151,8 @@ what the device needs at home, shipping regions, what a founder unit is.
 
 ### 9. Sticky bar
 
-Appears once the hero buy card scrolls out of view. Device name, "$49
-deposit", remaining count, button that scrolls to the buy card.
+Appears once the hero reserve card scrolls out of view. Device name, "$49
+deposit", remaining count, button that scrolls to the reserve card.
 
 ## Reservation flow
 
@@ -210,7 +210,7 @@ with questions.
 
 ### Prolific mode (`src=prolific`)
 
-- Buy card gains a quieter second button: "No thanks, I'm not interested."
+- Reserve card gains a quieter second button: "No thanks, I'm not interested."
 - Reserve requires an email as usual.
 - Both paths end on a completion screen: "Thanks. Your completion code is
   `CODE`. Return to Prolific to finish." Reserve shows
@@ -247,7 +247,7 @@ Existing `RESEND_*`, `REPLY_TO`, and `STACKS_API_KEY` are reused.
   returns 201 when Stacks succeeds and Resend fails; rate limit returns
   429.
 - `founder-units`: clamps at zero, handles missing and non-numeric env.
-- `BuyClient`: reserved state renders after success; Prolific mode shows
+- `PreorderClient`: reserved state renders after success; Prolific mode shows
   the decline button and the right completion code per outcome; missing
   code shows the fallback line; sold-out state swaps button text.
 
