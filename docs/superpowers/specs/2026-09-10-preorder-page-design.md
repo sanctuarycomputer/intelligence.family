@@ -138,7 +138,8 @@ the deck's hint.
 ### 2. The home harness
 
 Chapter opener: `context-window-home` illustration full-bleed with the
-line "An assistant that knows your home." Then a split section:
+line "An assistant that knows your home." Then an editorial two-column
+band, heading left and prose right:
 
 One local agent holds the household's memory. It runs the jobs a family
 never gets to: weekly check-ins, budgets, school, health. When you allow
@@ -181,31 +182,31 @@ survey uses them verbatim. Media: `family-vault.webp`.
 
 Chapter opener and the second moment of beauty: `device-photo.jpg` (the
 child's hand on the device) full-bleed with one line, "Some stories you
-only get to record once." Then a short paragraph polished from the
-fundraising teaser: the Thanksgiving story, your daughter's first words,
+only get to record once." Then a centered statement paragraph, set large,
+polished from the fundraising teaser: the Thanksgiving story, your daughter's first words,
 the kids interviewing grandparents. When the landscape hero clip exists,
 the playtest video moves here as a tall panel beside the paragraph.
 
 ### 5. Nothing leaves the house
 
 Chapter opener: `walled-garden` illustration full-bleed with the line
-"Nothing leaves the house." Then a short split: prompts, inference, and
+"Nothing leaves the house." Then a centered statement paragraph: prompts, inference, and
 reasoning stay on the box. Far-away family reach it through apps over a
 tunnel we cannot read. You can dim the lights without telling anyone.
 
 ### 6. The object
 
-Third moment of beauty. `device-cad.jpg` large on a plain green-100
-ground with four spec callouts that fade in as they scroll into view, set
-in tabular figures:
+Third moment of beauty. A dark chapter on `--fi-black-900`: `device-cad.jpg`
+large with rounded corners and four spec callouts in light type that fade
+in as they scroll into view:
 
 - Runs open models locally. Nothing to sign in to.
 - No subscription needed to use it.
 - Gets smarter over the air as better open models ship.
 - Sits on a shelf. Plugs into the wall. That's the setup.
 
-Then `device-photo.jpg` beside a short paragraph on the object as an
-heirloom-grade thing you'd want on the counter.
+Then the coffee-table still (`device-table.jpg`) beside a short paragraph
+on the object as an heirloom-grade thing you'd want on the counter.
 
 ### 7. Reserve card
 
@@ -271,16 +272,18 @@ one column, four layout types, three moments of beauty.
 
 - *Chapter opener*: full-bleed illustration or photo at 70 to 100vh with a
   single big line of Windsor Pro over a scrim. Sections 2, 4, 5.
-- *Split*: text on one side, media on the other, alternating sides.
-  Sections 2, 5, 6.
+- *Editorial band*: heading in the left column, prose in the right.
+  Section 2.
+- *Statement*: one centered paragraph set large. Sections 4 and 5.
+- *Split*: text on one side, media on the other. Section 6.
 - *Card grid*: the eight use-case cards with the deck's ragged-band card
   treatment, two group headers, numbered. Section 3 and the FAQ.
 - *Reserve card*: a single centered card on a green-200 ground. Section 7,
   echoed in compact form in the hero.
 
 **Three moments of beauty.** The hero video. The kitchen-shelf chapter
-opener with one line and nothing else on screen. The object on a plain
-ground with specs fading in.
+opener with one line and nothing else on screen. The object in a dark
+chapter with specs fading in.
 
 **Motion.** `useReveal` adds a class when an element enters the viewport;
 CSS does a fade and 16px rise over 500ms. Under `prefers-reduced-motion`
