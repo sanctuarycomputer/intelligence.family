@@ -123,8 +123,8 @@ export const OBJECT = {
   cad: '/preorder/device-cad.jpg',
   cadAlt:
     'CAD render of the Flagship: curved shell, tilted display, and the compute module inside',
-  photo: '/preorder/device-photo.jpg',
-  photoAlt: 'The Flagship prototype on a kitchen counter',
+  photo: '/preorder/device-table.jpg',
+  photoAlt: 'The Flagship on a coffee table in a family living room',
 };
 
 export const RESERVE = {

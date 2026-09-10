@@ -111,12 +111,14 @@ export function Harness() {
       <Chapter line={HARNESS.line} image={HARNESS.image} alt={HARNESS.alt} />
       <div className="po-section">
         <div className="po-container">
-          <Reveal>
+          <Reveal className="po-editorial">
             <h2 id="harness-h" className="po-h2">
               One local agent, for the whole house.
             </h2>
-            <p className="po-prose">{HARNESS.body}</p>
-            <p className="po-prose po-closer">{HARNESS.closer}</p>
+            <div>
+              <p className="po-prose">{HARNESS.body}</p>
+              <p className="po-prose po-closer">{HARNESS.closer}</p>
+            </div>
           </Reveal>
         </div>
       </div>
@@ -178,7 +180,7 @@ export function Kitchen() {
       <Chapter line={KITCHEN.line} image={KITCHEN.image} alt={KITCHEN.alt} />
       <div className="po-section">
         <div className="po-container">
-          <Reveal>
+          <Reveal className="po-statement">
             <p className="po-prose">{KITCHEN.body}</p>
           </Reveal>
         </div>
@@ -193,7 +195,7 @@ export function Privacy() {
       <Chapter line={PRIVACY.line} image={PRIVACY.image} alt={PRIVACY.alt} />
       <div className="po-section">
         <div className="po-container">
-          <Reveal>
+          <Reveal className="po-statement">
             <p className="po-prose">{PRIVACY.body}</p>
           </Reveal>
         </div>
@@ -204,11 +206,16 @@ export function Privacy() {
 
 export function ObjectSection() {
   return (
-    <section className="po-section" aria-labelledby="object-h">
+    <section className="po-section po-section-dark" aria-labelledby="object-h">
       <div className="po-container">
         <div className="po-object">
           <Reveal>
-            <img src={OBJECT.cad} alt={OBJECT.cadAlt} loading="lazy" />
+            <img
+              className="po-object-img"
+              src={OBJECT.cad}
+              alt={OBJECT.cadAlt}
+              loading="lazy"
+            />
           </Reveal>
           <div>
             <Reveal>

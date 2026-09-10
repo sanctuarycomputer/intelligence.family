@@ -153,6 +153,12 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+/* Landscape clip: the base .po-hero rules are the layout (full-bleed media,
+   copy bottom-left over the scrim). The class exists so the two modes are
+   addressable. */
+.po-hero-landscape {
+}
+
 /* Portrait clip on desktop: dark ground, copy left, clip standing right. */
 @media (min-width: 900px) {
   .po-hero-portrait {
@@ -355,6 +361,40 @@
   font-weight: 600;
 }
 
+/* Editorial two-column body: heading left, prose right. The right column
+   carries a wider measure than the default .po-prose so the text fills it. */
+.po-editorial {
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 900px) {
+  .po-editorial {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 64px;
+    align-items: start;
+  }
+  .po-editorial .po-h2 {
+    margin-bottom: 0;
+  }
+}
+.po-editorial .po-prose {
+  max-width: 38rem;
+}
+
+/* Statement block: one centered paragraph, set larger than body prose. */
+.po-statement {
+  max-width: 44rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.po-statement .po-prose {
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--fi-black-900);
+  max-width: none;
+}
+
 /* ---------- Use-case cards ---------- */
 .po-group {
   margin-top: 40px;
@@ -452,6 +492,25 @@
   border-top: 1px solid rgba(94, 123, 41, 0.35);
   font-size: 17px;
   line-height: 1.4;
+}
+
+/* The object reads as an "under the hood" chapter, so the band goes dark and
+   the navy CAD viewport stops looking like a screenshot dropped on green. */
+.po-section-dark {
+  background: var(--fi-black-900);
+  color: var(--fi-green-100);
+}
+.po-section-dark .po-h2,
+.po-section-dark .po-prose,
+.po-section-dark .po-specs li {
+  color: var(--fi-green-100);
+}
+.po-section-dark .po-specs li {
+  border-top: 1px solid rgba(215, 221, 212, 0.25);
+}
+.po-object-img {
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
 /* ---------- Reserve card ---------- */
