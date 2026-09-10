@@ -32,12 +32,20 @@ export default function StickyNav({
       <div className="po-container po-sticky-inner">
         <span className="po-sticky-name">Flagship</span>
         <div className="po-sticky-right">
-          <span className="po-sticky-meta po-tabular">
-            {reserved
-              ? "You're in line"
-              : remaining === 0
-                ? `All ${total} founder units reserved`
-                : `$49 deposit · ${remaining} of ${total} remaining`}
+          <span className="po-sticky-meta">
+            {reserved ? (
+              "You're in line"
+            ) : remaining === 0 ? (
+              <>
+                All <span className="po-tabular">{total}</span> founder units
+                reserved
+              </>
+            ) : (
+              <>
+                $49 deposit · <span className="po-tabular">{remaining}</span> of{' '}
+                <span className="po-tabular">{total}</span> remaining
+              </>
+            )}
           </span>
           <button
             type="button"

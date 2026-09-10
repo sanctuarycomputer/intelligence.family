@@ -19,6 +19,8 @@
   padding-left: var(--container-padding);
   padding-right: var(--container-padding);
 }
+/* Roobert's tnum feature also widens the space glyph, so this goes on the
+   digits themselves, never on a whole sentence. */
 .po-tabular {
   font-variant-numeric: tabular-nums;
 }
@@ -65,11 +67,15 @@
 .po-hero-scrim {
   position: absolute;
   inset: 0;
+  /* The copy sits from roughly 30% down, over a brightly lit tabletop, so the
+     ramp has to reach a real scrim by the headline rather than at the edge. */
   background: linear-gradient(
     to bottom,
     rgba(49, 49, 49, 0.15) 0%,
-    rgba(49, 49, 49, 0.2) 40%,
-    rgba(49, 49, 49, 0.85) 100%
+    rgba(49, 49, 49, 0.4) 22%,
+    rgba(49, 49, 49, 0.68) 40%,
+    rgba(49, 49, 49, 0.82) 62%,
+    rgba(49, 49, 49, 0.92) 100%
   );
 }
 .po-hero-copy {
@@ -106,9 +112,20 @@
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.8);
 }
-.po-pillars li + li::before {
+/* The separator trails its own item so a wrap never starts a line with a dot. */
+.po-pillars li:not(:last-child)::after {
   content: '·';
   margin: 0 10px;
+}
+/* On phones the three pillars each take a line, so the separators go away. */
+@media (max-width: 599px) {
+  .po-pillars {
+    display: grid;
+    gap: 6px;
+  }
+  .po-pillars li:not(:last-child)::after {
+    content: none;
+  }
 }
 .po-hero-offer {
   font-size: 15px;
@@ -262,10 +279,13 @@
   content: '';
   position: absolute;
   inset: 0;
+  /* The illustrations are pale watercolours, so the line needs a heavier
+     scrim than a photograph would to keep white type readable. */
   background: linear-gradient(
     to bottom,
-    rgba(49, 49, 49, 0) 30%,
-    rgba(49, 49, 49, 0.75) 100%
+    rgba(49, 49, 49, 0) 20%,
+    rgba(49, 49, 49, 0.3) 50%,
+    rgba(49, 49, 49, 0.85) 100%
   );
 }
 .po-chapter-line {

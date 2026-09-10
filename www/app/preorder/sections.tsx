@@ -62,10 +62,18 @@ export function Hero({
           >
             {reserved ? "You're in line" : 'Reserve a founder unit'}
           </button>
-          <span className="po-hero-count po-tabular">
-            {remaining === 0
-              ? `All ${total} founder units reserved`
-              : `${remaining} of ${total} remaining`}
+          <span className="po-hero-count">
+            {remaining === 0 ? (
+              <>
+                All <span className="po-tabular">{total}</span> founder units
+                reserved
+              </>
+            ) : (
+              <>
+                <span className="po-tabular">{remaining}</span> of{' '}
+                <span className="po-tabular">{total}</span> remaining
+              </>
+            )}
           </span>
         </div>
       </div>
@@ -208,7 +216,7 @@ export function ObjectSection() {
                 The object.
               </h2>
             </Reveal>
-            <ul className="po-specs po-tabular">
+            <ul className="po-specs">
               {OBJECT.specs.map((spec, i) => (
                 <Reveal as="li" key={spec} delay={120 + i * 90}>
                   {spec}

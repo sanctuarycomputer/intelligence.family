@@ -122,10 +122,15 @@ export default function ReserveCard({
       >
         <span style={{ width: `${filled}%` }} />
       </div>
-      <p className="po-count po-tabular">
-        {soldOut
-          ? RESERVE.waitlist.count
-          : `${remaining} of ${total} founder units remaining`}
+      <p className="po-count">
+        {soldOut ? (
+          RESERVE.waitlist.count
+        ) : (
+          <>
+            <span className="po-tabular">{remaining}</span> of{' '}
+            <span className="po-tabular">{total}</span> founder units remaining
+          </>
+        )}
       </p>
     </>
   );
