@@ -371,7 +371,9 @@ Reserve, subject "You're in line for the Flagship":
 Waitlist, subject "You're on the Flagship waitlist":
 
 > All 250 founder units are spoken for, and you're on the waitlist. If a
-> unit frees up we'll email you first. Reply with any question.
+> unit frees up we'll email you first.
+>
+> Reply to this email with any question. A person reads every one.
 
 ### Page states
 

@@ -40,7 +40,7 @@ Spec: `docs/superpowers/specs/2026-09-10-preorder-page-design.md`.
 | `public/preorder/` | WebP illustrations and resized photos for this page. |
 | `app/preorder/content.tsx` | Every string on the page as data, plus hero media constants. |
 | `app/preorder/preorder.css` | Page-scoped styles: hero layouts, chapters, cards, reserve card, sticky nav, reveal. |
-| `app/preorder/useReveal.ts` | IntersectionObserver reveal hook and `<Reveal>` wrapper. |
+| `app/preorder/useReveal.tsx` | IntersectionObserver `<Reveal>` wrapper. |
 | `app/preorder/HeroVideo.tsx` | Client video that plays when visible and respects reduced motion. |
 | `app/preorder/sections.tsx` | Static sections: Hero, Harness, UseCases, Kitchen, Privacy, ObjectSection, Faq. |
 | `app/preorder/ReserveCard.tsx` | The reserve form and its reserved, waitlist, and Prolific states. |
@@ -368,7 +368,12 @@ export const VIEWED_SOURCE = 'g3d:family_intelligence:fundraising-viewed';
 export const OPPORTUNITY_GATE_SOURCE = 'g3d:family_intelligence:opportunity';
 export const OPPORTUNITY_VIEWED_SOURCE =
   'g3d:family_intelligence:opportunity-viewed';
+
 ```
+
+(Keep the blank line before the existing `const DEFAULT_SOURCE` line.)
+Prettier will also reformat `next.config.ts` to single quotes in Task 4;
+that churn is expected.
 
 Then in `lib/preorder.ts`, delete the two local `const PREORDER_*` lines and their comment, and add at the top:
 
@@ -843,14 +848,14 @@ mkdir -p public/preorder
 cwebp -q 82 -resize 1536 0 public/opportunity/context-window-home.png -o public/preorder/context-window-home.webp
 cwebp -q 82 -resize 1536 0 public/opportunity/walled-garden.png -o public/preorder/walled-garden.webp
 cp public/opportunity/family-vault.webp public/preorder/family-vault.webp
-magick public/opportunity/device-photo.jpg -resize '1600x1600>' -quality 82 public/preorder/device-photo.jpg
-magick public/opportunity/device-cad.jpg -resize '1600x1600>' -quality 85 public/preorder/device-cad.jpg
+cp public/opportunity/device-photo.jpg public/preorder/device-photo.jpg
+cp public/opportunity/device-cad.jpg public/preorder/device-cad.jpg
 ```
 
 - [ ] **Step 2: Verify sizes**
 
 Run: `du -h public/preorder/*`
-Expected: each WebP under 400K, each JPG under 500K. If a WebP is over 400K, re-run with `-q 75`.
+Expected: each WebP under 400K (the two conversions land near 384K and 362K), each JPG under 400K (they are copied as-is: both are already under 1600px on the long edge). If a WebP is over 400K, re-run with `-q 75`.
 
 - [ ] **Step 3: Commit**
 
@@ -1177,13 +1182,13 @@ Claude-Session: https://claude.ai/code/session_018zW9RqKzDTuqJuFPLZZr2D"
 
 **Files:**
 - Create: `app/preorder/preorder.css`
-- Create: `app/preorder/useReveal.ts`
+- Create: `app/preorder/useReveal.tsx`
 - Create: `app/preorder/HeroVideo.tsx`
 
 **Interfaces:**
 - Produces:
   ```ts
-  // useReveal.ts
+  // useReveal.tsx
   export function Reveal(props: { children: ReactNode; className?: string; delay?: number; as?: 'div' | 'section' | 'li' | 'p' }): JSX.Element;
   // HeroVideo.tsx
   export default function HeroVideo(props: { src: string; poster: string; label: string; className?: string }): JSX.Element;
@@ -1194,12 +1199,15 @@ No unit tests (DOM code); Task 10 verifies in the browser.
 
 - [ ] **Step 1: Write the reveal hook**
 
-Create `app/preorder/useReveal.ts`:
+Create `app/preorder/useReveal.tsx` (a `.tsx` file: it returns JSX. A
+callback ref typed on `HTMLElement` satisfies all four tag types, and
+keeps the React Compiler lint rule `react-hooks/refs` happy, which
+`createElement(as, { ref })` does not):
 
-```ts
+```tsx
 'use client';
 
-import { createElement, useEffect, useRef, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, type ReactNode } from 'react';
 
 const REDUCED = '(prefers-reduced-motion: reduce)';
 
@@ -1209,14 +1217,17 @@ export function Reveal({
   children,
   className = '',
   delay = 0,
-  as = 'div',
+  as: Tag = 'div',
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
   as?: 'div' | 'section' | 'li' | 'p';
 }) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLElement | null>(null);
+  const setRef = useCallback((el: HTMLElement | null) => {
+    ref.current = el;
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -1238,14 +1249,14 @@ export function Reveal({
     return () => io.disconnect();
   }, []);
 
-  return createElement(
-    as,
-    {
-      ref,
-      className: `po-reveal ${className}`.trim(),
-      style: delay ? { transitionDelay: `${delay}ms` } : undefined,
-    },
-    children
+  return (
+    <Tag
+      ref={setRef}
+      className={`po-reveal ${className}`.trim()}
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+    >
+      {children}
+    </Tag>
   );
 }
 ```
@@ -1329,9 +1340,6 @@ Create `app/preorder/preorder.css`:
   .po-page {
     font-size: 18px;
   }
-}
-.po-page p {
-  margin: 0;
 }
 .po-container {
   width: 100%;
@@ -1661,6 +1669,9 @@ Create `app/preorder/preorder.css`:
   margin-top: 40px;
 }
 .po-group-header {
+  /* Rendered as an h3; globals.css gives h3 the serif, so reset it. */
+  font-family: var(--font-sans);
+  line-height: 1.4;
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1914,8 +1925,8 @@ Expected: no errors from the three new files. (Errors elsewhere are pre-existing
 - [ ] **Step 5: Commit**
 
 ```bash
-npx prettier --write app/preorder/preorder.css app/preorder/useReveal.ts app/preorder/HeroVideo.tsx
-git add app/preorder/preorder.css app/preorder/useReveal.ts app/preorder/HeroVideo.tsx
+npx prettier --write app/preorder/preorder.css app/preorder/useReveal.tsx app/preorder/HeroVideo.tsx
+git add app/preorder/preorder.css app/preorder/useReveal.tsx app/preorder/HeroVideo.tsx
 git commit -m "Preorder page styles, reveal hook, and hero video
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
@@ -2023,7 +2034,9 @@ export function Hero({
             <li key={p}>{p}</li>
           ))}
         </ul>
-        <p className="po-hero-offer">{HERO.offer}</p>
+        <p className="po-hero-offer">
+          {reserved ? "You're in line for the Flagship." : HERO.offer}
+        </p>
         <div className="po-hero-cta">
           <button
             type="button"
@@ -2325,10 +2338,14 @@ export default async function PreorderPage({
   const src = parseSrc(params.src);
   const { total, reserved } = readFounderUnits(process.env);
   const remaining = remainingUnits(total, reserved);
-  const codes = {
-    reserved: completionCode('reserved', process.env),
-    declined: completionCode('declined', process.env),
-  };
+  // Only Prolific traffic receives the codes; they ship in the RSC payload.
+  const codes =
+    src === 'prolific'
+      ? {
+          reserved: completionCode('reserved', process.env),
+          declined: completionCode('declined', process.env),
+        }
+      : { reserved: null, declined: null };
   return (
     <PreorderClient src={src} total={total} remaining={remaining} codes={codes} />
   );
@@ -2547,7 +2564,7 @@ export default function ReserveCard({
     const code = state === 'prolific-reserved' ? codes.reserved : codes.declined;
     return (
       <div className="po-reserve" aria-live="polite">
-        <h2 className="po-reserve-title">Thank you.</h2>
+        <h2 className="po-reserve-title">You're done.</h2>
         {code ? (
           <>
             <p className="po-reserve-sub">{RESERVE.prolific.thanks}</p>
@@ -2811,30 +2828,14 @@ export default function PreorderClient({
 }
 ```
 
-- [ ] **Step 4: Add the `sr-only` utility if Tailwind does not provide it**
+- [ ] **Step 4: Type-check, lint, full test run**
 
-Tailwind v4 provides `sr-only`. Confirm with: `grep -rn "sr-only" app/globals.css node_modules/tailwindcss/index.css | head -1`. If nothing prints, append to `preorder.css`:
-
-```css
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-```
-
-- [ ] **Step 5: Type-check, lint, full test run**
+(Tailwind v4 generates `.sr-only` from the class name in `ReserveCard.tsx`; nothing to add.)
 
 Run: `npx tsc --noEmit -p tsconfig.json && npx eslint app/preorder lib tests && npm test`
 Expected: clean, and all test files pass.
 
-- [ ] **Step 6: Smoke test the API and page in dev**
+- [ ] **Step 5: Smoke test the API and page in dev**
 
 Run in the background: `npm run dev -- --port 3101`
 Then:
@@ -2849,7 +2850,7 @@ curl -s http://localhost:3101/preorder?src=prolific | grep -c "No thanks, I&#x27
 ```
 Expected: `1` (React escapes the apostrophe). Stop the dev server.
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
 npx prettier --write app/preorder
@@ -2879,12 +2880,12 @@ Then, using Playwright via npx (no install into the repo):
 
 ```bash
 S=/private/tmp/claude-501/-Users-hhff-Documents-Code-intelligence-family/e2df7e7e-a267-4187-b816-210ed3e11651/scratchpad
-npx --yes playwright@1.47.0 screenshot --viewport-size=390,844 --full-page "http://localhost:3102/preorder" "$S/preorder-phone.png"
-npx --yes playwright@1.47.0 screenshot --viewport-size=1440,900 --full-page "http://localhost:3102/preorder" "$S/preorder-desktop.png"
-npx --yes playwright@1.47.0 screenshot --viewport-size=1440,900 "http://localhost:3102/preorder?src=prolific" "$S/preorder-prolific.png"
+npx --yes playwright@1.61.1 screenshot --viewport-size=390,844 --full-page "http://localhost:3102/preorder" "$S/preorder-phone.png"
+npx --yes playwright@1.61.1 screenshot --viewport-size=1440,900 --full-page "http://localhost:3102/preorder" "$S/preorder-desktop.png"
+npx --yes playwright@1.61.1 screenshot --viewport-size=1440,900 "http://localhost:3102/preorder?src=prolific" "$S/preorder-prolific.png"
 ```
 
-If `npx playwright screenshot` fails because browsers are not installed, run `npx --yes playwright@1.47.0 install chromium` once and retry.
+If `npx playwright screenshot` fails because browsers are not installed, run `npx --yes playwright@1.61.1 install chromium` once and retry.
 
 - [ ] **Step 3: Review the screenshots**
 
