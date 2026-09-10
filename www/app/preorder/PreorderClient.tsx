@@ -13,6 +13,8 @@ import {
   ObjectSection,
   Faq,
 } from './sections';
+import ReserveCard, { type ReserveState } from './ReserveCard';
+import StickyNav from './StickyNav';
 
 export type PreorderProps = {
   src: PreorderSrc;
@@ -25,25 +27,45 @@ export default function PreorderClient({
   src,
   total,
   remaining,
+  codes,
 }: PreorderProps) {
-  const [reserved, setReserved] = useState(false);
+  const [state, setState] = useState<ReserveState>('idle');
+  const prolific = src === 'prolific';
+  // A Prolific decline leaves the hero button live; the card shows the code.
+  const reserved =
+    state === 'reserved' ||
+    state === 'waitlisted' ||
+    state === 'prolific-reserved';
 
   useEffect(() => {
     track('preorder_view', { src });
   }, [src]);
 
-  const scrollToReserve = useCallback(() => {
-    track('reserve_click', { src, from: 'hero' });
-    document.getElementById('reserve')?.scrollIntoView({ behavior: 'smooth' });
-  }, [src]);
+  const scrollToReserve = useCallback(
+    (from: 'hero' | 'sticky') => {
+      track('reserve_click', { src, from });
+      document
+        .getElementById('reserve')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    },
+    [src]
+  );
 
   return (
     <main className="po-page">
+      {!prolific && (
+        <StickyNav
+          remaining={remaining}
+          total={total}
+          reserved={reserved}
+          onReserve={() => scrollToReserve('sticky')}
+        />
+      )}
       <Hero
         remaining={remaining}
         total={total}
         reserved={reserved}
-        onReserve={scrollToReserve}
+        onReserve={() => scrollToReserve('hero')}
       />
       <Harness />
       <UseCases />
@@ -52,16 +74,14 @@ export default function PreorderClient({
       <ObjectSection />
       <section id="reserve" className="po-reserve-wrap">
         <div className="po-container">
-          {/* Task 9 replaces this placeholder with ReserveCard. */}
-          <div className="po-reserve">
-            <button
-              type="button"
-              className="po-btn"
-              onClick={() => setReserved(true)}
-            >
-              Reserve a founder unit
-            </button>
-          </div>
+          <ReserveCard
+            src={src}
+            total={total}
+            remaining={remaining}
+            codes={codes}
+            state={state}
+            onState={setState}
+          />
         </div>
       </section>
       <Faq />
