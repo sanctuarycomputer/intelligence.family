@@ -1,7 +1,11 @@
 'use client';
 
-import { useEffect, useState, type FormEvent } from 'react';
-import type { PreorderSrc, ReserveOutcome } from '@/lib/preorder';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import type {
+  PreorderSrc,
+  ProlificOutcome,
+  ReserveOutcome,
+} from '@/lib/preorder';
 import { RESERVE } from './content';
 import { track } from './track';
 
@@ -52,6 +56,16 @@ export default function ReserveCard({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  const status =
+    state === 'reserved'
+      ? RESERVE.reserved.title
+      : state === 'waitlisted'
+        ? RESERVE.waitlisted.title
+        : state === 'prolific-reserved' || state === 'prolific-declined'
+          ? 'Your completion code is ready.'
+          : '';
 
   // Rehydrate a Prolific outcome so a refresh shows the same code.
   useEffect(() => {
@@ -59,6 +73,11 @@ export default function ReserveCard({
     const stored = readProlificState();
     if (stored) onState(stored);
   }, [prolific, onState]);
+
+  // Move focus to the confirmation heading once we leave the idle state.
+  useEffect(() => {
+    if (state !== 'idle') headingRef.current?.focus();
+  }, [state]);
 
   const filled =
     total === 0 ? 100 : Math.round(((total - remaining) / total) * 100);
@@ -92,10 +111,10 @@ export default function ReserveCard({
     }
   }
 
-  function choose(outcome: 'reserved' | 'declined') {
+  function choose(outcome: ProlificOutcome) {
     const next: ReserveState = `prolific-${outcome}`;
     track('reserve_click', { src, from: 'card', outcome });
-    if (outcome === 'reserved') track('reserved', { src, outcome: 'prolific' });
+    if (outcome === 'reserved') track('reserved', { src, outcome: 'reserve' });
     writeProlificState(next);
     onState(next);
   }
@@ -139,8 +158,13 @@ export default function ReserveCard({
     const code =
       state === 'prolific-reserved' ? codes.reserved : codes.declined;
     return (
-      <div className="po-reserve" aria-live="polite">
-        <h2 className="po-reserve-title">{"You're done."}</h2>
+      <div className="po-reserve">
+        <p className="sr-only" aria-live="polite">
+          {status}
+        </p>
+        <h2 className="po-reserve-title" ref={headingRef} tabIndex={-1}>
+          {"You're done."}
+        </h2>
         {code ? (
           <>
             <p className="po-reserve-sub">{RESERVE.prolific.thanks}</p>
@@ -166,8 +190,13 @@ export default function ReserveCard({
   if (state === 'reserved' || state === 'waitlisted') {
     const done = state === 'reserved' ? RESERVE.reserved : RESERVE.waitlisted;
     return (
-      <div className="po-reserve" aria-live="polite">
-        <h2 className="po-reserve-title">{done.title}</h2>
+      <div className="po-reserve">
+        <p className="sr-only" aria-live="polite">
+          {status}
+        </p>
+        <h2 className="po-reserve-title" ref={headingRef} tabIndex={-1}>
+          {done.title}
+        </h2>
         <p className="po-reserve-sub">{done.body}</p>
         {progress}
         <p className="po-small">
@@ -179,6 +208,9 @@ export default function ReserveCard({
 
   return (
     <div className="po-reserve">
+      <p className="sr-only" aria-live="polite">
+        {status}
+      </p>
       <h2 className="po-reserve-title">{RESERVE.title}</h2>
       <p className="po-reserve-sub">{RESERVE.sub}</p>
       {progress}

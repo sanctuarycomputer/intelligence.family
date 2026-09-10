@@ -444,7 +444,8 @@
   color: var(--fi-green-600);
   font-variant-numeric: tabular-nums;
 }
-.po-card h4 {
+.po-card h4,
+.po-card h3 {
   margin: 6px 0 8px;
 }
 .po-card p {
@@ -512,6 +513,9 @@
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
+.po-object-second {
+  margin-top: 64px;
+}
 
 /* ---------- Reserve card ---------- */
 .po-reserve-wrap {
@@ -538,6 +542,11 @@
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin: 0 0 8px;
+}
+.po-reserve-title:focus {
+  /* Focus here is programmatic, moved after a confirmation; the card itself
+     is the visual cue, so no ring is needed. */
+  outline: none;
 }
 .po-reserve-sub {
   font-size: 17px;
@@ -610,6 +619,14 @@
   .po-faq {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+/* Keep the card-title look instead of inheriting the global serif h3. */
+.po-faq h3 {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
 }
 
 /* ---------- Sticky nav ---------- */

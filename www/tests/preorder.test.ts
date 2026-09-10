@@ -6,6 +6,7 @@ import {
   parseSrc,
   resolvePreorderSource,
   completionCode,
+  prolificCodes,
 } from '../lib/preorder';
 
 describe('remainingUnits', () => {
@@ -113,5 +114,30 @@ describe('completionCode', () => {
     expect(
       completionCode('declined', { PROLIFIC_CODE_DECLINED: '  ' })
     ).toBeNull();
+  });
+});
+
+describe('prolificCodes', () => {
+  const env = {
+    PROLIFIC_CODE_RESERVED: 'RES1',
+    PROLIFIC_CODE_DECLINED: 'DEC1',
+  };
+
+  it('returns both codes for prolific traffic', () => {
+    expect(prolificCodes('prolific', env)).toEqual({
+      reserved: 'RES1',
+      declined: 'DEC1',
+    });
+  });
+
+  it('returns nulls for ads and direct traffic even when codes are set', () => {
+    expect(prolificCodes('ads', env)).toEqual({
+      reserved: null,
+      declined: null,
+    });
+    expect(prolificCodes('direct', env)).toEqual({
+      reserved: null,
+      declined: null,
+    });
   });
 });

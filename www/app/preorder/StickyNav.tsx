@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { RESERVE } from './content';
 
 /** Apple-style local nav that slides in once the hero is off screen. */
 export default function StickyNav({
@@ -28,7 +29,7 @@ export default function StickyNav({
   }, []);
 
   return (
-    <div className={`po-sticky ${on ? 'po-sticky-on' : ''}`} aria-hidden={!on}>
+    <div className={`po-sticky ${on ? 'po-sticky-on' : ''}`} inert={!on}>
       <div className="po-container po-sticky-inner">
         <span className="po-sticky-name">Flagship</span>
         <div className="po-sticky-right">
@@ -36,10 +37,7 @@ export default function StickyNav({
             {reserved ? (
               "You're in line"
             ) : remaining === 0 ? (
-              <>
-                All <span className="po-tabular">{total}</span> founder units
-                reserved
-              </>
+              RESERVE.waitlist.count
             ) : (
               <>
                 $49 deposit · <span className="po-tabular">{remaining}</span> of{' '}
@@ -52,7 +50,6 @@ export default function StickyNav({
             className="po-btn"
             onClick={onReserve}
             disabled={reserved}
-            tabIndex={on ? 0 : -1}
           >
             {reserved ? 'Reserved' : remaining === 0 ? 'Waitlist' : 'Reserve'}
           </button>

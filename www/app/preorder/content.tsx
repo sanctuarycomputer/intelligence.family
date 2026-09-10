@@ -94,7 +94,7 @@ export const USE_CASE_GROUPS: ReadonlyArray<UseCaseGroup> = [
 ];
 
 export const USE_CASES_IMAGE = {
-  src: '/preorder/family-vault.webp',
+  src: '/opportunity/family-vault.webp',
   alt: 'The Flagship surrounded by a storybook, cookbook, document box, photo pile, calendar, piggy bank, and health folder',
 };
 

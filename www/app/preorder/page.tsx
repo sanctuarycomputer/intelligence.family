@@ -1,7 +1,7 @@
 import PreorderClient from './PreorderClient';
 import {
-  completionCode,
   parseSrc,
+  prolificCodes,
   readFounderUnits,
   remainingUnits,
 } from '@/lib/preorder';
@@ -18,13 +18,7 @@ export default async function PreorderPage({
   const { total, reserved } = readFounderUnits(process.env);
   const remaining = remainingUnits(total, reserved);
   // Only Prolific traffic receives the codes; they ship in the RSC payload.
-  const codes =
-    src === 'prolific'
-      ? {
-          reserved: completionCode('reserved', process.env),
-          declined: completionCode('declined', process.env),
-        }
-      : { reserved: null, declined: null };
+  const codes = prolificCodes(src, process.env);
   return (
     <PreorderClient
       src={src}

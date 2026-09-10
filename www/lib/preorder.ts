@@ -57,3 +57,15 @@ export function completionCode(
   const code = raw?.trim();
   return code ? code : null;
 }
+
+/** Completion codes ship to the client, so only Prolific traffic gets them. */
+export function prolificCodes(
+  src: PreorderSrc,
+  env: Record<string, string | undefined>
+): { reserved: string | null; declined: string | null } {
+  if (src !== 'prolific') return { reserved: null, declined: null };
+  return {
+    reserved: completionCode('reserved', env),
+    declined: completionCode('declined', env),
+  };
+}

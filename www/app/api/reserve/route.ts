@@ -70,7 +70,7 @@ export async function POST(
 
   after(async () => {
     const sent = await sendReservationEmail(email, outcome);
-    if (!sent) console.error('Reservation email failed for', email);
+    if (!sent) console.error('Reservation email failed', { outcome });
   });
 
   return NextResponse.json<ReserveResponse>(

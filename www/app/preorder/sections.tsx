@@ -232,7 +232,7 @@ export function ObjectSection() {
             </ul>
           </div>
         </div>
-        <div className="po-split po-split-flip" style={{ marginTop: 64 }}>
+        <div className="po-split po-split-flip po-object-second">
           <Reveal>
             <p className="po-prose">{OBJECT.body}</p>
           </Reveal>
@@ -257,7 +257,7 @@ export function Faq() {
         <ul className="po-faq">
           {FAQ.map((item, i) => (
             <Reveal as="li" key={item.q} className="po-card" delay={i * 50}>
-              <h4>{item.q}</h4>
+              <h3>{item.q}</h3>
               <p>{item.a}</p>
             </Reveal>
           ))}
