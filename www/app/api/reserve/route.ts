@@ -32,12 +32,16 @@ export async function POST(
     return fail(RATE_LIMIT_ERROR, 429);
   }
 
-  let body: { email?: unknown; src?: unknown; outcome?: unknown };
+  let parsed: unknown;
   try {
-    body = await request.json();
+    parsed = await request.json();
   } catch {
     return fail('Invalid request body.', 400);
   }
+  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+    return fail('Invalid request body.', 400);
+  }
+  const body = parsed as { email?: unknown; src?: unknown; outcome?: unknown };
 
   const email = typeof body.email === 'string' ? body.email.trim() : '';
   if (!email || !EMAIL_RE.test(email)) {

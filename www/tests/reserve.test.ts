@@ -62,6 +62,14 @@ describe('POST /api/reserve', () => {
     expect(res.status).toBe(400);
   });
 
+  it('rejects a JSON body that is not an object', async () => {
+    for (const body of [null, [], 'reserve', 42]) {
+      const res = await POST(req(body, '203.0.113.11'));
+      expect(res.status).toBe(400);
+    }
+    expect(crmMock).not.toHaveBeenCalled();
+  });
+
   it('writes an ads reservation with the ads source and emails', async () => {
     const res = await POST(
       req({ email: 'Parent@Example.com', src: 'ads', outcome: 'reserve' })
