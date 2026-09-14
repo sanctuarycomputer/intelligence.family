@@ -17,6 +17,14 @@ An unlisted product detail page for the Flagship device that does two jobs:
 No money changes hands in this version. Stripe comes later. The page says
 so plainly wherever a visitor might assume otherwise.
 
+**Build status (2026-09-14):** the page is a grey-box wireframe. Every
+image and video slot is an FPO box labeled with the asset that belongs
+there (see `HERO_MEDIA.fpo`, `HARNESS.fpo`, `KITCHEN.fpo`, `PRIVACY.fpo`,
+`USE_CASES_IMAGE.fpo`, `OBJECT.cadFpo`, `OBJECT.photoFpo` in
+`content.tsx`). Type styles and the paper-edge cards are final. The media
+notes in the sections below describe the intended assets, not what is
+rendered today.
+
 ## Decisions already made
 
 - Offer: 250 founder units. $899 at launch. A $49 refundable deposit holds

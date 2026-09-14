@@ -2,12 +2,13 @@
 // The use-case names, group headers, FAQ questions, and hero copy are a
 // contract with the Prolific survey. tests/preorder-copy.test.ts enforces it.
 
+// Wireframe build: every media slot is an FPO box and the `fpo` strings are
+// the shot list. Restore real sources here when assets exist.
 export const HERO_MEDIA = {
-  // Swap to 'landscape' with /preorder/hero.mp4 once the wide clip exists.
+  // 'portrait' stands the clip beside the copy on desktop; 'landscape'
+  // covers the viewport.
   orientation: 'portrait' as 'portrait' | 'landscape',
-  src: '/opportunity/device-playtest.mp4',
-  poster: '/opportunity/device-playtest-poster.jpg',
-  label: 'The Flagship on a coffee table in a family living room',
+  fpo: 'Hero video: the Flagship on a counter, someone speaking to it',
 };
 
 export const HERO = {
@@ -27,8 +28,7 @@ export const HARNESS = {
   body: "One local agent holds the household's memory. It runs the jobs a family never gets to: weekly check-ins, budgets, school, health. When you allow it, it reaches out to your calendar, email, web search, and maps, and it talks to the devices already on your network. Everything stays local by default. The internet comes to your data, not the other way around.",
   closer:
     "That's why it's the most capable assistant you can put in a home. It has context no cloud assistant is allowed to have.",
-  image: '/preorder/context-window-home.webp',
-  alt: 'A house in cross-section with the Flagship on the coffee table, connected to the TV, thermostat, camera, laptop, phone, and speaker in every room',
+  fpo: 'Chapter image: house cross-section, the Flagship connected to every room',
 };
 
 export type UseCase = {
@@ -94,22 +94,19 @@ export const USE_CASE_GROUPS: ReadonlyArray<UseCaseGroup> = [
 ];
 
 export const USE_CASES_IMAGE = {
-  src: '/opportunity/family-vault.webp',
-  alt: 'The Flagship surrounded by a storybook, cookbook, document box, photo pile, calendar, piggy bank, and health folder',
+  fpo: 'Illustration: the Flagship surrounded by the eight jobs',
 };
 
 export const KITCHEN = {
   line: 'Some stories you only get to record once.',
   body: "It sits on the kitchen shelf. Invite it into the conversation and it can resurface the story your grandfather told last Thanksgiving, find the recording of your daughter's first words, and help your kids interview their grandparents. Everything it hears stays inside the house.",
-  image: '/preorder/device-photo.jpg',
-  alt: "A child's hand on the Flagship's screen on a kitchen counter",
+  fpo: 'Chapter photo: a child at the device on the kitchen counter',
 };
 
 export const PRIVACY = {
   line: 'Nothing leaves the house.',
   body: 'Prompts, inference, and reasoning stay on the box. Far-away family reach it through apps over a tunnel we cannot read. You can dim the lights without telling anyone.',
-  image: '/preorder/walled-garden.webp',
-  alt: 'A hedge-walled garden with the Flagship at its center, one gate ajar where a single thread reaches out to a distant datacenter and returns',
+  fpo: 'Chapter illustration: the walled garden, one gate ajar',
 };
 
 export const OBJECT = {
@@ -120,11 +117,8 @@ export const OBJECT = {
     "Sits on a shelf. Plugs into the wall. That's the setup.",
   ] as const,
   body: 'A premium, heirloom-grade object that carries the inference runtime and the household graph. Made to sit on the counter for a very long time.',
-  cad: '/preorder/device-cad.jpg',
-  cadAlt:
-    'CAD render of the Flagship: curved shell, tilted display, and the compute module inside',
-  photo: '/preorder/device-table.jpg',
-  photoAlt: 'The Flagship on a coffee table in a family living room',
+  cadFpo: 'Product render: the Flagship, hero angle',
+  photoFpo: 'Product photo: the Flagship on a counter',
 };
 
 export const RESERVE = {

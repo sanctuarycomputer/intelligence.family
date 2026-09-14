@@ -274,12 +274,11 @@
     min-height: 90svh;
   }
 }
-.po-chapter img {
+.po-chapter .po-chapter-media {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 .po-chapter::after {
   content: '';
@@ -334,7 +333,8 @@
     order: 2;
   }
 }
-.po-split img {
+.po-split img,
+.po-split .po-fpo {
   width: 100%;
   height: auto;
   border-radius: 12px;
@@ -476,7 +476,8 @@
     gap: 72px;
   }
 }
-.po-object img {
+.po-object img,
+.po-object .po-fpo {
   width: 100%;
   height: auto;
   display: block;
@@ -515,6 +516,69 @@
 }
 .po-object-second {
   margin-top: 64px;
+}
+
+/* ---------- FPO boxes (wireframe build) ---------- */
+/* Grey boxes stand in for every image and video slot. Type and the ragged
+   cards are final; the boxes are not. The label is the shot list. */
+.po-fpo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: #cfcfcf;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.05) 0 2px,
+    transparent 2px 14px
+  );
+  outline: 1px dashed #8c8c8c;
+  outline-offset: -1px;
+  color: #4a4a4a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.po-fpo-tag {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+.po-fpo-label {
+  font-size: 12px;
+  line-height: 1.4;
+  max-width: 28ch;
+  opacity: 0.85;
+}
+/* Hero and chapter slots sit under white type, so they go dark grey. */
+.po-hero .po-fpo,
+.po-chapter .po-fpo {
+  background-color: #5a5a5a;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0 2px,
+    transparent 2px 14px
+  );
+  outline-color: #9a9a9a;
+  color: #e6e6e6;
+}
+/* Chapter lines sit at the bottom edge; keep the label out from under them. */
+.po-chapter .po-fpo {
+  justify-content: flex-start;
+  padding-top: 24px;
+}
+/* On phones the hero copy covers the slot, so the label goes to the top. */
+@media (max-width: 899px) {
+  .po-hero .po-fpo {
+    justify-content: flex-start;
+    padding-top: 32px;
+  }
+}
+.po-fpo.po-object-img {
+  box-shadow: none;
 }
 
 /* ---------- Reserve card ---------- */

@@ -1,6 +1,6 @@
 'use client';
 
-import HeroVideo from './HeroVideo';
+import Fpo from './Fpo';
 import { Reveal } from './useReveal';
 import {
   HERO,
@@ -13,8 +13,6 @@ import {
   OBJECT,
   FAQ,
 } from './content';
-
-/* eslint-disable @next/next/no-img-element */
 
 export function Hero({
   remaining,
@@ -34,12 +32,7 @@ export function Hero({
       aria-label="The Flagship"
     >
       <div className="po-hero-media">
-        <HeroVideo
-          src={HERO_MEDIA.src}
-          poster={HERO_MEDIA.poster}
-          label={HERO_MEDIA.label}
-          className="po-hero-video"
-        />
+        <Fpo className="po-hero-video" label={HERO_MEDIA.fpo} />
         <div className="po-hero-scrim" aria-hidden="true" />
       </div>
       <div className="po-container po-hero-copy">
@@ -84,18 +77,10 @@ export function Hero({
   );
 }
 
-function Chapter({
-  line,
-  image,
-  alt,
-}: {
-  line: string;
-  image: string;
-  alt: string;
-}) {
+function Chapter({ line, fpo }: { line: string; fpo: string }) {
   return (
     <div className="po-chapter">
-      <img src={image} alt={alt} loading="lazy" />
+      <Fpo className="po-chapter-media" label={fpo} />
       <div className="po-container">
         <Reveal as="p" className="po-chapter-line">
           {line}
@@ -108,7 +93,7 @@ function Chapter({
 export function Harness() {
   return (
     <section aria-labelledby="harness-h">
-      <Chapter line={HARNESS.line} image={HARNESS.image} alt={HARNESS.alt} />
+      <Chapter line={HARNESS.line} fpo={HARNESS.fpo} />
       <div className="po-section">
         <div className="po-container">
           <Reveal className="po-editorial">
@@ -141,11 +126,7 @@ export function UseCases() {
             </p>
           </Reveal>
           <Reveal delay={100}>
-            <img
-              src={USE_CASES_IMAGE.src}
-              alt={USE_CASES_IMAGE.alt}
-              loading="lazy"
-            />
+            <Fpo ratio="3 / 2" label={USE_CASES_IMAGE.fpo} />
           </Reveal>
         </div>
         {USE_CASE_GROUPS.map(group => (
@@ -177,7 +158,7 @@ export function UseCases() {
 export function Kitchen() {
   return (
     <section aria-label="The kitchen shelf">
-      <Chapter line={KITCHEN.line} image={KITCHEN.image} alt={KITCHEN.alt} />
+      <Chapter line={KITCHEN.line} fpo={KITCHEN.fpo} />
       <div className="po-section">
         <div className="po-container">
           <Reveal className="po-statement">
@@ -192,7 +173,7 @@ export function Kitchen() {
 export function Privacy() {
   return (
     <section aria-label="Nothing leaves the house">
-      <Chapter line={PRIVACY.line} image={PRIVACY.image} alt={PRIVACY.alt} />
+      <Chapter line={PRIVACY.line} fpo={PRIVACY.fpo} />
       <div className="po-section">
         <div className="po-container">
           <Reveal className="po-statement">
@@ -210,11 +191,10 @@ export function ObjectSection() {
       <div className="po-container">
         <div className="po-object">
           <Reveal>
-            <img
+            <Fpo
               className="po-object-img"
-              src={OBJECT.cad}
-              alt={OBJECT.cadAlt}
-              loading="lazy"
+              ratio="4 / 3"
+              label={OBJECT.cadFpo}
             />
           </Reveal>
           <div>
@@ -237,7 +217,7 @@ export function ObjectSection() {
             <p className="po-prose">{OBJECT.body}</p>
           </Reveal>
           <Reveal delay={100}>
-            <img src={OBJECT.photo} alt={OBJECT.photoAlt} loading="lazy" />
+            <Fpo ratio="4 / 5" label={OBJECT.photoFpo} />
           </Reveal>
         </div>
       </div>
