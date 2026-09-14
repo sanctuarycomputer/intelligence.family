@@ -1,9 +1,17 @@
+export const PREORDER_SOURCE = 'g3d:family_intelligence:preorder';
+export const PREORDER_ADS_SOURCE = 'g3d:family_intelligence:preorder:ads';
+export const PREORDER_PROLIFIC_SOURCE =
+  'g3d:family_intelligence:preorder:prolific';
+
 export const ALLOWED_SOURCES = [
   'g3d:family_intelligence',
   'g3d:family_intelligence:fundraising',
   'g3d:family_intelligence:fundraising-viewed',
   'g3d:family_intelligence:opportunity',
   'g3d:family_intelligence:opportunity-viewed',
+  PREORDER_SOURCE,
+  PREORDER_ADS_SOURCE,
+  PREORDER_PROLIFIC_SOURCE,
 ] as const;
 
 export const GATE_SOURCE = 'g3d:family_intelligence:fundraising';
