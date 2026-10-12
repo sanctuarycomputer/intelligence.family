@@ -185,7 +185,10 @@ const PEOPLE = [
   { name: 'Norm O’Hagan', line: 'Co-founder' },
 ];
 
-const SUPPORTERS = ['Incubated by Sanctuary Computer & garden3d'];
+const SUPPORTERS = [
+  'Incubated by Sanctuary Computer & garden3d',
+  'Supported by the Mozilla Foundation',
+];
 
 export default function LabPage() {
   return (
@@ -328,7 +331,7 @@ export default function LabPage() {
         </section>
 
         <section className="lab-section">
-          <p className="lab-eyebrow">07 · People</p>
+          <p className="lab-eyebrow">07 · People &amp; supporters</p>
           <div className="lab-grid lab-grid-3">
             {PEOPLE.map(person => (
               <div key={person.name} className="lab-card">
