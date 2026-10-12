@@ -13,7 +13,9 @@ type Entry = {
 // the component (mutating ref contents inside a handler trips its lint).
 function restoreOriginals(list: Entry[]) {
   for (const e of list) {
-    e.el.textContent = e.original;
+    // Untouched blocks keep their markup (links, icons); writing textContent
+    // back would flatten it.
+    if (e.el.textContent !== e.original) e.el.textContent = e.original;
   }
 }
 

@@ -1,0 +1,218 @@
+/* ---------- /lab (wireframe build) ---------- */
+/* Dashed rules, mono labels and grey boxes mark this as structure, not
+   design. Unlayered on purpose: globals.css zeroes p/h margins outside any
+   cascade layer, which beats Tailwind's mt-* utilities. */
+
+.lab {
+  --lab-rule: 1px dashed rgba(49, 49, 49, 0.35);
+  --lab-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 160px;
+}
+@media (min-width: 768px) {
+  .lab {
+    padding: 40px 80px 200px;
+  }
+}
+
+.lab a {
+  color: var(--fi-green-500);
+  text-decoration: underline;
+}
+.lab a:hover {
+  text-decoration: none;
+}
+
+.lab-wip,
+.lab-eyebrow,
+.lab-tag,
+.lab-status,
+.lab-list-meta {
+  font-family: var(--lab-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fi-black-900);
+}
+.lab-wip {
+  opacity: 0.55;
+}
+
+/* ---------- Masthead ---------- */
+.lab-masthead {
+  padding: 96px 0 72px;
+}
+.lab-masthead h1 {
+  font-size: clamp(44px, 8vw, 96px);
+}
+.lab-lede {
+  margin-top: 24px;
+  max-width: 22ch;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Sections ---------- */
+.lab-section {
+  border-top: var(--lab-rule);
+  padding: 20px 0 72px;
+}
+.lab-eyebrow {
+  margin-bottom: 40px;
+  opacity: 0.7;
+}
+.lab-subhead {
+  margin: 56px 0 16px;
+}
+
+.lab-claim {
+  display: grid;
+  gap: 32px;
+}
+@media (min-width: 900px) {
+  .lab-claim {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+}
+.lab-claim h2 {
+  font-size: clamp(28px, 3.6vw, 44px);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.lab-prose {
+  max-width: 52ch;
+}
+.lab-multiline {
+  white-space: pre-line;
+}
+.lab-subscribe {
+  margin-top: 24px;
+}
+
+/* ---------- Manifesto bars ---------- */
+/* Same two-column pattern as the claim, one per belief. */
+.lab-bar {
+  margin-top: 72px;
+  padding-top: 20px;
+  border-top: var(--lab-rule);
+}
+
+/* ---------- Cards ---------- */
+.lab-grid {
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 700px) {
+  .lab-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .lab-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1100px) {
+  .lab-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.lab-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  outline: var(--lab-rule);
+  outline-offset: -1px;
+}
+.lab-card h3 {
+  font-size: 24px;
+  line-height: 1.2;
+}
+.lab-card p + p {
+  margin-top: 0;
+}
+.lab-tag {
+  opacity: 0.7;
+}
+.lab-status {
+  align-self: flex-start;
+  padding: 3px 8px;
+  background: var(--fi-green-300);
+}
+
+/* ---------- Lists ---------- */
+.lab-row {
+  display: grid;
+  gap: 4px 24px;
+  padding: 14px 0;
+  border-bottom: var(--lab-rule);
+}
+.lab-row:first-child {
+  border-top: var(--lab-rule);
+}
+@media (min-width: 700px) {
+  .lab-row {
+    grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1.4fr);
+    align-items: baseline;
+  }
+}
+.lab-row p + p {
+  margin-top: 0;
+}
+.lab-list-body {
+  opacity: 0.75;
+}
+
+.lab-supporters {
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.lab-supporters li {
+  padding: 14px 20px;
+  outline: var(--lab-rule);
+  outline-offset: -1px;
+  font-family: var(--lab-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------- FPO boxes ---------- */
+.lab-fpo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: #cfcfcf;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.05) 0 2px,
+    transparent 2px 14px
+  );
+  outline: 1px dashed #8c8c8c;
+  outline-offset: -1px;
+  color: #4a4a4a;
+  font-family: var(--lab-mono);
+}
+.lab-fpo-tag {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+.lab-fpo-label {
+  font-size: 12px;
+  line-height: 1.4;
+  max-width: 28ch;
+  opacity: 0.85;
+}
